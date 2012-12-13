@@ -5,12 +5,14 @@ imdone
 - uses node.js to listen for file changes and a simple format that looks like this
   
 ###Put a task at the top of a list called "to-do"
-   `[this is a task](#to-do?t0)`
+   `[this is a task](#to-do:0)`
 ####In code
-   `//[this is a task in javascript code](#doing?t0)`
+   `//[this is a task in javascript code](#doing:0)`
 
 ###Put a task on the bottom of a list called "doing"
-   `[this is a task](#doing?t1)`
+   `[this is a task](#doing:1000)`
+
+###Tasks are sorted by the number after the t
 
 ###imdone.md at the root folder contains list names
 - When lists are reordered in kanban imdone.md is moddified
