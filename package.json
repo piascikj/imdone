@@ -2,7 +2,7 @@
    "name":"imdone",
    "preferGlobal":"true",
    "version":"0.0.1",
-   "description":"a simple zero-configuration command-line http server",
+   "description":"Create tasks in files using markdown syntax and organize them with kanban",
    "author":{
       "name":"Jesse Piascik",
       "email":"jesse@piascik.net"
@@ -33,7 +33,8 @@
    "dependencies":{
       "express":"2.5.9",
       "underscore":"1.3.3",
-      "requireindex": "~1.0.0"
+      "marked":"0.2.6",
+      "wrench":"1.4.4"
    },
    "devDependencies":{
       "grunt":"~0.3.17"

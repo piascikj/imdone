@@ -12,7 +12,7 @@ imdone
 ###Put a task on the bottom of a list called "doing"
    `[this is a task](#doing:1000)`
 
-###Tasks are sorted by the number after the t
+###Tasks are sorted by the number after the :
 
 ###imdone.md at the root folder contains list names
 - When lists are reordered in kanban imdone.md is moddified
