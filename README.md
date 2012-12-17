@@ -10,7 +10,7 @@ imdone
    `//[this is a task in javascript code](#doing:0)`
 
 ###Put a task on the bottom of a list called "doing"
-   `[this is a task](#doing:1000)`
+   `[this is a task](#doing:10001)`
 
 ###Tasks are sorted by the number after the :
 
