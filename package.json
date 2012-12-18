@@ -36,7 +36,8 @@
       "marked":"0.2.6",
       "wrench":"1.4.4",
       "watch":"0.5.1",
-      "open":"0.0.2"
+      "open":"0.0.2",
+      "gift":"0.0.5"
    },
    "devDependencies":{
       "grunt":"~0.3.17"
@@ -44,6 +45,7 @@
    "keywords":[
       "cli",
       "Markdown",
-      "Kanban"
+      "Kanban",
+      "git"
    ]
 }
