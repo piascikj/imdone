@@ -1,8 +1,23 @@
 imdone
 ==========
+##Distributed kanban for engineering teams
+Create tasks in any file using markdown syntax and organize them with a local kanban board and commit them to source control.
 
-##Create tasks in files using markdown syntax and organize them with kanban
-- uses node.js to listen for file changes and a simple format that looks like this
+##Install
+   npm install -g imdone
+
+##Configuration
+Create a file called imdone.js in your project directory.  The default config looks like this.  WYour imdone.js will extend this.
+
+	module.exports = {
+		exclude:/^node_modules\/|^\.git\/|^\.svn\/|\~$|\.swp$|^\.imdone\//,
+		pollingInterval:500,
+		port:8080,
+		github : {
+			url : "http://www.github.com/piascikj/imdone"
+		}
+	};
+
   
 ###Put a task at the top of a list called "to-do"
    `[this is a task](#to-do:0)`
@@ -14,21 +29,5 @@ imdone
 
 ###Tasks are sorted by the number after the :
 
-###imdone.md at the root folder contains list names
-- When lists are reordered in kanban imdone.md is moddified
-- When a file is saved, the imdone.md file will be checked for list names that exist in files
-
-###Local kanban board 
-- [Use ***Global install so command line will execute server***<http://blog.nodejs.org/2011/03/23/npm-1-0-global-vs-local-installation/>](#doing:0)
-   - <http://package.json.jit.su/>
-
-
-###Chrome extension for kanban 
-- [Use ***context menu api***(<http://developer.chrome.com/beta/extensions/contextMenus.html#examples>) for chrome extension that opens the live kanban board](#doing:1)
-- [How will this work in github?](#doing:20)
-- [Create Kanban board functionality](#doing:30)
-###Writing a node package
-- <http://javascriptplayground.com/blog/2012/08/writing-a-command-line-node-tool>
-
-
-
+###imdone will create a folder named imdone that will contain your custom configuration and a file to keep your lists in order
+   - you should keep imdone in source control
