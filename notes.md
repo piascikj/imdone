@@ -15,7 +15,9 @@ imdone notes for development
 - <http://javascriptplayground.com/blog/2012/08/writing-a-command-line-node-tool>
 
 ###UI
-- [use this for sortable <http://farhadi.ir/projects/html5sortable/>](#doing:0)
+- [use this for sortable <http://farhadi.ir/projects/html5sortable/>](#ready:0)
+
+
 
 
 

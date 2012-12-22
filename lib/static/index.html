@@ -34,7 +34,7 @@
       <div class="clearfix"></div>
       <!-- Example row of columns -->
       <div class="row-fluid">
-        <div class="span2">
+        <div class="span2" id="board">
           <h2>Heading</h2>
           <div class="well">
             <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
@@ -75,11 +75,13 @@
     <script src="js/handlebars-1.0.rc.1.min.js"></script>
     <script id="list-template" type="text/x-handlebars-template">
       <div class="span2" id="{{list}}">
-        <h2>{{list}}</h2>
+        {{#each lists}}
+        <h2>{{name}}</h2>
         <div class="well" id="">
           <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
           <p><a class="btn" href="#">View details &raquo;</a></p>
         </div>
+        {{/each}}
       </div>
     </script>
   </body>
