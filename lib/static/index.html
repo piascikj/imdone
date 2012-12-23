@@ -13,6 +13,10 @@
             padding-top: 0px;
           }
         }
+        .wrap {
+          word-wrap: break-word;
+        }
+
     </style>
   </head>
   <body>
@@ -33,33 +37,8 @@
 
       <div class="clearfix"></div>
       <!-- Example row of columns -->
-      <div class="row-fluid">
-        <div class="span2" id="board">
-          <h2>Heading</h2>
-          <div class="well">
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn" href="#">View details &raquo;</a></p>
-          </div>
-          <div class="well">
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn" href="#">View details &raquo;</a></p>
-          </div>
-        </div>
-        <div class="span2">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn" href="#">View details &raquo;</a></p>
-       </div>
-        <div class="span2">
-          <h2>Heading</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn" href="#">View details &raquo;</a></p>
-        </div>
-        <div class="span2">
-          <h2>Heading</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn" href="#">View details &raquo;</a></p>
-        </div>
+      <div class="row-fluid" id="board">
+
       </div>
 
       <hr>
@@ -74,15 +53,26 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/handlebars-1.0.rc.1.min.js"></script>
     <script id="list-template" type="text/x-handlebars-template">
-      <div class="span2" id="{{list}}">
-        {{#each lists}}
+      {{#each lists}}
+      <div class="span2" id="{{name}}">
         <h2>{{name}}</h2>
-        <div class="well" id="">
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+        {{#each tasks}}
+        <div class="well" id="{{pathTaskId}}">
+          <p><a href="{{url}}">{{path}}</a></p>
+          <p class="wrap">{{text}}</p>
           <p><a class="btn" href="#">View details &raquo;</a></p>
         </div>
         {{/each}}
       </div>
+      {{/each}}
+    </script>
+    <script>
+    var imdone = {data:{}}; 
+    $.get("/api/kanban", function(data){
+      imdone.data = data;
+      var template = Handlebars.compile($("#list-template").html());
+      $("#board").html(template(imdone.data));
+    }, "json");
     </script>
   </body>
 </html>
