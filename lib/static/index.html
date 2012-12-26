@@ -3,7 +3,8 @@
   <head>
     <title>imdone</title>
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+    <link href="css/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" media="screen"/>
     <style>
         body {
           padding-top: 50px;
@@ -17,6 +18,12 @@
           word-wrap: break-word;
         }
 
+        .sortable-placeholder {
+          border: 1px dashed #CCC;
+          background: none;
+          min-height: 20px;
+          margin-bottom: 20px;
+        }
     </style>
   </head>
   <body>
@@ -48,31 +55,31 @@
       </footer>
 
     </div> <!-- /container -->
-
-    <script src="js/jquery-1.8.3.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/handlebars-1.0.rc.1.min.js"></script>
+    <!-- Mustache templates -->
     <script id="list-template" type="text/x-handlebars-template">
       {{#each lists}}
-      <div class="span2" id="{{name}}">
+      <div class="span3 well list" id="{{name}}">
         <h2>{{name}}</h2>
         {{#each tasks}}
-        <div class="well" id="{{pathTaskId}}">
+        <div class="well task" data-id="{{pathTaskId}}" data-list="{{list}}" data-order="{{order}}" data-path="{{path}}">
           <p><a href="{{url}}">{{path}}</a></p>
-          <p class="wrap">{{text}}</p>
-          <p><a class="btn" href="#">View details &raquo;</a></p>
+          <div class="wrap">{{safe text}}</div>
+          <!--<p><a class="btn" href="#">View details &raquo;</a></p>-->
         </div>
         {{/each}}
       </div>
       {{/each}}
     </script>
+    <script src="js/jquery-1.8.3.min.js"></script>
+    <script src="js/jquery-ui-1.9.2.custom.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/underscore-min.js"></script>
+    <script src="js/handlebars-1.0.rc.1.min.js"></script>
+    <script src="js/imdone-local.js"></script>
     <script>
-    var imdone = {data:{}}; 
-    $.get("/api/kanban", function(data){
-      imdone.data = data;
-      var template = Handlebars.compile($("#list-template").html());
-      $("#board").html(template(imdone.data));
-    }, "json");
+      $(document).ready(function() {
+        imdone.getKanban();
+      });
     </script>
   </body>
 </html>

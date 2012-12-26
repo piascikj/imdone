@@ -13,10 +13,5 @@ module.exports = {
 	port:8080,
 	github : {
 		url : "http://www.github.com/piascikj/imdone"
-	},
-	marked : {
-		gfm: true,
-		pedantic: false,
-		sanitize: true
 	}
 };
