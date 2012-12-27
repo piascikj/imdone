@@ -1,20 +1,22 @@
 iMDone
 ==========
 ##Keep your tasks in your files and organize using kanban
-Create tasks in any file using markdown syntax and organize them with a local kanban board.  Share your board on github, dropbox, and other cloud providers.
+Create tasks in any file using markdown syntax and organize them with a local kanban board.  Share your board on [github](http://www.github.com), [dropbox](http://www.dropbox.com), and other cloud providers.
 
 ##Install
    npm install -g imdone
 
 ##Configuration
-Create a file called imdone.js in your project directory.  The default config looks like this.  WYour imdone.js will extend this.
+Create a file called imdone.js in your project directory.  The default config looks like this.  Your imdone.js will extend this.
 
 	module.exports = {
-		exclude:/^node_modules\/|^\.git\/|^\.svn\/|\~$|\.swp$|^\.imdone\//,
-		pollingInterval:500,
+		exclude:/^(node_modules|imdone|target)\/|^\.(git|svn)\/|\~$|\.(jpg|png|gif|swp)$/,
 		port:8080,
-		github : {
-			url : "http://www.github.com/piascikj/imdone"
+		//github : {url : "http://www.github.com/piascikj/imdone"}, //Use this if you want links to point at github
+		marked : {
+			gfm: true,
+			pedantic: false,
+			sanitize: true
 		}
 	};
 
