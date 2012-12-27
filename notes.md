@@ -8,14 +8,14 @@ imdone notes for development
 
 
 ###Chrome extension for kanban 
-- [Use ***context menu api*** > <http://developer.chrome.com/beta/extensions/contextMenus.html#examples> for chrome extension that opens the live kanban board](#doing:20)
-- [How will this work in github?](#doing:30)
-- [Create Kanban board functionality](#done:10)
+- [Use ***context menu api*** > <http://developer.chrome.com/beta/extensions/contextMenus.html#examples> for chrome extension that opens the live kanban board](#todo:0)
+- [How will this work in github?](#done:10)
+- [Create Kanban board functionality](#done:0)
 ###Writing a node package
 - <http://javascriptplayground.com/blog/2012/08/writing-a-command-line-node-tool>
 
 ###UI
-- [use this for sortable <http://farhadi.ir/projects/html5sortable/> decided to use jquery](#done:20)
+- [use this for sortable <http://farhadi.ir/projects/html5sortable/> decided to use jquery](#done:30)
 
 ###Config
 - [Do allow, deny - add include regex to config](#doing:0)
