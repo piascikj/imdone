@@ -15,7 +15,10 @@ imdone notes for development
 - <http://javascriptplayground.com/blog/2012/08/writing-a-command-line-node-tool>
 
 ###UI
-- [use this for sortable <http://farhadi.ir/projects/html5sortable/>](#to-do:20)
+- [use this for sortable <http://farhadi.ir/projects/html5sortable/> decided to use jquery](#done:20)
+
+###Config
+- [Do allow, deny - add include regex to config](#doing:0)
 
 
 

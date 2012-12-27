@@ -1,5 +1,5 @@
 [
   "doing",
-  "to-do",
+  "todo",
   "done"
 ]

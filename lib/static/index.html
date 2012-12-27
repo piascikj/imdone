@@ -36,6 +36,15 @@
         .cwd {
           font-size: .7em;
         }
+
+        .list-name {
+          font-size: 2em;
+          font-weight: bold;
+        }
+
+        .list-name:hover {
+          background-color: #E3E3E3;
+        }
     </style>
   </head>
   <body>
@@ -62,16 +71,30 @@
 
       <hr>
 
-      <footer>
-        <p>&copy; LeanNotes 2012</p>
-      </footer>
+      <div class="navbar navbar-inverse">
+      <p>&copy; LeanNotes 2012</p>
+      </div>
 
-    </div> <!-- /container -->
+    </div> 
+    <!-- /container -->
+    <div id="list-name-modal" class="modal hide fade">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Edit list name</h3>
+      </div>
+      <div class="modal-body">
+          <input type="text" id="list-name-field" placeholder="List Name">
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn modal-close">Close</a>
+        <a href="#" id="list-name-save" class="btn btn-primary">Save changes</a>
+      </div>
+    </div>
     <!-- Mustache templates -->
     <script id="list-template" type="text/x-handlebars-template">
       {{#each lists}}
       <div class="span3 well list" id="{{name}}">
-        <h2>{{name}}</h2>
+        <h2 class="list-name" title="Click to edit list name">{{name}}</h2>
         {{#each tasks}}
         <div class="well task" data-id="{{pathTaskId}}" data-list="{{list}}" data-order="{{order}}" data-path="{{path}}">
           <p><a href="{{url}}">{{path}}</a><span class="sort">{{order}}</span></p>
@@ -90,9 +113,7 @@
     <script src="js/imdone-local.js"></script>
     <script>
       $(document).ready(function() {
-        imdone.getKanban(function() {
-          $("#cwd").html(imdone.data.cwd);
-        });
+        imdone.init();
       });
     </script>
   </body>
