@@ -1,7 +1,7 @@
 {
    "name":"imdone",
    "preferGlobal":"true",
-   "version":"0.1.1",
+   "version":"0.1.2",
    "description":"Create tasks in files using markdown syntax and organize them with kanban",
    "author":{
       "name":"Jesse Piascik",
@@ -37,7 +37,8 @@
       "wrench":"1.4.4",
       "open":"0.0.2",
       "gift":"0.0.5",
-      "watchr":"2.3.1"
+      "watchr":"2.3.1",
+      "ws":"0.4.25"
    },
    "devDependencies":{
       "grunt":"~0.3.17"
