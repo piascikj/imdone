@@ -1,16 +1,12 @@
 imdone notes for development
 ==========
-
-
 ###Local kanban board 
 - [Use ***Global install so command line will execute server*** > <http://blog.nodejs.org/2011/03/23/npm-1-0-global-vs-local-installation/>](#done:40)
    - <http://package.json.jit.su/>
-
-
-###Chrome extension for kanban 
 - [Use ***context menu api*** > <http://developer.chrome.com/beta/extensions/contextMenus.html#examples> for chrome extension that opens the live kanban board](#todo:0)
 - [How will this work in github?](#done:30)
 - [Create Kanban board functionality](#done:10)
+
 ###Writing a node package
 - <http://javascriptplayground.com/blog/2012/08/writing-a-command-line-node-tool>
 
@@ -18,7 +14,10 @@ imdone notes for development
 - [use this for sortable <http://farhadi.ir/projects/html5sortable/> decided to use jquery](#done:50)
 
 ###Config
-- [Do allow, deny - add include regex to config](#doing:20)
+- [Do allow, deny - add include regex to config](#doing:10)
+
+###Misc
+- [Create github site](#doing:0)
 
 
 

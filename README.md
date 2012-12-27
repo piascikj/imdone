@@ -21,7 +21,7 @@ navigate to your local project folder and run:
    - you should keep imdone in source control
 
 ##Configuration
-Create a file called imdone.js in your project directory.  The default config looks like this.  Your imdone.js will extend this.
+After running imdone for the first time, modify imdone/imdone.js in your project directory.  The default config looks like this.  Your imdone.js will extend this.
 
 	module.exports = {
 		exclude:/^(node_modules|imdone|target)\/|^\.(git|svn)\/|\~$|\.(jpg|png|gif|swp)$/,
