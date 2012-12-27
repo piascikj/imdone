@@ -4,11 +4,11 @@ iMDone
 ##Your tasks are in your files, so you can share your board on [github](http://www.github.com), [dropbox](http://www.dropbox.com), or any other cloud storage provider.
 
 ###Install
-   npm install -g imdone
+   `npm install -g imdone`
 
 ###And run!
 navigate to your local project folder and run:  
-   imdone
+   `imdone`
 
 ####Put a task at the top of a list called "to-do"
    `[this is a task](#todo:20)`
