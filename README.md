@@ -3,6 +3,14 @@ iMDone
 ##Create tasks in any file using markdown syntax and organize them with a local kanban board.  
 ##Your tasks are in your files, so you can share your board on [github](http://www.github.com), [dropbox](http://www.dropbox.com), or any other cloud storage provider.
 
+###Prerequisites 
+- [nodejs](http://nodejs.org/) is [installed](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager)
+- [npm](https://npmjs.org/) is [installed](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager)
+
+
+###Disclaimer
+iMDone has only been tested on my Ubuntu 12.04 desktop using chrome 23.0.x as the default browser.  It should work on any machine that has nodejs and npm installed and for auto update of boards, a browser that supports websockets.
+
 ###Install
    `npm install -g imdone`
 
@@ -13,7 +21,7 @@ navigate to your local project folder and run:
 ####Put a task at the top of a list called "to-do"
    `[this is a task](#todo:0)`
 ####In javascript code
-   `//[this is a task in javascript code](#done:70)`
+   `//[this is a task in javascript code](#done:100)`
 ####Put a task on the bottom of a list called "doing"
    `[this is a task in doing](#doing:40)` 
 ####Tasks are sorted by the number after the `:`
@@ -35,4 +43,4 @@ After running imdone for the first time, modify imdone/imdone.js in your project
 	};
 
 ###Implemented in version 0.1.2
-- [Page needs to refresh when tasks have been modified, deleted or added.  Use <https://npmjs.org/package/ws>](#done:0)
+- [Page needs to refresh when tasks have been modified, deleted or added.  Use <https://npmjs.org/package/ws>](#done:30)
