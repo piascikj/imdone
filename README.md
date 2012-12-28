@@ -11,9 +11,9 @@ navigate to your local project folder and run:
    `imdone`
 
 ####Put a task at the top of a list called "to-do"
-   `[this is a task](#todo:20)`
+   `[this is a task](#todo:0)`
 ####In javascript code
-   `//[this is a task in javascript code](#done:60)`
+   `//[this is a task in javascript code](#done:70)`
 ####Put a task on the bottom of a list called "doing"
    `[this is a task in doing](#doing:40)` 
 ####Tasks are sorted by the number after the `:`
