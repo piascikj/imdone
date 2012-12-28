@@ -32,6 +32,7 @@ navigate to your local project folder and run:
 After running imdone for the first time, modify imdone/imdone.js in your project directory.  The default config looks like this.  Your imdone.js will extend this.
 
 	module.exports = {
+		include:/^.*$/,
 		exclude:/^(node_modules|imdone|target)\/|^\.(git|svn)\/|\~$|\.(jpg|png|gif|swp)$/,
 		port:8080,
 		//github : {url : "http://www.github.com/piascikj/imdone"}, //Use this if you want links to point at github
@@ -42,5 +43,10 @@ After running imdone for the first time, modify imdone/imdone.js in your project
 		}
 	};
 
-###Implemented in version 0.1.2
+###Release notes
+
+####0.1.2
 - [Page needs to refresh when tasks have been modified, deleted or added.  Use <https://npmjs.org/package/ws>](#done:30)
+
+####0.1.3
+- include added to config
