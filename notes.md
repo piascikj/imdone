@@ -26,6 +26,10 @@ imdone notes for development
 	`[whatever you want](http://link/to/project/root "imdone:source")`
 
 - [Use github developer api for accessing repositories? <http://developer.github.com/>](#todo:40)
+- [forever-monitor for cli <https://github.com/nodejitsu/forever-monitor>](#todo:110)
+	- **start:** starts the process if not started and opens the board
+	- **stop:** stops the process
+	- **restart:** restarts the process
 
 
 
