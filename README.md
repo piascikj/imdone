@@ -21,9 +21,9 @@ navigate to your local project folder and run:
 ####Put a task at the top of a list called "to-do"
    `[this is a task](#todo:0)`
 ####In javascript code
-   `//[this is a task in javascript code](#done:100)`
+   `//[this is a task in javascript code](#done:120)`
 ####Put a task on the bottom of a list called "doing"
-   `[this is a task in doing](#doing:40)` 
+   `[this is a task in doing](#doing:20)` 
 ####Tasks are sorted by the number after the `:`
 ####imdone will create a folder named imdone that will contain your custom configuration and a file to keep your lists in order
    - you should keep imdone in source control
@@ -46,7 +46,7 @@ After running imdone for the first time, modify imdone/imdone.js in your project
 ###Release notes
 
 ####0.1.2
-- [Page needs to refresh when tasks have been modified, deleted or added.  Use <https://npmjs.org/package/ws>](#done:30)
+- [Page needs to refresh when tasks have been modified, deleted or added.  Use <https://npmjs.org/package/ws>](#done:50)
 
 ####0.1.3
 - include added to config
