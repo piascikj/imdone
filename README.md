@@ -26,7 +26,11 @@ navigate to your local project folder and run:
    `[this is a task in doing](#doing:0)` 
 ####Tasks are sorted by the number after the `:`
 ####imdone will create a folder named imdone that will contain your custom configuration and a file to keep your lists in order
-   - you should keep imdone in source control
+- you should keep imdone in source control
+
+####Filter by file name
+- You can filter by the file name the task are in.  
+- As you type in the "filter by file name" field, tasks are filtered
 
 ###Configuration
 After running imdone for the first time, modify imdone/imdone.js in your project directory.  The default config looks like this.  Your imdone.js will extend this.

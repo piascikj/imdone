@@ -11,12 +11,21 @@ imdone notes for development
 
 ###UI
 - [use this for sortable <http://farhadi.ir/projects/html5sortable/> decided to use jquery](#done:110)
+- [Keep a file in ~/.imdone with project folders](#doing:20)
 
 ###Config
-- [Do allow, deny - add include regex to config](#done:40)
+- [Do allow, deny - add include regex to config](#done:50)
 
 ###websockets
 - [websockets multiuser example](https://github.com/einaros/ws/blob/master/examples/fileapi/server.js)
+
+###cli
+- [forever-monitor for cli <https://github.com/nodejitsu/forever-monitor>](#todo:110)
+- [implement **add** cli option](#doing:10)
+	- **start:** starts the process if not started and opens the board
+	- **stop:** stops the process
+	- **restart:** restarts the process
+	- **add** adds a project to the board
 
 ###Misc
 - [Create github site](#done:60)
@@ -26,10 +35,6 @@ imdone notes for development
 	`[whatever you want](http://link/to/project/root "imdone:source")`
 
 - [Use github developer api for accessing repositories? <http://developer.github.com/>](#todo:40)
-- [forever-monitor for cli <https://github.com/nodejitsu/forever-monitor>](#todo:110)
-	- **start:** starts the process if not started and opens the board
-	- **stop:** stops the process
-	- **restart:** restarts the process
 
 
 
