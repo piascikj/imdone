@@ -18,6 +18,9 @@ iMDone has only been tested on my Ubuntu 12.04 desktop using chrome 23.0.x as th
 navigate to your local project folder and run:  
    `imdone`
 
+###See it in action!
+- fork this repository and run imdone in your local copy.  I use the imdone for developing imdone
+
 ####Put a task at the top of a list called "todo"
    `[this is a task](#todo:0)`
 ####In javascript code
