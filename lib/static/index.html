@@ -77,7 +77,7 @@
               </li>
             </ul>
             -->
-          <!-- [Add path filters to board - 0.1.6](#done:0) -->
+          <!-- [Add path filters to board - 0.1.6](#done:10) -->
             <form class="navbar-form pull-right">
               <input class="span3" type="text" id="filter-field" placeholder="Filter by file name">
               <button id="clear-filter" class="btn">clear</button>
@@ -97,7 +97,7 @@
 
       <hr>
 
-      <!-- [Use sticky footer <http://twitter.github.com/bootstrap/examples/sticky-footer.html>](#todo:70) -->
+      <!-- [Use sticky footer <http://twitter.github.com/bootstrap/examples/sticky-footer.html>](#todo:60) -->
       <div class="navbar navbar-inverse">
       <p>&copy; LeanNotes 2012</p>
       </div>
@@ -124,8 +124,8 @@
         <h2 class="list-name" title="Click to edit list name">{{name}}</h2>
         {{#each tasks}}
         <div class="well task" data-id="{{pathTaskId}}" data-list="{{list}}" data-order="{{order}}" data-path="{{path}}">
-          <p><a href="{{url}}">{{path}}</a><span class="sort">{{order}}</span></p>
-          <div class="wrap">{{safe text}}</div>
+          <p><a href="{{url}}" target="_blank">{{path}}</a><span class="sort">{{order}}</span></p>
+          <div class="wrap task-text">{{safe text}}</div>
           <!--<p><a class="btn" href="#">View details &raquo;</a></p>-->
         </div>
         {{/each}}

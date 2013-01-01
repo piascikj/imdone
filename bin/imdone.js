@@ -14,4 +14,12 @@ var dir = path.resolve(findup(process.cwd(), 'imdone.js'), '../node_modules/imdo
 if (!fs.existsSync(dir)) { dir = '../lib/imdone'; }
 
 // Run imdone.
-require(dir).cli();
+var imdone = require(dir);
+
+// Get the current directory
+var cwd = process.cwd();
+console.log("cwd:" + cwd);
+console.log("args:" + process.argv);
+//[We want to accept a root directory as an argument](#todo:40)
+imdone.start(cwd);
+
