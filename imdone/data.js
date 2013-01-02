@@ -1,6 +1,5 @@
 [
   "doing",
   "todo",
-  "done",
   "archive"
 ]

@@ -18,6 +18,8 @@ iMDone has only been tested on my Ubuntu 12.04 desktop using chrome 23.0.x as th
 navigate to your local project folder and run:  
    `imdone`
 
+- You can start it in multiple directories and switch between projects in the UI
+
 ###See it in action!
 - fork this repository and run imdone in your local copy.  I use the imdone for developing imdone
 ####Tasks are just markdown links
@@ -42,7 +44,6 @@ After running imdone for the first time, modify imdone/imdone.js in your project
 	module.exports = {
 		include:/^.*$/,
 		exclude:/^(node_modules|imdone|target)\/|^\.(git|svn)\/|\~$|\.(jpg|png|gif|swp)$/,
-		port:8080,
 		//github : {url : "http://www.github.com/piascikj/imdone"}, //Use this if you want links to point at github
 		marked : {
 			gfm: true,
@@ -52,6 +53,9 @@ After running imdone for the first time, modify imdone/imdone.js in your project
 	};
 
 ###Release notes
+
+####0.1.7
+- Start in multiple project directories
 
 ####0.1.6
 - Added filter by file name
