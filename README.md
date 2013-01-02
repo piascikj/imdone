@@ -54,6 +54,9 @@ After running imdone for the first time, modify imdone/imdone.js in your project
 
 ###Release notes
 
+####0.1.8
+- Sort is fixed for multiple projects
+
 ####0.1.7
 - Start in multiple project directories
 
