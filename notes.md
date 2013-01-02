@@ -11,7 +11,7 @@ imdone notes for development
 
 ###UI
 - [use this for sortable <http://farhadi.ir/projects/html5sortable/> decided to use jquery](#archive:100)
-- [Keep a file in ~/.imdone with project folders](#todo:40)
+- [Keep a file in ~/.imdone with project folders](#todo:30)
 
 ###Config
 - [Do allow, deny - add include regex to config](#archive:90)
@@ -20,7 +20,7 @@ imdone notes for development
 - [websockets multiuser example](https://github.com/einaros/ws/blob/master/examples/fileapi/server.js)
 
 ###cli
-- [forever-monitor for cli <https://github.com/nodejitsu/forever-monitor>](#todo:30)
+- [forever-monitor for cli <https://github.com/nodejitsu/forever-monitor>](#todo:40)
 - [implement **add** cli option](#archive:20)
 	- **start:** starts the process if not started and opens the board
 	- **stop:** stops the process
@@ -35,6 +35,7 @@ imdone notes for development
 	`[whatever you want](http://link/to/project/root "imdone:source")`
 
 - [Use github developer api for accessing repositories? <http://developer.github.com/>](#todo:80)
+- [Use dropbox-js for accessing dropbox from the website <https://github.com/dropbox/dropbox-js>](#todo:10)
 
 
 
