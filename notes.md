@@ -11,7 +11,7 @@ imdone notes for development
 
 ###UI
 - [use this for sortable <http://farhadi.ir/projects/html5sortable/> decided to use jquery](#archive:50)
-- [Keep a file in ~/.imdone with project folders](#doing:20)
+- [Keep a file in ~/.imdone with project folders](#doing:30)
 
 ###Config
 - [Do allow, deny - add include regex to config](#archive:40)
