@@ -1,6 +1,6 @@
 [
   "doing",
   "todo",
-  "archive",
-  "done"
+  "done",
+  "archive"
 ]

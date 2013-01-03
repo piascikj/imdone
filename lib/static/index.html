@@ -108,13 +108,17 @@
       {{#each lists}}
       <div class="span3 well list" id="{{name}}">
         <h2 class="list-name" title="Click to edit list name">{{name}}</h2>
+        {{#if tasks}}
         {{#each tasks}}
-        <div class="well task" data-id="{{pathTaskId}}" data-list="{{list}}" data-order="{{order}}" data-path="{{path}}">
+        <div class="wrap well task" data-id="{{pathTaskId}}" data-list="{{list}}" data-order="{{order}}" data-path="{{path}}">
           <p><a href="{{url}}" target="_blank">{{path}}</a><span class="sort">{{order}}</span></p>
-          <div class="wrap task-text">{{{text}}}</div>
+          <div class="task-text">{{{text}}}</div>
           <!--<p><a class="btn" href="#">View details &raquo;</a></p>-->
         </div>
         {{/each}}
+        {{else}}
+          <button class="btn btn-large btn-primary remove-list" type="button" data-list="{{name}}">Remove list</button>
+        {{/if}}
       </div>
       {{/each}}
     </script>
