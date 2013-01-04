@@ -54,6 +54,11 @@ After running imdone for the first time, modify imdone/imdone.js in your project
 
 ###Release notes
 
+####0.1.10
+- Source view if github is not set
+- Default lists are respected if added to imdone/data.js
+- Lists won't be removed unless specifically removed in ui or imdone/data.js
+
 ####0.1.8
 - Sort is fixed for multiple projects
 

@@ -45,6 +45,12 @@
         .list-name:hover {
           background-color: #E3E3E3;
         }
+
+        iframe {
+          width:100%;
+          border:none;
+          height:700px;
+        }
     </style>
   </head>
   <body>
@@ -56,14 +62,14 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <!-- [implement dropdown for switching between projects](#archive:20)-->
+          <!-- [implement dropdown for switching between projects](#archive:10)-->
           <div class="nav-collapse collapse">
             <a class="brand" href="/">iMDone</a>
             <ul class="nav">
               <li class="dropdown" id="projects-dropdown">
               </li>
             </ul>
-          <!-- [Add path filters to board - 0.1.6](#archive:60) -->
+          <!-- [Add path filters to board - 0.1.6](#archive:50) -->
             <form class="navbar-form pull-right">
               <input class="span3" type="text" id="filter-field" placeholder="Filter by file name">
               <button id="clear-filter" class="btn">clear</button>
@@ -111,7 +117,13 @@
         {{#if tasks}}
         {{#each tasks}}
         <div class="wrap well task" data-id="{{pathTaskId}}" data-list="{{list}}" data-order="{{order}}" data-path="{{path}}">
-          <p><a href="{{url}}" target="_blank">{{path}}</a><span class="sort">{{order}}</span></p>
+          <p>
+            {{#isGithub}}
+            <a href="{{url}}" target="_blank">{{path}}</a><span class="sort">{{order}}</span>
+            {{else}}
+            <a href="{{url}}" class="source-link" data-target="#src-panel" data-list="{{list}}">{{path}}</a><span class="sort">{{order}}</span>
+            {{/isGithub}}
+          </p>
           <div class="task-text">{{{text}}}</div>
           <!--<p><a class="btn" href="#">View details &raquo;</a></p>-->
         </div>
@@ -133,6 +145,12 @@
       {{else}}
       <a href="#"><span class="cwd" id="cwd">{{cwd}}</span></a>
       {{/if}}
+    </script>
+    <script id="source-template" type="text/x-handlebars-template">
+      <div class="span9 source well alert-info">
+        <span>{{path}}</span><button type="button" class="close">&times;</button>
+        <iframe scrolling="no" src="{{src}}"></iframe>
+      </div>
     </script>
     <script src="js/jquery-1.8.3.min.js"></script>
     <script src="js/jquery-ui-1.9.2.custom.min.js"></script>

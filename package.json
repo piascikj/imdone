@@ -43,7 +43,8 @@
       "ws":"0.4.25",
       "request":"2.12.0",
       "path-extra":"0.0.3",
-      "node-syntaxhighlighter":"0.8.1"
+      "node-syntaxhighlighter":"0.8.1",
+      "mu2":"0.5.17"
    },
    "devDependencies":{
       "grunt":"~0.3.17"

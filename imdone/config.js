@@ -12,7 +12,7 @@ module.exports = {
 	include:/^.*$/,
 	exclude:/^(node_modules|imdone|target)\/|^\.(git|svn)\/|\~$|\.(jpg|png|gif|swp)$/,
 	port:8080,
-	github : {url : "http://www.github.com/piascikj/imdone"}, //Use this if you want links to point at github
+	//github : {url : "http://www.github.com/piascikj/imdone"}, //Use this if you want links to point at github
 	marked : {
 		gfm: true,
 		pedantic: false,
