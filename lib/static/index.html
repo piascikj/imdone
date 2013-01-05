@@ -37,15 +37,13 @@
           font-size: 1em;
         }
 
-        .list-name {
-          font-size: 2em;
-          font-weight: bold;
-        }
-
         .list-name:hover {
           background-color: #E3E3E3;
         }
 
+        .list-hide {
+          opacity: 1;
+        }
         iframe {
           width:100%;
           border:none;
@@ -57,19 +55,18 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <!-- [implement dropdown for switching between projects](#archive:10)-->
+          <!-- [implement dropdown for switching between projects](#archive:70)-->
           <div class="nav-collapse collapse">
             <a class="brand" href="/">iMDone</a>
             <ul class="nav">
               <li class="dropdown" id="projects-dropdown">
               </li>
             </ul>
-          <!-- [Add path filters to board - 0.1.6](#archive:50) -->
+            <ul class="navbar-form pull-left" id="hidden-lists">
+              <button class="btn hidden-list">test1</button>
+              <button class="btn hidden-list">test2</button>
+            </ul>
+          <!-- [Add path filters to board - 0.1.6](#archive:110) -->
             <form class="navbar-form pull-right">
               <input class="span3" type="text" id="filter-field" placeholder="Filter by file name">
               <button id="clear-filter" class="btn">clear</button>
@@ -112,8 +109,10 @@
     <!-- Mustache templates -->
     <script id="list-template" type="text/x-handlebars-template">
       {{#each lists}}
+      {{^hidden}}
       <div class="span3 well list" id="{{name}}">
-        <h2 class="list-name" title="Click to edit list name">{{name}}</h2>
+        <button type="button" class="close list-hide" title="Hide list"><i class="icon-eye-close"></i></button>
+        <h2><span class="list-name" title="Edit list name">{{name}}</span></h2>
         {{#if tasks}}
         {{#each tasks}}
         <div class="wrap well task" data-id="{{pathTaskId}}" data-list="{{list}}" data-order="{{order}}" data-path="{{path}}">
@@ -132,6 +131,7 @@
           <button class="btn btn-large btn-primary remove-list" type="button" data-list="{{name}}">Remove list</button>
         {{/if}}
       </div>
+      {{/hidden}}
       {{/each}}
     </script>
     <script id="projects-template" type="text/x-handlebars-template">

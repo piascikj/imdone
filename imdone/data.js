@@ -1,6 +1,11 @@
-[
-  "doing",
-  "todo",
-  "done",
-  "archive"
-]
+{
+  "lists": [
+    "doing",
+    "todo",
+    "done",
+    "archive"
+  ],
+  "hidden": [
+    "archive"
+  ]
+}
