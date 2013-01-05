@@ -134,6 +134,13 @@
       {{/hidden}}
       {{/each}}
     </script>
+    <script id="hidden-list-template" type="text/x-handlebars-template">
+      {{#each lists}}
+      {{#if hidden}}
+      <button class="btn hidden-list" data-list="{{name}}" title="Show {{name}}"><i class="icon-eye-open"></i> {{name}}</button>
+      {{/if}}
+      {{/each}}
+    </script>
     <script id="projects-template" type="text/x-handlebars-template">
       {{#if projects}}
       <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="cwd" id="cwd">{{cwd}}</span> <b class="caret"></b></a>
