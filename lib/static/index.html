@@ -63,10 +63,9 @@
               </li>
             </ul>
             <ul class="navbar-form pull-left" id="hidden-lists">
-              <button class="btn hidden-list">test1</button>
-              <button class="btn hidden-list">test2</button>
+              <!--This is for hidden lists-->
             </ul>
-          <!-- [Add path filters to board - 0.1.6](#archive:110) -->
+            <!-- [Add path filters to board - 0.1.6](#archive:110) -->
             <form class="navbar-form pull-right">
               <input class="span3" type="text" id="filter-field" placeholder="Filter by file name">
               <button id="clear-filter" class="btn">clear</button>
@@ -86,7 +85,7 @@
 
       <hr>
 
-      <!-- [Use sticky footer <http://twitter.github.com/bootstrap/examples/sticky-footer.html>](#todo:110) -->
+      <!-- [Use sticky footer <http://twitter.github.com/bootstrap/examples/sticky-footer.html>](#todo:100) -->
       <div class="navbar navbar-inverse">
       <p>&copy; LeanNotes 2012</p>
       </div>
@@ -111,7 +110,7 @@
       {{#each lists}}
       {{^hidden}}
       <div class="span3 well list" id="{{name}}">
-        <button type="button" class="close list-hide" title="Hide list"><i class="icon-eye-close"></i></button>
+        <button type="button" class="close list-hide" title="Hide {{name}}" data-list="{{name}}"><i class="icon-eye-close"></i></button>
         <h2><span class="list-name" title="Edit list name">{{name}}</span></h2>
         {{#if tasks}}
         {{#each tasks}}
@@ -137,7 +136,7 @@
     <script id="hidden-list-template" type="text/x-handlebars-template">
       {{#each lists}}
       {{#if hidden}}
-      <button class="btn hidden-list" data-list="{{name}}" title="Show {{name}}"><i class="icon-eye-open"></i> {{name}}</button>
+      <button class="btn list-show" data-list="{{name}}" title="Show {{name}}"><i class="icon-eye-open"></i> {{name}}</button>
       {{/if}}
       {{/each}}
     </script>

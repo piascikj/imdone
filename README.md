@@ -40,7 +40,7 @@ navigate to your local project folder and run:
 
 ###Configuration
 After running imdone for the first time, modify imdone/imdone.js in your project directory.  The default config looks like this.  Your imdone.js will extend this.
-
+  
 	module.exports = {
 		include:/^.*$/,
 		exclude:/^(node_modules|imdone|target)\/|^\.(git|svn)\/|\~$|\.(jpg|png|gif|swp)$/,
@@ -53,6 +53,14 @@ After running imdone for the first time, modify imdone/imdone.js in your project
 	};
 
 ###Release notes
+####0.1.11
+- Now able to hide a list from board using hidden
+#####imdone/data.js is now formatted like this
+  
+	{
+		lists:[],
+		hidden:[]
+	}
 
 ####0.1.10
 - Source view if github is not set
