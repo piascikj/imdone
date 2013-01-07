@@ -12,6 +12,7 @@ imdone notes for development
 ###UI
 - [use this for sortable <http://farhadi.ir/projects/html5sortable/> decided to use jquery](#archive:180)
 - [Keep a file in ~/.imdone with project folders](#archive:70)
+- [Use ace editor for file display and edit <http://ace.ajax.org>](#doing:20)
 
 ###Config
 - [Do allow, deny - add include regex to config](#archive:170)

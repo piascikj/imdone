@@ -110,8 +110,10 @@
       {{#each lists}}
       {{^hidden}}
       <div class="span3 well list" id="{{name}}">
+        <div>
         <button type="button" class="close list-hide" title="Hide {{name}}" data-list="{{name}}"><i class="icon-eye-close"></i></button>
         <h2><span class="list-name" title="Edit list name">{{name}}</span></h2>
+        </div>
         {{#if tasks}}
         {{#each tasks}}
         <div class="wrap well task" data-id="{{pathTaskId}}" data-list="{{list}}" data-order="{{order}}" data-path="{{path}}">
