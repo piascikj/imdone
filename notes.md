@@ -12,7 +12,7 @@ imdone notes for development
 ###UI
 - [use this for sortable <http://farhadi.ir/projects/html5sortable/> decided to use jquery](#archive:180)
 - [Keep a file in ~/.imdone with project folders](#archive:70)
-- [Use ace editor for file display and edit <http://ace.ajax.org>](#doing:20)
+- [Use ace editor for file display and edit <http://ace.ajax.org>](#doing:0)
 
 ###Config
 - [Do allow, deny - add include regex to config](#archive:170)
@@ -37,6 +37,7 @@ imdone notes for development
 
 - [Use github developer api for accessing repositories? <http://developer.github.com/>](#todo:90)
 - [Use dropbox-js for accessing dropbox from the website <https://github.com/dropbox/dropbox-js>](#todo:50)
+- [Use node-gihub for accessing github <https://github.com/mikedeboer/node-github>](#todo:0)
 - [Start using travis for CI <https://travis-ci.org/>](#todo:30)
 
 
