@@ -36,8 +36,9 @@ imdone notes for development
 	`[whatever you want](http://link/to/project/root "imdone:source")`
 
 - [Use dropbox-js for accessing dropbox from the website <https://github.com/dropbox/dropbox-js>](#todo:50)
-- [Use node-gihub for accessing github <https://github.com/mikedeboer/node-github>](#todo:0)
+- [Use node-github for accessing github <https://github.com/mikedeboer/node-github>](#doing:20)
 - [Start using travis for CI <https://travis-ci.org/>](#todo:30)
+- [Setting up strip payments with nodejs <http://www.catonmat.net/blog/stripe-payments-with-node/>](#todo:0)
 
 
 

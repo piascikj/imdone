@@ -15,10 +15,16 @@ iMDone has only been tested on my Ubuntu 12.04 desktop using chrome 23.0.x as th
    `npm install -g imdone`
 
 ##And run!
-navigate to your local project folder and run:  
+- open a terminal window and navigate to your local project folder and run:  
    `imdone`
 
 - You can start it in multiple directories and switch between projects in the UI
+
+- open another terminal window and run:
+	`imdone open` or go to <http://localhost:8080>
+
+- stop imdone with ctrl+c in the console you started it initialy, or by running:
+	`imdone stop`
 
 ###See it in action!
 - fork this repository and run imdone in your local copy.  I use the imdone for developing imdone
@@ -58,6 +64,10 @@ After running imdone for the first time, modify imdone/imdone.js in your project
 	};
 
 ###Release notes
+####0.1.13
+- Moved open page to open cli option
+- switched to socket.io for near real-time updates
+
 ####0.1.11
 - Now able to hide a list from board using hidden
 #####imdone/data.js is now formatted like this  
