@@ -64,6 +64,9 @@ After running imdone for the first time, modify imdone/imdone.js in your project
 	};
 
 ###Release notes
+####0.1.14
+- replace mu2 with Handlebars
+
 ####0.1.13
 - Moved open page to open cli option
 - switched to socket.io for near real-time updates
