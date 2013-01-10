@@ -1,7 +1,7 @@
 imdone notes for development
 ==========
 ###Local kanban board 
-- [Use ***Global install so command line will execute server*** > <http://blog.nodejs.org/2011/03/23/npm-1-0-global-vs-local-installation/>](#archive:230)
+- [] [Use ***Global install so command line will execute server*** > <http://blog.nodejs.org/2011/03/23/npm-1-0-global-vs-local-installation/>](#archive:230)
    - <http://package.json.jit.su/>
 - [How will this work in github?](#archive:240)
 - [Create Kanban board functionality](#archive:260)
