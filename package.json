@@ -1,56 +1,58 @@
 {
-   "name":"imdone",
-   "preferGlobal":"true",
-   "version":"0.1.14",
-   "description":"Create tasks in files using markdown syntax and organize them with kanban",
-   "homepage":"http://piascikj.github.com/imdone/",
-   "author":{
-      "name":"Jesse Piascik",
-      "email":"jesse@piascik.net"
+   "name": "imdone",
+   "preferGlobal": "true",
+   "version": "0.1.15",
+   "description": "Create tasks in files using markdown syntax and organize them with kanban",
+   "homepage": "http://piascikj.github.com/imdone/",
+   "author": {
+      "name": "Jesse Piascik",
+      "email": "jesse@piascik.net"
    },
-   "repository":{
-      "type":"git",
-      "url":"https://github.com/piascikj/imdone.git"
+   "repository": {
+      "type": "git",
+      "url": "https://github.com/piascikj/imdone.git"
    },
-   "bugs":{
-      "url":"https://github.com/piascikj/imdone/issues"
+   "bugs": {
+      "url": "https://github.com/piascikj/imdone/issues"
    },
-   "licenses":[
+   "licenses": [
       {
-         "type":"MIT",
-         "url":"https://github.com/piascikj/imdone/blob/master/LICENSE-MIT"
+         "type": "MIT",
+         "url": "https://github.com/piascikj/imdone/blob/master/LICENSE-MIT"
       }
    ],
-   "bin":{
-      "imdone":"bin/imdone.js"
+   "bin": {
+      "imdone": "bin/imdone.js"
    },
-   "main":"lib/imdone",
-   "engines":{
-      "node":"0.8"
+   "main": "lib/imdone",
+   "engines": {
+      "node": "0.8"
    },
-   "scripts":{
-      "test":"grunt test"
+   "scripts": {
+      "test": "grunt test",
+      "start": "bin/imdone.js"
    },
-   "dependencies":{
-      "async":"0.1.22",
-      "express":"2.5.9",
-      "underscore":"1.4.3",
-      "marked":"0.2.6",
-      "wrench":"1.4.4",
-      "open":"0.0.2",
-      "watchr":"2.3.1",
-      "socket.io":"0.9.13",
-      "request":"2.12.0",
-      "node-syntaxhighlighter":"0.8.1",
-      "handlebars":"1.0.7"
+   "dependencies": {
+      "async": "0.1.22",
+      "express": "2.5.9",
+      "underscore": "1.4.3",
+      "marked": "0.2.6",
+      "wrench": "1.4.4",
+      "open": "0.0.2",
+      "watchr": "2.3.1",
+      "socket.io": "0.9.13",
+      "request": "2.12.0",
+      "node-syntaxhighlighter": "0.8.1",
+      "handlebars": "1.0.7"
    },
-   "devDependencies":{
-      "grunt":"~0.3.17"
+   "devDependencies": {
+      "grunt": "~0.3.17"
    },
-   "keywords":[
+   "keywords": [
       "cli",
       "Markdown",
       "Kanban",
       "git"
-   ]
+   ],
+   "subdomain": "piascikj.imdone"
 }

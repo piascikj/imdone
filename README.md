@@ -20,15 +20,14 @@ iMDone has only been tested on my Ubuntu 12.04 desktop using chrome 23.0.x as th
 
 - You can start it in multiple directories and switch between projects in the UI
 
-- open another terminal window and run:
+- open another terminal window and run:  
 	`imdone open` or go to <http://localhost:8080>
 
-- stop imdone with ctrl+c in the console you started it initialy, or by running:
+- stop imdone with ctrl+c in the console you started it initialy, or by running:  
 	`imdone stop`
 
 ###See it in action!
-- fork this repository and run imdone in your local copy.  I use the imdone for developing imdone
-
+- fork this repository and run imdone in your local copy.  I use imdone for keep track of development of imdone
 ###Tasks are just markdown links
 
 **Put a task at the top of a list called "todo"**  

@@ -122,7 +122,7 @@
             {{#isGithub}}
             <a href="{{url}}" target="_blank">{{path}}</a><span class="sort">{{order}}</span>
             {{else}}
-            <a href="{{url}}" class="source-link" data-target="#src-panel" data-list="{{list}}">{{path}}</a><span class="sort">{{order}}</span>
+            <a href="{{url}}" class="source-link" data-target="#src-panel" data-list="{{list}}">{{path}}</a><span class="sort">{{line}} | {{order}}</span>
             {{/isGithub}}
           </p>
           <div class="task-text">{{{text}}}</div>

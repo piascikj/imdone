@@ -21,7 +21,7 @@ imdone notes for development
 - [websockets multiuser example](https://github.com/einaros/ws/blob/master/examples/fileapi/server.js)
 
 ###cli
-- [forever-monitor for cli <https://github.com/nodejitsu/forever-monitor>](#todo:60)
+- [forever-monitor for cli <https://github.com/nodejitsu/forever-monitor>](#todo:70)
 - [implement **add** cli option](#archive:140)
 	- **start:** starts the process if not started and opens the board
 	- **stop:** stops the process
@@ -30,13 +30,13 @@ imdone notes for development
 
 ###Misc
 - [Create github site](#archive:250)
-- [Use ***context menu api*** > <http://developer.chrome.com/beta/extensions/contextMenus.html#examples> for chrome extension that opens the live kanban board](#todo:70)
+- [Use ***context menu api*** > <http://developer.chrome.com/beta/extensions/contextMenus.html#examples> for chrome extension that opens the live kanban board](#todo:80)
 	- On links that look like tasks include something in markdown that defines the source of the content
 
 	`[whatever you want](http://link/to/project/root "imdone:source")`
 
 - [Use dropbox-js for accessing dropbox from the website <https://github.com/dropbox/dropbox-js>](#todo:50)
-- [Use node-github for accessing github <https://github.com/mikedeboer/node-github>](#doing:20)
+- [Use node-github for accessing github <https://github.com/mikedeboer/node-github>](#doing:10)
 - [Start using travis for CI <https://travis-ci.org/>](#todo:30)
 - [Setting up strip payments with nodejs <http://www.catonmat.net/blog/stripe-payments-with-node/>](#todo:0)
 
