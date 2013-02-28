@@ -2,7 +2,7 @@
    "name": "imdone",
    "preferGlobal": "true",
    "version": "0.1.15",
-   "description": "Create tasks in files using markdown syntax and organize them with kanban",
+   "description": "Simple, file-based kanban",
    "homepage": "http://piascikj.github.com/imdone/",
    "author": {
       "name": "Jesse Piascik",
@@ -26,7 +26,7 @@
    },
    "main": "lib/imdone",
    "engines": {
-      "node": "0.8"
+      "node": ">= 0.4.12"
    },
    "scripts": {
       "test": "grunt test",
