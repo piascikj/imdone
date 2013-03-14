@@ -26,6 +26,10 @@ iMDone has only been tested on my Ubuntu 12.04 desktop using chrome 23.0.x as th
 - stop imdone with ctrl+c in the console you started it initialy, or by running:  
 	`imdone stop`
 
+##Contribute to the cause
+If you like iMDone and want to help me make it better you can make a contribution here.  
+<a href='http://www.pledgie.com/campaigns/19536'><img alt='Click here to lend your support to: iMDone - TODO, doing, done! and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/19536.png?skin_name=chrome' border='0' /></a>  
+
 ###See it in action!
 - fork this repository and run imdone in your local copy.  I use imdone for keep track of development of imdone
 ###Tasks are just markdown links
