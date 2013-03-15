@@ -1,20 +1,19 @@
 iMDone
 ==========
-##Create tasks in any file using markdown syntax and organize them with a local kanban board.  
-##Your tasks are in your files, so you can share your board on [github](http://www.github.com), [dropbox](http://www.dropbox.com), or any other cloud storage provider.
+###Create tasks in any file using markdown syntax and organize them with a local kanban board.  Your tasks are in your files, so you can share your board on [github](http://www.github.com), [dropbox](http://www.dropbox.com), or any other cloud storage provider.
 
-##Prerequisites 
+Prerequisites 
+----
 - [nodejs](http://nodejs.org/) is [installed](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager)
 - [npm](https://npmjs.org/) is [installed](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager)
 
 
-##Disclaimer
-iMDone has only been tested on my Ubuntu 12.04 desktop using chrome 23.0.x as the default browser.  It should work on any machine that has nodejs and npm installed and for auto update of boards, a browser that supports websockets.
-
-##Install
+Install
+----
    `npm install -g imdone`
 
-##And run!
+Run
+----
 - open a terminal window and navigate to your local project folder and run:  
    `imdone`
 
@@ -26,12 +25,25 @@ iMDone has only been tested on my Ubuntu 12.04 desktop using chrome 23.0.x as th
 - stop imdone with ctrl+c in the console you started it initialy, or by running:  
 	`imdone stop`
 
-##Contribute to the cause
-If you like iMDone and want to help me make it better you can make a contribution here.  
-<a href='http://www.pledgie.com/campaigns/19536'><img alt='Click here to lend your support to: iMDone - TODO, doing, done! and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/19536.png?skin_name=chrome' border='0' /></a>  
+How you can help
+----
+If you like iMDone and want to help me make it better, you can make a contribution at pledgie.  Every donation is very much appreciated.  
+<a href='http://www.pledgie.com/campaigns/19536'><img alt='Click here to lend your support to: iMDone - TODO, doing, done! and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/19536.png?skin_name=chrome' border='0' /></a>
 
-###See it in action!
-- fork this repository and run imdone in your local copy.  I use imdone for keep track of development of imdone
+If you have some spare time, then there is no better way to help an open source project than to get involved in one of the following ways.
+
+- Help diagnose and report problems
+- Suggest fixes by sending in patches
+- Improve the code
+- Help with unit and end-to-end testing
+- Provide peer support on our forum or on the Sencha forum.
+- Publish an article on your blog (send the link) to educate others regarding some aspect of the project
+- Help with missing documentation
+
+See it in action!
+----
+fork this repository and run imdone in your local copy.  I use imdone for keep track of development of imdone
+
 ###Tasks are just markdown links
 
 **Put a task at the top of a list called "todo"**  
@@ -52,7 +64,8 @@ If you like iMDone and want to help me make it better you can make a contributio
 - You can filter by the file name the task are in.  
 - As you type in the "filter by file name" field, tasks are filtered
   
-##Configuration
+Configuration
+----
 After running imdone for the first time, modify imdone/imdone.js in your project directory.  The default config looks like this.  Your imdone.js will extend this.
   
 	module.exports = {
@@ -66,7 +79,20 @@ After running imdone for the first time, modify imdone/imdone.js in your project
 		}
 	};
 
-###Release notes
+Disclaimer
+----
+iMDone has only been tested on my Ubuntu 12.04 desktop using chrome 23.0.x as the default browser.  It should work on any machine that has nodejs and npm installed and for auto update of boards, a browser that supports websockets.
+
+Roadmap
+----
+
+- [Support editing files directly using [Ace editor](http://ajaxorg.github.com/ace/#nav=about)](#todo:0)
+- [Support creating files and folders directly using [Ace editor](http://ajaxorg.github.com/ace/#nav=about)](#todo:0)
+- [Preview of markdown files](#todo:0)
+- [Convert front end to use backbone.js and require.js](#todo:0)
+
+Release notes
+----
 ####0.1.14
 - replace mu2 with Handlebars
 
