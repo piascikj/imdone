@@ -1,6 +1,27 @@
-iMDone
-==========
-###Create tasks in any file using markdown syntax and organize them with a local kanban board.  Your tasks are in your files, so you can share your board on [github](http://www.github.com), [dropbox](http://www.dropbox.com), or any other cloud storage provider.
+	  _   __  __   _____                         
+	 (_) |  \/  | |  __ \                        
+	  _  | \  / | | |  | |   ___    _ __     ___ 
+	 | | | |\/| | | |  | |  / _ \  | '_ \   / _ \
+	 | | | |  | | | |__| | | (_) | | | | | |  __/
+	 |_| |_|  |_| |_____/   \___/  |_| |_|  \___|
+                                             
+                                             
+
+###Keep your tasks in your work!!!
+Create tasks in any file using markdown syntax and organize them with a local kanban board.  Your tasks are in your files, so you can share your board on [github](http://www.github.com), [dropbox](http://www.dropbox.com), or any other cloud storage provider.
+
+###Tasks are just markdown links!!!
+
+**Put a task at the top of a list called "todo"**  
+   `[this is a task](#todo:0)`  
+
+**In javascript code**  
+   `//[this is a task in javascript code](#todo:0)`  
+
+**Put a task on the bottom of a list called "doing" (giving it a sort value of 1000 will put it at the bottom unless you have tons of tasks in the list)**  
+   `[this is a task in doing](#doing:1000)`  
+
+**Tasks are sorted by the number after the `:`**  
 
 Prerequisites 
 ----
@@ -15,15 +36,26 @@ Install
 Run
 ----
 - open a terminal window and navigate to your local project folder and run:  
-   `imdone`
+   `imdone -o`
 
 - You can start it in multiple directories and switch between projects in the UI
 
-- open another terminal window and run:  
-	`imdone open` or go to <http://localhost:8080>
+- Here's the help output
 
-- stop imdone with ctrl+c in the console you started it initialy, or by running:  
-	`imdone stop`
+	  Usage: imdone [options]
+
+	  Options:
+
+	    -h, --help     output usage information
+	    -V, --version  output the version number
+	    -o, --open     Open imdone in the default browser
+	    -s, --stop     Stop imdone server
+
+	  Example:
+
+	    Open imdone  in a browser with the current working directory as the project root
+
+	    $ imdone -o
 
 How you can help
 ----
@@ -43,19 +75,6 @@ If you have some spare time, then there is no better way to help an open source 
 See it in action!
 ----
 fork this repository and run imdone in your local copy.  I use imdone for keep track of development of imdone
-
-###Tasks are just markdown links
-
-**Put a task at the top of a list called "todo"**  
-   `[this is a task](#todo:0)`  
-
-**In javascript code**  
-   `//[this is a task in javascript code](#todo:0)`  
-
-**Put a task on the bottom of a list called "doing" (giving it a sort value of 1000 will put it at the bottom unless you have tons of tasks in the list)**  
-   `[this is a task in doing](#doing:1000)`  
-
-**Tasks are sorted by the number after the `:`**  
 
 **imdone will create a directory named imdone that will contain your custom configuration and a file to keep your lists in order**  
 - you should keep the imdone directory in source control  
@@ -93,6 +112,9 @@ Roadmap
 
 Release notes
 ----
+####0.1.17
+- Now using commander for better cli user experience
+
 ####0.1.14
 - replace mu2 with Handlebars
 
@@ -131,4 +153,3 @@ Release notes
 
 ####0.1.2
 - Using websockets to refresh board on changes
-

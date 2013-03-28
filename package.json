@@ -1,7 +1,7 @@
 {
    "name": "imdone",
    "preferGlobal": "true",
-   "version": "0.1.16",
+   "version": "0.1.17",
    "description": "Simple, file-based kanban",
    "homepage": "http://piascikj.github.com/imdone/",
    "author": {
@@ -33,6 +33,8 @@
       "start": "bin/imdone.js"
    },
    "dependencies": {
+      "commander" : "1.1.1",
+      "pkginfo" : "0.3.0",
       "async": "0.1.22",
       "express": "2.5.9",
       "underscore": "1.4.3",

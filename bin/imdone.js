@@ -8,7 +8,8 @@ var path = require('path');
 var findup = require('../lib/util/findup');
 
 // Where might a locally-installed imdone live?
-var dir = path.resolve(findup(process.cwd(), 'imdone.js'), '../node_modules/imdone');
+var dir = findup(process.cwd(), 'imdone.js');
+dir = path.resolve(dir || '.', '../node_modules/imdone');
 
 // If imdone is installed locally, use it. Otherwise use this imdone.
 if (!fs.existsSync(dir)) { dir = '../lib/imdone'; }
@@ -21,5 +22,5 @@ var cwd = process.cwd();
 //console.log("cwd:" + cwd);
 //console.log("args:" + process.argv);
 //[We want to accept a root directory as an argument](#todo:60)
-imdone.start(cwd, process.argv);
+imdone.start(cwd);
 
