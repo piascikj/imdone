@@ -13,13 +13,13 @@ Create tasks in any file using markdown syntax and organize them with a local ka
 ###Tasks are just markdown links!!!
 
 **Put a task at the top of a list called "todo"**  
-   `[this is a task](#todo:0)`  
+   `[this is a task](#todo:30)`  
 
 **In javascript code**  
    `//[this is a task in javascript code](#todo:0)`  
 
 **Put a task on the bottom of a list called "doing" (giving it a sort value of 1000 will put it at the bottom unless you have tons of tasks in the list)**  
-   `[this is a task in doing](#doing:1000)`  
+   `[this is a task in doing](#todo:10)`  
 
 **Tasks are sorted by the number after the `:`**  
 
@@ -105,7 +105,7 @@ iMDone has only been tested on my Ubuntu 12.04 desktop using chrome 23.0.x as th
 Roadmap
 ----
 
-- [Support editing files directly using [Ace editor](http://ajaxorg.github.com/ace/#nav=about)](#todo:0)
+- [Support editing files directly using [Ace editor](http://ajaxorg.github.com/ace/#nav=about)](#todo:20)
 - [Support creating files and folders directly using [Ace editor](http://ajaxorg.github.com/ace/#nav=about)](#todo:0)
 - [Preview of markdown files](#todo:0)
 - [Convert front end to use backbone.js and require.js](#todo:0)

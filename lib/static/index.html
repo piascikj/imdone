@@ -44,8 +44,22 @@
         .list-hide {
           opacity: 1;
         }
+
+        #editor-container {
+          display: none;
+          position: fixed;
+          top: 40px;
+          left: 390px;
+          bottom: 0px;
+          right: 0px;
+        }
+
+        #editor {
+          height: 100%;
+        }
+
         iframe {
-          width:100%;
+          width:1000px;
           border:none;
           height:640px;
         }
@@ -53,6 +67,9 @@
     </style>
   </head>
   <body>
+    <div id="editor-container">
+      <div class="source" id="editor"></div>
+    </div>
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
@@ -86,7 +103,7 @@
 
       <hr>
 
-      <!-- [Use sticky footer <http://twitter.github.com/bootstrap/examples/sticky-footer.html>](#todo:90) -->
+      <!-- [Use sticky footer <http://twitter.github.com/bootstrap/examples/sticky-footer.html>](#todo:110) -->
       <div class="navbar navbar-inverse">
       <p>&copy; LeanNotes 2012</p>
       </div>
@@ -155,17 +172,17 @@
       <a href="#"><span class="cwd" id="cwd">{{cwd}}</span></a>
       {{/if}}
     </script>
+    <!--
     <script id="source-template" type="text/x-handlebars-template">
-      <div class="span9 source">
-        <div class="span8 well alert-info affix">
+      <div class="source">
         <span>{{path}}</span><button type="button" class="close">&times;</button>
         <iframe scrolling="no" src="{{src}}"></iframe>
-        </div>
       </div>
-    </script>
+    </script>-->
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/jquery-1.8.3.min.js"></script>
     <script src="js/jquery-ui-1.9.2.custom.min.js"></script>
+    <script src="js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/underscore-min.js"></script>
     <script src="js/handlebars-1.0.rc.1.min.js"></script>

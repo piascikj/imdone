@@ -1,12 +1,11 @@
 {
   "lists": [
-    "doing",
     "todo",
+    "doing",
     "done",
     "archive"
   ],
   "hidden": [
-    "archive",
-    "done"
+    "archive"
   ]
 }
