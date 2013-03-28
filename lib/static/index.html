@@ -49,13 +49,14 @@
           display: none;
           position: fixed;
           top: 40px;
-          left: 390px;
+          left: 380px;
           bottom: 0px;
           right: 0px;
         }
 
         #editor {
           height: 100%;
+          font-size: 16px;
         }
 
         iframe {
@@ -97,7 +98,7 @@
 
       <div class="clearfix"></div>
       <!-- Example row of columns -->
-      <div class="row-fluid" id="board">
+      <div class="row" id="board">
 
       </div>
 
@@ -127,7 +128,7 @@
     <script id="list-template" type="text/x-handlebars-template">
       {{#each lists}}
       {{^hidden}}
-      <div class="span3 well list" id="{{name}}">
+      <div class="span4 well list" id="{{name}}">
         <div>
         <button type="button" class="close list-hide" title="Hide {{name}}" data-list="{{name}}"><i class="icon-eye-close"></i></button>
         <h2><span class="list-name" title="Edit list name">{{name}}</span></h2>
