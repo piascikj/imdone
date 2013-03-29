@@ -113,6 +113,10 @@ Roadmap
 
 Release notes
 ----
+####0.1.18
+- Dark theme
+- Ace editor
+
 ####0.1.17
 - Now using commander for better cli user experience
 
