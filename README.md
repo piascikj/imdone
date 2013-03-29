@@ -14,7 +14,7 @@ Create tasks in any file using markdown syntax and organize them with a local ka
 ###Tasks are just markdown links!!!
 
 **Put a task at the top of a list called "todo"**  
-   `[this is a task](#todo:30)`  
+   `[this is a task](#todo:40)`  
 
 **In javascript code**  
    `//[this is a task in javascript code](#todo:0)`  
@@ -69,7 +69,7 @@ If you have some spare time, then there is no better way to help an open source 
 - Suggest fixes by sending in patches
 - Improve the code
 - Help with unit and end-to-end testing
-- Provide peer support on our forum or on the Sencha forum.
+- Provide peer support on our forum
 - Publish an article on your blog (send the link) to educate others regarding some aspect of the project
 - Help with missing documentation
 

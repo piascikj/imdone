@@ -6,6 +6,6 @@
     "archive"
   ],
   "hidden": [
-    "todo"
+    "archive"
   ]
 }
