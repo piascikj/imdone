@@ -4,11 +4,18 @@
     <title>iMDone</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+    <<link href='css/darkstrap-v0.9.0.css' rel='stylesheet' />
     <link href="css/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" media="screen"/>
     <style>
         body {
           padding-top: 50px;
+          color: #bbb;
         }
+
+        h1, h2, h3, h4, h5, h6 {
+          color: #bbb;
+        }
+
         @media (max-width: 979px) {
           body {
             padding-top: 0px;
@@ -26,7 +33,7 @@
         }
 
         .list {
-          background-color: #bbb;
+          /*background-color: #bbb;*/
         }
 
         .sort {
@@ -43,6 +50,10 @@
 
         .list-hide {
           opacity: 1;
+        }
+
+        .mdl-header {
+          color: #333;
         }
 
         #editor-container {
@@ -71,7 +82,7 @@
     <div id="editor-container">
       <div class="source" id="editor"></div>
     </div>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
           <!-- [implement dropdown for switching between projects](#archive:120)-->
@@ -87,7 +98,7 @@
             <!-- [Add path filters to board - 0.1.6](#archive:160) -->
             <form class="navbar-form pull-right">
               <input class="span3" type="text" id="filter-field" placeholder="Filter by file name">
-              <button id="clear-filter" class="btn">clear</button>
+              <button id="clear-filter" class="btn btn-primary">clear</button>
             </form>
           </div>
         </div>
@@ -95,26 +106,19 @@
     </div>
 
     <div class="container-fluid">
-
       <div class="clearfix"></div>
-      <!-- Example row of columns -->
-      <div class="row" id="board">
-
-      </div>
-
+      <div class="row" id="board"></div>
       <hr>
-
       <!-- [Use sticky footer <http://twitter.github.com/bootstrap/examples/sticky-footer.html>](#todo:110) -->
-      <div class="navbar navbar-inverse">
-      <p>&copy; LeanNotes 2012</p>
+      <div class="navbar">
+      <p>&copy; iMDone 2013</p>
       </div>
-
     </div> 
     <!-- /container -->
     <div id="list-name-modal" class="modal hide fade">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3>Edit list name</h3>
+        <h3 class="mdl-header">Edit list name</h3>
       </div>
       <div class="modal-body">
           <input type="text" id="list-name-field" placeholder="List Name">
