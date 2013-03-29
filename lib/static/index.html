@@ -4,7 +4,8 @@
     <title>iMDone</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen"/>
-    <<link href='css/darkstrap-v0.9.0.css' rel='stylesheet' />
+    <link href='css/darkstrap-v0.9.0.css' rel='stylesheet' />
+    <link rel="stylesheet" href="css/font-awesome.min.css">    
     <link href="css/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" media="screen"/>
     <style>
         body {
@@ -70,12 +71,11 @@
           font-size: 16px;
         }
 
-        iframe {
-          width:1000px;
-          border:none;
-          height:640px;
+        .edit-bar {
+          display: none;
+          width:  340px;
+          margin-bottom: 10px;
         }
-
     </style>
   </head>
   <body>
@@ -85,17 +85,16 @@
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
-          <!-- [implement dropdown for switching between projects](#archive:120)-->
+          <!-- [implement dropdown for switching between projects](#archive:150)-->
           <div class="nav-collapse collapse">
             <a class="brand" href="/">iMDone</a>
             <ul class="nav">
               <li class="dropdown" id="projects-dropdown">
               </li>
             </ul>
-            <ul class="navbar-form pull-left" id="hidden-lists">
-              <!--This is for hidden lists-->
-            </ul>
-            <!-- [Add path filters to board - 0.1.6](#archive:160) -->
+            <!-- [Change this to be like tweetdeck.  A dropdown for lists. And do sorting here too.](#doing:10)-->
+            <ul class="navbar-form pull-left" id="hidden-lists"><!--This is for hidden lists--></ul>
+            <!-- [Add path filters to board - 0.1.6](#archive:190) -->
             <form class="navbar-form pull-right">
               <input class="span3" type="text" id="filter-field" placeholder="Filter by file name">
               <button id="clear-filter" class="btn btn-primary">clear</button>
@@ -107,7 +106,16 @@
 
     <div class="container-fluid">
       <div class="clearfix"></div>
-      <div class="row" id="board"></div>
+      <div class="navbar edit-bar">
+        <div class="navbar-inner">
+          <div class="btn-group">
+            <span class="btn btn-inverse">Editor</span>
+            <!--<button class="btn btn-inverse" id="save-edit-btn" title="Save file"><i class="icon-save"></i></button>-->
+            <button class="btn btn-inverse" id="close-edit-btn" title="Close file"><i class="icon-remove"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="row" id="board"><button class="btn list-show" data-list="todo" data-original-title="Show todo"><i class="icon-eye-open"></i> todo</button></div>
       <hr>
       <!-- [Use sticky footer <http://twitter.github.com/bootstrap/examples/sticky-footer.html>](#todo:110) -->
       <div class="navbar">
@@ -161,7 +169,7 @@
     <script id="hidden-list-template" type="text/x-handlebars-template">
       {{#each lists}}
       {{#if hidden}}
-      <button class="btn list-show" data-list="{{name}}" title="Show {{name}}"><i class="icon-eye-open"></i> {{name}}</button>
+      <button class="btn list-show btn-inverse" data-list="{{name}}" title="Show {{name}}"><i class="icon-eye-open"></i> {{name}}</button>
       {{/if}}
       {{/each}}
     </script>
