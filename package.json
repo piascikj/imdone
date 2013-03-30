@@ -37,7 +37,7 @@
       "pkginfo" : "0.3.0",
       "async": "0.1.22",
       "express": "2.5.9",
-      "underscore": "1.4.3",
+      "underscore": "1.4.4",
       "marked": "0.2.6",
       "wrench": "1.4.4",
       "open": "0.0.2",
