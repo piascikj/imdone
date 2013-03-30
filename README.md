@@ -108,7 +108,7 @@ Roadmap
 
 - [Support editing files directly using [Ace editor](http://ajaxorg.github.com/ace/#nav=about)](#doing:0)
 - [Support creating files and folders directly using [Ace editor](http://ajaxorg.github.com/ace/#nav=about)](#todo:0)
-- [Preview of markdown files](#todo:0)
+- [Preview of markdown files](#todo:10)
 - [Convert front end to use backbone.js and require.js](#todo:20)
 
 Release notes
