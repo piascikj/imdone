@@ -12,7 +12,7 @@ imdone notes for development
 ###UI
 - [use this for sortable <http://farhadi.ir/projects/html5sortable/> decided to use jquery](#archive:250)
 - [Keep a file in ~/.imdone with project folders](#archive:140)
-- [Use ace editor for file display and edit <http://ace.ajax.org> <https://github.com/ajaxorg/ace/issues/1017>](#done:0)
+- [Use ace editor for file display and edit <http://ace.ajax.org> <https://github.com/ajaxorg/ace/issues/1017>](#done:10)
 
 ###Config
 - [Do allow, deny - add include regex to config](#archive:240)
@@ -21,7 +21,7 @@ imdone notes for development
 - [websockets multiuser example](https://github.com/einaros/ws/blob/master/examples/fileapi/server.js)
 
 ###cli
-- [forever-monitor for cli <https://github.com/nodejitsu/forever-monitor>](#todo:90)
+- [forever-monitor for cli <https://github.com/nodejitsu/forever-monitor>](#todo:110)
 - [implement **add** cli option](#archive:170)
 	- **start:** starts the process if not started and opens the board
 	- **stop:** stops the process
@@ -30,12 +30,12 @@ imdone notes for development
 
 ###Misc
 - [Create github site](#archive:280)
-- [Use ***context menu api*** > <http://developer.chrome.com/beta/extensions/contextMenus.html#examples> for chrome extension that opens the live kanban board](#todo:100)
+- [Use ***context menu api*** > <http://developer.chrome.com/beta/extensions/contextMenus.html#examples> for chrome extension that opens the live kanban board](#todo:120)
 	- On links that look like tasks include something in markdown that defines the source of the content
 
 	`[whatever you want](http://link/to/project/root "imdone:source")`
 
-- [Start using travis for CI <https://travis-ci.org/>](#todo:60)
+- [Start using travis for CI <https://travis-ci.org/>](#todo:80)
 
 
 

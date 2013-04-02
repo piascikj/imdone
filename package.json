@@ -1,7 +1,7 @@
 {
    "name": "imdone",
    "preferGlobal": "true",
-   "version": "0.1.20",
+   "version": "0.1.21",
    "description": "Simple, file-based kanban",
    "homepage": "http://piascikj.github.com/imdone/",
    "author": {
@@ -51,9 +51,9 @@
       "grunt": "~0.3.17"
    },
    "keywords": [
-      "cli",
       "Markdown",
       "Kanban",
+      "cli",
       "git"
    ],
    "subdomain": "piascikj.imdone"

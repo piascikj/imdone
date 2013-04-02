@@ -95,7 +95,7 @@ After running imdone for the first time, modify imdone/imdone.js in your project
   
 	module.exports = {
 		include:/^.*$/,
-		exclude:/^(node_modules|imdone|target)\/|^\.(git|svn)\/|\~$|\.(jpg|png|gif|swp)$/,
+		exclude:/^(node_modules|imdone|target)\/|\.(git|svn)\/|\~$|\.(jpg|png|gif|swp)$/,
 		//github : {url : "http://www.github.com/piascikj/imdone"}, //Use this if you want links to point at github
 		marked : {
 			gfm: true,
@@ -111,10 +111,13 @@ iMDone has only been tested on my Ubuntu 12.04 desktop using chrome 23.0.x as th
 Roadmap
 ----
 
-- [Support editing files directly using [Ace editor](http://ajaxorg.github.com/ace/#nav=about)](#doing:0)
+- [Support editing files directly using [Ace editor](http://ajaxorg.github.com/ace/#nav=about)](#done:0)
+- [Show file explorer when editing files](#todo:10)
+- [Enable ctrl+s for save (don't close file on save)](#todo:20)
+- [Enable svn and git commit after file changes](#todo:60)
 - [Support creating files and folders directly using [Ace editor](http://ajaxorg.github.com/ace/#nav=about)](#todo:0)
-- [Preview of markdown files](#todo:10)
-- [Convert front end to use backbone.js and require.js](#todo:20)
+- [Preview of markdown files](#todo:30)
+- [Convert front end to use backbone.js and require.js](#todo:40)
 
 Release notes
 ----
