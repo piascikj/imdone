@@ -19,7 +19,7 @@ var imdone = require(dir);
 
 // Get the current directory
 var cwd = process.cwd();
-//console.log("cwd:" + cwd);
+console.log("cwd:" + cwd);
 //console.log("args:" + process.argv);
 //[We want to accept a root directory as an argument](#todo:80)
 imdone.start(cwd);

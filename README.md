@@ -47,16 +47,21 @@ Run
 
 	  Options:
 
-	    -h, --help     output usage information
-	    -V, --version  output the version number
-	    -o, --open     Open imdone in the default browser
-	    -s, --stop     Stop imdone server
+	    -h, --help                output usage information
+	    -V, --version             output the version number
+	    -o, --open                Open imdone in the default browser
+	    -s, --stop                Stop imdone server
+	    -d, --dirs <directories>  A comma separated list of project directories
 
-	  Example:
+	  Examples:
 
-	    Open imdone  in a browser with the current working directory as the project root
+	    Open imdone in a browser with the current working directory as the project root
 
 	    $ imdone -o
+
+	    Open imdone in a browser with list of project directories
+
+	    $ imdone -o -d projects/imdone,projects/myproject
 
 How you can help
 ----
@@ -113,6 +118,12 @@ Roadmap
 
 Release notes
 ----
+####0.1.20
+- Open multiple projects at once from command line
+
+####0.1.19
+- Bug fixes.  Sorting tasks was broken
+
 ####0.1.18
 - Dark theme
 - Ace editor
