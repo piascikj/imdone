@@ -36,6 +36,10 @@ imdone notes for development
 	`[whatever you want](http://link/to/project/root "imdone:source")`
 
 - [Start using travis for CI <https://travis-ci.org/>](#todo:80)
+- [Implement find and replace <https://github.com/ajaxorg/ace/issues/56>](#todo:30)
+
+###Bugs
+- [Renaming lists is broken with multiple projects loaded](#doing:0)
 
 
 
