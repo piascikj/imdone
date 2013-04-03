@@ -121,6 +121,9 @@ Roadmap
 
 Release notes
 ----
+####0.1.22
+- Fix rename list bug introduced in last version
+
 ####0.1.20
 - Open multiple projects at once from command line
 
