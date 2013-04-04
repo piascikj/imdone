@@ -5,7 +5,7 @@
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen"/>
     <link href='css/darkstrap-v0.9.0.css' rel='stylesheet' />
-    <link rel="stylesheet" href="css/font-awesome.min.css">    
+    <link href="css/font-awesome.min.css" rel="stylesheet" />    
     <link href="css/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" media="screen"/>
     <style>
         body {
@@ -57,7 +57,7 @@
           color: #333;
         }
 
-        #editor-container {
+        .editor-container {
           display: none;
           position: fixed;
           top: 40px;
@@ -76,11 +76,16 @@
           width:  340px;
           margin-bottom: 10px;
         }
+
+        .preview {
+          height: 100%;
+        }
     </style>
   </head>
   <body>
-    <div id="editor-container">
-      <div class="source" id="editor"></div>
+    <div id="editor-container" class="editor-container">
+      <div class="editor" id="editor"></div>
+      <div class="preview" id="preview"></div>
     </div>
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
@@ -92,7 +97,7 @@
               <li class="dropdown" id="projects-dropdown">
               </li>
             </ul>
-            <!-- [Change this to be like tweetdeck.  A dropdown for lists. Do sorting here too.](#doing:0)-->
+            <!-- [Change this to be like tweetdeck.  A dropdown for lists. Do sorting here too.](#doing:10)-->
             <ul class="navbar-form pull-left" id="hidden-lists"><!--This is for hidden lists--></ul>
             <!-- [Add path filters to board - 0.1.6](#archive:190) -->
             <form class="navbar-form pull-right">
