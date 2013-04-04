@@ -7,6 +7,7 @@
     <link href='css/darkstrap-v0.9.0.css' rel='stylesheet' />
     <link href="css/font-awesome.min.css" rel="stylesheet" />    
     <link href="css/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" media="screen"/>
+    <link rel="stylesheet" href="css/print.css" type="text/css" media="print" />
     <style>
         body {
           padding-top: 50px;
@@ -79,9 +80,14 @@
         }
 
         .preview {
-          height: 100%;
+          min-height: 100%;
           font-size: 16px;
-          font-family: verdana;
+          font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+          background-color: #202020;
+          padding-left: 1em;
+          padding-right: 1em;
+          position: relative;
+          overflow: hidden;
         }
     </style>
   </head>
@@ -122,11 +128,13 @@
           </div>
           <div class="btn-group">
             <button class="btn btn-inverse" id="save-edit-btn" title="Save file (Ctrl+s)"><i class="icon-save"></i></button>
+            <button class="btn btn-inverse" id="print-btn" title="Print"><i class="icon-print"></i></button>
             <button class="btn btn-inverse" id="close-edit-btn" title="Close file"><i class="icon-remove"></i></button>
           </div>
         </div>
       </div>
-      <div class="row" id="board"><button class="btn list-show" data-list="todo" data-original-title="Show todo"><i class="icon-eye-open"></i> todo</button></div>
+      <div class="row" id="board">
+      </div>
       <!-- [Use sticky footer <http://twitter.github.com/bootstrap/examples/sticky-footer.html>](#todo:120) -->
       <!--
       <div class="navbar">
@@ -213,6 +221,7 @@
     <script src="js/underscore-min.js"></script>
     <script src="js/handlebars-1.0.rc.1.min.js"></script>
     <script src="js/marked.js"></script>
+    <script src="js/jquery.printElement.min.js"></script>
     <script src="js/imdone-local.js"></script>
     <script>
       $(document).ready(function() {

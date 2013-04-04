@@ -118,9 +118,13 @@ Roadmap
 - [Support creating files and folders directly using [Ace editor](http://ajaxorg.github.com/ace/#nav=about)](#todo:0)
 - [Preview of markdown files](#done:0)
 - [Convert front end to use backbone.js and require.js](#todo:40)
+- [respect marked configuration in client javascript](#todo:50)
 
 Release notes
 ----
+####0.1.24
+- Print source and markdown preview
+
 ####0.1.23
 - Upgrade express to latest version
 - Preview markdown files
