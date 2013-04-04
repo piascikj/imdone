@@ -21,7 +21,7 @@ imdone notes for development
 - [websockets multiuser example](https://github.com/einaros/ws/blob/master/examples/fileapi/server.js)
 
 ###cli
-- [forever-monitor for cli <https://github.com/nodejitsu/forever-monitor>](#todo:110)
+- [forever-monitor for cli <https://github.com/nodejitsu/forever-monitor>](#todo:100)
 - [implement **add** cli option](#archive:170)
 	- **start:** starts the process if not started and opens the board
 	- **stop:** stops the process
@@ -30,12 +30,13 @@ imdone notes for development
 
 ###Misc
 - [Create github site](#archive:280)
-- [Use ***context menu api*** > <http://developer.chrome.com/beta/extensions/contextMenus.html#examples> for chrome extension that opens the live kanban board](#todo:120)
+- [Use ***context menu api*** > <http://developer.chrome.com/beta/extensions/contextMenus.html#examples> for chrome extension that opens the live kanban board](#todo:110)
 	- On links that look like tasks include something in markdown that defines the source of the content
 
 	`[whatever you want](http://link/to/project/root "imdone:source")`
 
-- [Start using travis for CI <https://travis-ci.org/>](#todo:80)
+- [Start using travis for CI <https://travis-ci.org/>](#doing:20)
+    - <http://stackoverflow.com/questions/12336566/travis-ci-with-jasmine-node>
 - [Implement find and replace <https://github.com/ajaxorg/ace/issues/56>](#todo:30)
 - [Spell check in Ace](#todo:20)
 
