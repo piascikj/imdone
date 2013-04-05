@@ -7,7 +7,7 @@
     <link href='css/darkstrap-v0.9.0.css' rel='stylesheet' />
     <link href="css/font-awesome.min.css" rel="stylesheet" />    
     <link href="css/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" media="screen"/>
-    <link rel="stylesheet" href="css/print.css" type="text/css" media="print" />
+    <link href="css/print.css" type="text/css" rel="stylesheet" media="print" />
     <style>
         body {
           padding-top: 50px;
@@ -47,15 +47,12 @@
         }
 
         .list-name:hover {
-          background-color: #E3E3E3;
+          background: #202020;
+          background-color: rgba(0, 0, 0, 0.3);
         }
 
         .list-hide {
           opacity: 1;
-        }
-
-        .mdl-header {
-          color: #333;
         }
 
         .editor-container {
@@ -105,8 +102,22 @@
             <ul class="nav">
               <li class="dropdown" id="projects-dropdown">
               </li>
+              <li>
+                <div class="btn-group">
+                  <button class="btn btn-inverse" id="new-file-btn" title="New file"><i class="icon-file"></i></button>
+                  <button class="btn btn-inverse" id="open-file-btn" title="Open file"><i class="icon-folder-open"></i></button>
+                    <button class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" id="lists-btn" title="Project Lists"><i class="icon-tasks"></i></button>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">Action</a></li>
+                      <li><a href="#">Another action</a></li>
+                      <li><a href="#">Something else here</a></li>
+                      <li class="divider"></li>
+                      <li><a href="#">Separated link</a></li>
+                    </ul>
+                </div>
+              </li>
             </ul>
-            <!-- [Change this to be like tweetdeck.  A dropdown for lists. Do sorting here too.](#doing:10)-->
+            <!-- [Change this to be like tweetdeck.  A dropdown for lists. Do sorting here too.](#todo:10)-->
             <ul class="navbar-form pull-left" id="hidden-lists"><!--This is for hidden lists--></ul>
             <!-- [Add path filters to board - 0.1.6](#archive:190) -->
             <form class="navbar-form pull-right">
@@ -120,6 +131,7 @@
 
     <div class="container-fluid">
       <div class="clearfix"></div>
+      <!--[Show file info above edit-bar](#todo:20) -->
       <div class="navbar edit-bar">
         <div class="navbar-inner">
           <div class="btn-group" data-toggle="buttons-radio">
@@ -135,7 +147,7 @@
       </div>
       <div class="row" id="board">
       </div>
-      <!-- [Use sticky footer <http://twitter.github.com/bootstrap/examples/sticky-footer.html>](#todo:120) -->
+      <!-- [Use sticky footer <http://twitter.github.com/bootstrap/examples/sticky-footer.html>](#todo:160) -->
       <!--
       <div class="navbar">
       <p>&copy; iMDone 2013</p>
@@ -145,17 +157,34 @@
     <!-- /container -->
     <div id="list-name-modal" class="modal hide fade">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          <i class="icon-remove"></i>
+        </button>
         <h3 class="mdl-header">Edit list name</h3>
       </div>
       <div class="modal-body">
           <input type="text" id="list-name-field" placeholder="List Name">
       </div>
       <div class="modal-footer">
-        <a href="#" class="btn modal-close">Close</a>
+        <a href="#" class="btn modal-close">Cancel</a>
         <a href="#" id="list-name-save" class="btn btn-primary">Save changes</a>
       </div>
     </div>
+    <div id="open-file-modal" class="modal hide fade">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          <i class="icon-remove"></i>
+        </button>
+        <h3 class="mdl-header">Select a file to edit</h3>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn modal-close">Cancel</a>
+        <a href="#" id="file-open" class="btn btn-primary">Open</a>
+      </div>
+    </div>
+
     <!-- Mustache templates -->
     <script id="list-template" type="text/x-handlebars-template">
       {{#each lists}}

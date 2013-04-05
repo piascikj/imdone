@@ -1024,3 +1024,19 @@ select:focus:invalid:focus {
 .alert-info h1, .alert-info h2, .alert-info h3, .alert-info h4, .alert-info h5, .alert-info h6 {
   color: #204B61;
 }
+
+.modal {
+  background-color: #2f2f2f;
+}
+
+.modal-header {
+  color: #bbb;
+  border-bottom: 1px solid #202020;
+}
+
+.modal-footer {
+  color: #bbb;
+  background-color: #2f2f2f;
+  box-shadow: inset 0 1px 0 #202020;
+  border-top: 1px solid #202020;
+}

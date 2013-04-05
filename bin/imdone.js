@@ -21,6 +21,6 @@ var imdone = require(dir);
 var cwd = process.cwd();
 console.log("cwd:" + cwd);
 //console.log("args:" + process.argv);
-//[We want to accept a root directory as an argument](#todo:90)
+//[We want to accept a root directory as an argument](#todo:130)
 imdone.start(cwd);
 

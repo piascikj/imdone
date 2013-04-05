@@ -6,6 +6,7 @@
     "done"
   ],
   "hidden": [
-    "archive"
+    "archive",
+    "done"
   ]
 }
