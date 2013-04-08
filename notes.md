@@ -12,7 +12,7 @@ imdone notes for development
 ###UI
 - [use this for sortable <http://farhadi.ir/projects/html5sortable/> decided to use jquery](#archive:250)
 - [Keep a file in ~/.imdone with project folders](#archive:140)
-- [Use ace editor for file display and edit <http://ace.ajax.org> <https://github.com/ajaxorg/ace/issues/1017>](#done:40)
+- [Use ace editor for file display and edit <http://ace.ajax.org> <https://github.com/ajaxorg/ace/issues/1017>](#done:60)
 
 ###Config
 - [Do allow, deny - add include regex to config](#archive:240)
@@ -37,12 +37,12 @@ imdone notes for development
 
 - [Start using travis for CI <https://travis-ci.org/>](#todo:0)
     - <http://stackoverflow.com/questions/12336566/travis-ci-with-jasmine-node>
-- [Implement find and replace <https://github.com/ajaxorg/ace/issues/56>](#todo:40)
+- [Implement find and replace <https://github.com/ajaxorg/ace/issues/56>](#todo:30)
 - [Spell check in Ace](#todo:90)
 - [use [doco languages.js](https://github.com/jashkenas/docco/blob/master/resources/languages.json) to detect TODO and FIXME style comments and convert](#todo:80)
 
 ###Bugs
-- [Renaming lists is broken with multiple projects loaded](#done:30)
+- [Renaming lists is broken with multiple projects loaded](#done:50)
 
 
 
