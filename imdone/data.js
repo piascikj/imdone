@@ -2,8 +2,8 @@
   "lists": [
     "todo",
     "doing",
-    "archive",
-    "done"
+    "done",
+    "archive"
   ],
   "hidden": [
     "archive",

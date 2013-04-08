@@ -86,6 +86,57 @@
           position: relative;
           overflow: hidden;
         }
+
+        .column-nav-menu {
+          top: 100%;
+          width: 220px;
+          padding: 4px 0 0;
+          border: 0;
+          margin-top: 0;
+          -webkit-border-radius: 0 0 4px 4px;
+          -moz-border-radius: 0 0 4px 4px;
+          -ms-border-radius: 0 0 4px 4px;
+          -o-border-radius: 0 0 4px 4px;
+          border-radius: 0 0 4px 4px;
+          background: #eaeaea;
+          -webkit-box-shadow: 0 3px 10px 0 rgba(17,17,17,0.35);
+          -moz-box-shadow: 0 3px 10px 0 rgba(17,17,17,0.35);
+          box-shadow: 0 3px 10px 0 rgba(17,17,17,0.35);
+          counter-reset: column-nav;
+        }
+
+        .column-nav-menu .column-nav-menu-item {
+          border-top: 1px solid #ccc;
+          counter-increment: column-nav;
+        }
+        .column-nav-menu .column-nav-menu-item:first-child {
+          border-top: 0;
+        }
+        .column-nav-menu .column-nav-menu-item {
+          border-top: 1px solid #ccc;
+          counter-increment: column-nav;
+        }        
+
+        .column-nav-menu .drag-handle {
+          margin-left: 5px;
+          margin-top: 1px;
+          cursor: ns-resize;
+        }
+
+        .column-nav-menu .column-nav-menu-item .column-nav-menu-link {
+          padding: 5px 3px;
+        }
+        
+        .obj-left {
+          float: left;
+          margin-right: 10px;
+        }
+
+        .obj-right {
+          float: right;
+          margin-left: 10px;
+          margin-right: 5px;
+        }    
     </style>
   </head>
   <body>
@@ -107,12 +158,7 @@
                   <button class="btn btn-inverse" id="new-file-btn" title="New file"><i class="icon-file"></i></button>
                   <button class="btn btn-inverse" id="open-file-btn" title="Open file"><i class="icon-folder-open"></i></button>
                     <button class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" id="lists-btn" title="Project Lists"><i class="icon-tasks"></i></button>
-                    <ul class="dropdown-menu">
-                      <li><a href="#">Action</a></li>
-                      <li><a href="#">Another action</a></li>
-                      <li><a href="#">Something else here</a></li>
-                      <li class="divider"></li>
-                      <li><a href="#">Separated link</a></li>
+                    <ul class="dropdown-menu column-nav-menu" id="lists-menu">
                     </ul>
                 </div>
               </li>
@@ -191,7 +237,6 @@
       {{^hidden}}
       <div class="span4 well list" id="{{name}}">
         <div>
-        <button type="button" class="close list-hide" title="Hide {{name}}" data-list="{{name}}"><i class="icon-eye-close"></i></button>
         <h2><span class="list-name" title="Edit list name">{{name}}</span></h2>
         </div>
         {{#if tasks}}
@@ -215,6 +260,7 @@
       {{/hidden}}
       {{/each}}
     </script>
+
     <script id="hidden-list-template" type="text/x-handlebars-template">
       {{#each lists}}
       {{#if hidden}}
@@ -222,6 +268,25 @@
       {{/if}}
       {{/each}}
     </script>
+
+    <script id="lists-template" type="text/x-handlebars-template">
+      {{#each lists}}
+      <li class="column-nav-menu-item" data-list="{{name}}">
+        <a href="#/lists/{{name}}" class="column-nav-menu-link">
+          <span class="js-drag-handle drag-handle obj-left" data-list="{{name}}">
+            <i class="icon-reorder"></i>
+          </span>
+          {{name}}
+          {{#if hidden}}
+          <span class="list-show obj-right" data-list="{{name}}" title="Show {{name}}"><i class="icon-eye-close"></i></span>
+          {{else}}
+          <span class="list-hide obj-right" data-list="{{name}}" title="Hide {{name}}"><i class="icon-eye-open"></i></span>
+          {{/if}}
+        </a>
+      </li>
+      {{/each}}
+    </script>
+
     <script id="projects-template" type="text/x-handlebars-template">
       {{#if projects}}
       <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="cwd" id="cwd">{{cwd}}</span> <b class="caret"></b></a>
