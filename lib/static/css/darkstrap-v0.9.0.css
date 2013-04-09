@@ -1038,7 +1038,7 @@ select:focus:invalid:focus {
 .modal-footer {
   color: #bbb;
   background-color: #2f2f2f;
-  box-shadow: inset 0 1px 0 #202020;
+  box-shadow: inset 0 1px 0 #6C6C6C;
   border-top: 1px solid #202020;
 }
 

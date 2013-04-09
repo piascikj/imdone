@@ -11,10 +11,6 @@
     <link href="css/style.css" type="text/css" rel="stylesheet"/>
   </head>
   <body>
-    <div id="editor-container" class="editor-container">
-      <div class="editor" id="editor"></div>
-      <div class="preview" id="preview"></div>
-    </div>
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
@@ -45,7 +41,7 @@
               <div class="btn-group">
                 <button class="btn btn-inverse" id="save-edit-btn" title="Save file (Ctrl+s)"><i class="icon-save"></i></button>
                 <button class="btn btn-inverse" id="print-btn" title="Print"><i class="icon-print"></i></button>
-                <button class="btn btn-inverse" id="close-edit-btn" title="Close file"><i class="icon-remove"></i></button>
+                <button class="btn btn-inverse" id="close-edit-btn" title="Close file (Esc)"><i class="icon-remove"></i></button>
               </div>
             </div>            
             <!-- [Add path filters to board - 0.1.6](#archive:190) -->
@@ -60,6 +56,10 @@
 
     <div class="app-container">
       <div class="clearfix"></div>
+      <div id="editor-container" class="editor-container">
+        <div class="editor" id="editor"></div>
+        <div class="preview" id="preview"></div>
+      </div>
       <div class="board" id="board">
       </div>
       <!-- [Use sticky footer <http://twitter.github.com/bootstrap/examples/sticky-footer.html>](#todo:160) -->
@@ -175,26 +175,6 @@
         <iframe scrolling="no" src="{{src}}"></iframe>
       </div>
     </script>-->
-    <!--
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="js/jquery-1.8.3.min.js"></script>
-    <script src="js/jquery.hotkeys.js"></script>
-    <script src="js/jquery-ui-1.9.2.custom.min.js"></script>
-    <script src="js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/underscore-min.js"></script>
-    <script src="js/handlebars-1.0.rc.1.min.js"></script>
-    <script src="js/marked.js"></script>
-    <script src="js/jquery.printElement.min.js"></script>
-    <script src="js/imdone-local.js"></script>
-    
-    <script>
-      $(document).ready(function() {
-        imdone.init();
-      });
-    </script>
-  -->
     <script data-main="js/main" src="js/require.js"></script>
-
   </body>
 </html>
