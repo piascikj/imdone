@@ -7,7 +7,6 @@
     <link href='css/darkstrap-v0.9.0.css' rel='stylesheet' />
     <link href="css/font-awesome.min.css" rel="stylesheet" />    
     <link href="css/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" media="screen"/>
-    <link href="css/print.css" type="text/css" rel="stylesheet" media="print" />
     <link href="css/style.css" type="text/css" rel="stylesheet"/>
   </head>
   <body>
@@ -22,18 +21,19 @@
               </li>
               <li>
                 <div class="btn-group">
-                  <button class="btn btn-inverse" id="new-file-btn" title="New file"><i class="icon-file"></i></button>
-                  <button class="btn btn-inverse" id="open-file-btn" title="Open file"><i class="icon-folder-open"></i></button>
-                    <button class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" id="lists-btn" title="Project Lists"><i class="icon-tasks"></i></button>
+                  <button class="btn btn-inverse" id="open-file-btn" title="Open/Create file"><i class="icon-folder-open"></i></button>
+                  <button class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" id="lists-btn" title="Project Lists"><i class="icon-tasks"></i></button>
                     <ul class="dropdown-menu column-nav-menu" id="lists-menu">
                     </ul>
                 </div>
               </li>
             </ul>
-            <!-- [Change this to be like tweetdeck.  A dropdown for lists. Do sorting here too.](#done:0)-->
-            <ul class="navbar-form pull-left" id="hidden-lists"><!--This is for hidden lists--></ul>
-            <!--[Show file info above edit-bar](#todo:10) -->
-            <div class="edit-bar pull-left">
+            <!-- [Add path filters to board - 0.1.6](#archive:190) -->
+            <form class="navbar-form pull-right">
+              <input class="span3" type="text" id="filter-field" placeholder="Filter by file name">
+              <button id="clear-filter" class="btn btn-primary">clear</button>
+            </form>
+            <div class="edit-bar pull-right">
               <div class="btn-group" data-toggle="buttons-radio">
                 <button class="btn btn-inverse" id="edit-btn" title="Edit File">Edit</button>
                 <button class="btn btn-inverse" id="preview-btn" title="Preview File">Preview</button>
@@ -44,11 +44,6 @@
                 <button class="btn btn-inverse" id="close-edit-btn" title="Close file (Esc)"><i class="icon-remove"></i></button>
               </div>
             </div>            
-            <!-- [Add path filters to board - 0.1.6](#archive:190) -->
-            <form class="navbar-form pull-right">
-              <input class="span3" type="text" id="filter-field" placeholder="Filter by file name">
-              <button id="clear-filter" class="btn btn-primary">clear</button>
-            </form>
           </div>
         </div>
       </div>
@@ -59,6 +54,7 @@
       <div id="editor-container" class="editor-container">
         <div class="editor" id="editor"></div>
         <div class="preview" id="preview"></div>
+        <!--[Show file info above edit-bar using <http://pinesframework.org/pnotify/>](#todo:10) -->
       </div>
       <div class="board" id="board">
       </div>
@@ -85,21 +81,6 @@
         <a href="#" id="list-name-save" class="btn btn-primary">Save changes</a>
       </div>
     </div>
-    <div id="open-file-modal" class="modal hide fade">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-          <i class="icon-remove"></i>
-        </button>
-        <h3 class="mdl-header">Select a file to edit</h3>
-      </div>
-      <div class="modal-body">
-      </div>
-      <div class="modal-footer">
-        <a href="#" class="btn modal-close">Cancel</a>
-        <a href="#" id="file-open" class="btn btn-primary">Open</a>
-      </div>
-    </div>
-
     <!-- Mustache templates -->
     <script id="list-template" type="text/x-handlebars-template">
       {{#each lists}}
@@ -130,12 +111,21 @@
       {{/each}}
     </script>
 
-    <script id="hidden-list-template" type="text/x-handlebars-template">
-      {{#each lists}}
-      {{#if hidden}}
-      <button class="btn list-show btn-inverse" data-list="{{name}}" title="Show {{name}}"><i class="icon-eye-open"></i> {{name}}</button>
-      {{/if}}
-      {{/each}}
+    <script id="file-modal-template" type="text/x-handlebars-template">
+      <div id="file-modal" class="modal hide fade">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            <i class="icon-remove"></i>
+          </button>
+          <h3 class="mdl-header">Open or create a file</h3>
+        </div>
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+          <a href="#" class="btn modal-close">Cancel</a>
+          <a href="#" id="file-open" class="btn btn-primary">Open</a>
+        </div>
+      </div>
     </script>
 
     <script id="lists-template" type="text/x-handlebars-template">
