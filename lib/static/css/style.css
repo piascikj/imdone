@@ -57,6 +57,14 @@ h1, h2, h3, h4, h5, h6 {
   opacity: 1;
 }
 
+.plain-list {
+  list-style-type: none;
+}
+
+.plain-list li a{
+  text-decoration: none;
+}
+
 .app-container {
   position: fixed;
   top: 40px;
