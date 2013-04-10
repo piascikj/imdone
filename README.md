@@ -126,7 +126,6 @@ Release notes
 ####0.1.25
 - Sort lists in dropdown menu
 - Open files for editing
-- Create new files and folders
 - Loading dependencies with require (Strange workaround for ace)
 
 ####0.1.24
