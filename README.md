@@ -121,16 +121,16 @@ Roadmap
 ----
 
 - [Support editing files directly using [Ace editor](http://ajaxorg.github.com/ace/#nav=about)](#done:80)
-- [Show file explorer when editing files](#todo:20)
+- [Show file explorer when editing files](#todo:60)
 - [Enable ctrl+s for save (don't close file on save)](#done:50)
-- [Enable svn and git commit after file changes](#todo:100)
+- [Enable svn and git commit after file changes](#todo:20)
 - [User should be able to edit existing files](#done:30)
 - [User should be able to create files](#done:0)
 - [Creating of files at root of project is broken](#done:20)
 - [Preview of markdown files](#done:60)
 - [Use require.js for dependency mgmt](#done:40)
-- [Convert front end to use backbone.js](#todo:50)
-- [respect marked configuration in client javascript](#todo:70)
+- [Convert front end to use backbone.js](#todo:80)
+- [respect marked configuration in client javascript](#todo:10)
 
 Release notes
 ----
