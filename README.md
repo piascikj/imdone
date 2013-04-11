@@ -112,17 +112,23 @@ iMDone has only been tested on my Ubuntu 12.04 desktop using chrome 23.0.x as th
 Roadmap
 ----
 
-- [Support editing files directly using [Ace editor](http://ajaxorg.github.com/ace/#nav=about)](#done:40)
+- [Support editing files directly using [Ace editor](http://ajaxorg.github.com/ace/#nav=about)](#done:80)
 - [Show file explorer when editing files](#todo:20)
-- [Enable ctrl+s for save (don't close file on save)](#done:10)
+- [Enable ctrl+s for save (don't close file on save)](#done:50)
 - [Enable svn and git commit after file changes](#todo:100)
-- [User should be able to create and edit existing files using [Ace editor](http://ajaxorg.github.com/ace/#nav=about)](#doing:0)
-- [Preview of markdown files](#done:20)
-- [Convert front end to use backbone.js and require.js](#todo:50)
+- [User should be able to edit existing files](#done:30)
+- [User should be able to create files](#done:0)
+- [Creating of files at root of project is broken](#done:20)
+- [Preview of markdown files](#done:60)
+- [Use require.js for dependency mgmt](#done:40)
+- [Convert front end to use backbone.js](#todo:50)
 - [respect marked configuration in client javascript](#todo:70)
 
 Release notes
 ----
+####0.1.26
+- Create files
+
 ####0.1.25
 - Sort lists in dropdown menu
 - Open files for editing

@@ -20,30 +20,34 @@
               <li>
                 <div class="btn-group">
                   <button class="btn btn-inverse" id="open-file-btn" title="Open/Create file"><i class="icon-folder-open"></i></button>
-                  <button class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" id="lists-btn" title="Project Lists"><i class="icon-tasks"></i></button>
+                  <button class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" id="lists-btn" title="Manage Lists"><i class="icon-tasks"></i></button>
                     <ul class="dropdown-menu column-nav-menu" id="lists-menu">
                     </ul>
                 </div>
               </li>
-              <li class="dropdown" id="projects-dropdown">
-              </li>
+              <li>
+                <div class="edit-bar">
+                  <div class="btn-group" data-toggle="buttons-radio">
+                    <button class="btn btn-inverse" id="edit-btn" title="Edit File">Edit</button>
+                    <button class="btn btn-inverse" id="preview-btn" title="Preview File">Preview</button>
+                  </div>
+                  <div class="btn-group">
+                    <button class="btn btn-inverse" id="save-edit-btn" title="Save file (Ctrl+s)"><i class="icon-save"></i></button>
+                    <button class="btn btn-inverse" id="print-btn" title="Print"><i class="icon-print"></i></button>
+                    <button class="btn btn-inverse" id="close-edit-btn" title="Close file (Esc)"><i class="icon-remove"></i></button>
+                  </div>
+                </div>            
+              </li>                
             </ul>
             <!-- [Add path filters to board - 0.1.6](#archive:190) -->
             <form class="navbar-form pull-right">
               <input class="span3" type="text" id="filter-field" placeholder="Filter by file name">
               <button id="clear-filter" class="btn btn-primary">clear</button>
             </form>
-            <div class="edit-bar pull-right">
-              <div class="btn-group" data-toggle="buttons-radio">
-                <button class="btn btn-inverse" id="edit-btn" title="Edit File">Edit</button>
-                <button class="btn btn-inverse" id="preview-btn" title="Preview File">Preview</button>
-              </div>
-              <div class="btn-group">
-                <button class="btn btn-inverse" id="save-edit-btn" title="Save file (Ctrl+s)"><i class="icon-save"></i></button>
-                <button class="btn btn-inverse" id="print-btn" title="Print"><i class="icon-print"></i></button>
-                <button class="btn btn-inverse" id="close-edit-btn" title="Close file (Esc)"><i class="icon-remove"></i></button>
-              </div>
-            </div>            
+            <ul class="nav pull-right">
+              <li class="dropdown" id="projects-dropdown">
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -86,11 +90,15 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
           <i class="icon-remove"></i>
         </button>
-        <h3 class="mdl-header">Open File</h3>
+        <h3 class="mdl-header">Open/Create File</h3>
       </div>
-      <div class="modal-body" id="ls">
+      <div class="modal-body">
+        <div id="ls">
+        </div>
       </div>
       <div class="modal-footer">
+        <!--[Add auto complete like ubuntu](#todo:20) -->
+        <div class="pull-left"><input class="span4" type="text" id="file-field" placeholder="file path" title="enter a file path"></input></div>
         <a href="#" class="btn modal-close">Cancel</a>
         <a href="#" id="file-open" class="btn btn-primary">Open</a>
       </div>
