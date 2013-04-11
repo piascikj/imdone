@@ -8,10 +8,12 @@
 	 |_| |_|  |_| |_____/   \___/  |_| |_|  \___|
 
 
-###Keep your tasks in your work!!!
+Keep your tasks in your work!!!
+----
 Create tasks in any file using markdown syntax and organize them with a local kanban board.  Your tasks are in your files, so you can share your board on [github](http://www.github.com), [dropbox](http://www.dropbox.com), or any other cloud storage provider.
 
-###Tasks are just markdown links!!!
+Tasks are just markdown links!!!
+----
 
 **Put a task at the top of a list called "todo"**  
    `[this is a task](#todo:10)`  
@@ -22,7 +24,13 @@ Create tasks in any file using markdown syntax and organize them with a local ka
 **Put a task on the bottom of a list called "doing" (giving it a sort value of 1000 will put it at the bottom unless you have tons of tasks in the list)**  
    `[this is a task in doing](#todo:20)`  
 
-**Tasks are sorted by the number after the `:`**  
+**Tasks are sorted by the number after the `:`**
+
+More
+----
+- **Edit and create files directly in iMDone using the [Ace editor](http://ace.ajax.org)!**
+- **Preview markdown files and print them as markdown or html!**
+
 
 Prerequisites 
 ----
@@ -126,8 +134,11 @@ Roadmap
 
 Release notes
 ----
+####0.1.27
+- Fix styles for code (Eliminate box shadow)
+
 ####0.1.26
-- Create files
+- Allow user to create files
 
 ####0.1.25
 - Sort lists in dropdown menu
