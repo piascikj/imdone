@@ -7,6 +7,7 @@
     <link href='css/darkstrap-v0.9.0.css' rel='stylesheet' />
     <link href="css/font-awesome.min.css" rel="stylesheet" />    
     <link href="css/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" media="screen"/>
+    <link href="css/jquery.pnotify.default.css" rel="stylesheet" media="screen"/>
     <link href="css/style.css" type="text/css" rel="stylesheet"/>
   </head>
   <body>
@@ -25,10 +26,19 @@
                     </ul>
                 </div>
               </li>
+              <li class="dropdown" id="projects-dropdown">
+              </li>
+            </ul>
+            <!-- [Add path filters to board - 0.1.6](#archive:190) -->
+            <form class="navbar-form pull-right">
+              <input class="span3" type="text" id="filter-field" placeholder="Filter by file name">
+              <button id="clear-filter" class="btn btn-primary">clear</button>
+            </form>
+            <ul class="nav pull-right">
               <li>
                 <div class="edit-bar">
                   <div class="btn-group" data-toggle="buttons-radio">
-                    <button class="btn btn-inverse" id="edit-btn" title="Edit File">Edit</button>
+                    <button class="btn btn-inverse" id="edit-btn" title="Edit File"><i class="icon-pencil"></i>&nbsp;<span id="filename"></span></button>
                     <button class="btn btn-inverse" id="preview-btn" title="Preview File">Preview</button>
                   </div>
                   <div class="btn-group">
@@ -38,15 +48,6 @@
                   </div>
                 </div>            
               </li>                
-            </ul>
-            <!-- [Add path filters to board - 0.1.6](#archive:190) -->
-            <form class="navbar-form pull-right">
-              <input class="span3" type="text" id="filter-field" placeholder="Filter by file name">
-              <button id="clear-filter" class="btn btn-primary">clear</button>
-            </form>
-            <ul class="nav pull-right">
-              <li class="dropdown" id="projects-dropdown">
-              </li>
             </ul>
           </div>
         </div>
@@ -58,7 +59,7 @@
       <div id="editor-container" class="editor-container">
         <div class="editor" id="editor"></div>
         <div class="preview" id="preview"></div>
-        <!--[Show file info above edit-bar using <http://pinesframework.org/pnotify/>](#planning:40) -->
+        <!--[Show file info above edit-bar using <http://pinesframework.org/pnotify/>](#doing:10) -->
       </div>
       <div class="board" id="board">
       </div>

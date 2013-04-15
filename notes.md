@@ -40,9 +40,9 @@ imdone notes for development
 - [Implement find and replace <https://github.com/ajaxorg/ace/issues/56>](#todo:70)
 - [Spell check in Ace](#todo:100)
 - [use [doco languages.js](https://github.com/jashkenas/docco/blob/master/resources/languages.json) to detect TODO and FIXME style comments and convert](#todo:0)
-- [Leave manage lists open when hiding/showing list](#planning:30)
+- [Leave manage lists open when hiding/showing list](#doing:20)
 - [Add links to imdone website, pledgie and twitter](#doing:0)
-- [Enable browsing of markdown files](#doing:10)
+- [Enable browsing of markdown files](#doing:30)
 - [Add search for files and tasks](#todo:50)
 
 ###Bugs
