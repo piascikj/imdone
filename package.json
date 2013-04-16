@@ -1,7 +1,7 @@
 {
    "name": "imdone",
    "preferGlobal": "true",
-   "version": "0.1.28",
+   "version": "0.1.29",
    "description": "Simple, file-based kanban",
    "homepage": "http://piascikj.github.com/imdone/",
    "author": {

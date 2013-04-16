@@ -88,7 +88,7 @@ code {
   display: none;
   position: fixed;
   top: 40px;
-  left: 380px;
+  left: 0px;
   bottom: 0px;
   right: 0px;
   overflow-y: auto;
@@ -166,7 +166,13 @@ code {
   float: right;
   margin-left: 10px;
   margin-right: 5px;
-}    
+}
+
+/*pnotify*/
+.stack-bottomright {
+  top: auto;
+  right: auto;
+}
 
 
 ::-webkit-scrollbar {

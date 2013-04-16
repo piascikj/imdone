@@ -119,6 +119,7 @@ iMDone has only been tested on my Ubuntu 12.04 desktop using chrome 23.0.x as th
 Roadmap
 ----
 
+- [User should be able to easily access recently edited files](#doing:10)
 - [Show file explorer when editing files](#todo:60)
 - [Enable svn and git commit after file changes](#todo:20)
 - [Convert front end to use backbone.js](#todo:80)
@@ -126,6 +127,11 @@ Roadmap
 
 Release notes
 ----
+
+####0.1.29
+- Full screen editor
+- notification for current task
+ 
 ####0.1.28
 - Display filename on edit radio button
 

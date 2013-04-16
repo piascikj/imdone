@@ -8,7 +8,6 @@
   ],
   "hidden": [
     "archive",
-    "done",
     "todo"
   ]
 }
