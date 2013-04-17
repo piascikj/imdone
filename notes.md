@@ -12,7 +12,7 @@ imdone notes for development
 ###UI
 - [use this for sortable <http://farhadi.ir/projects/html5sortable/> decided to use jquery](#archive:250)
 - [Keep a file in ~/.imdone with project folders](#archive:140)
-- [Use ace editor for file display and edit <http://ace.ajax.org> <https://github.com/ajaxorg/ace/issues/1017>](#done:60)
+- [Use ace editor for file display and edit <http://ace.ajax.org> <https://github.com/ajaxorg/ace/issues/1017>](#done:90)
 
 ###Config
 - [Do allow, deny - add include regex to config](#archive:240)
@@ -40,13 +40,13 @@ imdone notes for development
 - [Implement find and replace <https://github.com/ajaxorg/ace/issues/56>](#todo:70)
 - [Spell check in Ace](#todo:100)
 - [use [doco languages.js](https://github.com/jashkenas/docco/blob/master/resources/languages.json) to detect TODO and FIXME style comments and convert](#todo:0)
-- [Leave manage lists open when hiding/showing list](#done:0)
-- [Add links to imdone website, pledgie and twitter](#doing:0)
-- [Enable browsing of markdown files](#doing:30)
+- [Leave manage lists open when hiding/showing list](#done:30)
+- [Add links to imdone website, pledgie and twitter, also use flattr](#planning:0)
+- [Enable browsing of markdown files](#doing:10)
 - [Add search for files and tasks](#todo:50)
 
 ###Bugs
-- [Renaming lists is broken with multiple projects loaded](#done:50)
+- [Renaming lists is broken with multiple projects loaded](#done:80)
 
 
 

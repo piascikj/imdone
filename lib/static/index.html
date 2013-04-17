@@ -59,7 +59,7 @@
       <div id="editor-container" class="editor-container">
         <div class="editor" id="editor"></div>
         <div class="preview" id="preview"></div>
-        <!--[Show file info above edit-bar using <http://pinesframework.org/pnotify/>](#done:20) -->
+        <!--[Show file info above edit-bar using <http://pinesframework.org/pnotify/>](#done:50) -->
       </div>
       <div class="board" id="board">
       </div>
@@ -136,6 +136,15 @@
     </script>
 
     <script id="ls-template" type="text/x-handlebars-template">
+      {{#if history}}
+      <h5>Recent</h5>
+      <ul class="plain-list">
+        {{#each history}}
+        <li><a href="#" class="js-file" data-path="{{this}}"><i class="icon-file-alt"></i>{{this}}</a></li>
+        {{/each}}
+      </ul>
+      <hr>
+      {{/if}}
       <ul class="plain-list">
         {{#if name}}
           <li><a href="#" class="js-dir" data-path="{{parent.path}}"><i class="icon-arrow-up"></i></a></li>

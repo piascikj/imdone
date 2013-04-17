@@ -1,34 +1,48 @@
-var cli = require('../lib/imdone.js');
-
 /*
-  ======== A Handy Little Nodeunit Reference ========
-  https://github.com/caolan/nodeunit
+var _ = require("underscore");
 
-  Test methods:
-    test.expect(numAssertions)
-    test.done()
-  Test assertions:
-    test.ok(value, [message])
-    test.equal(actual, expected, [message])
-    test.notEqual(actual, expected, [message])
-    test.deepEqual(actual, expected, [message])
-    test.notDeepEqual(actual, expected, [message])
-    test.strictEqual(actual, expected, [message])
-    test.notStrictEqual(actual, expected, [message])
-    test.throws(block, [error], [message])
-    test.doesNotThrow(block, [error], [message])
-    test.ifError(value)
+describe("The model module", function() {
+    var model = require('../lib/mongojs-model.js'); 
+
+	var Person = model.extend({
+		_collection:"Person",
+		name:"Person",
+		getName:function() {
+			return this.name;
+		}
+	});
+
+	var defaultUser = new Person();
+
+	afterEach(function() {
+		model.db.collection(defaultUser._collection).remove({});
+	});
+
+	it("should add collections dynamically", function() {
+		expect(_.contains(model.collections, Person._collection)).toBe(true);
+	});
+
+	it("should allow me to create new instances", function() {
+		expect(defaultUser.getName()).toBe("Person");
+	});
+
+	it("should allow me to save instances", function(done) {
+		defaultUser.save(function(err, user) {
+			expect(user._id).toBeDefined();
+			done();
+		});
+	});
+
+	it("should allow me to remove instances", function(done) {
+		var mom = new Person("Mom");
+		mom.save(function(err, mom) {
+			expect(mom._id).toBeDefined();
+			mom.remove(function(err, person) {
+				expect(person).toBeDefined();
+			});
+			done();
+		});
+	})
+
+});
 */
-
-exports['awesome'] = {
-  setUp: function(done) {
-    // setup here
-    done();
-  },
-  'no args': function(test) {
-    test.expect(1);
-    // tests here
-    test.equal(cli.awesome(), 'awesome', 'should be awesome.');
-    test.done();
-  }
-};

@@ -104,7 +104,6 @@ After running imdone for the first time, modify imdone/imdone.js in your project
 	module.exports = {
 		include:/^.*$/,
 		exclude:/^(node_modules|imdone|target)\/|\.(git|svn)\/|\~$|\.(jpg|png|gif|swp)$/,
-		//github : {url : "http://www.github.com/piascikj/imdone"}, //Use this if you want links to point at github
 		marked : {
 			gfm: true,
 			pedantic: false,
@@ -119,7 +118,7 @@ iMDone has only been tested on my Ubuntu 12.04 desktop using chrome 23.0.x as th
 Roadmap
 ----
 
-- [User should be able to easily access recently edited files](#doing:10)
+- [User should be able to easily access recently edited files](#done:10)
 - [Show file explorer when editing files](#todo:60)
 - [Enable svn and git commit after file changes](#todo:20)
 - [Convert front end to use backbone.js](#todo:80)
@@ -129,8 +128,12 @@ Release notes
 ----
 
 ####0.1.29
-- Full screen editor
-- notification for current task
+- Added recent files to open dialog
+- Made editor full page width
+- Added notification for current task
+- Added notification for save
+- Added prominant close file button
+- Removed open in github option
  
 ####0.1.28
 - Display filename on edit radio button

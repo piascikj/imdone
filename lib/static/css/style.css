@@ -168,12 +168,24 @@ code {
   margin-right: 5px;
 }
 
+#close-edit-btn {
+  color: #006dcc;
+}
+
 /*pnotify*/
 .stack-bottomright {
   top: auto;
   right: auto;
+  word-wrap: break-word;
 }
 
+.alert-info a {
+  color: #204B61;
+}
+
+.alert-info a:visited {
+  color: #204B61;
+}
 
 ::-webkit-scrollbar {
     height: 16px;
