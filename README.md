@@ -130,6 +130,10 @@ Roadmap
 Release notes
 ----
 
+####0.1.30
+- Fixed history needed shift instead of pop
+- Fixed file name change on load of new file
+
 ####0.1.29
 - Added recent files to open dialog
 - Made editor full page width
