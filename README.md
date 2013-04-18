@@ -130,7 +130,7 @@ Roadmap
 Release notes
 ----
 
-####0.1.30
+####0.1.31
 - Fixed history needed shift instead of pop
 - Fixed file name change on load of new file
 
