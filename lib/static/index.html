@@ -14,7 +14,7 @@
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
-          <!-- [implement dropdown for switching between projects](#archive:260)-->
+          <!-- [implement dropdown for switching between projects](#archive:280)-->
           <div class="nav-collapse collapse">
             <a class="brand" href="/">iMDone</a>
             <ul class="nav">
@@ -29,7 +29,7 @@
               <li class="dropdown" id="projects-dropdown">
               </li>
             </ul>
-            <!-- [Add path filters to board - 0.1.6](#archive:290) -->
+            <!-- [Add path filters to board - 0.1.6](#archive:310) -->
             <form class="navbar-form pull-right">
               <input class="span3" type="text" id="filter-field" placeholder="Filter by file name">
               <button id="clear-filter" class="btn btn-primary">clear</button>
@@ -59,7 +59,7 @@
       <div id="editor-container" class="editor-container">
         <div class="editor" id="editor"></div>
         <div class="preview" id="preview"></div>
-        <!--[Show file info above edit-bar using <http://pinesframework.org/pnotify/>](#archive:60) -->
+        <!--[Show file info above edit-bar using <http://pinesframework.org/pnotify/>](#archive:80) -->
       </div>
       <div class="board" id="board">
       </div>
@@ -117,11 +117,7 @@
         {{#each tasks}}
         <div class="wrap well task" data-id="{{pathTaskId}}" data-list="{{list}}" data-order="{{order}}" data-path="{{path}}">
           <p>
-            {{#isGithub}}
-            <a href="{{url}}" target="_blank">{{path}}</a><span class="sort">{{order}}</span>
-            {{else}}
-            <a href="#" class="source-link" data-url="{{url}}" data-target="#src-panel" data-list="{{list}}">{{path}}</a><span class="sort">{{line}} | {{order}}</span>
-            {{/isGithub}}
+            <a href="#file?project={{project}}&path={{path}}&line={{line}}" class="source-link" data-url="{{url}}" data-target="#src-panel" data-list="{{list}}">{{path}}</a><span class="sort">{{line}} | {{order}}</span>
           </p>
           <div class="task-text">{{{text}}}</div>
           <!--<p><a class="btn" href="#">View details &raquo;</a></p>-->
@@ -140,7 +136,7 @@
       <h5>Recent</h5>
       <ul class="plain-list">
         {{#each history}}
-        <li><a href="#" class="js-file" data-path="{{this}}"><i class="icon-file-alt"></i>{{this}}</a></li>
+        <li><a href="#file?project={{project}}&path={{path}}" class="js-file" data-path="{{path}}"><i class="icon-file-alt"></i>{{path}}</a></li>
         {{/each}}
       </ul>
       <hr>
@@ -156,7 +152,7 @@
         {{/if}}
         {{#if files}}
           {{#each files}}
-          <li><a href="#" class="js-file" data-path="{{path}}"><i class="icon-file-alt"></i>{{name}}</a></li>
+          <li><a href="#file?project={{project}}&path={{path}}" class="js-file" data-path="{{path}}"><i class="icon-file-alt"></i>{{name}}</a></li>
           {{/each}}
         {{/if}}
       </ul>

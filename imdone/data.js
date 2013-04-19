@@ -7,8 +7,8 @@
     "archive"
   ],
   "hidden": [
-    "archive",
     "todo",
-    "planning"
+    "planning",
+    "archive"
   ]
 }
