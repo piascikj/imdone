@@ -8,7 +8,6 @@
   ],
   "hidden": [
     "todo",
-    "planning",
     "archive"
   ]
 }

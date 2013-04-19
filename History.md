@@ -1,3 +1,11 @@
+#0.1.33
+- Links to other files in project are opened in preview mode
+- **example**
+    
+    `[This is a link to README.md](README.md)`
+
+[This is a link to README.md](README.md)
+
 #0.1.32
 - Apply filter unless it is cleared
 - Enable browser history by implementing routes for project and file

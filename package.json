@@ -1,8 +1,8 @@
 {
    "name": "imdone",
    "preferGlobal": "true",
-   "version": "0.1.32",
-   "description": "A simple kanban board and markdown wiki for geeks.",
+   "version": "0.1.33",
+   "description": "A simple scrum board and markdown wiki for geeks.",
    "keywords": [
       "markdown",
       "kanban",
