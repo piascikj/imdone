@@ -1,3 +1,8 @@
+#0.1.32
+- Apply filter unless it is cleared
+- Enable browser history by implementing routes for project and file
+- All dependencies up to date
+
 #0.1.31
 - Fixed history needed shift instead of pop
 - Fixed file name change on load of new file
