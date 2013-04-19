@@ -125,4 +125,4 @@ Roadmap
 - [respect marked configuration in client javascript](#todo:0)
 - [User should be able to use TOC in preview mode for md files](doing:0)
 - [User should be able to quickly add a date and assigned to tasks using @&lt;user&gt; @&lt;date&gt;](#planning:0)
-- [User should be a able to use keyboard shortcut for preview](#doing:20)
+- [User should be a able to use keyboard shortcut for preview](#doing:30)
