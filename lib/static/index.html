@@ -181,7 +181,7 @@
       <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="cwd" id="cwd">{{cwd}}</span> <b class="caret"></b></a>
       <ul class="dropdown-menu" role="menu">
         {{#each projects}}
-        <li><a href="#{{this}}" data-project="{{this}}" class="project-item">{{this}}</a></li>
+        <li><a href="#project{{this}}" data-project="{{this}}" class="project-item">{{this}}</a></li>
         {{/each}}
       </ul>
       {{else}}

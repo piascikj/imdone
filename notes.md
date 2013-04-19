@@ -43,7 +43,6 @@ imdone notes for development
 - [Leave manage lists open when hiding/showing list](#archive:100)
 - [Add links to imdone website, pledgie and [twitter](https://twitter.com/about/resources/buttons#tweet), also use flattr](#planning:40)
 - [Enable browsing of markdown files use action: #file?project={{project}}&path={{path}}&line={{line}}, if in preview and next file opened is md, stay in preview <http://stackoverflow.com/questions/11671400/navigate-route-with-querystring>](#doing:0)
-- [Set up router for projects and files](#doing:0)
 - [Add search for files and tasks <https://github.com/visionmedia/search>](#planning:20)
 
 ###Bugs
