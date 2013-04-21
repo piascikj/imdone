@@ -1,3 +1,6 @@
+#0.1.34
+- Better usability with navbar when in file edit/preview (no lists button or filter).
+
 #0.1.33
 - Links to other files in project are opened in preview mode
 - **example**

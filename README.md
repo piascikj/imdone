@@ -31,7 +31,10 @@ Tasks are just markdown links!!!
 More
 ----
 - **Edit and create files directly in iMDone using the [Ace editor](http://ace.ajax.org)!**
+- **Stay focused on your current task!  It's always there in the bottom right corner.**
 - **Preview markdown files and print them as markdown or html!**
+- **Use it to navigate between markdown files.**
+
 
 
 Prerequisites 
