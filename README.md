@@ -12,7 +12,7 @@
 
 Keep your tasks in your work!!!
 ----
-A simple scrum board and markdown wiki for geeks.  No DB needed!  Your tasks are in your source code, so you can share your board on [github](http://www.github.com), [dropbox](http://www.dropbox.com), or any other cloud storage provider.
+A simple scrum board and markdown wiki for geeks.  No DB needed!  Your tasks are in your source code, so you can share your board on [github](http://www.github.com).
 
 Tasks are just markdown links!!!
 ----
@@ -46,10 +46,8 @@ Install
 
 Run
 ----
-- open a terminal window and navigate to your local project folder and run:  
+- open a terminal window and navigate to your local project directory and run:  
    `imdone -o`
-
-- You can start it in multiple directories and switch between projects in the UI
 
 - Here's the help output
 
@@ -91,7 +89,7 @@ If you have some spare time, then there is no better way to help an open source 
 
 See it in action!
 ----
-fork this repository and run imdone in your local copy.  I use imdone for keep track of development of imdone
+Fork this repository and run imdone in your local copy.  I use imdone for keep track of imdone development.
 
 **imdone will create a directory named imdone that will contain your custom configuration and a file to keep your lists in order**  
 - you should keep the imdone directory in source control  
@@ -121,11 +119,14 @@ iMDone has only been tested on my Ubuntu 12.04 desktop using chrome 23.0.x as th
 Roadmap
 ----
 
-- [User should be able to easily access recently edited files](#archive:130)
+- [User should be able to easily access recently edited files](#archive:170)
 - [Show file explorer when editing files](#todo:50)
 - [Enable svn and git commit after file changes](#todo:10)
 - [Convert front end to use backbone.js](#todo:70)
 - [respect marked configuration in client javascript](#todo:0)
 - [User should be able to use TOC in preview mode for md files](doing:0)
 - [User should be able to quickly add a date and assigned to tasks using @&lt;user&gt; @&lt;date&gt;](#planning:10)
+- [User should be able to get quick help with keyboard shortcuts](#planning:35)
+- [User should get a guided tour](#todo:120)
 - [User should be a able to use keyboard shortcut for preview](#doing:10)
+

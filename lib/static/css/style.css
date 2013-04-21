@@ -102,8 +102,10 @@ code {
 
 .edit-bar {
   display: none;
-  padding-right: 40px;
-  padding-left: 40px;
+}
+
+.board-bar form {
+  padding-left: 5px;
 }
 
 .preview {
@@ -166,10 +168,6 @@ code {
   float: right;
   margin-left: 10px;
   margin-right: 5px;
-}
-
-#close-edit-btn {
-  color: #006dcc;
 }
 
 /*pnotify*/

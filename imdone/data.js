@@ -7,7 +7,7 @@
     "archive"
   ],
   "hidden": [
-    "todo",
-    "archive"
+    "archive",
+    "todo"
   ]
 }
