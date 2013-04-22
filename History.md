@@ -1,3 +1,8 @@
+#0.1.35
+- On opening of file, set the project at the global level
+- For markdown files, labels for task links
+- Preview edit and print keyboard shortcuts
+
 #0.1.34
 - Better usability with navbar when in file edit/preview (no lists button or filter).
 

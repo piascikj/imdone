@@ -41,12 +41,15 @@ imdone notes for development
 - [Implement find and replace <https://github.com/ajaxorg/ace/issues/56>](#todo:60)
 - [Spell check in Ace <http://www.chrisfinke.com/2011/03/31/announcing-typo-js-client-side-javascript-spellchecking/>](#planning:70)
 - [use [doco languages.js](https://github.com/jashkenas/docco/blob/master/resources/languages.json) to detect TODO and FIXME style comments and convert but keep the TODO or FIXME or whatever in the front.](#planning:0)
+- [User should be able to select the color of lists by bootstrap badge class](#planning:0)
 - [Leave manage lists open when hiding/showing list](#archive:140)
 - [Add links to imdone website, pledgie and [twitter](https://twitter.com/about/resources/buttons#tweet), also use flattr](#planning:60)
 - [Enable browsing of markdown files use action: #file?project={{project}}&path={{path}}&line={{line}}, if in preview and next file opened is md, stay in preview <http://stackoverflow.com/questions/11671400/navigate-route-with-querystring>](#archive:20)
 - [Add search for files and tasks <https://github.com/visionmedia/search>](#planning:40)
-- [Block entry and ask the user to load changes if a file changes while editing](#doing:0)
-- [When a user clicks task link in MD, current task should change](#planning:20)
+- [Block entry and ask the user to load changes if a file changes while editing](#planning:10)
+- [When a user clicks task link in MD, current task should change](#doing:0)
+- [On opening of file, set the project at the global level](#done:0)
+- [User should be able to print board as lists of tasks](#planning:0)
 
 ###Bugs
 - [Renaming lists is broken with multiple projects loaded](#archive:90)

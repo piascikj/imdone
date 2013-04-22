@@ -32,9 +32,16 @@ More
 ----
 - **Edit and create files directly in iMDone using the [Ace editor](http://ace.ajax.org)!**
 - **Stay focused on your current task!  It's always there in the bottom right corner.**
+- **Create files by just linking to them in markdown files**
 - **Preview markdown files and print them as markdown or html!**
 - **Use it to navigate between markdown files.**
 
+Keyboard shortcuts
+----
+    ctrl+p      print
+    ctrl+s      save file
+    esc         exit editor/preview
+    i           when in preview, edit file
 
 
 Prerequisites 
@@ -131,5 +138,5 @@ Roadmap
 - [User should be able to quickly add a date and assigned to tasks using @&lt;user&gt; @&lt;date&gt;](#planning:20)
 - [User should be able to get quick help with keyboard shortcuts](#planning:50)
 - [User should get a guided tour](#todo:120)
-- [User should be a able to use keyboard shortcut for preview](#done:10)
+- [User should be a able to use keyboard shortcut for preview](#done:20)
 
