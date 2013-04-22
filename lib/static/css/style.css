@@ -119,6 +119,11 @@ code {
   overflow: hidden;
 }
 
+.preview .badge, .preview .label {
+  box-shadow: none;
+  text-shadow: none;
+}
+
 .column-nav-menu {
   top: 100%;
   width: 220px;
