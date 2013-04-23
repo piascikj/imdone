@@ -22,6 +22,11 @@ code {
     padding-top: 0px;
   }
 }
+
+.ui-pnotify-icon span[class^=icon] {
+  font-size: 1.4em;
+}
+
 .wrap {
   word-wrap: break-word;
 }
