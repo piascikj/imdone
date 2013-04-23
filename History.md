@@ -1,3 +1,7 @@
+#0.1.36
+- Notify user when file is modified
+- Show notification with link to project README if it exists
+
 #0.1.35
 - On opening of file, set the project at the global level
 - For markdown files, labels for task links

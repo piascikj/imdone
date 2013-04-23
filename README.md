@@ -129,14 +129,12 @@ iMDone has only been tested on my Ubuntu 12.04 desktop using chrome 23.0.x as th
 Roadmap
 ----
 
-- [User should be able to easily access recently edited files](#archive:170)
 - [Show file explorer when editing files](#todo:50)
 - [Enable svn and git commit after file changes](#todo:10)
 - [Convert front end to use backbone.js](#todo:70)
 - [respect marked configuration in client javascript](#todo:0)
 - [User should be able to use TOC in preview mode for md files](doing:0)
-- [User should be able to quickly add a date and assigned to tasks using @&lt;user&gt; @&lt;date&gt;](#planning:20)
-- [User should be able to get quick help with keyboard shortcuts](#planning:50)
+- [User should be able to quickly add a date and assigned to tasks using @&lt;user&gt; @&lt;date&gt;](#planning:30)
+- [User should be able to get quick help with keyboard shortcuts](#planning:70)
 - [User should get a guided tour](#todo:120)
-- [User should be a able to use keyboard shortcut for preview](#done:20)
 
