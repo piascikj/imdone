@@ -38,10 +38,9 @@ More
 
 Keyboard shortcuts
 ----
-    ctrl+p      print
-    ctrl+s      save file
-    esc         exit editor/preview
-    i           when in preview, edit file
+    Ctrl+Shift+s    save file
+    esc             exit editor/preview
+    i               when in preview, edit file
 
 
 Prerequisites 
@@ -122,9 +121,9 @@ After running imdone for the first time, modify imdone/imdone.js in your project
 		}
 	};
 
-Disclaimer
+Testing
 ----
-iMDone has only been tested on my Ubuntu 12.04 desktop using chrome 23.0.x as the default browser.  It should work on any machine that has nodejs and npm installed and for auto update of boards, a browser that supports websockets.
+iMDone has been tested on my Ubuntu 12.04 desktop using chrome 23.0.x and Firefox 19.x.  It should work on any machine that has nodejs and npm installed and for auto update of boards, a browser that supports websockets.
 
 Roadmap
 ----
