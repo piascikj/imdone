@@ -1,3 +1,6 @@
+#0.1.40
+- Change to preview font to make it more appealing
+
 #0.1.39
 - fixed hotkey dep
 - Removed print hot-key due to a long running bug.  Printing should be infrequent anyway.
