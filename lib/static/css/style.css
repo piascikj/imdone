@@ -116,7 +116,7 @@ code {
 .preview {
   min-height: 100%;
   font-size: 16px;
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+  /*font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;*/
   background-color: #202020;
   padding-left: 1em;
   padding-right: 1em;

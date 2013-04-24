@@ -9,6 +9,9 @@
 
 
 [![Dependency Status](https://gemnasium.com/piascikj/imdone.png)](https://gemnasium.com/piascikj/imdone)
+[![NPM version](https://badge.fury.io/js/imdone.png)](https://npmjs.org/package/imdone)
+[![Flattr this](http://api.flattr.com/button/flattr-badge-large.png)](http://flattr.com/thing/1286067/iMDone)
+
 
 Keep your tasks in your work!!!
 ----
