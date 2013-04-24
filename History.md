@@ -1,3 +1,6 @@
+#0.1.41
+- Change title on app.navigate
+
 #0.1.40
 - Change to preview font to make it more appealing
 
