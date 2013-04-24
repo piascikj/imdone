@@ -1,3 +1,10 @@
+#0.1.38
+- New keybinding syntax for ace editor
+- **bugfix** Show edit bar on direct preview
+
+#0.1.37
+- Larger icons for notify
+
 #0.1.36
 - Notify user when file is modified
 - Show notification with link to project README if it exists
