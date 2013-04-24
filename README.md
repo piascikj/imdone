@@ -139,4 +139,5 @@ Roadmap
 - [User should be able to quickly add a date and assigned to tasks using @&lt;user&gt; @&lt;date&gt;](#planning:30)
 - [User should be able to get quick help with keyboard shortcuts](#planning:70)
 - [User should get a guided tour](#todo:120)
+- [Enable vfs <https://github.com/c9/vfs-socket>](#doing:0)
 
