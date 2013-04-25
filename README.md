@@ -136,8 +136,8 @@ Roadmap
 - [Convert front end to use backbone.js](#todo:70)
 - [respect marked configuration in client javascript](#todo:0)
 - [User should be able to use TOC in preview mode for md files](doing:0)
-- [User should be able to quickly add a date and assigned to tasks using @&lt;user&gt; @&lt;date&gt;](#planning:30)
-- [User should be able to get quick help with keyboard shortcuts](#planning:70)
+- [User should be able to quickly add a date and assigned to tasks using @&lt;user&gt; @&lt;date&gt;](#planning:70)
+- [User should be able to get quick help with keyboard shortcuts](#planning:110)
 - [User should get a guided tour](#todo:120)
 - [Enable vfs <https://github.com/c9/vfs-socket>](#doing:0)
 
