@@ -18,7 +18,7 @@ imdone notes for development
 - [Start using travis for CI <https://travis-ci.org/>](#todo:20)
     - <http://stackoverflow.com/questions/12336566/travis-ci-with-jasmine-node>
 - [Implement find and replace <https://github.com/ajaxorg/ace/issues/56>](#todo:60)
-- [Spell check in Ace <http://www.chrisfinke.com/2011/03/31/announcing-typo-js-client-side-javascript-spellchecking/> <https://npmjs.org/package/spellcheck>](#planning:10)
+- [Spell check in Ace <http://www.chrisfinke.com/2011/03/31/announcing-typo-js-client-side-javascript-spellchecking/> <http://jasonaclark.com/2011/05/04/ode-to-my-spell-checker/> <https://npmjs.org/package/spellcheck>](#planning:10)
 - [use [doco languages.js](https://github.com/jashkenas/docco/blob/master/resources/languages.json) to [detect TODO and FIXME](lib/imdone.js) style comments and convert but keep the TODO or FIXME or whatever in the front.](#doing:0)
 - [If links to files exist in tasks, open the file on click](#planning:20)
 - [User should be able to select the color of lists by bootstrap badge class](#planning:30)
