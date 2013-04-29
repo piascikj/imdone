@@ -21,13 +21,13 @@ Tasks are just markdown links!!!
 ----
 
 **Put a task at the top of a list called "todo"**  
-   `[this is a task](#todo:10)`  
+   `[this is a task](#todo:0)`  
 
 **In javascript code**  
    `//[this is a task in javascript code](#todo:0)`  
 
 **Put a task on the bottom of a list called "doing" (giving it a sort value of 1000 will put it at the bottom unless you have tons of tasks in the list)**  
-   `[this is a task in doing](#todo:20)`  
+   `[this is a task in doing](#doing:1000)`  
 
 **Tasks are sorted by the number after the `:`**
 
@@ -139,5 +139,5 @@ Roadmap
 - [User should be able to quickly add a date and assigned to tasks using @&lt;user&gt; @&lt;date&gt;](#planning:70)
 - [User should be able to get quick help with keyboard shortcuts](#planning:110)
 - [User should get a guided tour](#todo:120)
-- [Enable vfs <https://github.com/c9/vfs-socket>](#doing:0)
+- [Enable vfs <https://github.com/c9/vfs-socket>](#doing:20)
 

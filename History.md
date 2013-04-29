@@ -1,3 +1,6 @@
+#0.1.42
+- No navigation on list hide/show
+
 #0.1.41
 - Change title on app.navigate
 - Navigate to first project on load

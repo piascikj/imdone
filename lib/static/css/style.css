@@ -150,14 +150,12 @@ code {
 .column-nav-menu .column-nav-menu-item {
   border-top: 1px solid #ccc;
   counter-increment: column-nav;
+  min-height:25px;
 }
+
 .column-nav-menu .column-nav-menu-item:first-child {
   border-top: 0;
 }
-.column-nav-menu .column-nav-menu-item {
-  border-top: 1px solid #ccc;
-  counter-increment: column-nav;
-}        
 
 .column-nav-menu .drag-handle {
   margin-left: 5px;
