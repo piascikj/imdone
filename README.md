@@ -21,13 +21,13 @@ Tasks are just markdown links!!!
 ----
 
 **Put a task at the top of a list called "todo"**  
-   `[this is a task](#todo:0)`  
+   `[this is a task](#todo:50)`  
 
 **In javascript code**  
-   `//[this is a task in javascript code](#todo:0)`  
+   `//[this is a task in javascript code](#todo:10)`  
 
 **Put a task on the bottom of a list called "doing" (giving it a sort value of 1000 will put it at the bottom unless you have tons of tasks in the list)**  
-   `[this is a task in doing](#doing:1000)`  
+   `[this is a task in doing](#todo:70)`  
 
 **Tasks are sorted by the number after the `:`**
 
@@ -131,12 +131,12 @@ iMDone has been tested on my Ubuntu 12.04 desktop using chrome 23.0.x and Firefo
 Roadmap
 ----
 
-- [Show file explorer when editing files](#todo:50)
+- [Show file explorer when editing files](#todo:0)
 - [Enable svn and git commit after file changes](#todo:10)
 - [Convert front end to use backbone.js](#todo:70)
-- [respect marked configuration in client javascript](#todo:0)
+- [respect marked configuration in client javascript](#todo:130)
 - [User should be able to use TOC in preview mode for md files](doing:0)
-- [User should be able to quickly add a date and assigned to tasks using @&lt;user&gt; @&lt;date&gt;](#planning:60)
+- [User should be able to quickly add a date and assigned to tasks using @&lt;user&gt; @&lt;date&gt;](#doing:20)
 - [User should be able to get quick help with keyboard shortcuts](#planning:100)
 - [User should get a guided tour](#todo:120)
 - [Enable vfs <https://github.com/c9/vfs-socket> as method of interacting with other storage providers.  Use [Broadway](https://npmjs.org/package/broadway) for IOC.](#doing:30)

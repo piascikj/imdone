@@ -24,7 +24,7 @@
               <li class="dropdown" id="projects-dropdown">
               </li>
             </ul>
-            <!-- [Add path filters to board - 0.1.6](#archive:340) -->
+            <!-- [Add path filters to board - 0.1.6](#archive:320) -->
             <ul class="board-bar nav pull-right">
               <li>
                 <div class="pull-left">
@@ -63,7 +63,7 @@
       <div id="editor-container" class="editor-container">
         <div class="editor" id="editor"></div>
         <div class="preview" id="preview"></div>
-        <!--[Show file info above edit-bar using <http://pinesframework.org/pnotify/>](#archive:120) -->
+        <!--[Show file info above edit-bar using <http://pinesframework.org/pnotify/>](#archive:130) -->
       </div>
       <div class="board" id="board">
       </div>
@@ -123,7 +123,7 @@
           <p>
             <a href="#file?project={{project}}&path={{path}}&line={{line}}" class="source-link" data-url="{{url}}" data-target="#src-panel" data-list="{{list}}">{{path}}</a><span class="sort">{{line}} | {{order}}</span>
           </p>
-          <div class="task-text">{{{text}}}</div>
+          <div class="task-text">{{{markDown text}}}</div>
           <!--<p><a class="btn" href="#">View details &raquo;</a></p>-->
         </div>
         {{/each}}
