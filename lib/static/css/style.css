@@ -63,9 +63,18 @@ code {
   font-size: 1em;
 }
 
-.list-name:hover {
+.list-name-container:hover {
   background: #202020;
   background-color: rgba(0, 0, 0, 0.3);
+}
+
+.list-name-container {
+  padding: 0 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;  
 }
 
 .list-hide {
