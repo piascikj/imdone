@@ -37,11 +37,13 @@ More
 - **Stay focused on your current task!  It's always there in the bottom right corner.**
 - **Create files by just linking to them in markdown files**
 - **Preview markdown files and print them as markdown or html!**
-- **Use it to navigate between markdown files.**
+- **Hide and show lists**
+- **Delete files**
 
 Keyboard shortcuts
 ----
-    Ctrl+Shift+s    save file
+    Shift+Ctrl+s    save file
+    Shift+Ctrl+x    remove file
     esc             exit editor/preview
     i               when in preview, edit file
 
