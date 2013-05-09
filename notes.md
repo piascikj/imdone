@@ -24,13 +24,14 @@ imdone notes for development
 - [User should be able to select the color of lists by bootstrap badge class](#planning:40)
 - [Leave manage lists open when hiding/showing list](#archive:150)
 - [Add links to imdone website, pledgie and [twitter](https://twitter.com/about/resources/buttons#tweet), also use flattr](#planning:130)
-- [Add search for files and tasks <https://github.com/visionmedia/search>](#planning:120)
+- [Add search for files and tasks <https://github.com/visionmedia/search> or <https://github.com/visionmedia/reds>](#planning:120)
 - [Block entry and ask the user to load changes if a file changes while editing](#planning:80)
 - [When a user clicks task link in MD, current task should change](#planning:110)
 - [On opening of file, set the project at the global level](#archive:0)
 - [User should be able to print board as lists of tasks](#planning:70)
 - [If a README.md exists, show notification with link](#archive:20)
 - [Create docs site <http://blog.jetstrap.com/2013/03/building-a-docs-site-with-jekyll-github-pages/>](#planning:60)
+- [Add link to Asciiflow <http://www.asciiflow.com/#Draw>](#doing:0)
 
 ###Bugs
 - [Renaming lists is broken with multiple projects loaded](#archive:100)
@@ -42,6 +43,7 @@ imdone notes for development
 - Important	<span class="label label-important">Important</span>
 - Info <span class="label label-info">Info</span>
 - Inverse <span class="label label-inverse">Inverse</span>
+
 
 
 

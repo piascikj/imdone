@@ -49,7 +49,7 @@
       "express": "3.x",
       "underscore": "1.4.4",
       "marked": "0.2.x",
-      "wrench": "1.4.4",
+      "wrench": "1.5.x",
       "open": "0.0.x",
       "watchr": "2.4.x",
       "socket.io": "0.9.14",
@@ -58,7 +58,7 @@
       "mkdirp": "0.3.5"
    },
    "devDependencies": {
-      "grunt": "~0.3.17",
+      "grunt": "~0.4.x",
       "jasmine-node": "latest"      
    }
 }
