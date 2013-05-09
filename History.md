@@ -1,4 +1,9 @@
+#0.1.44
+- Bug fix for empty file field
+
 #0.1.43
+- Delete files
+- No preview button on non-md files
 
 #0.1.42
 - No navigation on list hide/show
