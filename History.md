@@ -1,3 +1,6 @@
+#0.1.46
+- Fix bug introduced in 0.1.45 for printing files
+
 #0.1.45
 - print.css media="print" for printing board as list of tasks
 
