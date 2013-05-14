@@ -135,13 +135,13 @@ Roadmap
 
 - [Show file explorer when editing files](#todo:0)
 - [Enable svn and git commit after file changes](#planning:0)
-- [Convert front end to use backbone.js](#planning:90)
+- [Convert front end to use backbone.js](#planning:80)
 - [respect marked configuration in client javascript](#todo:130)
 - [User should be able to use TOC in preview mode for md files](doing:0)
 - [User should be able to quickly add a date and assigned to tasks using @&lt;user&gt; @&lt;date&gt;](#planning:10)
-- [User should be able to get quick help with keyboard shortcuts](#planning:100)
+- [User should be able to get quick help with keyboard shortcuts](#planning:90)
 - [User should get a guided tour](#todo:120)
-- [Enable vfs <https://github.com/c9/vfs-socket> as method of interacting with other storage providers.  Use [Broadway](https://npmjs.org/package/broadway) for IOC.](#doing:40)
+- [Enable vfs <https://github.com/c9/vfs-socket> as method of interacting with other storage providers.  Use [Broadway](https://npmjs.org/package/broadway) for IOC.](#doing:30)
 
 
 

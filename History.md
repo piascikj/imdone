@@ -1,3 +1,6 @@
+#0.1.45
+- print.css media="print" for printing board as list of tasks
+
 #0.1.44
 - Bug fix for empty file field
 
