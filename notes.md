@@ -31,11 +31,17 @@ imdone notes for development
 - [User should be able to print board as lists of tasks](#done:0)
 - [If a README.md exists, show notification with link](#archive:20)
 - [Create docs site <http://blog.jetstrap.com/2013/03/building-a-docs-site-with-jekyll-github-pages/>](#planning:60)
-- [Add link to Asciiflow <http://www.asciiflow.com/#Draw>](#doing:0)
+- [Add link to Asciiflow <http://www.asciiflow.com/#Draw>](#doing:20)
 - [Make html and xml files printable](#done:10)
-
+- [Upgrade to [font-awesome 3.1.1 ](http://fortawesome.github.io/Font-Awesome/icons/)](#planning:0)
+- [accept more data about a task with `#key:value`](#planning:0)
+- [Use icon-asterisk for menu of more options when editing](#planning:0)
+- [Set up user page and point leannotes.com to it](#doing:10)
+    - [Setting up a custom domain with Pages · GitHub Help](https://help.github.com/articles/setting-up-a-custom-domain-with-pages)
+    - [User, Organization and Project Pages · GitHub Help](https://help.github.com/articles/user-organization-and-project-pages)
 ###Bugs
 - [Renaming lists is broken with multiple projects loaded](#archive:100)
+- [Open editor for new files](#planning:0)
 
 ###Labels and Badges
 - Default <span class="label">Default</span>

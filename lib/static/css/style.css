@@ -17,6 +17,11 @@ code {
   color: #00D103;
 }
 
+blockquote p {
+    font-style: italic;
+    font-size: 14px;
+}
+
 @media (max-width: 979px) {
   body {
     padding-top: 0px;

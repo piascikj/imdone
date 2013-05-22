@@ -1,3 +1,6 @@
+#0.1.47
+- Filter route for filtering through links in task text `#filter/<filter>`
+
 #0.1.46
 - Fix bug introduced in 0.1.45 for printing files
 
