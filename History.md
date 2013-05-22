@@ -1,3 +1,7 @@
+#0.1.48
+- Clear filter with esc when in board screen
+- keyboard shortcut for delete file now shows confirm modal
+
 #0.1.47
 - Filter route for filtering through links in task text `#filter/<filter>`
 
