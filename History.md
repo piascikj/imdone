@@ -1,3 +1,6 @@
+#0.1.49
+- if md parser encounters filter link add a title="Filter by `<filter>`"
+
 #0.1.48
 - Clear filter with esc when in board screen
 - keyboard shortcut for delete file now shows confirm modal
