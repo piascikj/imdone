@@ -143,12 +143,6 @@ Roadmap
 - [User should get a guided tour](#todo:120)
 - [Enable vfs <https://github.com/c9/vfs-socket> as method of interacting with other storage providers.  Use [Broadway](https://npmjs.org/package/broadway) for IOC.](#doing:50)
 
-
-
-
-
-
-
           +-------------------------+         +--------------------------+        +--------------------------+
           |                         |         |                          |        |                          |
           |      RepositoryIF       |         |     SearchIF             |        |    UserManagementIF      |
@@ -160,4 +154,5 @@ Roadmap
           |                         |         |                          |        |                          |
           |                         |         |                          |        |                          |
           +-------------------------+         +--------------------------+        +--------------------------+
+
 

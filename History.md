@@ -1,6 +1,6 @@
 #0.1.49
 - if md parser encounters filter link add a title="Filter by `<filter>`"
-- [Fixed dependency for node-syntax-highlighter](https://github.com/piascikj/imdone/pull/1)
+- [Fixed dependency for node-syntaxhighlighter](https://github.com/piascikj/imdone/pull/1)
 
 #0.1.48
 - Clear filter with esc when in board screen

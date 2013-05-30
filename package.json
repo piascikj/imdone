@@ -1,7 +1,7 @@
 {
    "name": "imdone",
    "preferGlobal": "true",
-   "version": "0.1.49",
+   "version": "0.1.50",
    "description": "A simple scrum board and markdown wiki for geeks.",
    "keywords": [
       "scrum",
@@ -49,6 +49,7 @@
       "async": "0.2.x",
       "express": "3.x",
       "underscore": "1.4.4",
+      "declare.js": "0.0.4",
       "marked": "0.2.x",
       "wrench": "1.5.x",
       "open": "0.0.x",
