@@ -1,3 +1,7 @@
+#0.1.50
+- Better printing of lists
+- Move task info under task text
+
 #0.1.49
 - if md parser encounters filter link add a title="Filter by `<filter>`"
 - [Fixed dependency for node-syntaxhighlighter](https://github.com/piascikj/imdone/pull/1)

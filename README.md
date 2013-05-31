@@ -17,8 +17,8 @@ Keep your tasks in your work!!!
 ----
 A simple scrum board and markdown wiki for geeks.  No DB needed!  Your tasks are in your source code, so you can share your board on [github](http://www.github.com).
 
-Tasks are just markdown links!!!
-----
+###Tasks are just markdown links!!!
+
 
 **Put a task at the top of a list called "todo"**  
    `[this is a task](#todo:0)`  
@@ -30,6 +30,13 @@ Tasks are just markdown links!!!
    `[this is a task in doing](#todo:1000)`  
 
 **Tasks are sorted by the number after the `:`**
+
+###Filter by path
+You can filter by path using the filter box in the top right corner, or by embedding a filter link in a task like this:  
+
+   `[Filter by [src/main/java](#filter/src/main/java)](#filters:0)`  
+
+This would create a filters list containing this task and a link that will populate the filter box with *src/main/java*
 
 More
 ----
@@ -44,7 +51,8 @@ Keyboard shortcuts
 ----
     Shift+Ctrl+s    save file
     Shift+Ctrl+x    remove file
-    esc             exit editor/preview
+    esc             File View - exit editor/preview
+                    List View - clear filter
     i               when in preview, edit file
 
 

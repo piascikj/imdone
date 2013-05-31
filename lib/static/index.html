@@ -138,11 +138,10 @@
         {{#if tasks}}
         {{#each tasks}}
         <div class="wrap well task" data-id="{{pathTaskId}}" data-list="{{list}}" data-order="{{order}}" data-path="{{path}}">
-          <p>
-            <a href="#file?project={{project}}&path={{path}}&line={{line}}" class="source-link" data-url="{{url}}" data-target="#src-panel" data-list="{{list}}">{{path}}</a><span class="sort">{{line}} | {{order}}</span>
-          </p>
           <div class="task-text">{{{markDown text}}}</div>
-          <!--<p><a class="btn" href="#">View details &raquo;</a></p>-->
+          <div class="task-info">
+            <a href="#file?project={{project}}&path={{path}}&line={{line}}" class="source-link" data-url="{{url}}" data-target="#src-panel" data-list="{{list}}">{{path}}</a><span class="sort">{{line}} | {{order}}</span>
+          </div>
         </div>
         {{/each}}
         {{else}}
