@@ -1,3 +1,6 @@
+#0.1.54
+- Fix esc to clear filter to reload current project
+
 #0.1.53
 - Enable keyboard scrolling in preview mode
 
