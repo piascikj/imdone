@@ -1,7 +1,7 @@
 {
    "name": "imdone",
    "preferGlobal": "true",
-   "version": "0.1.50",
+   "version": "0.1.51",
    "description": "A simple scrum board and markdown wiki for geeks.",
    "keywords": [
       "scrum",
@@ -49,16 +49,16 @@
       "async": "0.2.x",
       "express": "3.x",
       "underscore": "1.4.4",
-      "declare.js": "0.0.4",
       "marked": "0.2.x",
       "wrench": "1.5.x",
       "open": "0.0.x",
       "watchr": "2.4.x",
-      "socket.io": "0.9.14",
+      "socket.io": "0.9.x",
       "request": "2.x",
       "handlebars": "1.x",
       "mkdirp": "0.3.5",
-      "node-syntaxhighlighter": "0.8.1"
+      "node-syntaxhighlighter": "0.8.1",
+      "selfish": "0.3.2"
    },
    "devDependencies": {
       "grunt": "~0.4.x",

@@ -136,7 +136,8 @@ After running imdone for the first time, modify imdone/imdone.js in your project
 
 Testing
 ----
-iMDone has been tested on my Ubuntu 12.04 desktop using chrome 23.0.x and Firefox 19.x.  It should work on any machine that has nodejs and npm installed and for auto update of boards, a browser that supports websockets.
+- iMDone has been tested on my Ubuntu 12.04 desktop using chrome 23.0.x and Firefox 19.x.  It should work on any machine that has nodejs and npm installed and for auto update of boards, a browser that supports websockets.
+- We us [jasmine](http://pivotal.github.io/jasmine/) and [mhevery/jasmine-node](https://github.com/mhevery/jasmine-node) for testing.
 
 Roadmap
 ----
@@ -145,15 +146,15 @@ Roadmap
 - [Enable svn and git commit after file changes](#planning:0)
 - [Convert front end to use backbone.js](#planning:80)
 - [respect marked configuration in client javascript](#todo:130)
-- [User should be able to use TOC in preview mode for md files](doing:0)
+- [User should be able to use TOC in preview mode for md files](#doing:0)
 - [User should be able to quickly add a date and assigned to tasks using @&lt;user&gt; @&lt;date&gt;](#planning:10)
 - [User should be able to get quick help with keyboard shortcuts](#planning:90)
 - [User should get a guided tour](#todo:120)
-- [Enable vfs <https://github.com/c9/vfs-socket> as method of interacting with other storage providers.  Use [Broadway](https://npmjs.org/package/broadway) for IOC.](#doing:50)
+- [Enable vfs <https://github.com/c9/vfs-socket> as method of interacting with other storage providers.  Use [Broadway](https://npmjs.org/package/broadway) for IOC.](#doing:90)
 
           +-------------------------+         +--------------------------+        +--------------------------+
           |                         |         |                          |        |                          |
-          |      RepositoryIF       |         |     SearchIF             |        |    UserManagementIF      |
+          |      RepositoryProto    |         |     SearchProto          |        |    UserManagementProto   |
           |                         |         |                          |        |                          |
           |                         |         |                          |        |                          |
           |                         |         |                          |        |                          |
