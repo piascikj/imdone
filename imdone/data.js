@@ -4,7 +4,8 @@
     "planning",
     "doing",
     "done",
-    "archive"
+    "archive",
+    "filters"
   ],
   "hidden": [
     "todo",

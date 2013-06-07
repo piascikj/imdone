@@ -21,20 +21,28 @@ A simple scrum board and markdown wiki for geeks.  No DB needed!  Your tasks are
 
 
 **Put a task at the top of a list called "todo"**  
-   `[this is a task](#todo:0)`  
+```
+[this is a task](#todo:0)
+```  
 
 **In javascript code**  
-   `//[this is a task in javascript code](#todo:0)`  
+```
+//[this is a task in javascript code](#todo:0)
+```  
 
 **Put a task on the bottom of a list called "doing" (giving it a sort value of 1000 will put it at the bottom unless you have tons of tasks in the list)**  
-   `[this is a task in doing](#todo:1000)`  
+```
+[this is a task in doing](#todo:1000)
+```
 
 **Tasks are sorted by the number after the `:`**
 
 ###Filter by path
 You can filter by path using the filter box in the top right corner, or by embedding a filter link in a task like this:  
 
-   `[Filter by [src/main/java](#filter/src/main/java)](#filters:0)`  
+```
+[Filter by [src/main/java](#filter/src/main/java)](#filters:0)
+```  
 
 This would create a filters list containing this task and a link that will populate the filter box with *src/main/java*
 
@@ -49,12 +57,13 @@ More
 
 Keyboard shortcuts
 ----
-    Shift+Ctrl+s    save file
-    Shift+Ctrl+x    remove file
-    esc             File View - exit editor/preview
-                    List View - clear filter
-    i               when in preview, edit file
-
+```
+Shift+Ctrl+s    save file
+Shift+Ctrl+x    remove file
+esc             File View - exit editor/preview
+                List View - clear filter
+i               when in preview, edit file
+```
 
 Prerequisites 
 ----
@@ -64,34 +73,41 @@ Prerequisites
 
 Install
 ----
-   `npm install -g imdone`
+```
+npm install -g imdone
+```
 
 Run
 ----
 - open a terminal window and navigate to your local project directory and run:  
-   `imdone -o`
+
+```
+imdone -o
+```
 
 - Here's the help output
 
-	  Usage: imdone [options]
+```
+Usage: imdone [options]
 
-	  Options:
+Options:
 
-	    -h, --help                output usage information
-	    -V, --version             output the version number
-	    -o, --open                Open imdone in the default browser
-	    -s, --stop                Stop imdone server
-	    -d, --dirs <directories>  A comma separated list of project directories
+  -h, --help                output usage information
+  -V, --version             output the version number
+  -o, --open                Open imdone in the default browser
+  -s, --stop                Stop imdone server
+  -d, --dirs <directories>  A comma separated list of project directories
 
-	  Examples:
+Examples:
 
-	    Open imdone in a browser with the current working directory as the project root
+  Open imdone in a browser with the current working directory as the project root
 
-	    $ imdone -o
+  $ imdone -o
 
-	    Open imdone in a browser with list of project directories
+  Open imdone in a browser with list of project directories
 
-	    $ imdone -o -d projects/imdone,projects/myproject
+  $ imdone -o -d projects/imdone,projects/myproject
+```
 
 How you can help
 ----
@@ -152,16 +168,47 @@ Roadmap
 - [User should get a guided tour](#todo:120)
 - [Enable vfs <https://github.com/c9/vfs-socket> as method of interacting with other storage providers.  Use [Broadway](https://npmjs.org/package/broadway) for IOC.](#doing:90)
 
-          +-------------------------+         +--------------------------+        +--------------------------+
-          |                         |         |                          |        |                          |
-          |      RepositoryProto    |         |     SearchProto          |        |    UserManagementProto   |
-          |                         |         |                          |        |                          |
-          |                         |         |                          |        |                          |
-          |                         |         |                          |        |                          |
-          |                         |         |                          |        |                          |
-          |                         |         |                          |        |                          |
-          |                         |         |                          |        |                          |
-          |                         |         |                          |        |                          |
-          +-------------------------+         +--------------------------+        +--------------------------+
+###Repository
 
+####Responsibilities
+- Save and load source files
+- Handle authentication for accessing files
+- Handle text search
+
+####Collaborators
+- Project
+
+###RepositoryFactory
+
+####Responsibilities
+- Return a repository object capable of storing and retrieving files
+
+####Collaborators
+- Repository
+
+###Project
+
+####Responsibilities
+- Container for information
+    - User(s)
+    - Role(s)
+    - Repositories
+
+###User
+
+####Responsibilities
+- Container for information
+    - Projects
+
+###SearchFacade
+
+####Responsibilities
+- Run a text search in a given repository
+- Ask the RepositoryFactory for a Repository
+- If there are multiple Repositories for a project delegate to each for searhing
+
+####Collaborators
+- RepositoryFactory
+- Repository
+- Project
 

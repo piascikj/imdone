@@ -1,3 +1,6 @@
+#0.1.53
+- Enable keyboard scrolling in preview mode
+
 #0.1.52
 - Fix mailto links
 
