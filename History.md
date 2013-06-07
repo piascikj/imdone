@@ -1,3 +1,9 @@
+#0.1.52
+- Fix mailto links
+
+#0.1.51
+- oops skipped a version
+
 #0.1.50
 - Better printing of lists
 - Move task info under task text
