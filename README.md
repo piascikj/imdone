@@ -166,7 +166,11 @@ Roadmap
 - [User should be able to quickly add a date and assigned to tasks using @&lt;user&gt; @&lt;date&gt;](#planning:10)
 - [User should be able to get quick help with keyboard shortcuts](#planning:90)
 - [User should get a guided tour](#todo:120)
-- [Enable vfs <https://github.com/c9/vfs-socket> as method of interacting with other storage providers.  Use [Broadway](https://npmjs.org/package/broadway) for IOC.](#doing:90)
+- [Enable vfs <https://github.com/c9/vfs-socket> as method of interacting with other storage providers.](#doing:80)
+- [Use [Broadway](https://npmjs.org/package/broadway) for IOC.](#doing:90)
+
+Future Design CRC
+----
 
 ###Repository
 
