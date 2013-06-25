@@ -1,3 +1,6 @@
+#0.1.56
+- Better support for ignoring tasks that may appear in code, such as the jasmine tests for imdone!!!
+
 #0.1.54
 - Fix esc to clear filter to reload current project
 

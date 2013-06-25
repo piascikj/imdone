@@ -27,4 +27,30 @@ describe("tasks helper", function() {
 
 	});
 
+	it("should not find tasks in javscript code", function() {
+		
+		console.log(tasks.taskRegex.toString());
+		var file = "test.js";
+		var data = [
+					'//- [Show file explorer when editing files](#todo:0)',
+					'var task = "- [Enable svn and git commit after file changes](#planning:0)";']
+		var tasksAry = tasks.getTasks(data.join('\n'), file);
+		console.log(tasksAry);
+		expect(Object.keys(tasksAry).length).toBe(1);
+
+	});
+
+	it("should not find tasks in shell code", function() {
+		
+		console.log(tasks.taskRegex.toString());
+		var file = "test.sh";
+		var data = [
+					'this is a task #- [Show file explorer when editing files](#todo:0)',
+					'task = "- [Enable svn and git commit after file changes](#planning:0)";']
+		var tasksAry = tasks.getTasks(data.join('\n'), file);
+		console.log(tasksAry);
+		expect(Object.keys(tasksAry).length).toBe(1);
+
+	});
+
 });
