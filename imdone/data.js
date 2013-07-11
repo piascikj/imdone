@@ -11,6 +11,7 @@
     "todo",
     "archive",
     "planning",
-    "filters"
+    "filters",
+    "done"
   ]
 }

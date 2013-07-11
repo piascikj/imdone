@@ -1,3 +1,6 @@
+#0.1.57
+- Don't try openeing sym links
+
 #0.1.56
 - Better support for ignoring tasks that may appear in code, such as the jasmine tests for imdone!!!
 
@@ -23,7 +26,10 @@
 
 #0.1.48
 - Clear filter with esc when in board screen
-- keyboard shortcut for delete file now shows confirm modal
+#0.1.57
+- Don't try openeing sym links- keybo
+
+ard shortcut for delete file now shows confirm modal
 
 #0.1.47
 - Filter route for filtering through links in task text `#filter/<filter>`
