@@ -8,10 +8,9 @@
     "filters"
   ],
   "hidden": [
-    "todo",
     "archive",
-    "planning",
     "filters",
-    "done"
+    "done",
+    "todo"
   ]
 }

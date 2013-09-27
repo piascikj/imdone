@@ -23,6 +23,7 @@ A simple scrum board and markdown wiki for geeks.  No DB needed!  Your tasks are
 **Put a task at the top of a list called "todo"**  
 ```
 [this is a task](#todo:0)
+[this is another task](#todo:10)
 ```  
 
 **In javascript code**  
@@ -158,16 +159,16 @@ Testing
 Roadmap
 ----
 
-- [Enable svn and git commit after file changes](#planning:0)
-- [Convert front end to use backbone.js](#planning:80)
+- [Enable svn and git commit after file changes](#planning:40)
+- [Convert front end to use backbone.js](#planning:120)
 - [respect marked configuration in client javascript](#todo:130)
-- [User should be able to remove task syntax with hotkey when in task text](#doing:0)
-- [User should be able to use TOC in preview mode for md files](#doing:0)
-- [User should be able to quickly add a date and assigned to tasks using @&lt;user&gt; @&lt;date&gt;](#planning:10)
-- [User should be able to get quick help with keyboard shortcuts](#planning:90)
+- [User should be able to remove task syntax with hotkey when in task text](#doing:10)
+- [User should be able to use TOC in preview mode for md files](#doing:20)
+- [User should be able to quickly add a date and assigned to tasks using @&lt;user&gt; @&lt;date&gt;](#planning:50)
+- [User should be able to get quick help with keyboard shortcuts](#planning:130)
 - [User should get a guided tour](#todo:120)
-- [Enable vfs <https://github.com/c9/vfs-socket> as method of interacting with other storage providers.](#doing:70)
-- [Use [Broadway](https://npmjs.org/package/broadway) for IOC.](#doing:90)
+- [Enable vfs <https://github.com/c9/vfs-socket> as method of interacting with other storage providers.](#doing:90)
+- [Use [Broadway](https://npmjs.org/package/broadway) for IOC.](#doing:110)
 
 Future Design CRC
 ----

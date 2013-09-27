@@ -45,10 +45,10 @@ describe("The Repository", function() {
 	it("should allow me to use static variables", function() {
 		expect(repo.getType()).toBe("FILE");
 
-		console.log(JSON.stringify(repo.getFiles("test/files"), null, 3));
+		//console.log(JSON.stringify(repo.getFiles("test/files"), null, 3));
 	});
 
-	it("it should allow me to subclass", function() {
+	it("should allow me to subclass", function() {
 		var MyRepository = subclass(Repository,
 			function() { 
 				Repository.apply(this, arguments);

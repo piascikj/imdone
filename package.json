@@ -60,8 +60,9 @@
       "node-syntaxhighlighter": "0.8.1",
       "selfish": "0.3.2"
    },
-   "devDependencies": {
-      "grunt": "~0.4.x",
-      "jasmine-node": "1.x"      
-   }
+  "devDependencies": {
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt": "~0.4.1",
+    "grunt-jasmine-node-coverage":"~0.1.5"
+  }
 }

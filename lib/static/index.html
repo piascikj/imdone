@@ -38,7 +38,7 @@
                 <div class="pull-left">
                 <form class="navbar-form">
                   <input class="span3" type="text" id="filter-field" placeholder="Filter by file name">
-                  <button id="clear-filter" class="btn btn-primary">clear</button>
+                  <button id="clear" class="btn btn-primary">clear</button>
                 </form>
                 </div>
               </li>
@@ -55,6 +55,11 @@
                   <button class="btn btn-inverse" id="print-btn" title="Print"><i class="icon-print"></i></button>
                 </div>
               </li>                
+              <li>
+                <form class="navbar-form">
+                  <input class="span3" type="text" id="search-field" placeholder="Search files in this project">
+                </form>
+              </li>
             </ul>
           </div>
         </div>
@@ -145,7 +150,7 @@
         </div>
         {{/each}}
         {{else}}
-          <button class="btn btn-primary remove-list" type="button" data-list="{{name}}">Remove list</button>
+          <button class="btn btn-inverse remove-list" type="button" data-list="{{name}}">Remove list</button>
         {{/if}}
       </div>
       {{/hidden}}

@@ -1,0 +1,54 @@
+module.exports = function (grunt) {
+  'use strict';
+  grunt.initConfig({
+    jshint: {
+      options: {
+        eqeqeq: true,
+        immed: true,
+        latedef: true,
+        newcap: true,
+        noarg: true,
+        sub: true,
+        undef: true,
+        boss: true,
+        eqnull: true,
+        node: true,
+        expr: true,
+        ignores: ['lib/static/**/*.js']
+      },
+      all: ['lib/**/*.js','bin/*.js'],
+    },
+    jasmine_node: {
+      coverage:{
+        savePath: "build/coverage",
+        print: "both",
+        excludes:["**/test/**"]
+      },
+      options:{
+        specFolders:["./test"],
+        specNameMatcher: "-spec", // load only specs containing specNameMatcher
+        projectRoot: ".",
+        requirejs: false,
+        forceExit: true,
+        verbose: true,
+        showColors: true,
+        jUnit: {
+          report: true,
+          savePath : "build/reports/jasmine/",
+          useDotNotation: true,
+          consolidate: true
+        }
+      }
+    }
+
+  });
+
+  process.env.NODE_ENV="local";
+  
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-jasmine-node-coverage');
+
+  grunt.registerTask('default', ['jshint','jasmine_node']);
+  grunt.registerTask('test', 'jasmine_node');
+  grunt.registerTask('lint', 'jshint');
+};
