@@ -22,7 +22,7 @@ describe("Search", function() {
     project.init();
     var s = search.newSearch({project:project, query:"var", limit:200});
     var result = s.execute();
-    expect(s.total).toBe(200);
+    expect(s.hits).toBe(200);
   })
 
 });

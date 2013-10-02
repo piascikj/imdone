@@ -28,13 +28,13 @@
             </ul>
             <ul class="nav content-nav hide" id="content-nav" style="display:none">
               <li>
-                <button class="btn btn-inverse" id="close-file-btn" title="Close file (Esc)">
-                  <span id="filename"></span>&nbsp;<i class="icon-remove"></i>
+                <button class="btn btn-inverse hide" id="search-results-btn" title="Show search results">
+                  Search Results&nbsp;<i class="icon-search"></i>
                 </button>
               </li>
               <li>
-                <button class="btn btn-inverse hide" id="search-results-btn" title="Show search results">
-                  Search Results&nbsp;<i class="icon-search"></i>
+                <button class="btn btn-inverse" id="close-file-btn" title="Close file (Esc)">
+                  <span id="filename"></span>&nbsp;<i class="icon-remove"></i>
                 </button>
               </li>
             </ul>
@@ -227,15 +227,15 @@
       {{/if}}
     </script>
     <script id="search-results-template" type="text/x-handlebars-template">
-      {{#if result}}
-      <p>Searching {{filesSearched}} files for "{{opts.query}}"</p>
-      {{#each result}}
-        <h4>{{path}}</h4>
-        <pre><code>
+      {{#if results.result}}
+      <p>Searching {{results.filesSearched}} files for "{{results.opts.query}}"</p>
+      {{#each results.result}}
+        <h4><a href="#file?project={{../project}}&path={{path}}">{{path}}</a></h4>
         {{#each lines}}
-        {{line}}:{{text}}
-        {{/each}}
-        </code></pre>        
+        <a href="#file?project={{../../project}}&path={{../path}}&line={{line}}">
+          <pre><code>{{line}}: {{text}}</code></pre>
+        </a>
+        {{/each}}        
       {{/each}}
       {{else}}
       No results

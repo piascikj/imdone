@@ -156,6 +156,10 @@ blockquote p {
   overflow: hidden;
 }
 
+.search-results pre {
+  background-color: rgba(0,0,0,0);
+}
+
 .preview .badge, .preview .label {
   box-shadow: none;
   text-shadow: none;
