@@ -1,3 +1,6 @@
+#0.2.0
+- Search baby!!!
+
 #0.1.57
 - Don't try openeing sym links
 

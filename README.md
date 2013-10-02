@@ -17,7 +17,7 @@ Keep your tasks in your work!!!
 ----
 A simple scrum board and markdown wiki for geeks.  No DB needed!  Your tasks are in your source code, so you can share your board on [github](http://www.github.com).
 
-###Tasks are just markdown links!!!
+### Tasks are just markdown links!!!
 
 
 **Put a task at the top of a list called "todo"**  
@@ -38,7 +38,7 @@ A simple scrum board and markdown wiki for geeks.  No DB needed!  Your tasks are
 
 **Tasks are sorted by the number after the `:`**
 
-###Filter by path
+### Filter by path
 You can filter by path using the filter box in the top right corner, or by embedding a filter link in a task like this:  
 
 ```
@@ -47,7 +47,7 @@ You can filter by path using the filter box in the top right corner, or by embed
 
 This would create a filters list containing this task and a link that will populate the filter box with *src/main/java*
 
-More
+Search and more!
 ----
 - **Edit and create files directly in iMDone using the [Ace editor](http://ace.ajax.org)!**
 - **Stay focused on your current task!  It's always there in the bottom right corner.**
@@ -55,6 +55,7 @@ More
 - **Preview markdown files and print them as markdown or html!**
 - **Hide and show lists**
 - **Delete files**
+- **Search**
 
 Keyboard shortcuts
 ----
@@ -162,13 +163,13 @@ Roadmap
 - [Enable svn and git commit after file changes](#planning:40)
 - [Convert front end to use backbone.js](#planning:120)
 - [respect marked configuration in client javascript](#todo:130)
-- [User should be able to remove task syntax with hotkey when in task text](#doing:10)
+- [User should be able to remove task syntax with hotkey when in task text](#doing:0)
 - [User should be able to use TOC in preview mode for md files](#doing:20)
 - [User should be able to quickly add a date and assigned to tasks using @&lt;user&gt; @&lt;date&gt;](#planning:50)
 - [User should be able to get quick help with keyboard shortcuts](#planning:130)
 - [User should get a guided tour](#todo:120)
-- [Enable vfs <https://github.com/c9/vfs-socket> as method of interacting with other storage providers.](#doing:90)
-- [Use [Broadway](https://npmjs.org/package/broadway) for IOC.](#doing:110)
+- [Enable vfs <https://github.com/c9/vfs-socket> as method of interacting with other storage providers.](#doing:80)
+- [Use [Broadway](https://npmjs.org/package/broadway) for IOC.](#doing:100)
 
 Future Design CRC
 ----
