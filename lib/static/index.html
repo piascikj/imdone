@@ -25,7 +25,18 @@
               <li class="dropdown" id="projects-dropdown">
               </li>
               <!--[Move close file button here and hide on paintKanban](#done:40)-->
-              <li><button class="btn btn-inverse hide" id="close-file-btn" title="Close file (Esc)"><span id="filename"></span>&nbsp;<i class="icon-remove"></i></button></li>
+            </ul>
+            <ul class="nav content-nav hide" id="content-nav" style="display:none">
+              <li>
+                <button class="btn btn-inverse" id="close-file-btn" title="Close file (Esc)">
+                  <span id="filename"></span>&nbsp;<i class="icon-remove"></i>
+                </button>
+              </li>
+              <li>
+                <button class="btn btn-inverse hide" id="search-results-btn" title="Show search results">
+                  Search Results&nbsp;<i class="icon-search"></i>
+                </button>
+              </li>
             </ul>
             <!-- [Add path filters to board - 0.1.6](#archive:320) -->
             <ul class="board-bar nav pull-right">
@@ -56,7 +67,7 @@
                 </div>
               </li>                
               <li>
-                <form class="navbar-form">
+                <form class="navbar-form" id="search-form">
                   <input class="span3" type="text" id="search-field" placeholder="Search files in this project">
                 </form>
               </li>
@@ -71,6 +82,7 @@
       <div id="editor-container" tabindex="0" class="editor-container">
         <div class="editor" id="editor"></div>
         <div class="preview" id="preview"></div>
+        <div class="search-results" id="search-results"></div>
         <!--[Show file info above edit-bar using <http://pinesframework.org/pnotify/>](#archive:130) -->
       </div>
       <div class="board" id="board">
@@ -212,6 +224,21 @@
       </ul>
       {{else}}
       <a href="#"><span class="cwd" id="cwd">{{cwd}}</span></a>
+      {{/if}}
+    </script>
+    <script id="search-results-template" type="text/x-handlebars-template">
+      {{#if result}}
+      <p>Searching {{filesSearched}} files for "{{opts.query}}"</p>
+      {{#each result}}
+        <h4>{{path}}</h4>
+        <pre><code>
+        {{#each lines}}
+        {{line}}:{{text}}
+        {{/each}}
+        </code></pre>        
+      {{/each}}
+      {{else}}
+      No results
       {{/if}}
     </script>
     <!--

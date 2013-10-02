@@ -69,6 +69,10 @@ blockquote p {
   font-size: 1em;
 }
 
+.content-nav li {
+  padding-right: 5px;
+}
+
 .list-name-container:hover {
   background: #202020;
   background-color: rgba(0, 0, 0, 0.3);
@@ -135,7 +139,16 @@ blockquote p {
 .preview {
   min-height: 100%;
   font-size: 16px;
-  /*font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;*/
+  background-color: #202020;
+  padding-left: 1em;
+  padding-right: 1em;
+  position: relative;
+  overflow: hidden;
+}
+
+.search-results {
+  min-height: 100%;
+  font-size: 16px;
   background-color: #202020;
   padding-left: 1em;
   padding-right: 1em;
