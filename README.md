@@ -163,13 +163,13 @@ Roadmap
 - [Enable svn and git commit after file changes](#planning:40)
 - [Convert front end to use backbone.js](#planning:120)
 - [respect marked configuration in client javascript](#todo:130)
-- [User should be able to remove task syntax with hotkey when in task text](#doing:0)
-- [User should be able to use TOC in preview mode for md files](#doing:20)
+- [User should be able to remove task syntax with hotkey when in task text](#doing:20)
+- [User should be able to use TOC in preview mode for md files](#doing:40)
 - [User should be able to quickly add a date and assigned to tasks using @&lt;user&gt; @&lt;date&gt;](#planning:50)
 - [User should be able to get quick help with keyboard shortcuts](#planning:130)
 - [User should get a guided tour](#todo:120)
-- [Enable vfs <https://github.com/c9/vfs-socket> as method of interacting with other storage providers.](#doing:80)
-- [Use [Broadway](https://npmjs.org/package/broadway) for IOC.](#doing:100)
+- [Enable vfs <https://github.com/c9/vfs-socket> as method of interacting with other storage providers.](#doing:100)
+- [Use [Broadway](https://npmjs.org/package/broadway) for IOC.](#doing:120)
 
 Future Design CRC
 ----
