@@ -102,9 +102,9 @@ blockquote p {
 .app-container {
   position: fixed;
   top: 40px;
-  left: 0px;
-  bottom: 0px;
-  right: 0px;
+  left: 0;
+  bottom: 0;
+  right: 0;
   overflow-x: auto;
 }
 
@@ -112,9 +112,9 @@ blockquote p {
   display: none;
   position: fixed;
   top: 40px;
-  left: 0px;
-  bottom: 0px;
-  right: 0px;
+  left: 0;
+  bottom: 0;
+  right: 0;
   overflow-y: auto;
   z-index: 1;
 }
@@ -158,6 +158,11 @@ blockquote p {
 
 .search-results pre {
   background-color: rgba(0,0,0,0);
+}
+
+.search-results a:hover, .search-results pre:hover {
+  color: #FFFFFF;
+  text-decoration: none;
 }
 
 .preview .badge, .preview .label {
