@@ -79,7 +79,7 @@
 
     <div class="app-container">
       <div class="clearfix"></div>
-      <div id="editor-container" tabindex="0" class="editor-container">
+      <div id="file-container" tabindex="0" class="file-container editor-container">
         <div class="editor" id="editor"></div>
         <div class="preview" id="preview"></div>
         <div class="search-results" id="search-results"></div>
@@ -228,7 +228,8 @@
     </script>
     <script id="search-results-template" type="text/x-handlebars-template">
       {{#if results.result}}
-      <p>Searching {{results.filesSearched}} files for "{{results.opts.query}}"</p>
+      <p>Searching {{results.filesSearched}} files for "{{results.opts.query}}".  
+         Showing results {{results.opts.offset}}-{{last}}</p>
       {{#each results.result}}
         <h4><a href="#file?project={{../project}}&path={{path}}">{{path}}</a></h4>
         {{#each lines}}

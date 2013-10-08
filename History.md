@@ -1,3 +1,6 @@
+#0.2.1
+- Added search model
+
 #0.2.0
 - Search baby!!!
 
