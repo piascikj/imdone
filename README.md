@@ -60,11 +60,13 @@ Search and more!
 Keyboard shortcuts
 ----
 ```
-Shift+Ctrl+s    save file
-Shift+Ctrl+x    remove file
+Shift+Ctrl+s    Save file
+Shift+Ctrl+x    Remove file
 esc             File View - exit editor/preview
                 List View - clear filter
-i               when in preview, edit file
+i               When in preview, edit file
+Shift+Ctrl+f    Open project search dialog
+Ctrl+f          When in edit mode, search current file
 ```
 
 Prerequisites 

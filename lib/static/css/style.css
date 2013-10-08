@@ -146,6 +146,15 @@ blockquote p {
   overflow: hidden;
 }
 
+#search-field {
+  border: none;
+  background: none;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  color: black;
+}
+
 .search-results {
   min-height: 100%;
   font-size: 16px;
@@ -185,7 +194,6 @@ blockquote p {
   -webkit-box-shadow: 0 3px 10px 0 rgba(17,17,17,0.35);
   -moz-box-shadow: 0 3px 10px 0 rgba(17,17,17,0.35);
   box-shadow: 0 3px 10px 0 rgba(17,17,17,0.35);
-  counter-reset: column-nav;
 }
 
 .column-nav-menu .column-nav-menu-item {

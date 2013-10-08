@@ -1,93 +1,97 @@
-#0.2.1
+# 0.2.2
+- Search available in board and file modes
+- Upgrade bootstrap
+
+# 0.2.1
 - Added search model
 
-#0.2.0
+# 0.2.0
 - Search baby!!!
 
-#0.1.57
+# 0.1.57
 - Don't try openeing sym links
 
-#0.1.56
+# 0.1.56
 - Better support for ignoring tasks that may appear in code, such as the jasmine tests for imdone!!!
 
-#0.1.54
+# 0.1.54
 - Fix esc to clear filter to reload current project
 
-#0.1.53
+# 0.1.53
 - Enable keyboard scrolling in preview mode
 
-#0.1.52
+# 0.1.52
 - Fix mailto links
 
-#0.1.51
+# 0.1.51
 - oops skipped a version
 
-#0.1.50
+# 0.1.50
 - Better printing of lists
 - Move task info under task text
 
-#0.1.49
+# 0.1.49
 - if md parser encounters filter link add a title="Filter by `<filter>`"
 - [Fixed dependency for node-syntaxhighlighter](https://github.com/piascikj/imdone/pull/1)
 
-#0.1.48
+# 0.1.48
 - Clear filter with esc when in board screen
-#0.1.57
+# 0.1.57
 - Don't try openeing sym links- keybo
 
 ard shortcut for delete file now shows confirm modal
 
-#0.1.47
+# 0.1.47
 - Filter route for filtering through links in task text `#filter/<filter>`
 
-#0.1.46
+# 0.1.46
 - Fix bug introduced in 0.1.45 for printing files
 
-#0.1.45
+# 0.1.45
 - print.css media="print" for printing board as list of tasks
 
-#0.1.44
+# 0.1.44
 - Bug fix for empty file field
 
-#0.1.43
+# 0.1.43
 - Delete files
 - No preview button on non-md files
 
-#0.1.42
+# 0.1.42
 - No navigation on list hide/show
 
-#0.1.41
+# 0.1.41
 - Change title on app.navigate
 - Navigate to first project on load
 - Change print font to match preview screen font
 
-#0.1.40
+# 0.1.40
 - Change to preview font to make it more appealing
 
-#0.1.39
+# 0.1.39
 - fixed hotkey dep
 - Removed print hot-key due to a long running bug.  Printing should be infrequent anyway.
 
-#0.1.38
+# 0.1.38
 - New keybinding syntax for ace editor
 - **bugfix** Show edit bar on direct preview
 
-#0.1.37
+# 0.1.37
 - Larger icons for notify
 
-#0.1.36
+# 0.1.36
 - Notify user when file is modified
 - Show notification with link to project README if it exists
 
-#0.1.35
+# 0.1.35
 - On opening of file, set the project at the global level
 - For markdown files, labels for task links
 - Preview edit and print keyboard shortcuts
 
-#0.1.34
+# 0.1.34
 - Better usability with navbar when in file edit/preview (no lists button or filter).
 
-#0.1.33
+# 0.1.33
 - Links to other files in project are opened in preview mode
 - **example**
     
@@ -95,16 +99,16 @@ ard shortcut for delete file now shows confirm modal
 
 [This is a link to README.md](README.md)
 
-#0.1.32
+# 0.1.32
 - Apply filter unless it is cleared
 - Enable browser history by implementing routes for project and file
 - All dependencies up to date
 
-#0.1.31
+# 0.1.31
 - Fixed history needed shift instead of pop
 - Fixed file name change on load of new file
 
-#0.1.29
+# 0.1.29
 - Added recent files to open dialog
 - Made editor full page width
 - Added notification for current task
@@ -112,51 +116,51 @@ ard shortcut for delete file now shows confirm modal
 - Added prominant close file button
 - Removed open in github option
  
-#0.1.28
+# 0.1.28
 - Display filename on edit radio button
 
-#0.1.27
+# 0.1.27
 - Fix styles for code (Eliminate box shadow)
 
-#0.1.26
+# 0.1.26
 - Allow user to create files
 
-#0.1.25
+# 0.1.25
 - Sort lists in dropdown menu
 - Open files for editing
 - Loading dependencies with require (Strange workaround for ace)
 
-#0.1.24
+# 0.1.24
 - Print source and markdown preview
 
-#0.1.23
+# 0.1.23
 - Upgrade express to latest version
 - Preview markdown files
 
-#0.1.22
+# 0.1.22
 - Fix rename list bug introduced in last version
 
-#0.1.20
+# 0.1.20
 - Open multiple projects at once from command line
 
-#0.1.19
+# 0.1.19
 - Bug fixes.  Sorting tasks was broken
 
-#0.1.18
+# 0.1.18
 - Dark theme
 - Ace editor
 
-#0.1.17
+# 0.1.17
 - Now using commander for better cli user experience
 
-#0.1.14
+# 0.1.14
 - replace mu2 with Handlebars
 
-#0.1.13
+# 0.1.13
 - Moved open page to open cli option
 - switched to socket.io for near real-time updates
 
-#0.1.11
+# 0.1.11
 - Now able to hide a list from board using hidden
 ##imdone/data.js is now formatted like this  
   
@@ -165,25 +169,25 @@ ard shortcut for delete file now shows confirm modal
 		hidden:[Array of list names to hide]
 	}
 
-#0.1.10
+# 0.1.10
 - Source view if github is not set
 - Default lists are respected if added to imdone/data.js
 - Lists won't be removed unless specifically removed in ui or imdone/data.js
 
-#0.1.8
+# 0.1.8
 - Sort is fixed for multiple projects
 
-#0.1.7
+# 0.1.7
 - Start in multiple project directories
 
-#0.1.6
+# 0.1.6
 - Added filter by file name
 
-#0.1.4
+# 0.1.4
 - Use line number when loading page in github
 
-#0.1.3
+# 0.1.3
 - include added to config for files to include.  Order is include > Exclude
 
-#0.1.2
+# 0.1.2
 - Using websockets to refresh board on changes
