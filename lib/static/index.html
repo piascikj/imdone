@@ -232,17 +232,17 @@
       {{/if}}
     </script>
     <script id="search-results-template" type="text/x-handlebars-template">
+      <h3>Searching {{results.filesSearched}} files for "{{results.opts.query}}" in {{project}}</h3>  
       {{#if results.result}}
-      <h3>Searching {{results.filesSearched}} files for "{{results.opts.query}}".&nbsp;  
-         Showing results {{results.opts.offset}}-{{last}}</h3>
-      {{#each results.result}}
-        <h4><a href="#file?project={{../project}}&path={{path}}">{{path}}</a></h4>
-        {{#each lines}}
-        <a href="#file?project={{../../project}}&path={{../path}}&line={{line}}">
-          <pre><code>{{line}}: {{text}}</code></pre>
-        </a>
-        {{/each}}        
-      {{/each}}
+        <h3>Showing results {{results.opts.offset}}-{{last}}</h3>
+        {{#each results.result}}
+          <h4><a href="#file?project={{../project}}&path={{path}}">{{path}}</a></h4>
+          {{#each lines}}
+          <a href="#file?project={{../../project}}&path={{../path}}&line={{line}}">
+            <pre><code>{{line}}: {{text}}</code></pre>
+          </a>
+          {{/each}}        
+        {{/each}}
       {{else}}
       No results
       {{/if}}

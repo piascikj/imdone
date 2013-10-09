@@ -1,3 +1,6 @@
+# 0.2.3
+- Fix search results hiding
+
 # 0.2.2
 - Search available in board and file modes
 - Upgrade bootstrap
