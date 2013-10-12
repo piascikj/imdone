@@ -113,6 +113,10 @@ Examples:
   $ imdone -o -d projects/imdone,projects/myproject
 ```
 
+Common Errors
+----
+- If you are using bower in your project be sure to exclude the directory defined in your .bowerrc file, otherwise you'll end up with too many open files errors.
+
 How you can help
 ----
 If you like iMDone and want to help me make it better, you can make a contribution at pledgie.  Every donation is very much appreciated.  
@@ -165,13 +169,13 @@ Roadmap
 - [Enable svn and git commit after file changes](#planning:40)
 - [Convert front end to use backbone.js](#planning:120)
 - [respect marked configuration in client javascript](#todo:130)
-- [User should be able to remove task syntax with hotkey when in task text](#doing:30)
-- [User should be able to use TOC in preview mode for md files](#doing:50)
+- [User should be able to remove task syntax with hotkey when in task text](#doing:40)
+- [User should be able to use TOC in preview mode for md files](#doing:60)
 - [User should be able to quickly add a date and assigned to tasks using @&lt;user&gt; @&lt;date&gt;](#planning:50)
 - [User should be able to get quick help with keyboard shortcuts](#planning:130)
 - [User should get a guided tour](#todo:120)
-- [Enable vfs <https://github.com/c9/vfs-socket> as method of interacting with other storage providers.](#doing:110)
-- [Use [Broadway](https://npmjs.org/package/broadway) for IOC.](#doing:130)
+- [Enable vfs <https://github.com/c9/vfs-socket> as method of interacting with other storage providers.](#doing:120)
+- [Use [Broadway](https://npmjs.org/package/broadway) for IOC.](#doing:140)
 
 Future Design CRC
 ----

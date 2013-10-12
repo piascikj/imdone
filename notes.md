@@ -10,6 +10,7 @@ imdone notes for development
 - [forever-monitor for cli <https://github.com/nodejitsu/forever-monitor>](#todo:100)
 
 ###Misc
+- [User should be able to create .md files and have them open in the editor](#doing:20)
 - [Modularize code [Organizing your application using Modules (require.js) - Backbone.js Tutorials](http://backbonetutorials.com/organizing-backbone-using-modules/)](#doing:10)
 - [Use ***context menu api*** > <http://developer.chrome.com/beta/extensions/contextMenus.html#examples> for chrome extension that opens the live kanban board](#todo:110)
 	- On links that look like tasks include something in markdown that defines the source of the content
@@ -31,19 +32,20 @@ imdone notes for development
 - [On opening of file, set the project at the global level](#archive:0)
 - [User should be able to print board as lists of tasks](#done:50)
 - [If a README.md exists, show notification with link](#archive:20)
-- [Create docs site <http://blog.jetstrap.com/2013/03/building-a-docs-site-with-jekyll-github-pages/>](#planning:100)
-- [Add link to Asciiflow <http://www.asciiflow.com/#Draw>](#doing:90)
+- [Create docs site <http://blog.jetstrap.com/2013/03/building-a-docs-site-with-jekyll-github-pages/>](#doing:60)
+    - [Getting to Know GitHub Pages: Static Project Pages, Fast | Webdesigntuts+](http://webdesign.tutsplus.com/tutorials/applications/getting-to-know-github-pages-static-project-pages-fast/) 
+- [Add link to Asciiflow <http://www.asciiflow.com/#Draw>](#doing:100)
 - [Make html and xml files printable](#done:60)
 - [Upgrade to [font-awesome 3.1.1 ](http://fortawesome.github.io/Font-Awesome/icons/)](#planning:10)
 - [accept more data about a task with `#key:value`](#planning:20)
 - [Use icon-asterisk for menu of more options when editing](#planning:30)
-- [Set up user page and point leannotes.com to it](#doing:80)
+- [Set up user page and point leannotes.com to it](#doing:90)
     - [Setting up a custom domain with Pages · GitHub Help](https://help.github.com/articles/setting-up-a-custom-domain-with-pages)
     - [User, Organization and Project Pages · GitHub Help](https://help.github.com/articles/user-organization-and-project-pages)
 ###Bugs
 - [Renaming lists is broken with multiple projects loaded](#archive:100)
 - [Open editor for new files](#planning:0)
-- [User should be able to jump to task by clicking it in preview](#doing:20)
+- [User should be able to jump to task by clicking it in preview](#doing:30)
 - [Move search to a dialog that's always available with ctrl+shift+f](#done:0)
 
 ###Labels and Badges
