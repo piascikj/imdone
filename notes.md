@@ -10,6 +10,7 @@ imdone notes for development
 - [forever-monitor for cli <https://github.com/nodejitsu/forever-monitor>](#todo:100)
 
 ###Misc
+- [Use prism for syntax highlighting [Prism](http://prismjs.com/)](#doing:0)
 - [User should be able to create .md files and have them open in the editor](#doing:20)
 - [Modularize code [Organizing your application using Modules (require.js) - Backbone.js Tutorials](http://backbonetutorials.com/organizing-backbone-using-modules/)](#doing:10)
 - [Use ***context menu api*** > <http://developer.chrome.com/beta/extensions/contextMenus.html#examples> for chrome extension that opens the live kanban board](#todo:110)
