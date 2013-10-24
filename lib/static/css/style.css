@@ -19,10 +19,12 @@ code.highlight {
 }
 
 code.line-number {
-  width: 50px;
+  width: 4em;
   display: block;
   float: left;
   color: hsl(14, 58%, 55%);
+  text-align: right;
+  padding-right: 1em;
 }
 
 blockquote p {
