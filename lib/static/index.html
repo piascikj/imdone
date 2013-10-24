@@ -233,7 +233,15 @@
       {{/if}}
     </script>
     <script id="search-results-template" type="text/x-handlebars-template">
-      <h3>Searching {{results.filesSearched}} files for "{{results.opts.query}}" in {{project}}</h3>  
+      <ul class="pager">
+        {{#if previous}}
+        <li><a href="{{previous}}">&laquo; previous</a></li>
+        {{/if}}
+        {{#if next}}
+        <li><a href="{{next}}">next &raquo;</a></li>
+        {{/if}}
+      </ul>
+      <h3>Searched {{results.filesSearched}} files for "{{results.opts.query}}" in {{project}}</h3>  
       {{#if results.result}}
         <h3>Showing results {{results.opts.offset}}-{{last}}</h3>
         {{#each results.result}}
