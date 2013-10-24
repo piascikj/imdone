@@ -12,7 +12,6 @@
 [![NPM version](https://badge.fury.io/js/imdone.png)](https://npmjs.org/package/imdone)
 [![Flattr this](http://api.flattr.com/button/flattr-badge-large.png)](http://flattr.com/thing/1286067/iMDone)
 
-
 Keep your tasks in your work!!!
 ----
 A simple scrum board and markdown wiki for geeks.  No DB needed!  Your tasks are in your source code, so you can share your board on [github](http://www.github.com).
@@ -55,7 +54,7 @@ Search and more!
 - **Preview markdown files and print them as markdown or html!**
 - **Hide and show lists**
 - **Delete files**
-- **Search**
+- **Search with highlighted results**
 
 Keyboard shortcuts
 ----
