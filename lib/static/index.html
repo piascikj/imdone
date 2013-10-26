@@ -116,7 +116,7 @@
         <a href="#" id="list-name-save" class="btn btn-primary">Save changes</a>
       </div>
     </div>
-    <div id="file-modal" class="modal hide fade">
+    <div id="file-modal" class="modal hide">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
           <i class="icon-remove"></i>
@@ -134,7 +134,7 @@
         <a href="#" id="file-open" class="btn btn-primary">Open</a>
       </div>
     </div>
-    <div id="remove-file-modal" class="modal hide fade">
+    <div id="remove-file-modal" class="modal hide">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
           <i class="icon-remove"></i>
@@ -148,6 +148,21 @@
       <div class="modal-footer">
         <a href="#" class="btn modal-close">Cancel</a>
         <a href="#" id="remove-file-ok-btn" class="btn btn-primary">Yes</a>
+      </div>
+    </div>
+    <div id="close-file-modal" class="modal hide">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          <i class="icon-remove"></i>
+        </button>
+        <h3 class="mdl-header">Save File</h3>
+      </div>
+      <div class="modal-body">
+        <p>This file has unsaved changes.  Would you like to save these changes?</p>
+      </div>
+      <div class="modal-footer">
+        <a href="#" id="close-file-cancel-btn" class="btn modal-close">No</a>
+        <a href="#" id="close-file-ok-btn" class="btn btn-primary">Yes</a>
       </div>
     </div>
     <!-- Mustache templates -->
