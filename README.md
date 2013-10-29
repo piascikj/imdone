@@ -32,7 +32,7 @@ A simple scrum board and markdown wiki for geeks.  No DB needed!  Your tasks are
 
 **Put a task on the bottom of a list called "doing" (giving it a sort value of 1000 will put it at the bottom unless you have tons of tasks in the list)**  
 ```
-[this is a task in doing](#doing:180)
+[this is a task in doing](#doing:30)
 ```
 
 **Tasks are sorted by the number after the `:`**
@@ -165,16 +165,16 @@ Testing
 Roadmap
 ----
 
-- [Enable svn and git commit after file changes](#planning:40)
-- [Convert front end to use backbone.js](#planning:120)
+- [Enable svn and git commit after file changes](#planning:190)
+- [Convert front end to use backbone.js](#planning:260)
 - [respect marked configuration in client javascript](#todo:130)
-- [User should be able to remove task syntax with hotkey when in task text](#doing:60)
-- [User should be able to use TOC in preview mode for md files](#doing:80)
-- [User should be able to quickly add a date and assigned to tasks using @&lt;user&gt; @&lt;date&gt;](#planning:50)
-- [User should be able to get quick help with keyboard shortcuts](#planning:130)
+- [User should be able to remove task syntax with hotkey when in task text](#planning:110)
+- [User should be able to use TOC in preview mode for md files](#planning:90)
+- [User should be able to quickly add a date and assigned to tasks using @&lt;user&gt; @&lt;date&gt;](#planning:200)
+- [User should be able to get quick help with keyboard shortcuts](#planning:270)
 - [User should get a guided tour](#todo:120)
-- [Enable vfs <https://github.com/c9/vfs-socket> as method of interacting with other storage providers.](#doing:150)
-- [Use [Broadway](https://npmjs.org/package/broadway) for IOC.](#doing:170)
+- [Enable vfs <https://github.com/c9/vfs-socket> as method of interacting with other storage providers.](#planning:30)
+- [Use [Broadway](https://npmjs.org/package/broadway) for IOC.](#planning:0)
 
 Future Design CRC
 ----
