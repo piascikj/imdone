@@ -1,4 +1,4 @@
-```sh
+```bash
 
 	  _   __  __   _____                         
 	 (_) |  \/  | |  __ \                        
@@ -58,7 +58,7 @@ Search and more!
 
 Keyboard shortcuts
 ----
-```sh
+```bash
 Shift+Ctrl+s    Save file
 Shift+Ctrl+x    Remove file
 esc             File View - exit editor/preview
@@ -76,7 +76,7 @@ Prerequisites
 
 Install
 ----
-```sh
+```bash
 npm install -g imdone
 ```
 
@@ -84,13 +84,13 @@ Run
 ----
 - open a terminal window and navigate to your local project directory and run:  
 
-```sh
+```bash
 imdone -o
 ```
 
 - Here's the help output
 
-```sh
+```bash
 Usage: imdone [options]
 
 Options:
