@@ -1,13 +1,3 @@
-```
-
-	  _   __  __   _____                         
-	 (_) |  \/  | |  __ \                        
-	  _  | \  / | | |  | |   ___    _ __     ___ 
-	 | | | |\/| | | |  | |  / _ \  | '_ \   / _ \
-	 | | | |  | | | |__| | | (_) | | | | | |  __/
-	 |_| |_|  |_| |_____/   \___/  |_| |_|  \___|
-```
-
 [![Dependency Status](https://gemnasium.com/piascikj/imdone.png)](https://gemnasium.com/piascikj/imdone)
 [![NPM version](https://badge.fury.io/js/imdone.png)](https://npmjs.org/package/imdone)
 [![Flattr this](http://api.flattr.com/button/flattr-badge-large.png)](http://flattr.com/thing/1286067/iMDone)
