@@ -1,4 +1,4 @@
-
+```sh
 
 	  _   __  __   _____                         
 	 (_) |  \/  | |  __ \                        
@@ -6,7 +6,7 @@
 	 | | | |\/| | | |  | |  / _ \  | '_ \   / _ \
 	 | | | |  | | | |__| | | (_) | | | | | |  __/
 	 |_| |_|  |_| |_____/   \___/  |_| |_|  \___|
-
+```
 
 [![Dependency Status](https://gemnasium.com/piascikj/imdone.png)](https://gemnasium.com/piascikj/imdone)
 [![NPM version](https://badge.fury.io/js/imdone.png)](https://npmjs.org/package/imdone)
@@ -20,18 +20,18 @@ A simple scrum board and markdown wiki for geeks.  No DB needed!  Your tasks are
 
 
 **Put a task at the top of a list called "todo"**  
-```
+```Markdown
 [this is a task](#todo:0)
 [this is another task](#todo:10)
 ```  
 
 **In javascript code**  
-```
+```javascript
 //[this is a task in javascript code](#todo:0)
 ```  
 
 **Put a task on the bottom of a list called "doing" (giving it a sort value of 1000 will put it at the bottom unless you have tons of tasks in the list)**  
-```
+```Markdown
 [this is a task in doing](#doing:40)
 ```
 
@@ -40,7 +40,7 @@ A simple scrum board and markdown wiki for geeks.  No DB needed!  Your tasks are
 ### Filter by path
 You can filter by path using the filter box in the top right corner, or by embedding a filter link in a task like this:  
 
-```
+```Markdown
 [Filter by [src/main/java](#filter/src/main/java)](#filters:0)
 ```  
 
@@ -58,7 +58,7 @@ Search and more!
 
 Keyboard shortcuts
 ----
-```
+```sh
 Shift+Ctrl+s    Save file
 Shift+Ctrl+x    Remove file
 esc             File View - exit editor/preview
@@ -76,7 +76,7 @@ Prerequisites
 
 Install
 ----
-```
+```sh
 npm install -g imdone
 ```
 
@@ -84,13 +84,13 @@ Run
 ----
 - open a terminal window and navigate to your local project directory and run:  
 
-```
+```sh
 imdone -o
 ```
 
 - Here's the help output
 
-```
+```sh
 Usage: imdone [options]
 
 Options:
@@ -146,7 +146,7 @@ Fork this repository and run imdone in your local copy.  I use imdone for keep t
 Configuration
 ----
 After running imdone for the first time, modify imdone/imdone.js in your project directory.  The default config looks like this.  Your imdone.js will extend this.
-  
+```javascript
 	module.exports = {
 		include:/^.*$/,
 		exclude:/^(node_modules|imdone|target)\/|\.(git|svn)\/|\~$|\.(jpg|png|gif|swp)$/,
@@ -156,6 +156,7 @@ After running imdone for the first time, modify imdone/imdone.js in your project
 			sanitize: true
 		}
 	};
+```
 
 Testing
 ----
