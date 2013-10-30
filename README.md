@@ -76,7 +76,7 @@ Prerequisites
 
 Install
 ----
-```language-bash
+```
 npm install -g imdone
 ```
 
@@ -84,7 +84,7 @@ Run
 ----
 - open a terminal window and navigate to your local project directory and run:  
 
-```language-bash
+```
 imdone -o
 ```
 
