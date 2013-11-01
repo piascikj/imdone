@@ -4,49 +4,31 @@
 
 Introduction
 ----
-When working on a software project or markdown for a blog or wiki, there are always tasks you need to record.  Most people use a separate tool to record tasks and sort them into lists.  That's where iMDone comes in.  Tasks are just markdown links!
+When working on a software project in code or writing project in markdown, there are always tasks you need to record.
+Most people use a separate tool to record tasks and sort them into lists.
+That's where iMDone comes in.  Tasks are just markdown links!
 
-**Put a task at the top of a list called "todo"**  
-```
-[this is a task](#todo:0)
-[this is another task](#todo:10)
-```  
-
-**In javascript code**  
-```javascript
-//[this is a task in javascript code](#todo:0)
-```  
-
-**Put a task on the bottom of a list called "doing" (giving it a sort value of 1000 will put it at the bottom unless you have tons of tasks in the list)**  
-```
-[this is a task in doing](#doing:30)
-```
-
-**Tasks are sorted by the number after the `:`**
-
-**You can filter by path using the filter box in the top right corner, or by embedding a filter link in a task like this:**  
-
-```
-[Filter by [src/main/java](#filter/src/main/java)](#filters:0)
-```  
-
-This would create a filters list containing this task and a link that will populate the filter box with *src/main/java*
-
-Prerequisites 
+Features
 ----
-- [nodejs](http://nodejs.org/) is [installed](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager)
-- [npm](https://npmjs.org/) is [installed](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager)
+- Create tasks in any text file using markdown link syntax
+- Sort tasks and move them between lists using drag and drop
+- Reorder lists
+- Hide and show lists
+- Task filters
+- Search
+- Create, delete and edit files
+- Markdown preview with table of contents
+- Syntax highlighting in markdown code blocks
 
-
-Install
+Quickstart
 ----
+iMDone is written in javascript and runs on [nodejs](http://nodejs.org/).  You'll need to install nodejs to use iMDone
+
+- Install
 ```
 npm install -g imdone
 ```
-
-Run
-----
-- open a terminal window and navigate to your local project directory and run...
+- Run iMDone by opening a terminal window, navigate to your local project directory and run...
 ```
 imdone -o
 ```
@@ -54,6 +36,33 @@ imdone -o
 ```
 imdone -h
 ```
+- Open a file by clicking on the folder icon and create a task like this
+```
+[Use imdone to manage tasks in my project](#doing:0)
+```
+
+Tips
+----
+- **Tasks are sorted by the number after the colon**
+- **Put a task at the top of a list called "todo"**  
+```
+[this is a task](#todo:0)
+[this is another task](#todo:10)
+```  
+- **In javascript code**  
+```javascript
+//[this is a todo task in javascript code](#todo:0)
+```  
+- **Put a task at the bottom of a list called "doing"**
+```
+[this is a task in doing](#doing:1000)
+```
+- **Embed a filter link in a task like this:**  
+```
+[Filter by [src/main/java](#filter/src/main/java)](#filters:0)
+```  
+This would create a filters list containing this task and a link that will populate the filter box with *src/main/java*
+
 
 Common Errors
 ----
