@@ -1,6 +1,7 @@
 imdone notes for development
 ==========
-### npm stats  
+## npm
+### Stats  
 - [NPM stats for imdone](http://isaacs.iriscouch.com/downloads/_design/app/_view/pkg?group_level=3&start_key=["imdone"]&end_key=["imdone",{}])
 - [NPM stats for imdone total downloads](http://isaacs.iriscouch.com/downloads/_design/app/_view/pkg?group_level=1&start_key=["imdone"]&end_key=["imdone",{}])
 - [npm-stat | vorb.de - imdone](http://npm-stat.vorb.de/charts.html?package=imdone)
@@ -8,8 +9,6 @@ imdone notes for development
 
 ### Writing a node package
 - <http://javascriptplayground.com/blog/2012/08/writing-a-command-line-node-tool>
-
-### UI
 
 ### cli
 - [forever-monitor for cli <https://github.com/nodejitsu/forever-monitor>](#todo:100)
