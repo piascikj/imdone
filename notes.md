@@ -15,11 +15,11 @@ imdone notes for development
 - [forever-monitor for cli <https://github.com/nodejitsu/forever-monitor>](#todo:100)
 
 ### Misc
-- [User should get a modal confirmation if closing a file that has been edited #feature](#doing:10)
-- [User should be able to add #hashtags to a #task and filter by them #feature](#doing:20)
+- [User should get a modal confirmation if closing a file that has been edited #feature](#doing:0)
+- [User should be able to add #hashtags to a #task and filter by them #feature](#doing:10)
     - They could be after the list name like #doing#feature and apear as a pill or badge on the front end
-- [User should be able to jump to task by clicking it in preview](#doing:30)
-- [Use prism for syntax highlighting [Prism](http://prismjs.com/)](#done:0)
+- [User should be able to jump to task by clicking it in preview](#doing:20)
+- [Use prism for syntax highlighting [Prism](http://prismjs.com/)](#done:10)
 - [User should be able to create .md files and have them open in the editor](#planning:110)
 - [Modularize code [Organizing your application using Modules (require.js) - Backbone.js Tutorials](http://backbonetutorials.com/organizing-backbone-using-modules/)](#planning:120)
 - [Use ***context menu api*** > <http://developer.chrome.com/beta/extensions/contextMenus.html#examples> for chrome extension that opens the live kanban board](#todo:110)
@@ -32,20 +32,20 @@ imdone notes for development
 - [Implement find and replace <https://github.com/ajaxorg/ace/issues/56>](#todo:60)
 - [Spell check in Ace <http://www.chrisfinke.com/2011/03/31/announcing-typo-js-client-side-javascript-spellchecking/> <http://jasonaclark.com/2011/05/04/ode-to-my-spell-checker/> <https://npmjs.org/package/spellcheck>](#planning:210)
 - [use [doco languages.js](https://github.com/jashkenas/docco/blob/master/resources/languages.json) to [detect TODO and FIXME](lib/imdone.js) style comments and convert but keep the TODO or FIXME or whatever in the front.](#planning:200)
-- [If links to files exist in tasks, open the file on click](#done:100)
+- [If links to files exist in tasks, open the file on click](#done:110)
 - [User should be able to select the color of lists by bootstrap badge class](#planning:220)
 - [Leave manage lists open when hiding/showing list](#archive:150)
 - [Add links to imdone website, pledgie and [twitter](https://twitter.com/about/resources/buttons#tweet), also use flattr](#planning:280)
-- [Add search for files and tasks <https://github.com/visionmedia/search> or <https://github.com/visionmedia/reds>](#done:30)
+- [Add search for files and tasks <https://github.com/visionmedia/search> or <https://github.com/visionmedia/reds>](#done:40)
 - [Block entry and ask the user to load changes if a file changes while editing](#planning:240)
 - [When a user clicks task link in MD, current task should change](#planning:270)
 - [On opening of file, set the project at the global level](#archive:0)
-- [User should be able to print board as lists of tasks](#done:60)
+- [User should be able to print board as lists of tasks](#done:70)
 - [If a README.md exists, show notification with link](#archive:20)
-- [Create docs site <http://blog.jetstrap.com/2013/03/building-a-docs-site-with-jekyll-github-pages/>](#doing:0)
+- [Create docs site <http://blog.jetstrap.com/2013/03/building-a-docs-site-with-jekyll-github-pages/>](#done:0)
     - [Getting to Know GitHub Pages: Static Project Pages, Fast | Webdesigntuts+](http://webdesign.tutsplus.com/tutorials/applications/getting-to-know-github-pages-static-project-pages-fast/) 
 - [Add link to Asciiflow <http://www.asciiflow.com/#Draw>](#planning:50)
-- [Make html and xml files printable](#done:70)
+- [Make html and xml files printable](#done:80)
 - [Upgrade to [font-awesome 3.1.1 ](http://fortawesome.github.io/Font-Awesome/icons/)](#planning:150)
 - [accept more data about a task with `#key:value`](#planning:160)
 - [Use icon-asterisk for menu of more options when editing](#planning:170)
@@ -55,7 +55,7 @@ imdone notes for development
 ### Bugs
 - [Renaming lists is broken with multiple projects loaded #bug](#archive:100)
 - [Open editor for new files #bug](#planning:140) 
-- [Move search to a dialog that's always available with ctrl+shift+f #bug](#done:10)
+- [Move search to a dialog that's always available with ctrl+shift+f #bug](#done:20)
 
 ### Labels and Badges
 - Default <span class="label">Default</span>
@@ -64,6 +64,67 @@ imdone notes for development
 - Important	<span class="label label-important">Important</span>
 - Info <span class="label label-info">Info</span>
 - Inverse <span class="label label-inverse">Inverse</span>
+
+Roadmap
+----
+- [Enable svn and git commit after file changes](#planning:180)
+- [Convert front end to use backbone.js](#planning:250)
+- [respect marked configuration in client javascript](#todo:130)
+- [User should be able to remove task syntax with hotkey when in task text](#planning:100)
+- [User should be able to use TOC in preview mode for md files](#planning:80)
+- [User should be able to quickly add a date and assigned to tasks using @&lt;user&gt; @&lt;date&gt;](#planning:190)
+- [User should be able to get quick help with keyboard shortcuts](#planning:260)
+- [User should get a guided tour](#todo:120)
+- [Enable vfs <https://github.com/c9/vfs-socket> as method of interacting with other storage providers.](#planning:30)
+- [Use [Broadway](https://npmjs.org/package/broadway) for IOC.](#planning:0)
+
+Future Design CRC
+----
+
+###Repository
+
+####Responsibilities
+- Save and load source files
+- Handle authentication for accessing files
+- Handle text search
+
+####Collaborators
+- Project
+
+###RepositoryFactory
+
+####Responsibilities
+- Return a repository object capable of storing and retrieving files
+
+####Collaborators
+- Repository
+
+###Project
+
+####Responsibilities
+- Container for information
+    - User(s)
+    - Role(s)
+    - Repositories
+
+###User
+
+####Responsibilities
+- Container for information
+    - Projects
+
+###SearchFacade
+
+####Responsibilities
+- Run a text search in a given repository
+- Ask the RepositoryFactory for a Repository
+- If there are multiple Repositories for a project delegate to each for searhing
+
+####Collaborators
+- RepositoryFactory
+- Repository
+- Project
+
 
 
 

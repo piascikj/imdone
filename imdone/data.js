@@ -10,7 +10,6 @@
   "hidden": [
     "archive",
     "filters",
-    "todo",
-    "done"
+    "todo"
   ]
 }
