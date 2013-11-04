@@ -41,32 +41,54 @@ imdone -h
 [Use imdone to manage tasks in my project](#doing:0)
 ```
 
+Configuration
+----
+After running imdone for the first time, modify imdone/imdone.js in your project directory.  The default config looks like this.  Your imdone.js will extend this.
+```javascript
+    module.exports = {
+		include:/^.*$/,
+		exclude:/^(node_modules|imdone|target)\/|\.(git|svn)\/|\~$|\.(jpg|png|gif|swp)$/,
+		marked : {
+			gfm: true,
+			pedantic: false,
+			sanitize: true
+		}
+	};
+```
+
 Tips
 ----
 - **Tasks are sorted by the number after the colon**
-- **Put a task at the top of a list called "todo"**  
-```
-[this is a task](#todo:0)
-[this is another task](#todo:10)
-```  
-- **In javascript code**  
+- **Keep tasks in code by including them in comments**  
 ```javascript
 //[this is a todo task in javascript code](#todo:0)
 ```  
-- **Put a task at the bottom of a list called "doing"**
-```
-[this is a task in doing](#doing:1000)
-```
-- **Embed a filter link in a task like this:**  
+- **Embed a filter link in a task for common filters**  
 ```
 [Filter by [src/main/java](#filter/src/main/java)](#filters:0)
 ```  
 This would create a filters list containing this task and a link that will populate the filter box with *src/main/java*
-
+- **Keep the imdone folder in source control!**
+- **If tracking a large number of files, increase the "watch handle limit" to 512k**
+  - As root edit /etc/sysctl.conf, add the following line
+```
+fs.inotify.max_user_watches = 524288
+```
+  - Apply the change
+```
+sudo sysctl -p
+```
 
 Common Errors
 ----
 - If you are using bower in your project be sure to exclude the directory defined in your .bowerrc file (usually bower_components), otherwise you'll end up with too many open files errors.
+
+See it in action!
+----
+Fork this repository and run imdone in your local copy.  I use imdone for keeping track of imdone development.
+
+**imdone will create a directory named imdone that will contain your custom configuration and a file to keep your lists in order**  
+- you should keep the imdone directory in source control  
 
 How you can help
 ----
@@ -83,28 +105,6 @@ If you have some spare time, then there is no better way to help an open source 
 - Provide peer support on our forum
 - Publish an article on your blog (send the link) to educate others regarding some aspect of the project
 - Help with missing documentation
-
-See it in action!
-----
-Fork this repository and run imdone in your local copy.  I use imdone for keeping track of imdone development.
-
-**imdone will create a directory named imdone that will contain your custom configuration and a file to keep your lists in order**  
-- you should keep the imdone directory in source control  
-  
-Configuration
-----
-After running imdone for the first time, modify imdone/imdone.js in your project directory.  The default config looks like this.  Your imdone.js will extend this.
-```javascript
-	module.exports = {
-		include:/^.*$/,
-		exclude:/^(node_modules|imdone|target)\/|\.(git|svn)\/|\~$|\.(jpg|png|gif|swp)$/,
-		marked : {
-			gfm: true,
-			pedantic: false,
-			sanitize: true
-		}
-	};
-```
 
 Testing
 ----
