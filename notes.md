@@ -14,6 +14,7 @@ imdone notes for development
 - [forever-monitor for cli <https://github.com/nodejitsu/forever-monitor>](#todo:100)
 
 ### Misc
+- [User should be able to rename a file](#doing:0)
 - [Switch from flattr to gittip](#doing:0)
 - [User should get a modal confirmation if closing a file that has been edited #feature](#done:0)
 - [User should be able to add #hashtags to a #task and filter by them #feature](#doing:10)

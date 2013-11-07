@@ -18,7 +18,7 @@ Features
 - Search
 - Create, delete and edit files
 - Markdown preview with table of contents
-- Syntax highlighting in markdown code blocks
+- Syntax highlighting in markdown code blocks 
 
 Quickstart
 ----
