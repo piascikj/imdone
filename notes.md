@@ -2,7 +2,7 @@ imdone notes for development
 ==========
 ## npm
 ### Stats  
-- [NPM stats for imdone](http://isaacs.iriscouch.com/downloads/_design/app/_view/pkg?group_level=3&start_key=["imdone"]&end_key=["imdone",{}])
+- [NPM stats for imdone](http://isaacs.iriscouch.com/downloads/_design/app/_view/pkg?group_level=3&end_key=[%22imdone%22]&start_key=[%22imdone%22,{}]&descending=true)
 - [NPM stats for imdone total downloads](http://isaacs.iriscouch.com/downloads/_design/app/_view/pkg?group_level=1&start_key=["imdone"]&end_key=["imdone",{}])
 - [npm-stat | vorb.de - imdone](http://npm-stat.vorb.de/charts.html?package=imdone)
     - [pvorb/npm-stat](https://github.com/pvorb/npm-stat)
