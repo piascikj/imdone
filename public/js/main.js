@@ -19,7 +19,8 @@ requirejs.config({
     store:'/js/store.min',
     prism:'prismjs/js/prism',
     toc:'jquery.toc/jquery.toc',
-  	app:'/js/imdone-local'
+  	app:'/js/imdone-local',
+    scrollTo: "jquery.scrollTo/jquery.scrollTo"
   },
 
   shim: {
@@ -60,6 +61,9 @@ requirejs.config({
       exports: 'Prism'
     },
     'toc': {
+      deps: ['jquery']
+    },
+    'scrollTo': {
       deps: ['jquery']
     }
   }

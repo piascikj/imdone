@@ -200,6 +200,10 @@ blockquote p {
   text-shadow: none;
 }
 
+.task-label {
+  margin-right: 10px;
+}
+
 .column-nav-menu {
   top: 100%;
   width: 220px;

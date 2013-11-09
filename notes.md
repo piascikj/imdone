@@ -14,12 +14,12 @@ imdone notes for development
 - [forever-monitor for cli <https://github.com/nodejitsu/forever-monitor>](#todo:100)
 
 ### Misc
-- [User should be able to rename a file](#doing:0)
-- [Switch from flattr to gittip](#doing:10)
+- [User should be able to rename a file](#doing:10)
+- [Switch from flattr to gittip](#doing:20)
 - [User should get a modal confirmation if closing a file that has been edited #feature](#done:0)
-- [User should be able to add #hashtags to a #task and filter by them #feature](#doing:20)
+- [User should be able to add #hashtags to a #task and filter by them #feature](#doing:30)
     - They could be after the list name like #doing#feature and apear as a pill or badge on the front end
-- [User should be able to jump to task by clicking it in preview](#doing:30)
+- [User should be able to jump to task by clicking it in preview and if list is hidden it should show and task should be highlighted](#doing:0)
 - [Use prism for syntax highlighting [Prism](http://prismjs.com/)](#done:30)
 - [User should be able to create .md files and have them open in the editor](#planning:100)
 - [Modularize code [Organizing your application using Modules (require.js) - Backbone.js Tutorials](http://backbonetutorials.com/organizing-backbone-using-modules/)](#planning:110)

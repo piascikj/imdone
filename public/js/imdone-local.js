@@ -15,7 +15,8 @@ define([
   'printElement',
   'pnotify',
   'hotkeys',
-  'toc'
+  'toc',
+  'scrollTo'
 ], function(_, $, Backbone, Handlebars, JSON, io, marked, Prism, store, Search) {
   ace = window.ace;
   
@@ -110,11 +111,11 @@ define([
     //[For markdown files, find tasks links and give them a badge](#archive:30)
     //[For internal inks, take them to the page](#archive:60)
     //[Let mailto links open email client](#done:60)
-    html = html.replace(/(<a.*?href=")(.*?)(".*?)>/ig, function(anchor, head, href, tail) {
+    html = html.replace(/(<a.*?href=")(.*?)(".*?)>(.*?)(<\/a>)/ig, function(anchor, head, href, tail, content, end) {
       var out = html;
       //Check for mailto links
       if (externalLinks.test(href)) {
-        out = head + href + tail + ' target="_blank">';
+        out = head + href + tail + ' target="_blank">' + content + end;
       //Check for task links
       } else if (taskLinks.test(href)) {
         var list;
@@ -122,23 +123,30 @@ define([
           list = taskList;
           out = href;
         });
-        out = head + href + tail + '>' + '<span class="label label-info">' + list + '</span>&nbsp;';
+        out = '<span class="label label-info task-label">' + list + '</span>' + head + href + tail + ' class="task-link">' + 
+                      '<span class="task-content">' + content + '</span>' + end;
       //Check for filter links
       } else if (filterLinks.test(href)) {
         var filterBy = href.split("/")[1];
-        out = head + href + tail + ' title="Filter by ' + filterBy + '">';   
+        out = head + href + tail + ' title="Filter by ' + filterBy + '">' + content + end;   
       //Then it must be a link to a file
       } else if (mailtoLinks.test(href) || mailtoLinks.test($('<div />').html(href).text())) {
         out = anchor;
       //Check for external links
       } else {
-        out = head + '/#file?path=' + href + "&project=" + imdone.cwd() + tail + '>';
+        out = head + '/#file?path=' + href + "&project=" + imdone.cwd() + tail + '>' + content + end;
       }
 
       return out;
     });
     return html;
   };
+  $(".task-link").live('click', function(evt) {
+    imdone.scrollToTask = $(evt.target).text();
+    imdone.navigateToCurrentProject();
+    evt.preventDefault();
+    evt.stopPropagation();
+  });
   
   //Handlebars helpers
   Handlebars.registerHelper('markDown', function(md) {
@@ -356,7 +364,7 @@ define([
       $('.list-name-container, .list-hide, .list-show').tooltip({placement:"bottom"});
 
       if (imdone.readmeNotify) imdone.readmeNotify.pnotify_remove();
-      if(data.readme) {
+      if (data.readme) {
         var href = "#file?project=" + imdone.cwd() + "&path=" + data.readme + "&preview=true";
         imdone.readmeNotify = $.pnotify({
           title: '<a href="' + href + '">README</a>',
@@ -366,6 +374,15 @@ define([
           icon: "icon-book",
           type: 'info'
         });
+      }
+
+      if (imdone.scrollToTask) {
+        var task = $('.task:contains("' + imdone.scrollToTask + '")');
+        if (task.length > 0) {
+          $('.app-container').scrollTo(task, function() {
+            delete imdone.scrollToTask;
+          });
+        } else delete imdone.scrollToTask;
       }
     }
   };
@@ -826,7 +843,7 @@ define([
             if (imdone.isMD()) {
               imdone.showPreview();
             } else {
-              imdone.app.navigate("project" + imdone.cwd(), {trigger:true});
+              imdone.navigateToCurrentProject();
             }
           });
           return false;
@@ -848,7 +865,7 @@ define([
         if (boardMode) {
           imdone.clearFilter();
         }
-        imdone.app.navigate("project" + imdone.cwd(), {trigger:true});
+        imdone.navigateToCurrentProject();
         e.preventDefault();
         e.stopPropagation();
         return false;
@@ -885,7 +902,7 @@ define([
       //close the source
       imdone.closeFileBtn.live('click', function(e) {
         imdone.closeFileConfirm(function() {
-          imdone.app.navigate("project" + imdone.cwd(), {trigger:true});
+          imdone.navigateToCurrentProject();
         });
         e.preventDefault();
         return false;
@@ -1034,6 +1051,10 @@ define([
         });
         Backbone.history.start();
       });
+
+      imdone.navigateToCurrentProject = function() {
+        imdone.app.navigate("project" + imdone.cwd(), {trigger:true});
+      };
   };
 
   var AppRouter = Backbone.Router.extend({
