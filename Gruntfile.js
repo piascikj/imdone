@@ -1,6 +1,19 @@
 module.exports = function (grunt) {
   'use strict';
   grunt.initConfig({
+    bower: {
+      install: {
+        options: {
+          targetDir: './public/lib',
+          layout: 'byComponent',
+          install: true,
+          verbose: true,
+          cleanTargetDir: true,
+          cleanBowerDir: false
+        }
+      }
+    },
+
     jshint: {
       options: {
         eqeqeq: true,
@@ -47,8 +60,9 @@ module.exports = function (grunt) {
   
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-jasmine-node-coverage');
+  grunt.loadNpmTasks('grunt-bower-task');
 
-  grunt.registerTask('default', ['jshint','jasmine_node']);
+  grunt.registerTask('default', ['jshint','jasmine_node','bower:install']);
   grunt.registerTask('test', 'jasmine_node');
   grunt.registerTask('lint', 'jshint');
 };

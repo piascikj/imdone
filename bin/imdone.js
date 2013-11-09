@@ -5,14 +5,14 @@ var fs = require('fs');
 var path = require('path');
 
 //Got this badass lib from grunt
-var findup = require('../lib/util/findup');
+var findup = require('../server/util/findup');
 
 // Where might a locally-installed imdone live?
 var dir = findup(process.cwd(), 'imdone.js');
 dir = path.resolve(dir || '.', '../node_modules/imdone');
 
 // If imdone is installed locally, use it. Otherwise use this imdone.
-if (!fs.existsSync(dir)) { dir = '../lib/imdone'; }
+if (!fs.existsSync(dir)) { dir = '../server/imdone'; }
 
 // Run imdone.
 var imdone = require(dir);

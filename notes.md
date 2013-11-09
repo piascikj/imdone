@@ -1,6 +1,6 @@
 imdone notes for development
 ==========
-## npm
+## npm 
 ### Stats  
 - [NPM stats for imdone](http://isaacs.iriscouch.com/downloads/_design/app/_view/pkg?group_level=3&end_key=[%22imdone%22]&start_key=[%22imdone%22,{}]&descending=true)
 - [NPM stats for imdone total downloads](http://isaacs.iriscouch.com/downloads/_design/app/_view/pkg?group_level=1&start_key=["imdone"]&end_key=["imdone",{}])
@@ -15,11 +15,11 @@ imdone notes for development
 
 ### Misc
 - [User should be able to rename a file](#doing:0)
-- [Switch from flattr to gittip](#doing:0)
+- [Switch from flattr to gittip](#doing:10)
 - [User should get a modal confirmation if closing a file that has been edited #feature](#done:0)
-- [User should be able to add #hashtags to a #task and filter by them #feature](#doing:10)
+- [User should be able to add #hashtags to a #task and filter by them #feature](#doing:20)
     - They could be after the list name like #doing#feature and apear as a pill or badge on the front end
-- [User should be able to jump to task by clicking it in preview](#doing:20)
+- [User should be able to jump to task by clicking it in preview](#doing:30)
 - [Use prism for syntax highlighting [Prism](http://prismjs.com/)](#done:30)
 - [User should be able to create .md files and have them open in the editor](#planning:100)
 - [Modularize code [Organizing your application using Modules (require.js) - Backbone.js Tutorials](http://backbonetutorials.com/organizing-backbone-using-modules/)](#planning:110)
@@ -37,7 +37,7 @@ imdone notes for development
 - [User should be able to select the color of lists by bootstrap badge class](#planning:210)
 - [Leave manage lists open when hiding/showing list](#archive:150)
 - [Add links to imdone website, pledgie and [twitter](https://twitter.com/about/resources/buttons#tweet), also use flattr](#planning:270)
-- [Add search for files and tasks <https://github.com/visionmedia/search> or <https://github.com/visionmedia/reds>](#done:60)
+- [Add search for files and tasks <https://github.com/visionmedia/search> or <https://github.com/visionmedia/reds>](#done:70)
 - [Block entry and ask the user to load changes if a file changes while editing](#planning:230)
 - [When a user clicks task link in MD, current task should change](#planning:260)
 - [On opening of file, set the project at the global level](#archive:0)
@@ -56,7 +56,7 @@ imdone notes for development
 ### Bugs
 - [Renaming lists is broken with multiple projects loaded #bug](#archive:100)
 - [Open editor for new files #bug](#planning:130) 
-- [Move search to a dialog that's always available with ctrl+shift+f #bug](#done:40)
+- [Move search to a dialog that's always available with ctrl+shift+f #bug](#done:50)
 
 ### Labels and Badges
 - Default <span class="label">Default</span>

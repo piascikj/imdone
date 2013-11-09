@@ -1,69 +1,70 @@
 {
-   "name": "imdone",
-   "preferGlobal": "true",
-   "version": "0.3.3",
-   "description": "A simple scrum board and markdown wiki for geeks.",
-   "keywords": [
-      "scrum",
-      "markdown",
-      "kanban",
-      "wiki",
-      "code",
-      "comments",
-      "cli",
-      "git"
-   ],
-   "subdomain": "piascikj.imdone",
-   "homepage": "http://piascikj.github.io/imdone/",
-   "author": {
-      "name": "Jesse Piascik",
-      "email": "jesse@piascik.net"
-   },
-   "repository": {
-      "type": "git",
-      "url": "https://github.com/piascikj/imdone.git"
-   },
-   "bugs": {
-      "url": "https://github.com/piascikj/imdone/issues"
-   },
-   "licenses": [
-      {
-         "type": "MIT",
-         "url": "https://github.com/piascikj/imdone/blob/master/LICENSE-MIT"
-      }
-   ],
-   "bin": {
-      "imdone": "bin/imdone.js"
-   },
-   "main": "lib/imdone",
-   "engines": {
-      "node": ">= 0.4.12"
-   },
-   "scripts": {
-      "test": "grunt test",
-      "start": "bin/imdone.js"
-   },
-   "dependencies": {
-      "commander" : "2.x",
-      "pkginfo" : "0.3.0",
-      "async": "0.2.x",
-      "express": "3.x",
-      "underscore": "1.5.x",
-      "marked": "0.2.x",
-      "wrench": "1.5.x",
-      "open": "0.0.x",
-      "watchr": "2.4.x",
-      "socket.io": "0.9.x",
-      "request": "2.x",
-      "handlebars": "1.x",
-      "mkdirp": "0.3.x",
-      "node-syntaxhighlighter": "0.8.1",
-      "selfish": "0.3.2",
-      "graceful-fs": "~2.0.1"
-   },
+  "name": "imdone",
+  "preferGlobal": "true",
+  "version": "0.3.3",
+  "description": "A simple scrum board and markdown wiki.",
+  "keywords": [
+    "scrum",
+    "markdown",
+    "kanban",
+    "wiki",
+    "code",
+    "comments",
+    "cli",
+    "git"
+  ],
+  "subdomain": "piascikj.imdone",
+  "homepage": "http://piascikj.github.io/imdone/",
+  "author": {
+    "name": "Jesse Piascik",
+    "email": "jesse@piascik.net"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/piascikj/imdone.git"
+  },
+  "bugs": {
+    "url": "https://github.com/piascikj/imdone/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/piascikj/imdone/blob/master/LICENSE-MIT"
+    }
+  ],
+  "bin": {
+    "imdone": "bin/imdone.js"
+  },
+  "main": "server/imdone",
+  "engines": {
+    "node": ">= 0.4.12"
+  },
+  "scripts": {
+    "test": "grunt test",
+    "start": "bin/imdone.js"
+  },
+  "dependencies": {
+    "commander": "2.x",
+    "pkginfo": "0.3.0",
+    "async": "0.2.x",
+    "express": "3.x",
+    "underscore": "1.5.x",
+    "marked": "0.2.x",
+    "wrench": "1.5.x",
+    "open": "0.0.x",
+    "watchr": "2.4.x",
+    "socket.io": "0.9.x",
+    "request": "2.x",
+    "handlebars": "1.x",
+    "mkdirp": "0.3.x",
+    "node-syntaxhighlighter": "0.8.1",
+    "selfish": "0.3.2",
+    "graceful-fs": "~2.0.1"
+  },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.6.0",
     "grunt": "~0.4.1",
-    "grunt-jasmine-node-coverage":"~0.1.5"
+    "grunt-jasmine-node-coverage": "~0.1.5",
+    "grunt-bower-task": "~0.3.3"
   }
 }
