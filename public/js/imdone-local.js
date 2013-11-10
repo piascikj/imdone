@@ -261,17 +261,18 @@ define([
           var results = model.toJSON();
           var last = results.total+results.offset;
           var context = {project:project,results:results,last:last};
+          project = encodeURIComponent(project);
           if (results.offset > 0) {
             var offset = results.offset - results.opts.limit;
-            context.previous = "#search?project=" + project + 
-                               "&query=" + results.query +
-                               "&offset=" + offset;
+            context.previous = "#search/" + project + 
+                               "-" + results.query +
+                               "-" + offset;
           }
 
           if (results.filesNotSearched > 0) {
-            context.next = "#search?project=" + project + 
-                               "&query=" + results.query +
-                               "&offset=" + last;
+            context.next = "#search/" + project + 
+                               "-" + results.query +
+                               "-" + last;
           }
           imdone.searchResults.html(template(context));
           imdone.showSearchResults();
@@ -990,10 +991,12 @@ define([
       imdone.searchForm.submit(function(event) {
         event.preventDefault();
         imdone.searchBtn.dropdown('toggle');
-        var dest = "search?project=" + imdone.cwd() + 
-                   "&query=" + imdone.searchField.val() +
-                   "&offset=0";
+        var cwd = encodeURIComponent(imdone.cwd());
+        var dest = "search/" + cwd + 
+                   "-" + imdone.searchField.val() +
+                   "-0";
         imdone.app.navigate(dest, {trigger:true});
+        return false;
       });
 
       //listen for search button click
@@ -1060,7 +1063,7 @@ define([
   var AppRouter = Backbone.Router.extend({
       routes: {
           //[Set up router for projects and files](#archive:50)
-          "search?*querystring": "searchRoute",
+          "search/:project-:query-:offset(-:limit)": "searchRoute",
           "project*project": "projectRoute",
           "file?*querystring": "fileRoute",
           "filter/*filter" : "filterRoute", //[Filter route so links can change filter](#done:80)
@@ -1112,10 +1115,10 @@ define([
         else self.changeFile(qs);
       },
 
-      searchRoute: function(qs) {
-        var params = imdone.parseQueryString(qs);
+      searchRoute: function(project, query, offset, limit) {
+        var params = {project:project, query:query, offset:offset, limit:limit};
         if (!imdone.cwp()) {
-          imdone.getKanban({project:params.project, noPaint:true, callback:function() {
+          imdone.getKanban({project:project, noPaint:true, callback:function() {
             imdone.paintProjectsMenu();
             imdone.search(params);
           }});
@@ -1125,8 +1128,7 @@ define([
         $(document).attr("title", "iMDone - " + params.project + " Find: " + params.query);
       },
 
-      defaultRoute: function(action) {
-        if (action) console.log("action:" + action);
+      defaultRoute: function() {
         if (!imdone.initialized) {
           imdone.app.navigate("project" + imdone.projects[0], {trigger:true}); 
           imdone.initUpdate();

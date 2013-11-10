@@ -54,10 +54,7 @@
       "": "lib/marked.js"
     },
     "backbone": {
-      "": [
-        "backbone-min.js",
-        "backbone-min.map"
-      ]
+      "": "backbone*"
     },
     "bootstrap": {
       "js": "dist/js/*.js",
