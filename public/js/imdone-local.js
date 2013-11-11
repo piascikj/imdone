@@ -142,7 +142,9 @@ define([
     return html;
   };
   $(".task-link").live('click', function(evt) {
-    imdone.scrollToTask = $(evt.target).text();
+    var $el = $(evt.target);
+    imdone.scrollToTask = $el.text();
+    imdone.scrollToList = $el.closest('li').find('.task-label').text();
     imdone.navigateToCurrentProject();
     evt.preventDefault();
     evt.stopPropagation();
@@ -225,10 +227,10 @@ define([
       }, "json");
   }
 
-  imdone.showList = function(list) {
+  imdone.showList = function(list, cb) {
     $.post("/api/showList", {list:list, project:imdone.cwd()},
       function(data){
-        imdone.getKanban();
+        imdone.getKanban({callback:cb});
       }, "json");
   }
 
@@ -378,12 +380,27 @@ define([
       }
 
       if (imdone.scrollToTask) {
-        var task = $('.task:contains("' + imdone.scrollToTask + '")');
-        if (task.length > 0) {
-          $('.app-container').scrollTo(task, function() {
-            delete imdone.scrollToTask;
+        var task = imdone.scrollToTask, list = imdone.scrollToList;
+        delete imdone.scrollToTask;
+        delete imdone.scrollToList;
+
+        var scrollToTask = function() {
+          var $task = $('.task:contains("' + task + '")');
+          if ($task.length > 0) {
+            $task.addClass('alert alert-info').removeClass('well');
+            $('.app-container').scrollTo($task)
+          }
+        };
+
+        var $list = $('#' + list);
+
+        if ($list.length < 1) {
+          imdone.showList(list, function() {
+            scrollToTask()
           });
-        } else delete imdone.scrollToTask;
+        } else {
+          scrollToTask();
+        }
       }
     }
   };
@@ -1049,7 +1066,6 @@ define([
         imdone.app = new AppRouter();
         imdone.calls = 0;
         Backbone.history.on('route', function () {
-          console.log(imdone.calls);
           imdone.calls++;
         });
         Backbone.history.start();
