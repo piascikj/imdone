@@ -102,7 +102,7 @@ define([
     md = md || imdone.source.src;
     var html = marked(md);
     var externalLinks = /^http/,
-        mailtoLinks = /^mailto/
+        mailtoLinks = /^mailto/,
         taskLinks = /#([\w\-]+?):(\d+?\.{0,1}\d*?)/,
         filterLinks = /#filter\//;
     //Replace any script elements
@@ -110,10 +110,11 @@ define([
     //Make all links with http open in new tab
     //[For markdown files, find tasks links and give them a badge](#archive:30)
     //[For internal inks, take them to the page](#archive:60)
-    //[Let mailto links open email client](#done:60)
+    //[Let mailto links open email client](#done:70)
     html = html.replace(/(<a.*?href=")(.*?)(".*?)>(.*?)(<\/a>)/ig, function(anchor, head, href, tail, content, end) {
       var out = html;
-      //Check for mailto links
+      // [Fix external links in tasks text to use `target="_blank"`](#doing:0)
+      //Check for external links
       if (externalLinks.test(href)) {
         out = head + href + tail + ' target="_blank">' + content + end;
       //Check for task links
@@ -129,10 +130,10 @@ define([
       } else if (filterLinks.test(href)) {
         var filterBy = href.split("/")[1];
         out = head + href + tail + ' title="Filter by ' + filterBy + '">' + content + end;   
-      //Then it must be a link to a file
+      //Check for mailto links
       } else if (mailtoLinks.test(href) || mailtoLinks.test($('<div />').html(href).text())) {
         out = anchor;
-      //Check for external links
+      //Then it must be a link to a file
       } else {
         out = head + '/#file?path=' + href + "&project=" + imdone.cwd() + tail + '>' + content + end;
       }
@@ -765,7 +766,7 @@ define([
         },
     });
   };
-  //[Implement delete file functionality](#done:110)
+  //[Implement delete file functionality](#done:120)
   imdone.removeFileBtn.live('click', function() {
     imdone.removeSourceConfirm();
   });
@@ -1082,7 +1083,7 @@ define([
           "search/:project-:query-:offset(-:limit)": "searchRoute",
           "project*project": "projectRoute",
           "file?*querystring": "fileRoute",
-          "filter/*filter" : "filterRoute", //[Filter route so links can change filter](#done:80)
+          "filter/*filter" : "filterRoute", //[Filter route so links can change filter](#done:90)
           "*action": "defaultRoute" // Backbone will try match the route above first
         },
 
