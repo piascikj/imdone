@@ -96,7 +96,20 @@ define([
       return code;
     }
   });
-
+  
+  String.prototype.tokenize = function() {
+    var args = arguments;
+    var result = this;
+    
+    if (args.length > 0) {
+      for(var i=0; i<args.length; i++) {
+        result = result.replace(/\{\}/, args[i]);
+      }   
+    }
+    
+    return result;
+  };
+  
   //Convert markdown to html **This could be sourced from the server to DRY it up**
   imdone.md = function(md) {
     md = md || imdone.source.src;
@@ -110,10 +123,10 @@ define([
     //Make all links with http open in new tab
     //[For markdown files, find tasks links and give them a badge](#archive:30)
     //[For internal inks, take them to the page](#archive:60)
-    //[Let mailto links open email client](#done:70)
+    //[Let mailto links open email client](#done:80)
     html = html.replace(/(<a.*?href=")(.*?)(".*?)>(.*?)(<\/a>)/ig, function(anchor, head, href, tail, content, end) {
       var out = html;
-      // [Fix external links in tasks text to use `target="_blank"`](#doing:0)
+      // [Fix external links in tasks text to use `target="_blank"`](#doing:20)
       //Check for external links
       if (externalLinks.test(href)) {
         out = head + href + tail + ' target="_blank">' + content + end;
@@ -124,8 +137,8 @@ define([
           list = taskList;
           out = href;
         });
-        out = '<span class="label label-info task-label">' + list + '</span>' + head + href + tail + ' class="task-link">' + 
-                      '<span class="task-content">' + content + '</span>' + end;
+        out = ('<span class="label label-info task-label">{}</span>{}{}{} class="task-link" data-list="{}">' + 
+                      '<span class="task-content">{}</span>{}').tokenize(list,head,href,tail,list,content,end);
       //Check for filter links
       } else if (filterLinks.test(href)) {
         var filterBy = href.split("/")[1];
@@ -135,7 +148,7 @@ define([
         out = anchor;
       //Then it must be a link to a file
       } else {
-        out = head + '/#file?path=' + href + "&project=" + imdone.cwd() + tail + '>' + content + end;
+        out = head + '/#file?path=' + href + "&project=" + imdone.currentProjectId() + tail + '>' + content + end;
       }
 
       return out;
@@ -145,7 +158,7 @@ define([
   $(".task-link").live('click', function(evt) {
     var $el = $(evt.target);
     imdone.scrollToTask = $el.text();
-    imdone.scrollToList = $el.closest('li').find('.task-label').text();
+    imdone.scrollToList = $el.attr('data-list');
     imdone.navigateToCurrentProject();
     evt.preventDefault();
     evt.stopPropagation();
@@ -172,12 +185,16 @@ define([
     url:"/api/projects"
   });
   
-  imdone.cwd = function() {
+  imdone.currentProjectId = function() {
     return imdone.data.cwd;
   };
 
-  imdone.cwp = function() {
-    return imdone.data[imdone.cwd()];
+  imdone.currentProject = function() {
+    return imdone.data[imdone.currentProjectId()];
+  };
+
+  imdone.isListHidden = function(list) {
+    return _.findWhere(currentProject().lists, {name:list}).hidden;
   };
 
   imdone.isMD = function() {
@@ -189,7 +206,7 @@ define([
     var listId = ui.item.attr("data-list");
     var path = ui.item.attr("data-path");
     var toListId = ui.item.closest(".list").attr("id");
-    var list = _.where(imdone.cwp().lists, {name:listId})[0];
+    var list = _.where(imdone.currentProject().lists, {name:listId})[0];
     var task = _.where(list.tasks, {pathTaskId:parseInt(taskId), path:path})[0];
     var pos = ui.item.index()-1;
     var reqObj = {
@@ -222,14 +239,14 @@ define([
   }
 
   imdone.hideList = function(list) {
-    $.post("/api/hideList", {list:list, project:imdone.cwd()},
+    $.post("/api/hideList", {list:list, project:imdone.currentProjectId()},
       function(data){
         imdone.getKanban();
       }, "json");
   }
 
   imdone.showList = function(list, cb) {
-    $.post("/api/showList", {list:list, project:imdone.cwd()},
+    $.post("/api/showList", {list:list, project:imdone.currentProjectId()},
       function(data){
         imdone.getKanban({callback:cb});
       }, "json");
@@ -238,7 +255,7 @@ define([
   imdone.getKanban = function(params) {
     //Clear out all elements and event handlers
     //Load the most recent data
-    var project = params && params.project || imdone.cwd();
+    var project = params && params.project || imdone.currentProjectId();
     if (project) {
       $.get("/api/kanban" + project, function(data){
         imdone.setProjectData(project,data);
@@ -250,7 +267,7 @@ define([
   };
 
   imdone.search = function(params) {
-    var project = params && params.project || imdone.cwd();
+    var project = params && params.project || imdone.currentProjectId();
     if (project) {
       var search = new imdone.Search({
         id:project,
@@ -302,7 +319,7 @@ define([
       if (imdone.editMode) {
         imdone.showEditor();
       } else {
-        imdone.paintKanban(imdone.cwp());
+        imdone.paintKanban(imdone.currentProject());
         imdone.showBoard();
       }
     }
@@ -328,7 +345,6 @@ define([
   imdone.setProjectData = function(project, data) {
     imdone.data[project] = data;
     imdone.data.cwd = project;
-
   };
 
   imdone.paintKanban = function(data) {
@@ -369,7 +385,7 @@ define([
 
       if (imdone.readmeNotify) imdone.readmeNotify.pnotify_remove();
       if (data.readme) {
-        var href = "#file?project=" + imdone.cwd() + "&path=" + data.readme + "&preview=true";
+        var href = "#file?project=" + imdone.currentProjectId() + "&path=" + data.readme + "&preview=true";
         imdone.readmeNotify = $.pnotify({
           title: '<a href="' + href + '">README</a>',
           nonblock: false,
@@ -393,15 +409,7 @@ define([
           }
         };
 
-        var $list = $('#' + list);
-
-        if ($list.length < 1) {
-          imdone.showList(list, function() {
-            scrollToTask()
-          });
-        } else {
-          scrollToTask();
-        }
+        scrollToTask()
       }
     }
   };
@@ -429,17 +437,17 @@ define([
     var socket = io.connect('http://' + window.document.location.host);
     socket.on('last-update', function (data) {
       var obj = data;
-      var lastUpdate = _.where(obj, {project:imdone.cwd()})[0].lastUpdate; 
+      var lastUpdate = _.where(obj, {project:imdone.currentProjectId()})[0].lastUpdate; 
       //First check if new projects were added
       if (imdone.projects.length < obj.length) {
         imdone.projects = _.pluck(obj,"project");
         imdone.paintProjectsMenu();
       }
 
-      if (imdone && imdone.data && (imdone.cwp() == undefined || 
-          (imdone.cwp().lastUpdate && (new Date(lastUpdate) > new Date(imdone.cwp().lastUpdate))))) {
+      if (imdone && imdone.data && (imdone.currentProject() == undefined || 
+          (imdone.currentProject().lastUpdate && (new Date(lastUpdate) > new Date(imdone.currentProject().lastUpdate))))) {
         console.log("we need a refresh..."); 
-        imdone.getKanban({project:imdone.cwd(), noPaint:!imdone.board.is(':visible')});
+        imdone.getKanban({project:imdone.currentProjectId(), noPaint:!imdone.board.is(':visible')});
       }
     });
     imdone.initialized = true;
@@ -448,8 +456,8 @@ define([
   imdone.getHistory = function() {
     var projectHist;
     var hist = store.get('history');
-    if (hist && hist[imdone.cwd()]) {
-      projectHist = hist[imdone.cwd()];
+    if (hist && hist[imdone.currentProjectId()]) {
+      projectHist = hist[imdone.currentProjectId()];
       projectHist.reverse();
     }
 
@@ -461,11 +469,11 @@ define([
     var hist = store.get('history');
     if (!hist) hist = {};
 
-    if (!hist[imdone.cwd()]) hist[imdone.cwd()] = [];
+    if (!hist[imdone.currentProjectId()]) hist[imdone.currentProjectId()] = [];
 
     //remove other occurences of path
-    hist[imdone.cwd()] = _.without(hist[imdone.cwd()], imdone.source.path);
-    projectHist = hist[imdone.cwd()];
+    hist[imdone.currentProjectId()] = _.without(hist[imdone.currentProjectId()], imdone.source.path);
+    projectHist = hist[imdone.currentProjectId()];
     projectHist.push(imdone.source.path);
     //[Don't pop, shift](#archive:80)
     if (projectHist.length > 10) projectHist.shift();
@@ -766,7 +774,7 @@ define([
         },
     });
   };
-  //[Implement delete file functionality](#done:120)
+  //[Implement delete file functionality](#done:130)
   imdone.removeFileBtn.live('click', function() {
     imdone.removeSourceConfirm();
   });
@@ -800,7 +808,7 @@ define([
         var req = {
           name: nameFld.attr('placeholder'),
           newName:  nameFld.val(),
-          project: imdone.cwd()
+          project: imdone.currentProjectId()
         };
         if (req.newName != "") {
           $.post("/api/renameList", req,
@@ -816,7 +824,7 @@ define([
       $(".remove-list").live("click", function() {
         var req = {
           list: $(this).attr("data-list"),
-          project: imdone.cwd()
+          project: imdone.currentProjectId()
         };
 
         $.post("/api/removeList", req,
@@ -904,13 +912,15 @@ define([
       //Get the file source for a task
       $('.source-link').live("click", function(e) {
         var list = $(this).attr("data-list");
-        var taskHtml =  $(this).closest(".task").find('.task-text').html();
+        var order = $(this).closest('.task').attr("data-order");
+        var content =  $(this).closest(".task").find('.task-text').html();
+        var template = '<a href="#{}:{}" class="task-link" data-list="{}"><span class="task-content">{}</span></a>';
 
         //[Show the current task as notification with <http://pinesframework.org/pnotify/>](#archive:140)
         $.pnotify({
           title: list,
-          text: taskHtml,
-          nonblock: true,
+          text: template.tokenize(list,order,list,content),
+          nonblock: false,
           hide: false,
           sticker: false,
           icon: 'icon-tasks',
@@ -930,12 +940,12 @@ define([
       //Open or create a file
       var lsTemplate = Handlebars.compile($("#ls-template").html());
       $('#open-file-btn').live('click',function() {
-        $.get("/api/files" + imdone.cwd(), function(data) {
-          imdone.cwp().ls = data;
-          imdone.cwp().cwd = data;
+        $.get("/api/files" + imdone.currentProjectId(), function(data) {
+          imdone.currentProject().ls = data;
+          imdone.currentProject().cwd = data;
           data.history = imdone.getHistory();
           data.history = _.map(data.history, function(path) {
-            return {path:path, project:imdone.cwd()};
+            return {path:path, project:imdone.currentProjectId()};
           });
           $('#ls').html(lsTemplate(data));
           imdone.fileField.val("");
@@ -948,7 +958,7 @@ define([
       //Find a path in files API response node
       function findDir(path, node) {
         var dir,
-            node = node || imdone.cwp().ls;
+            node = node || imdone.currentProject().ls;
         _.each(node.dirs, function(dirNode) {
           if (dir) return;
           if (path == dirNode.path) {
@@ -966,8 +976,8 @@ define([
       //respond to directory click
       $('.js-dir').live('click', function() {
         var node = findDir($(this).attr('data-path'));
-        node = node || imdone.cwp().ls;
-        imdone.cwp().cwd = node;
+        node = node || imdone.currentProject().ls;
+        imdone.currentProject().cwd = node;
         $('#ls').html(lsTemplate(node));
         imdone.fileField.focus();
         return false;
@@ -986,10 +996,10 @@ define([
           if (/^\//.test(path)) {
             path = path.substring(1);
           } else {
-            path = imdone.cwp().cwd.path + "/" + imdone.fileField.val();
+            path = imdone.currentProject().cwd.path + "/" + imdone.fileField.val();
           }
 
-          imdone.app.navigate("file?project=" + imdone.cwd() + "&path=" + path, {trigger:true});
+          imdone.app.navigate("file?project=" + imdone.currentProjectId() + "&path=" + path, {trigger:true});
           $(this).closest(".modal").modal('hide');
         }
         return false;
@@ -1009,7 +1019,7 @@ define([
       imdone.searchForm.submit(function(event) {
         event.preventDefault();
         imdone.searchBtn.dropdown('toggle');
-        var cwd = encodeURIComponent(imdone.cwd());
+        var cwd = encodeURIComponent(imdone.currentProjectId());
         var dest = "search/" + cwd + 
                    "-" + imdone.searchField.val() +
                    "-0";
@@ -1074,7 +1084,7 @@ define([
       });
 
       imdone.navigateToCurrentProject = function() {
-        imdone.app.navigate("project" + imdone.cwd(), {trigger:true});
+        imdone.app.navigate("project" + imdone.currentProjectId(), {trigger:true});
       };
   };
 
@@ -1084,7 +1094,7 @@ define([
           "search/:project-:query-:offset(-:limit)": "searchRoute",
           "project*project": "projectRoute",
           "file?*querystring": "fileRoute",
-          "filter/*filter" : "filterRoute", //[Filter route so links can change filter](#done:90)
+          "filter/*filter" : "filterRoute", //[Filter route so links can change filter](#done:100)
           "*action": "defaultRoute" // Backbone will try match the route above first
         },
 
@@ -1097,14 +1107,18 @@ define([
           this.lastRoute = "filter";
           imdone.filter(filter);
 
-          if (!imdone.cwp()) {
+          if (!imdone.currentProject()) {
             this.defaultRoute(filter);
           }
       },
 
       changeProject: function(project) {
             imdone.closeFile();
-            imdone.getKanban({project:project, callback: imdone.paintProjectsMenu});
+            if (imdone.scrollToList && imdone.isListHidden(imdone.scrollToList)) {
+              imdone.showList(imdone.scrollToList, imdone.paintProjectsMenu);
+            } else {
+              imdone.getKanban({project:project, callback: imdone.paintProjectsMenu});
+            }
             imdone.hideSearchResults();
             $(document).attr("title", "iMDone - " + project);
       },
@@ -1118,7 +1132,7 @@ define([
 
       changeFile: function(qs) {
         var params = imdone.parseQueryString(qs);
-        if (!imdone.cwp()) {
+        if (!imdone.currentProject()) {
           imdone.getKanban({project:params.project, noPaint:true, callback:function() {
             imdone.getSource(params);
           }});
@@ -1139,7 +1153,7 @@ define([
       searchRoute: function(project, query, offset, limit) {
        this.lastRoute = "search";
        var params = {project:project, query:query, offset:offset, limit:limit};
-        if (!imdone.cwp()) {
+        if (!imdone.currentProject()) {
           imdone.getKanban({project:project, noPaint:true, callback:function() {
             imdone.paintProjectsMenu();
             imdone.search(params);
@@ -1152,7 +1166,7 @@ define([
 
       defaultRoute: function() {
         if (!imdone.initialized) {
-          imdone.app.navigate("project" + imdone.projects[0], {trigger:true}); 
+          imdone.app.navigate("project" + imdone.currentProjectId()); 
         }
       },
   });

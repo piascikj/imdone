@@ -456,7 +456,7 @@ imdone.Project.prototype.moveTask = function(request, callback) {
   //process all files
   var fileNames = _.keys(files);
   self.processFiles(fileNames, function() {
-    // [Document afterMoveTask in example config and README.md](#doing:0)
+    // [Document afterMoveTask in example config and README.md](#doing:10)
     if (_.isFunction(self.config.afterMoveTask)) self.config.afterMoveTask(fileNames);
     if (_.isFunction(callback)) callback();
   });
