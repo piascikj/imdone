@@ -438,8 +438,8 @@ define([
 
       if (imdone && imdone.data && (imdone.cwp() == undefined || 
           (imdone.cwp().lastUpdate && (new Date(lastUpdate) > new Date(imdone.cwp().lastUpdate))))) {
-        console.log("we need a refresh...");
-        imdone.getKanban({project:imdone.cwd(), noPaint:true});
+        console.log("we need a refresh..."); 
+        imdone.getKanban({project:imdone.cwd(), noPaint:!imdone.board.is(':visible')});
       }
     });
     imdone.initialized = true;
@@ -1070,6 +1070,7 @@ define([
           imdone.calls++;
         });
         Backbone.history.start();
+        imdone.initUpdate();
       });
 
       imdone.navigateToCurrentProject = function() {
@@ -1093,6 +1094,7 @@ define([
       },
       
       filterRoute: function(filter) {
+          this.lastRoute = "filter";
           imdone.filter(filter);
 
           if (!imdone.cwp()) {
@@ -1108,6 +1110,7 @@ define([
       },
 
       projectRoute: function(project) {
+        this.lastRoute = "project";
         var self = this;
         if (imdone.fileModified) imdone.closeFileConfirm(function() { self.changeProject(project); });
         else self.changeProject(project);
@@ -1127,13 +1130,15 @@ define([
       },
 
       fileRoute: function(qs) {
+        this.lastRoute = "file";
         var self = this;
         if (imdone.fileModified) imdone.closeFileConfirm(function() { self.changeFile(qs); });
         else self.changeFile(qs);
       },
 
       searchRoute: function(project, query, offset, limit) {
-        var params = {project:project, query:query, offset:offset, limit:limit};
+       this.lastRoute = "search";
+       var params = {project:project, query:query, offset:offset, limit:limit};
         if (!imdone.cwp()) {
           imdone.getKanban({project:project, noPaint:true, callback:function() {
             imdone.paintProjectsMenu();
@@ -1148,7 +1153,6 @@ define([
       defaultRoute: function() {
         if (!imdone.initialized) {
           imdone.app.navigate("project" + imdone.projects[0], {trigger:true}); 
-          imdone.initUpdate();
         }
       },
   });

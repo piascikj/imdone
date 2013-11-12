@@ -166,8 +166,8 @@
     }
   }
 
-  //[Have this use splat for project name like getFiles](#archive:160)
-    //[Move saveSource to imdone.js](#planning:20)    
+  // [Have this use splat for project name like getFiles](#archive:160)
+  // [Move saveSource to imdone.js and add hook](#doing:5)    
   function saveSource(req, res) {
     if (isProcessing(req,res)) {
       res.send({processing:true});
@@ -194,6 +194,7 @@
     }
   }
 
+  // [Move removeSource to imdone.js and add hook](#doing:4)    
   function removeSource(req, res) {
     if (isProcessing(req,res)) {
       res.send({processing:true});

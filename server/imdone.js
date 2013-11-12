@@ -337,6 +337,9 @@ imdone.Project.prototype.renameList = function(request) {
   this.lists = lists;
   this.saveListData();
 
+  // [Document afterRenameList in config and README.md](#doing:0)
+  if (_.isFunction(self.config.afterRenameList)) self.config.afterRenameList(_.keys(files));
+
   return imdone.lists;
 };
 
@@ -451,7 +454,10 @@ imdone.Project.prototype.moveTask = function(request, callback) {
   });
 
   //process all files
-  self.processFiles(_.keys(files), function() {
+  var fileNames = _.keys(files);
+  self.processFiles(fileNames, function() {
+    // [Document afterMoveTask in example config and README.md](#doing:0)
+    if (_.isFunction(self.config.afterMoveTask)) self.config.afterMoveTask(fileNames);
     if (_.isFunction(callback)) callback();
   });
 
