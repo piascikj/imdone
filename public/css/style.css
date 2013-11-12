@@ -82,6 +82,10 @@ blockquote p {
   padding-right: 5px;
 }
 
+.help-nav button {
+  margin-left: 10px;
+}
+
 .list-name-container:hover {
   background: #202020;
   background-color: rgba(0, 0, 0, 0.3);

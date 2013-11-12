@@ -1,6 +1,6 @@
 {
   "name": "imdone",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "homepage": "http://piascikj.github.io/imdone/",
   "authors": [
     "Jesse Piascik <jesse@piascik.net>"
@@ -67,7 +67,7 @@
     },
     "font-awesome": {
       "css": "css/*.css",
-      "fonts": "font/*"
+      "font": "font/*"
     },
     "prismjs": {
       "css": "*.css",
