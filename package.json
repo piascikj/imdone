@@ -1,7 +1,7 @@
 {
   "name": "imdone",
   "preferGlobal": "true",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "description": "A simple scrum board and markdown wiki.",
   "keywords": [
     "scrum",
