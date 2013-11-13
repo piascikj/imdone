@@ -114,7 +114,8 @@ define([
   imdone.md = function(md) {
     md = md || imdone.source.src;
     var html = marked(md);
-    var externalLinks = /^http/,
+    var links = /(<a.*?href=")(.*?)(".*?)>(.*)(<\/a>)/ig,
+        externalLinks = /^http/,
         mailtoLinks = /^mailto/,
         taskLinks = /#([\w\-]+?):(\d+?\.{0,1}\d*?)/,
         filterLinks = /#filter\//;
@@ -123,10 +124,11 @@ define([
     //Make all links with http open in new tab
     //[For markdown files, find tasks links and give them a badge](#archive:30)
     //[For internal inks, take them to the page](#archive:60)
-    //[Let mailto links open email client](#done:80)
-    html = html.replace(/(<a.*?href=")(.*?)(".*?)>(.*?)(<\/a>)/ig, function(anchor, head, href, tail, content, end) {
+    //[Let mailto links open email client](#done:110)
+    var replaceLinks = function(anchor, head, href, tail, content, end) {
+      if (links.test(content)) content = content.replace(links, replaceLinks);
       var out = html;
-      // [Fix external links in tasks text to use `target="_blank"`](#doing:20)
+      // [Fix external links in tasks text to use `target="_blank"`](#done:20)
       //Check for external links
       if (externalLinks.test(href)) {
         out = head + href + tail + ' target="_blank">' + content + end;
@@ -152,7 +154,9 @@ define([
       }
 
       return out;
-    });
+    }
+
+    html = html.replace(links, replaceLinks);
     return html;
   };
   $(".task-link").live('click', function(evt) {
@@ -194,7 +198,7 @@ define([
   };
 
   imdone.isListHidden = function(list) {
-    return _.findWhere(currentProject().lists, {name:list}).hidden;
+    return _.findWhere(imdone.currentProject().lists, {name:list}).hidden;
   };
 
   imdone.isMD = function() {
@@ -302,6 +306,11 @@ define([
       });
     }
   };
+  $('.pager a[href="#"]').live("click", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+  })
 
   imdone.showSearchResults = function() {
     imdone.hideAllContent();
@@ -774,7 +783,7 @@ define([
         },
     });
   };
-  //[Implement delete file functionality](#done:130)
+  //[Implement delete file functionality](#done:160)
   imdone.removeFileBtn.live('click', function() {
     imdone.removeSourceConfirm();
   });
@@ -1094,7 +1103,7 @@ define([
           "search/:project-:query-:offset(-:limit)": "searchRoute",
           "project*project": "projectRoute",
           "file?*querystring": "fileRoute",
-          "filter/*filter" : "filterRoute", //[Filter route so links can change filter](#done:100)
+          "filter/*filter" : "filterRoute", //[Filter route so links can change filter](#done:130)
           "*action": "defaultRoute" // Backbone will try match the route above first
         },
 

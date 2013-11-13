@@ -338,7 +338,11 @@ imdone.Project.prototype.renameList = function(request) {
   this.saveListData();
 
   // [Document afterRenameList in config and README.md](#doing:0)
-  if (_.isFunction(self.config.afterRenameList)) self.config.afterRenameList(_.keys(files));
+  // if (_.isFunction(self.config.afterRenameList)) {
+  //   process.nextTick(function(){
+  //     self.config.afterRenameList(_.keys(files));
+  //   });
+  // }
 
   return imdone.lists;
 };
@@ -456,8 +460,13 @@ imdone.Project.prototype.moveTask = function(request, callback) {
   //process all files
   var fileNames = _.keys(files);
   self.processFiles(fileNames, function() {
-    // [Document afterMoveTask in example config and README.md](#doing:10)
-    if (_.isFunction(self.config.afterMoveTask)) self.config.afterMoveTask(fileNames);
+    // [Document afterMoveTask in example config and README.md](#doing:20)
+    // if (_.isFunction(self.config.afterMoveTask)) {
+    //   procee.nextTick(function() {
+    //     self.config.afterMoveTask(fileNames);
+    //   });
+    // }
+    
     if (_.isFunction(callback)) callback();
   });
 
@@ -608,6 +617,7 @@ imdone.Project.prototype.watchFiles = function(path) {
               if (filePath.match(self.config.exclude) != null) return;
               switch(changeType) {
                 case "update":
+                  console.log("Processing update to:",filePath);
                   var process = true;
                   if (self.tasks[filePath]) {
                     var lastModified = new Date(fileCurrentStat.mtime);
@@ -620,11 +630,13 @@ imdone.Project.prototype.watchFiles = function(path) {
                   if (process) self.update([filePath]);
                   break;
                 case "create":
+                  console.log("Processing create of:",filePath);
                   self.processFiles([filePath]);
                   break;
                 case "delete":
-              delete self.tasks[filePath];
-              self.saveListData();
+                  console.log("Processing delete of:",filePath);
+                  delete self.tasks[filePath];
+                  self.saveListData();
                   break;
               }
           }

@@ -50,7 +50,7 @@
     }
     var project = server.imdone.getProject(req.body.project);
     project.moveTask(req.body, function() {
-      res.send(project.getSortedLists());
+      res.send(200);
     });
   }
 
