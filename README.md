@@ -19,6 +19,7 @@ Features
 - Create, delete and edit files
 - Markdown preview with table of contents
 - Syntax highlighting in markdown code blocks 
+- [Use gollum link syntax](https://github.com/gollum/gollum/wiki#page-links) - Great for managing github wikis
 
 Quickstart
 ----

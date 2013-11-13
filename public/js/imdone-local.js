@@ -161,7 +161,13 @@ define([
     html = html.replace(links, replaceLinks);
 
     html = html.replace(gollumLinks, function(link, open, name, close) {
-      var file = name.replace(/\s+/g,"-") + ".md";
+      var file = name;
+      if (/\|/.test(name)) {
+        var pieces = name.split("|");
+        file = pieces[1];
+        name = pieces[0];
+      }
+      var file = file.replace(/(\s)|(\/)/g,"-") + ".md";
       var href = imdone.getFileHref(imdone.currentProjectId(),file,true);
       return '<a href="{}">{}</a>'.tokenize(href, name);
     });
