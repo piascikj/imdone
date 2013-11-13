@@ -150,7 +150,8 @@ define([
         out = anchor;
       //Then it must be a link to a file
       } else {
-        out = head + '/#file?path=' + href + "&project=" + imdone.currentProjectId() + tail + '>' + content + end;
+        if (/.*\.md$/.test(href)) preview = true;
+        out = head + imdone.getFileHref(imdone.currentProjectId(),href,preview) + tail + '>' + content + end;
       }
 
       return out;
@@ -172,6 +173,20 @@ define([
   Handlebars.registerHelper('markDown', function(md) {
     return imdone.md(md);
   });
+
+  imdone.getFileHref = function(project, path, line, preview) {
+    if (_.isObject(preview)) preview = undefined;
+    if (_.isObject(line)) line = undefined;
+    if (arguments.length > 2 && line && isNaN(line)) preview = true;
+    project = encodeURIComponent(project);
+    path = encodeURIComponent(path);
+    var href = '#file/{}/{}'.tokenize(project, path);
+    if (line) href+= ("/" + line);
+    if (preview) href += "/true";
+    return href;
+  };
+
+  Handlebars.registerHelper('fileHref', imdone.getFileHref);
 
   Handlebars.registerHelper('highlightCode', function(text, keyword) {
     text = Handlebars.Utils.escapeExpression(text);
@@ -394,7 +409,7 @@ define([
 
       if (imdone.readmeNotify) imdone.readmeNotify.pnotify_remove();
       if (data.readme) {
-        var href = "#file?project=" + imdone.currentProjectId() + "&path=" + data.readme + "&preview=true";
+        var href = imdone.getFileHref(imdone.currentProjectId(),data.readme,true);
         imdone.readmeNotify = $.pnotify({
           title: '<a href="' + href + '">README</a>',
           nonblock: false,
@@ -1006,9 +1021,10 @@ define([
             path = path.substring(1);
           } else {
             path = imdone.currentProject().cwd.path + "/" + imdone.fileField.val();
+            path = path.replace(/^(\/)+/,"");
           }
-
-          imdone.app.navigate("file?project=" + imdone.currentProjectId() + "&path=" + path, {trigger:true});
+          // [Fix this to ]
+          imdone.app.navigate(imdone.getFileHref(imdone.currentProjectId(),path), {trigger:true});
           $(this).closest(".modal").modal('hide');
         }
         return false;
@@ -1099,10 +1115,10 @@ define([
 
   var AppRouter = Backbone.Router.extend({
       routes: {
-          //[Set up router for projects and files](#archive:50)
+          //[fix search path to use slashes instead of dashes](#doing:120)
           "search/:project-:query-:offset(-:limit)": "searchRoute",
           "project*project": "projectRoute",
-          "file?*querystring": "fileRoute",
+          "file/:project/:path(/:line)(/:preview)": "fileRoute",
           "filter/*filter" : "filterRoute", //[Filter route so links can change filter](#done:130)
           "*action": "defaultRoute" // Backbone will try match the route above first
         },
@@ -1139,8 +1155,7 @@ define([
         else self.changeProject(project);
       },
 
-      changeFile: function(qs) {
-        var params = imdone.parseQueryString(qs);
+      changeFile: function(params) {
         if (!imdone.currentProject()) {
           imdone.getKanban({project:params.project, noPaint:true, callback:function() {
             imdone.getSource(params);
@@ -1152,11 +1167,14 @@ define([
         $(document).attr("title", "iMDone - " + params.project + "/" + params.path);
       },
 
-      fileRoute: function(qs) {
+      fileRoute: function(project, path, line, preview) {
         this.lastRoute = "file";
         var self = this;
-        if (imdone.fileModified) imdone.closeFileConfirm(function() { self.changeFile(qs); });
-        else self.changeFile(qs);
+        if (arguments.length > 2 && isNaN(line)) preview = true, line = 0;
+
+        var opts = {project:project, path:path, line:line, preview:preview};
+        if (imdone.fileModified) imdone.closeFileConfirm(function() { self.changeFile(opts); });
+        else self.changeFile(opts);
       },
 
       searchRoute: function(project, query, offset, limit) {
