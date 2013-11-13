@@ -58,18 +58,22 @@ After running imdone for the first time, modify imdone/imdone.js in your project
 
 Tips
 ----
-- **Tasks are sorted by the number after the colon**
-- **Keep tasks in code by including them in comments**  
+### Tasks are sorted by the number after the colon
+### Keep tasks in code  
 ```javascript
 //[this is a todo task in javascript code](#todo:0)
-```  
-- **Embed a filter link in a task for common filters**  
+```
+
+###Embed a filter link in a task
 ```
 [Filter by [src/main/java](#filter/src/main/java)](#filters:0)
 ```  
 This would create a filters list containing this task and a link that will populate the filter box with *src/main/java*
-- **Keep the imdone folder in source control!**
-- **If tracking a large number of files, increase the "watch handle limit" to 512k**
+
+### Keep the imdone folder in source control!
+
+### If tracking a large number of files
+  - Increase the "watch handle limit" to 512k**
   - As root edit /etc/sysctl.conf, add the following line
 ```
 fs.inotify.max_user_watches = 524288
@@ -77,6 +81,12 @@ fs.inotify.max_user_watches = 524288
   - Apply the change
 ```
 sudo sysctl -p
+```
+
+### Checkout a github wiki to manage with imdone
+  - If the github clone url is https://github.com/piascikj/imdone.git then
+```
+git clone https://github.com/piascikj/imdone.wiki.git
 ```
 
 Common Errors

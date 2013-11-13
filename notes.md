@@ -14,15 +14,16 @@ imdone notes for development
 - [forever-monitor for cli <https://github.com/nodejitsu/forever-monitor>](#todo:100)
 
 ### Misc
+- [parse github wiki links to point at files](#doing:0)
 - [Move task causes multiple updates to board](#done:0)
 - [Fix include and excludes](#doing:10)
 - [Fix show list on task-link](#done:30) 
-- [User should be able to execute a javscript callback when a files are modified in the editor or by moving a task](#doing:50)
+- [User should be able to execute a javscript callback when a files are modified in the editor or by moving a task](#doing:40)
 - [User should be able to jump back to the task in the board if the task is clicked in the file view task notification](#done:10)
 - [User should be able to rename a file](#doing:60)
-- [Switch from flattr to gittip](#doing:70)
+- [Switch from flattr to gittip](#doing:90)
 - [User should get a modal confirmation if closing a file that has been edited #feature](#done:50)
-- [User should be able to add #hashtags to a #task and filter by them #feature](#doing:80)
+- [User should be able to add #hashtags to a #task and filter by them #feature](#doing:70)
     - They could be after the list name like #doing#feature and apear as a pill or badge on the front end
 - [User should be able to jump to task by clicking it in preview and if list is hidden it should show and task should be highlighted](#done:40)
 - [Use prism for syntax highlighting [Prism](http://prismjs.com/)](#done:80)

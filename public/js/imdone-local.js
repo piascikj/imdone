@@ -110,7 +110,7 @@ define([
     return result;
   };
   
-  //Convert markdown to html **This could be sourced from the server to DRY it up**
+  // Convert markdown to html **This could be sourced from the server to DRY it up**
   imdone.md = function(md) {
     md = md || imdone.source.src;
     var html = marked(md);
@@ -118,7 +118,8 @@ define([
         externalLinks = /^http/,
         mailtoLinks = /^mailto/,
         taskLinks = /#([\w\-]+?):(\d+?\.{0,1}\d*?)/,
-        filterLinks = /#filter\//;
+        filterLinks = /#filter\//,
+        gollumLinks = /(\[\[)(.*?)(\]\])/ig;
     //Replace any script elements
     html = html.replace(/<script.*?>([\s\S]*?)<\/.*?script>/ig,"$1").replace(/(href=["|'].*)javascript:.*(["|'].?>)/ig,"$1#$2");
     //Make all links with http open in new tab
@@ -158,6 +159,12 @@ define([
     }
 
     html = html.replace(links, replaceLinks);
+
+    html = html.replace(gollumLinks, function(link, open, name, close) {
+      var file = name.replace(/\s+/g,"-") + ".md";
+      var href = imdone.getFileHref(imdone.currentProjectId(),file,true);
+      return '<a href="{}">{}</a>'.tokenize(href, name);
+    });
     return html;
   };
   $(".task-link").live('click', function(evt) {
@@ -411,7 +418,7 @@ define([
       if (data.readme) {
         var href = imdone.getFileHref(imdone.currentProjectId(),data.readme,true);
         imdone.readmeNotify = $.pnotify({
-          title: '<a href="' + href + '">README</a>',
+          title: '<a href="{}">{}</a>'.tokenize(href,data.readme),
           nonblock: false,
           hide: false,
           sticker: true,
@@ -1115,7 +1122,7 @@ define([
 
   var AppRouter = Backbone.Router.extend({
       routes: {
-          //[fix search path to use slashes instead of dashes](#doing:120)
+          //[fix search path to use slashes instead of dashes](#doing:80)
           "search/:project-:query-:offset(-:limit)": "searchRoute",
           "project*project": "projectRoute",
           "file/:project/:path(/:line)(/:preview)": "fileRoute",

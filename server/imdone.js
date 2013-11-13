@@ -273,7 +273,7 @@ imdone.Project.prototype.getReadme = function() {
   var files = fs.readdirSync(this.path);
   var readme;
   _.each(files, function(file) {
-    if (/README\.(MD|MARKDOWN)/.test(file.toUpperCase())) readme = file; 
+    if (/(README|HOME)\.(MD|MARKDOWN)/.test(file.toUpperCase())) readme = file; 
   });
   return readme;
 };
