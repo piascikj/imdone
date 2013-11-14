@@ -199,6 +199,12 @@ define([
     return href;
   };
 
+  imdone.getSearchHref = function(project,query,offset,limit) {
+    var href = "#search/{}/{}/{}".tokenize(encodeURIComponent(project),query,offset);
+    if (limit) href += ("/"+limit);
+    return href;
+  };
+
   Handlebars.registerHelper('fileHref', imdone.getFileHref);
 
   Handlebars.registerHelper('highlightCode', function(text, keyword) {
@@ -313,18 +319,13 @@ define([
           var results = model.toJSON();
           var last = results.total+results.offset;
           var context = {project:project,results:results,last:last};
-          project = encodeURIComponent(project);
           if (results.offset > 0) {
             var offset = results.offset - results.opts.limit;
-            context.previous = "#search/" + project + 
-                               "/" + results.query +
-                               "/" + offset;
+            context.previous = imdone.getSearchHref(project,results.query,offset);
           }
 
           if (results.filesNotSearched > 0) {
-            context.next = "#search/" + project + 
-                               "/" + results.query +
-                               "/" + last;
+            context.next = imdone.getSearchHref(project,results.query,last);
           }
           imdone.searchResults.html(template(context));
           imdone.showSearchResults();
@@ -1057,10 +1058,7 @@ define([
       imdone.searchForm.submit(function(event) {
         event.preventDefault();
         imdone.searchBtn.dropdown('toggle');
-        var cwd = encodeURIComponent(imdone.currentProjectId());
-        var dest = "search/" + cwd + 
-                   "/" + imdone.searchField.val() +
-                   "/0";
+        var dest = imdone.getSearchHref(imdone.currentProjectId(),imdone.searchField.val(),0);
         imdone.app.navigate(dest, {trigger:true});
         return false;
       });
