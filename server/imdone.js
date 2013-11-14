@@ -337,7 +337,7 @@ imdone.Project.prototype.renameList = function(request) {
   this.lists = lists;
   this.saveListData();
 
-  // [Document afterRenameList in config and README.md](#doing:0)
+  // [Document afterRenameList in config and README.md](#doing:10)
   // if (_.isFunction(self.config.afterRenameList)) {
   //   process.nextTick(function(){
   //     self.config.afterRenameList(_.keys(files));

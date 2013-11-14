@@ -125,11 +125,11 @@ define([
     //Make all links with http open in new tab
     //[For markdown files, find tasks links and give them a badge](#archive:30)
     //[For internal inks, take them to the page](#archive:60)
-    //[Let mailto links open email client](#done:110)
+    //[Let mailto links open email client](#done:130)
     var replaceLinks = function(anchor, head, href, tail, content, end) {
       if (links.test(content)) content = content.replace(links, replaceLinks);
       var out = html;
-      // [Fix external links in tasks text to use `target="_blank"`](#done:20)
+      // [Fix external links in tasks text to use `target="_blank"`](#done:40)
       //Check for external links
       if (externalLinks.test(href)) {
         out = head + href + tail + ' target="_blank">' + content + end;
@@ -317,14 +317,14 @@ define([
           if (results.offset > 0) {
             var offset = results.offset - results.opts.limit;
             context.previous = "#search/" + project + 
-                               "-" + results.query +
-                               "-" + offset;
+                               "/" + results.query +
+                               "/" + offset;
           }
 
           if (results.filesNotSearched > 0) {
             context.next = "#search/" + project + 
-                               "-" + results.query +
-                               "-" + last;
+                               "/" + results.query +
+                               "/" + last;
           }
           imdone.searchResults.html(template(context));
           imdone.showSearchResults();
@@ -811,7 +811,7 @@ define([
         },
     });
   };
-  //[Implement delete file functionality](#done:160)
+  //[Implement delete file functionality](#done:180)
   imdone.removeFileBtn.live('click', function() {
     imdone.removeSourceConfirm();
   });
@@ -1059,8 +1059,8 @@ define([
         imdone.searchBtn.dropdown('toggle');
         var cwd = encodeURIComponent(imdone.currentProjectId());
         var dest = "search/" + cwd + 
-                   "-" + imdone.searchField.val() +
-                   "-0";
+                   "/" + imdone.searchField.val() +
+                   "/0";
         imdone.app.navigate(dest, {trigger:true});
         return false;
       });
@@ -1128,11 +1128,11 @@ define([
 
   var AppRouter = Backbone.Router.extend({
       routes: {
-          //[fix search path to use slashes instead of dashes](#doing:80)
-          "search/:project-:query-:offset(-:limit)": "searchRoute",
+          //[fix search path to use slashes instead of dashes](#done:0)
+          "search/:project/:query/:offset(/:limit)": "searchRoute",
           "project*project": "projectRoute",
           "file/:project/:path(/:line)(/:preview)": "fileRoute",
-          "filter/*filter" : "filterRoute", //[Filter route so links can change filter](#done:130)
+          "filter/*filter" : "filterRoute", //[Filter route so links can change filter](#done:150)
           "*action": "defaultRoute" // Backbone will try match the route above first
         },
 
