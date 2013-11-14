@@ -5,7 +5,7 @@
  * Copyright (c) 2012 Jesse Piascik
  * Licensed under the MIT license.
  */
-//[Implement hide functionality to hide a list from board](#archive:250)
+//[Implement hide functionality to hide a list from board](#archive:220)
 // Nodejs libs.
 var fs = require('fs');
 var program = require("commander");
@@ -526,7 +526,7 @@ imdone.Project.prototype.processFiles = function(files, callback) {
       var relPathFile = self.relativePath(file);
       //console.log("Extracting tasks from file: " + fullPathFile);
       //for each file get the tasks
-      //[Make this an async file read](#archive:300)
+      //[Make this an async file read](#archive:270)
       var data = fs.readFile(fullPathFile, 'utf8', function (err, data) {
         if (err) {
           console.log("Unable to open file:", err);
@@ -567,7 +567,7 @@ imdone.Project.prototype.update = function(files) {
   var self = this;
   _.each(files, function(file) {
     if (!self.isPaused(file)) {
-      //[Store last updated time, and check to see if we should process - 0.1.3](#archive:340)
+      //[Store last updated time, and check to see if we should process - 0.1.3](#archive:310)
       self.processFiles([file]);  
     }
   });
@@ -596,7 +596,7 @@ imdone.Project.prototype.watchFiles = function(path) {
   watchr.watch({
       path: path,
       ignoreCommonPatterns:true,
-      //[Use ignoreCustomPatterns](#archive:290)
+      //[Use ignoreCustomPatterns](#archive:260)
       ignoreCustomPatterns:self.config.exclude,
       listeners: {
           /*

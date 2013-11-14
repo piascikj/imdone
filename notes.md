@@ -1,5 +1,6 @@
 imdone notes for development
 ==========
+- [test task](#archive:170)
 ## npm 
 ### Stats  
 - [NPM stats for imdone](http://isaacs.iriscouch.com/downloads/_design/app/_view/pkg?group_level=3&end_key=[%22imdone%22]&start_key=[%22imdone%22,{}]&descending=true)
@@ -41,7 +42,7 @@ imdone notes for development
 - [use [doco languages.js](https://github.com/jashkenas/docco/blob/master/resources/languages.json) to [detect TODO and FIXME](lib/imdone.js) style comments and convert but keep the TODO or FIXME or whatever in the front.](#planning:190)
 - [If links to files exist in tasks, open the file on click](#done:200)
 - [User should be able to select the color of lists by bootstrap badge class](#planning:210)
-- [Leave manage lists open when hiding/showing list](#archive:150)
+- [Leave manage lists open when hiding/showing list](#archive:140)
 - [Add links to imdone website, pledgie and [twitter](https://twitter.com/about/resources/buttons#tweet), also use flattr](#planning:270)
 - [Add search for files and tasks <https://github.com/visionmedia/search> or <https://github.com/visionmedia/reds>](#done:140)
 - [Block entry and ask the user to load changes if a file changes while editing](#planning:230)
@@ -60,7 +61,7 @@ imdone notes for development
     - [Setting up a custom domain with Pages · GitHub Help](https://help.github.com/articles/setting-up-a-custom-domain-with-pages)
     - [User, Organization and Project Pages · GitHub Help](https://help.github.com/articles/user-organization-and-project-pages)
 ### Bugs
-- [Renaming lists is broken with multiple projects loaded #bug](#archive:100)
+- [Renaming lists is broken with multiple projects loaded #bug](#archive:90)
 - [Open editor for new files #bug](#planning:130) 
 - [Move search to a dialog that's always available with ctrl+shift+f #bug](#done:120)
 

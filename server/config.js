@@ -5,16 +5,16 @@
  * Copyright (c) 2012 Jesse Piascik
  * Licensed under the MIT license.
  */
-// [add include option for processing tasks - introduced in 0.1.3](#archive:350)
-// [if running localy it should give the option to open the file in the browser even if github is set](#archive:260)
+// [add include option for processing tasks - introduced in 0.1.3](#archive:320)
+// [if running localy it should give the option to open the file in the browser even if github is set](#archive:230)
 module.exports = {
   include:/^.*$/,
   exclude:/(node_modules|bower_components|imdone|target)\/|\.(git|svn)|\~$|\.(jpg|png|gif|swp)$/,
-  //[Remove github option - now editing in UI with Ace](#archive:170)
+  //[Remove github option - now editing in UI with Ace](#archive:160)
   marked : {
     gfm: true,
     pedantic: false,
     sanitize: true
   }
-  //[add a lists property for lists that are always displayed, even if there are no tasks in them](#archive:280)
+  //[add a lists property for lists that are always displayed, even if there are no tasks in them](#archive:250)
 };

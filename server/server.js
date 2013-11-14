@@ -117,7 +117,7 @@
     if (project.path && !/^\.\./.test(path) && !/\/$/.test(path)) {
       var filePath = project.path + "/" + path;
 
-      //[Make sure this source file is in one of the projects paths](#archive:270)
+      //[Make sure this source file is in one of the projects paths](#archive:240)
       if (fs.existsSync(filePath)) {
         fs.readFile(filePath, 'utf-8', function(err,data) {
           if (err) {
@@ -166,7 +166,7 @@
     }
   }
 
-  // [Have this use splat for project name like getFiles](#archive:160)
+  // [Have this use splat for project name like getFiles](#archive:150)
   // [Move saveSource to imdone.js and add hook](#doing:50)    
   function saveSource(req, res) {
     if (isProcessing(req,res)) {
@@ -248,7 +248,7 @@
   server.start = function(imdone, callback) {
     server.imdone = imdone;
 
-    //[migrate to express 3.x <https://github.com/visionmedia/express/wiki/Migrating-from-2.x-to-3.x>](#archive:110)
+    //[migrate to express 3.x <https://github.com/visionmedia/express/wiki/Migrating-from-2.x-to-3.x>](#archive:100)
     var app = server.app = express();
     var  xserver = http.createServer(app);
 

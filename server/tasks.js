@@ -37,8 +37,8 @@ var utils = module.exports = {
     
     clone.replace(taskregex, function(md, text, list, order, pos) {
       if (utils.isValidTask(clone, file, pos)) {
-        //[add the line number of the task by finding position and counting newlines prior - 0.1.4](#archive:360)
-        //[Use line number when loading page in github - 0.1.4](#archive:330)
+        //[add the line number of the task by finding position and counting newlines prior - 0.1.4](#archive:330)
+        //[Use line number when loading page in github - 0.1.4](#archive:300)
         var line = (clone.substring(0,pos).match(/\n/g)||[]).length + 1;
         //[For task modification, store text as text and create another property for html](#done:190)
         var task = {

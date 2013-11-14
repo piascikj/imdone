@@ -8,8 +8,7 @@
     "filters"
   ],
   "hidden": [
-    "archive",
-    "filters",
-    "planning"
+    "planning",
+    "filters"
   ]
 }

@@ -124,7 +124,7 @@ define([
     html = html.replace(/<script.*?>([\s\S]*?)<\/.*?script>/ig,"$1").replace(/(href=["|'].*)javascript:.*(["|'].?>)/ig,"$1#$2");
     //Make all links with http open in new tab
     //[For markdown files, find tasks links and give them a badge](#archive:30)
-    //[For internal inks, take them to the page](#archive:60)
+    //[For internal inks, take them to the page](#archive:50)
     //[Let mailto links open email client](#done:130)
     var replaceLinks = function(anchor, head, href, tail, content, end) {
       if (links.test(content)) content = content.replace(links, replaceLinks);
@@ -173,10 +173,10 @@ define([
     });
     return html;
   };
-  $(".task-link").live('click', function(evt) {
+  $("a.task-link").live('click', function(evt) {
     var $el = $(evt.target);
     imdone.scrollToTask = $el.text();
-    imdone.scrollToList = $el.attr('data-list');
+    imdone.scrollToList = $el.attr('data-list') || $el.closest('a.task-link').attr('data-list');
     imdone.navigateToCurrentProject();
     evt.preventDefault();
     evt.stopPropagation();
@@ -513,7 +513,7 @@ define([
     hist[imdone.currentProjectId()] = _.without(hist[imdone.currentProjectId()], imdone.source.path);
     projectHist = hist[imdone.currentProjectId()];
     projectHist.push(imdone.source.path);
-    //[Don't pop, shift](#archive:80)
+    //[Don't pop, shift](#archive:70)
     if (projectHist.length > 10) projectHist.shift();
     store.set('history', hist);
     projectHist.reverse();
@@ -539,7 +539,7 @@ define([
       //Make sure we have the right project displayed
       imdone.paintProjectsMenu();
       
-      //[Update file-path on edit button](#archive:70)
+      //[Update file-path on edit button](#archive:60)
       imdone.filename.empty().html(imdone.source.path);
       imdone.contentNav.show();
       imdone.editMode = true;
@@ -954,7 +954,7 @@ define([
         var content =  $(this).closest(".task").find('.task-text').html();
         var template = '<a href="#{}:{}" class="task-link" data-list="{}"><span class="task-content">{}</span></a>';
 
-        //[Show the current task as notification with <http://pinesframework.org/pnotify/>](#archive:140)
+        //[Show the current task as notification with <http://pinesframework.org/pnotify/>](#archive:130)
         $.pnotify({
           title: list,
           text: template.tokenize(list,order,list,content),
@@ -1028,7 +1028,7 @@ define([
 
       
       function openFile() {
-        //[Create a new file based on path and project with call to /api/source](#archive:120)
+        //[Create a new file based on path and project with call to /api/source](#archive:110)
         var path = imdone.fileField.val();
         if (path != "") {
           if (/^\//.test(path)) {
