@@ -17,6 +17,7 @@ imdone notes for development
 ### Misc
 - [parse github wiki links to point at files](#done:10)
 - [Move task causes multiple updates to board](#done:20)
+- [Filter should stick with project, but clear when project changes](#doing:20)
 - [Fix include and excludes](#doing:0)
 - [Fix show list on task-link](#done:50) 
 - [User should be able to execute a javscript callback when a files are modified in the editor or by moving a task](#doing:40)

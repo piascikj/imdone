@@ -32,8 +32,7 @@
       res.send({processing:true});
       return;
     }
-    var project = "/" + req.params[0];
-    project = server.imdone.getProject(project);
+    project = server.imdone.getProject(req.params[0]);
     //console.log(project);
 
     res.send({
@@ -101,7 +100,7 @@
   }
 
   //[Have this use splat for project name like getFiles](#archive:180)
-  //[Move getSource to imdone.js](#planning:40)
+  //[Move getSource to imdone.js](#done:40)
   function getSource(req, res) {
     if (isProcessing(req,res)) {
       res.send({processing:true});
@@ -109,65 +108,14 @@
     }
 
     var path = req.query.path;
-    var lang = "text";
-    var pat = /\.([0-9a-z]{1,5})$/i; //Pattern to match file extension
-    if (path.match(pat) !== null) lang = path.match(pat)[1];
     var line = req.query.line;
-    var project = server.imdone.getProject("/" + req.params[0]);
-    if (project.path && !/^\.\./.test(path) && !/\/$/.test(path)) {
-      var filePath = project.path + "/" + path;
-
-      //[Make sure this source file is in one of the projects paths](#archive:240)
-      if (fs.existsSync(filePath)) {
-        fs.readFile(filePath, 'utf-8', function(err,data) {
-          if (err) {
-            res.send({error:"Unable to get source"});
-            return;
-          }
-
-          res.send({
-            src:data, 
-            line:line,
-            lang:lang,
-            project:project.path,
-            path:path
-          });
-        });
-      } else {
-        var pathAry = filePath.split("/");
-        var name = pathAry.pop();
-        var dir = pathAry.join("/");
-        console.log(dir);
-        console.log(name);
-        mkdirp(dir, function (err) {
-          if (err) {
-            res.send({error:"Unable to get source"});
-          } else {
-            fs.writeFile(filePath, "", function(err) {
-                if(err) {
-                    res.send({error:"Unable to get source"});
-                } else {
-                res.send({
-                  src:"", 
-                  line:0,
-                  lang:lang,
-                  project:project.path,
-                  path:path
-                });
-                }
-            }); 
-          }
-        });  
-
-      }
-    } else {
-      res.send({error:"Unable to get source"});
-      return;
-    }
+    var project = server.imdone.getProject(req.params[0]);
+    project.getSource(path, line, function(resp) {
+      res.send(resp);
+    });
   }
 
   // [Have this use splat for project name like getFiles](#archive:150)
-  // [Move saveSource to imdone.js and add hook](#doing:50)    
   function saveSource(req, res) {
     if (isProcessing(req,res)) {
       res.send({processing:true});
@@ -175,23 +123,12 @@
     }
 
     var path = req.body.path,
-      src = req.body.src,
-      project = server.imdone.getProject("/" + req.params[0]),
-      filePath = project.path + "/" + path;
+        src = req.body.src,
+        project = server.imdone.getProject(req.params[0]);
 
-    if (project.path && !/^\.\./.test(path)) {
-      fs.writeFile(filePath, src, 'utf8', function(err, data) {
-        if (err) {
-          res.send({error:"Unable to save source"});
-          return;
-        }      
-
-        res.send({path:path, ok:1});
-      });
-    } else {
-      res.send({error:"Unable to get source"});
-      return;
-    }
+    project.saveSource(path, src, function(obj) {
+      res.send(obj);
+    });
   }
 
   // [Move removeSource to imdone.js and add hook](#doing:30)    
@@ -202,7 +139,7 @@
     }
 
     var path = req.query.path,
-      project = server.imdone.getProject("/" + req.params[0]),
+      project = server.imdone.getProject(req.params[0]),
       filePath = project.path + "/" + path;
 
     console.log("Removing file:" + filePath);
@@ -222,7 +159,7 @@
   }
 
   function getFiles(req,res) {
-    var project = server.imdone.getProject("/" + req.params[0]);
+    var project = server.imdone.getProject(req.params[0]);
     if (project.path) {
       res.send(project.getFiles());
     } else {
@@ -231,7 +168,7 @@
   }
 
   function doSearch(req,res) {
-    var opts = {project:server.imdone.getProject("/" + req.params[0])};
+    var opts = {project:server.imdone.getProject(req.params[0])};
     var query = req.query.query;
     var limit = req.query.limit;
     var offset = req.query.offset;

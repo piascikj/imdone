@@ -223,7 +223,13 @@ define([
     url:"/api/projects"
   });
   
-  imdone.currentProjectId = function() {
+  imdone.setProjectData = function(project, data) {
+    imdone.data[project] = data;
+    imdone.data.cwd = project;
+  };
+
+  imdone.currentProjectId = function(projectId) {
+    if (projectId) imdone.data.cwd = projectId;
     return imdone.data.cwd;
   };
 
@@ -254,7 +260,7 @@ define([
       from:listId,
       to:toListId,
       pos:pos,
-      project:imdone.data.cwd
+      project:imdone.currentProjectId()
     };
 
     //Now call the service and call getKanban
@@ -267,7 +273,7 @@ define([
   imdone.moveList = function(e,ui) {
     var list = ui.item.attr("data-list");
     var pos = ui.item.index();
-    var reqObj = {list:list,position:pos,project:imdone.data.cwd};
+    var reqObj = { list: list, position: pos, project: imdone.currentProjectId() };
     //Now call the service and call getKanban
     $.post("/api/moveList", reqObj,
       function(data){
@@ -277,7 +283,7 @@ define([
   }
 
   imdone.hideList = function(list) {
-    $.post("/api/hideList", {list:list, project:imdone.currentProjectId()},
+    $.post("/api/hideList", { list: list, project: imdone.currentProjectId() },
       function(data){
         imdone.getKanban();
       }, "json");
@@ -380,11 +386,6 @@ define([
     imdone.board.hide();
   };
 
-  imdone.setProjectData = function(project, data) {
-    imdone.data[project] = data;
-    imdone.data.cwd = project;
-  };
-
   imdone.paintKanban = function(data) {
     if (!data.processing && !imdone.editMode) {
       imdone.board.empty();
@@ -455,7 +456,7 @@ define([
   imdone.getProjects = function(callback) {
     $.get("/api/projects", function(data){
       imdone.projects = data;
-      imdone.data.cwd = imdone.projects[0];
+      imdone.currentProjectId(data[0]);
       imdone.paintProjectsMenu();
       if (_.isFunction(callback)) callback();
     }, "json");
@@ -465,8 +466,8 @@ define([
     imdone.projectsMenu.empty();
     var template = Handlebars.compile($("#projects-template").html());
     var context = {
-      cwd:imdone.data.cwd,
-      projects:_.without(imdone.projects, imdone.data.cwd)
+      cwd: imdone.currentProjectId(),
+      projects:_.without(imdone.projects, imdone.currentProjectId())
     }
     imdone.projectsMenu.html(template(context));
   };
@@ -532,7 +533,7 @@ define([
     //Get the source and show the editor
     $.get(url, function(data){
       imdone.source = data;
-      imdone.data.cwd = data.project;
+      imdone.currentProjectId(data.project);
       //store the path in history
       imdone.addHistory();
 

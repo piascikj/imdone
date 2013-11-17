@@ -174,6 +174,7 @@ imdone.addProject = function(dir) {
 };
 
 imdone.getProject = function(dir) {
+  if (!/^\//.test(dir)) dir = "/" + dir;
   return imdone.projects[dir] || {};
 };
 
@@ -589,6 +590,84 @@ imdone.Project.prototype.unpause = function(file) {
     delete this.pause[file];
   }
 };
+
+// [add hook to saveSource](#doing:50)    
+imdone.Project.prototype.saveSource = function(path, src, callback) {
+  var project = this;
+  var filePath = project.path + "/" + path;
+
+  if (project.path && !/\.\.\//.test(path)) {
+    fs.writeFile(filePath, src, 'utf8', function(err, data) {
+      if (err) {
+        callback({error:"Unable to save source"});
+        return;
+      }      
+
+      callback({path:path, ok:1});
+    });
+  } else {
+    callback({error:"Unable to get source"});
+    return;
+  }
+};
+
+imdone.Project.prototype.getSource = function(path, line, callback) {
+  var project = this;
+  var lang = "text";
+  var pat = /\.([0-9a-z]{1,5})$/i; //Pattern to match file extension
+  if (path.match(pat) !== null) lang = path.match(pat)[1];
+  if (project.path && !/^\.\./.test(path) && !/\/$/.test(path)) {
+    var filePath = project.path + "/" + path;
+
+    //[Make sure this source file is in one of the projects paths](#archive:240)
+    if (fs.existsSync(filePath)) {
+      fs.readFile(filePath, 'utf-8', function(err,data) {
+        if (err) {
+          callback({error:"Unable to get source"});
+          return;
+        }
+
+        callback({
+          src:data, 
+          line:line,
+          lang:lang,
+          project:project.path,
+          path:path
+        });
+      });
+    } else {
+      var pathAry = filePath.split("/");
+      var name = pathAry.pop();
+      var dir = pathAry.join("/");
+      console.log(dir);
+      console.log(name);
+      mkdirp(dir, function (err) {
+        if (err) {
+          callback({error:"Unable to get source"});
+        } else {
+          fs.writeFile(filePath, "", function(err) {
+              if(err) {
+                callback({error:"Unable to get source"});
+              } else {
+                callback({
+                  src:"", 
+                  line:0,
+                  lang:lang,
+                  project:project.path,
+                  path:path
+                });
+              }
+          }); 
+        }
+      });  
+
+    }
+  } else {
+    callback({error:"Unable to get source"});
+    return;
+  }
+
+}
 
 imdone.Project.prototype.watchFiles = function(path) {
   //[Test watchr on hundreds of directories](#todo:80)

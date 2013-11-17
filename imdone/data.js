@@ -9,6 +9,7 @@
   ],
   "hidden": [
     "planning",
-    "filters"
+    "filters",
+    "archive"
   ]
 }
