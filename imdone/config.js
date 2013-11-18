@@ -1,3 +1,4 @@
+var _ = require("underscore");
 /*
  * imdone
  * https://github.com/piascikj/imdone
@@ -5,16 +6,18 @@
  * Copyright (c) 2012 Jesse Piascik
  * Licensed under the MIT license.
  */
-// [add include option for processing tasks - introduced in 0.1.3](#archive:230)
-// [if running localy it should give the option to open the file in the browser even if github is set](#todo:80)
 module.exports = {
 	include:/^.*$/,
 	exclude:/^(node_modules|bower_components|imdone|target|build)\/|\.(git|svn)|\~$|\.(jpg|png|gif|swp|ttf|otf)$/,
-	//github : {url : "http://www.github.com/piascikj/imdone"}, //Use this if you want file links to point at github, put the path to your repository here
 	marked : {
 		gfm: true,
 		pedantic: false,
 		sanitize: true
-	}
-	//[add a lists property for lists that are always displayed, even if there are no tasks in them](#archive:110)
+	},
+  events : {
+    modified: function(params) {
+      console.log("Files modified in project:", params.project.path);
+      console.log(_.keys(params.files));
+    }
+  }
 };

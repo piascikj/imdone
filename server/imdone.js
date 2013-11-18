@@ -8,6 +8,7 @@
 //[Implement hide functionality to hide a list from board](#archive:220)
 // Nodejs libs.
 var fs = require('fs');
+var events = require('events');
 var program = require("commander");
 var wrench = require('wrench');
 var _ = require('underscore');
@@ -193,9 +194,24 @@ imdone.getLastUpdate = function() {
 */
 
 imdone.Project = function(path) {
+  events.EventEmitter.call(this);
   this.cwd = this.path = path;
   this.tasks = {};
   this.config = {};
+};
+
+imdone.Project.prototype.__proto__ = events.EventEmitter.prototype;
+
+imdone.Project.prototype.emitAsync = function(event, params) {
+  var self = this;
+  params = _.extend(params, {project:self});
+  process.nextTick(function() {
+    self.emit(event, params);
+  });
+};
+
+imdone.Project.prototype.emitModified = function(params) {
+  this.emitAsync('modified', params, this);
 };
 
 imdone.Project.prototype.init = function() {
@@ -338,12 +354,7 @@ imdone.Project.prototype.renameList = function(request) {
   this.lists = lists;
   this.saveListData();
 
-  // [Document afterRenameList in config and README.md](#doing:10)
-  // if (_.isFunction(self.config.afterRenameList)) {
-  //   process.nextTick(function(){
-  //     self.config.afterRenameList(_.keys(files));
-  //   });
-  // }
+  this.emitModified({files:files});
 
   return imdone.lists;
 };
@@ -458,16 +469,11 @@ imdone.Project.prototype.moveTask = function(request, callback) {
     if (self.isPaused(path)) self.unpause(path);
   });
 
+  this.emitModified({files:files});
+
   //process all files
   var fileNames = _.keys(files);
   self.processFiles(fileNames, function() {
-    // [Document afterMoveTask in example config and README.md](#doing:20)
-    // if (_.isFunction(self.config.afterMoveTask)) {
-    //   procee.nextTick(function() {
-    //     self.config.afterMoveTask(fileNames);
-    //   });
-    // }
-    
     if (_.isFunction(callback)) callback();
   });
 
@@ -601,8 +607,10 @@ imdone.Project.prototype.saveSource = function(path, src, callback) {
       if (err) {
         callback({error:"Unable to save source"});
         return;
-      }      
-
+      }
+      var files = {};
+      files[filePath] = src;
+      project.emitModified({files:files});
       callback({path:path, ok:1});
     });
   } else {
@@ -747,22 +755,30 @@ imdone.Project.prototype.initConfig = function(callback) {
   var config = require(this.defaultConfig);
   this.config = _.extend({}, config);
 
-  if (fs.existsSync(this.configFile)) {
-    console.log("Found imdone config file:" + this.configFile);
-    _.extend(this.config,require(this.configFile));
-  } else {
+  //Create config if it doesn't exist 
+  if (!fs.existsSync(this.configFile)) {
     var defaultConfigPath = require.resolve(this.defaultConfig);
     var inStr = fs.createReadStream(defaultConfigPath);
     var outStr = fs.createWriteStream(this.configFile);
     console.log("copying " + defaultConfigPath + " to " + this.configFile);
-    inStr.pipe(outStr);  
+    inStr.pipe(outStr);
   }
+
+  _.extend(this.config,require(this.configFile));
+
+  //set marked options
   marked.setOptions(this.config.marked);
+
+  //setup event listeners
+  _.each(this.config.events, function(listener, event) {
+    console.log("registering listener for: ", event);
+    self.on(event, listener);
+  });
 
   this.config.lists = this.config.lists || [];
   this.config.path = this.path;
   console.log("Loaded config:" + JSON.stringify(this.config, function(key, val) {
-    if (/(include|exclude)/.test(key)) {
+    if (/(include|exclude)/.test(key) || _.isFunction(val)) {
       return val.toString();
     } else {
       return val;
@@ -828,6 +844,9 @@ imdone.Project.prototype.saveListData = function() {
   });
 
   var fileData = {lists:self.lists, hidden:self.hidden};
-  console.log("Saving iMDone data: " + JSON.stringify(fileData, null, 2));
-  fs.writeFileSync(this.dataFile, JSON.stringify(fileData, null, 2), 'utf8');
+  var fileDataSrc = JSON.stringify(fileData, null, 2);
+  console.log("Saving iMDone data: " + fileDataSrc);
+  fs.writeFileSync(this.dataFile, fileDataSrc, 'utf8');
+
+  var files={}; files[this.dataFile]=fileDataSrc; this.emitModified({files:files});
 };
