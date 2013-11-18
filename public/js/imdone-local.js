@@ -173,6 +173,7 @@ define([
     });
     return html;
   };
+
   $("a.task-link").live('click', function(evt) {
     var $el = $(evt.target);
     imdone.scrollToTask = $el.text();
@@ -190,7 +191,7 @@ define([
   imdone.getFileHref = function(project, path, line, preview) {
     if (_.isObject(preview)) preview = undefined;
     if (_.isObject(line)) line = undefined;
-    if (arguments.length > 2 && line && isNaN(line)) preview = true;
+    if (line && isNaN(line)) preview = true;
     project = encodeURIComponent(project);
     path = encodeURIComponent(path);
     var href = '#file/{}/{}'.tokenize(project, path);
@@ -554,10 +555,10 @@ define([
       imdone.hideAllContent();
       imdone.hideBoard();
 
-      if (imdone.previewMode == true && imdone.isMD()) {
-          imdone.showPreview();
+      if (imdone.isMD() && (imdone.previewMode === true || !params.line)) {
+        imdone.showPreview();
       } else {
-          imdone.showEditor();
+        imdone.showEditor();
       }
 
     }, "json");

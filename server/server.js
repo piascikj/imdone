@@ -126,8 +126,8 @@
         src = req.body.src,
         project = server.imdone.getProject(req.params[0]);
 
-    project.saveSource(path, src, function(obj) {
-      res.send(obj);
+    project.saveSource(path, src, function(resp) {
+      res.send(resp);
     });
   }
 
