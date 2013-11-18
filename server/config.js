@@ -1,4 +1,3 @@
-var _ = require("underscore");
 /*
  * imdone
  * https://github.com/piascikj/imdone
@@ -17,7 +16,7 @@ module.exports = {
   events : {
     modified: function(params) {
       console.log("Files modified in project:", params.project.path);
-      console.log(_.keys(params.files));
+      console.log(params.files);
     }
   }
 };

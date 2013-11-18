@@ -20,6 +20,7 @@ Features
 - Markdown preview with table of contents
 - Syntax highlighting in markdown code blocks 
 - [Use gollum link syntax](https://github.com/gollum/gollum/wiki#page-links) - Great for managing github wikis
+- Execute an event listener for modified files
 
 Quickstart
 ----
@@ -46,15 +47,21 @@ Configuration
 ----
 After running imdone for the first time, modify imdone/imdone.js in your project directory.  The default config looks like this.  Your imdone.js will extend this.
 ```javascript
-    module.exports = {
-		include:/^.*$/,
-		exclude:/^(node_modules|imdone|target)\/|\.(git|svn)\/|\~$|\.(jpg|png|gif|swp)$/,
-		marked : {
-			gfm: true,
-			pedantic: false,
-			sanitize: true
-		}
-	};
+module.exports = {
+  include:/^.*$/,
+  exclude:/^(node_modules|bower_components|imdone|target|build)\/|\.(git|svn)|\~$|\.(jpg|png|gif|swp|ttf|otf)$/,
+  marked : {
+    gfm: true,
+    pedantic: false,
+    sanitize: true
+  },
+  events : {
+    modified: function(params) {
+      console.log("Files modified in project:", params.project.path);
+      console.log(params.files);
+    }
+  }
+};
 ```
 
 Tips
@@ -88,6 +95,76 @@ sudo sysctl -p
   - If the github clone url is https://github.com/piascikj/imdone.git then
 ```
 git clone https://github.com/piascikj/imdone.wiki.git
+```
+
+### Configuration for running git add and commit after files are modified
+```javascript
+var exec = require('child_process').exec;
+var util = require('util');
+
+/*
+ * imdone
+ * https://github.com/piascikj/imdone
+ *
+ * Copyright (c) 2012 Jesse Piascik
+ * Licensed under the MIT license.
+ */
+module.exports = {
+  include:/^.*$/,
+  exclude:/^(node_modules|bower_components|imdone|target|build)\/|\.(git|svn)|\~$|\.(jpg|png|gif|swp|ttf|otf)$/,
+  marked : {
+    gfm: true,
+    pedantic: false,
+    sanitize: true
+  },
+  events : {
+    modified: function(params) {
+      console.log("Files modified in project:", params.project.path);
+      var statusCmd = util.format('cd %s & git status -s', params.project.path);
+      var addCmd = util.format('cd %s & git add -A', params.project.path);
+      var commitCmd = util.format('cd %s & git commit -a -m "Update to notes from imdone"', params.project.path);
+
+      console.log("---Running ", statusCmd);
+      exec(statusCmd, function(err, stdout, stderr) {
+        if (err || stderr) {
+          console.log("Error executing ", statusCmd);
+          console.log("err:", err);
+          console.log("stderr:", stderr);
+          return;
+        }
+
+        if (/^\s*(\?|M|A|D|R|C|U)/g.test(stdout)) {
+          console.log("Found changes to commit!");
+          console.log(stdout);
+          console.log("---Running ", addCmd);
+          exec(addCmd, function(err, stdout, stderr) {
+            if (err || stderr) {
+              console.log("Error executing ", addCmd);
+              console.log("err:", err);
+              console.log("stderr:", stderr);
+              return;
+            }
+            console.log("stdout:", stdout);
+
+            console.log("---Running ", commitCmd);
+            exec(commitCmd, function(err, stdout, stderr) {
+              if (err || stderr) {
+                console.log("Error executing ", commitCmd);
+                console.log("err:", err);
+                console.log("stderr:", stderr);
+                return;
+              }
+              console.log("stdout:", stdout);
+            });
+          });
+        } else {
+          console.log("No changes detected.");
+        }
+      });
+
+    }
+  }
+};
 ```
 
 Common Errors

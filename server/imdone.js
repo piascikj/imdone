@@ -166,10 +166,9 @@ imdone.addProject = function(dir) {
 
   console.log("Adding project at:" + dir);
 
-  if (!imdone.projects[dir]) {
-    imdone.projects[dir] = new imdone.Project(dir);
-    imdone.projects[dir].init();
-  } 
+  if (imdone.projects[dir]) delete imdone.projects[dir];
+  imdone.projects[dir] = new imdone.Project(dir);
+  imdone.projects[dir].init();
 
   return imdone.projects[dir];
 };
@@ -211,7 +210,9 @@ imdone.Project.prototype.emitAsync = function(event, params) {
 };
 
 imdone.Project.prototype.emitModified = function(params) {
-  this.emitAsync('modified', params, this);
+  var self = this;
+  params = _.extend(params, {project:self});
+  this.emit('modified', params);
 };
 
 imdone.Project.prototype.init = function() {
@@ -817,12 +818,14 @@ imdone.Project.prototype.loadListData = function(callback) {
 };
 
 imdone.Project.prototype.saveListData = function() {
-  var currentLists = this.lists;
   var self = this;
+  var currentLists = this.lists;
 
   _.each(self.tasks, function(fileTasks, file){
     _.each(fileTasks.tasks,function(task, id) {
-      if (!_.contains(currentLists, task.list)) currentLists.push(task.list);
+      if (!_.contains(currentLists, task.list)) {
+        currentLists.push(task.list);
+      }
     });
   });
   
@@ -837,16 +840,23 @@ imdone.Project.prototype.saveListData = function() {
   this.hidden = this.hidden || [];
   //now find the hidden lists that aren't in the lists and remove them from both
   var defunct = _.difference(self.hidden, self.lists);
-  if (defunct) console.log("Defunct hidden lists:" + JSON.stringify(defunct, null, 2));
-  _.each(defunct, function(list) {
-    console.log("Removing " + list + " from hidden lists.");
-    self.hidden = _.without(self.hidden, list);
-  });
+  if (defunct.length > 0) {
+    console.log("Defunct hidden lists:" + JSON.stringify(defunct, null, 2));
+    _.each(defunct, function(list) {
+      console.log("Removing " + list + " from hidden lists.");
+      self.hidden = _.without(self.hidden, list);
+    });
+  }
 
   var fileData = {lists:self.lists, hidden:self.hidden};
-  var fileDataSrc = JSON.stringify(fileData, null, 2);
-  console.log("Saving iMDone data: " + fileDataSrc);
-  fs.writeFileSync(this.dataFile, fileDataSrc, 'utf8');
 
-  var files={}; files[this.dataFile]=fileDataSrc; this.emitModified({files:files});
+  currentFileData = JSON.parse(fs.readFileSync(self.dataFile, 'utf8'));
+
+  if (!_.isEqual(fileData,currentFileData)) {
+    var fileDataSrc = JSON.stringify(fileData, null, 2);
+    console.log("Saving iMDone data: " + fileDataSrc);
+    fs.writeFileSync(this.dataFile, fileDataSrc, 'utf8');
+
+    var files={}; files[this.dataFile]=fileDataSrc; this.emitModified({files:files});
+  }
 };
