@@ -505,6 +505,7 @@ imdone.Project.prototype.filesToProcess = function(files, showDirs) {
   _.each(files, function(file, i) {
     file = self.fullPath(file);
     var relPathFile = self.relativePath(file);
+    //console.log(relPathFile);
     if (self.config.include.test(relPathFile)  && 
         !self.config.exclude.test(relPathFile) && 
         (fs.statSync(file).isFile() || showDirs)) {
@@ -850,13 +851,16 @@ imdone.Project.prototype.saveListData = function() {
 
   var fileData = {lists:self.lists, hidden:self.hidden};
 
-  currentFileData = JSON.parse(fs.readFileSync(self.dataFile, 'utf8'));
+  fs.exists(self.dataFile, function(exists) {
+    if (!exists) return;
+    currentFileData = JSON.parse(fs.readFileSync(self.dataFile, 'utf8'));
 
-  if (!_.isEqual(fileData,currentFileData)) {
-    var fileDataSrc = JSON.stringify(fileData, null, 2);
-    console.log("Saving iMDone data: " + fileDataSrc);
-    fs.writeFileSync(this.dataFile, fileDataSrc, 'utf8');
+    if (!_.isEqual(fileData,currentFileData)) {
+      var fileDataSrc = JSON.stringify(fileData, null, 2);
+      console.log("Saving iMDone data: " + fileDataSrc);
+      fs.writeFileSync(this.dataFile, fileDataSrc, 'utf8');
 
-    var files={}; files[this.dataFile]=fileDataSrc; this.emitModified({files:files});
-  }
+      var files={}; files[this.dataFile]=fileDataSrc; this.emitModified({files:files});
+    }
+  })
 };
