@@ -868,9 +868,10 @@ imdone.Project.prototype.saveListData = function() {
     if (!_.isEqual(fileData,currentFileData)) {
       var fileDataSrc = JSON.stringify(fileData, null, 2);
       console.log("Saving iMDone data: " + fileDataSrc);
-      fs.writeFileSync(this.dataFile, fileDataSrc, 'utf8');
+      console.log(self.dataFile);
+      fs.writeFileSync(self.dataFile, fileDataSrc, 'utf8');
 
-      var files={}; files[this.dataFile]=fileDataSrc; this.emitModified({files:files});
+      var files={}; files[self.dataFile]=fileDataSrc; self.emitModified({files:files});
     }
   })
 };
