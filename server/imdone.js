@@ -703,7 +703,7 @@ imdone.Project.prototype.watchFiles = function(path) {
           change: function(changeType,filePath,fileCurrentStat,filePreviousStat){
               //console.log('a change event occured:',arguments);
               console.log("an " + changeType + " occured on " + filePath);
-              if (filePath.match(self.config.exclude) != null) return;
+              if (self.config.exclude.test(filePath)) return;
               switch(changeType) {
                 case "update":
                   console.log("Processing update to:",filePath);

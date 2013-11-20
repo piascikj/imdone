@@ -2,6 +2,9 @@
 [![NPM version](https://badge.fury.io/js/imdone.png)](https://npmjs.org/package/imdone)
 [![Flattr this](http://api.flattr.com/button/flattr-badge-large.png)](http://flattr.com/thing/1286067/iMDone)
 
+[![NPM](https://nodei.co/npm/imdone.png?downloads=true&stars=true)](https://nodei.co/npm/imdone/)
+[![NPM](https://nodei.co/npm-dl/imdone.png?months=3)](https://nodei.co/npm-dl/imdone/)
+
 Introduction
 ----
 When working on a software project in code or writing project in markdown, there are always tasks you need to record.
