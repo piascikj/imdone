@@ -21,6 +21,7 @@ var http = require('http');
 var server = require("./server");
 var tasks = require("./tasks");
 var languages = require("./util/languages");
+var isBinaryFile = require("isbinaryfile");
 
 var imdone = module.exports = {pause:{}};
 var pkginfo = require('pkginfo')(module);
@@ -232,13 +233,18 @@ imdone.Project.prototype.init = function() {
   });
 };
 
+// [Add includeFiles, excludeFiles, includeDirs, excludeDirs to config](#doing:0)
 imdone.Project.prototype.shouldProcessFile = function(file) {
   var relPath = this.relativePath(file);
-  return !this.config.exclude.test(relPath);
+  if (!this.config.include.test(relPath)) return false;
+  if (this.config.exclude.test(relPath)) return false;
+  if (isBinaryFile(file)) return false;
+  return true;
 };
 
 imdone.Project.prototype.shouldProcessDir = function(file) {
   var relPath = this.relativePath(file) + "/";
+  if (!this.config.include.test(relPath)) return false;
   return !this.config.exclude.test(relPath);
 };
 
@@ -267,12 +273,11 @@ imdone.Project.prototype.getFiles = function(path) {
   _.each(files, function(file) {
     var name = file.split("/").pop();
     var relPath = self.relativePath(file);
-    if (fs.statSync(file).isDirectory() && self.shouldProcessDir(file)) {
-        if(!out.dirs) out.dirs = [];
-        out.dirs.push(_.extend({name:name,path:relPath},self.getFiles(file)));
-    } else if (fs.statSync(file).isFile() && self.shouldProcessFile(file)) {
+    if (fs.statSync(file).isDirectory()) {
+      if(!out.dirs) out.dirs = [];
+      out.dirs.push(_.extend({name:name,path:relPath},self.getFiles(file)));
+    } else {
       if(!out.files) out.files = [];
-
       out.files.push({name:name,path:relPath,project:self.path});
     }
   });
@@ -506,9 +511,10 @@ imdone.Project.prototype.filesToProcess = function(files, showDirs) {
     file = self.fullPath(file);
     var relPathFile = self.relativePath(file);
     //console.log(relPathFile);
-    if (self.config.include.test(relPathFile)  && 
-        !self.config.exclude.test(relPathFile) && 
-        (fs.statSync(file).isFile() || showDirs)) {
+
+    if (fs.statSync(file).isFile() && self.shouldProcessFile(file)) {
+      passed.push(file);
+    } else if (showDirs && self.shouldProcessDir(file)) {
       passed.push(file);
     }
   });
@@ -599,7 +605,7 @@ imdone.Project.prototype.unpause = function(file) {
   }
 };
 
-// [add hook to saveSource](#doing:50)    
+// [add hook to saveSource](#done:0)    
 imdone.Project.prototype.saveSource = function(path, src, callback) {
   var project = this;
   var filePath = project.path + "/" + path;
@@ -702,8 +708,12 @@ imdone.Project.prototype.watchFiles = function(path) {
           },
           change: function(changeType,filePath,fileCurrentStat,filePreviousStat){
               //console.log('a change event occured:',arguments);
-              console.log("an " + changeType + " occured on " + filePath);
-              if (self.config.exclude.test(filePath)) return;
+              console.log("An " + changeType + " occured on " + filePath);
+              var stat = fileCurrentStat || filePreviousStat;
+              if (!stat.isFile() && !stat.isDirectory()) return;
+              else if (stat.isFile() && !self.shouldProcessFile(filePath)) return;
+              else if (stat.isDirectory() && !self.shouldProcessDir(filePath)) return;
+
               switch(changeType) {
                 case "update":
                   console.log("Processing update to:",filePath);

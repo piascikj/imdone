@@ -125,11 +125,11 @@ define([
     //Make all links with http open in new tab
     //[For markdown files, find tasks links and give them a badge](#archive:30)
     //[For internal inks, take them to the page](#archive:50)
-    //[Let mailto links open email client](#done:130)
+    //[Let mailto links open email client](#done:170)
     var replaceLinks = function(anchor, head, href, tail, content, end) {
       if (links.test(content)) content = content.replace(links, replaceLinks);
       var out = html;
-      // [Fix external links in tasks text to use `target="_blank"`](#done:40)
+      // [Fix external links in tasks text to use `target="_blank"`](#done:70)
       //Check for external links
       if (externalLinks.test(href)) {
         out = head + href + tail + ' target="_blank">' + content + end;
@@ -814,7 +814,7 @@ define([
         },
     });
   };
-  //[Implement delete file functionality](#done:180)
+  //[Implement delete file functionality](#done:220)
   imdone.removeFileBtn.live('click', function() {
     imdone.removeSourceConfirm();
   });
@@ -1128,11 +1128,11 @@ define([
 
   var AppRouter = Backbone.Router.extend({
       routes: {
-          //[fix search path to use slashes instead of dashes](#done:0)
+          //[fix search path to use slashes instead of dashes](#done:30)
           "search/:project/:query/:offset(/:limit)": "searchRoute",
           "project*project": "projectRoute",
           "file/:project/:path(/:line)(/:preview)": "fileRoute",
-          "filter/*filter" : "filterRoute", //[Filter route so links can change filter](#done:150)
+          "filter/*filter" : "filterRoute", //[Filter route so links can change filter](#done:190)
           "*action": "defaultRoute" // Backbone will try match the route above first
         },
 
