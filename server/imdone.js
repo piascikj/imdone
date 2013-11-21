@@ -233,57 +233,6 @@ imdone.Project.prototype.init = function() {
   });
 };
 
-// [Add includeFiles, excludeFiles, includeDirs, excludeDirs to config](#doing:0)
-imdone.Project.prototype.shouldProcessFile = function(file) {
-  var relPath = this.relativePath(file);
-  if (!this.config.include.test(relPath)) return false;
-  if (this.config.exclude.test(relPath)) return false;
-  if (isBinaryFile(file)) return false;
-  return true;
-};
-
-imdone.Project.prototype.shouldProcessDir = function(file) {
-  var relPath = this.relativePath(file) + "/";
-  if (!this.config.include.test(relPath)) return false;
-  return !this.config.exclude.test(relPath);
-};
-
-
-imdone.Project.prototype.getFiles = function(path) {
-  var self = this,
-      out = {},
-      sub = false;
-
-  if (path) {
-    sub = true;
-  } else {
-    path = this.path;
-  }
-  
-  var files =  fs.readdirSync(path);
-
-  if (sub) {
-    _.each(files, function(val,i) {
-      files[i] = path + "/" + val;
-    });
-  }
-
-  files = self.filesToProcess(files,true).sort();
-  if (!sub) out.path="/";
-  _.each(files, function(file) {
-    var name = file.split("/").pop();
-    var relPath = self.relativePath(file);
-    if (fs.statSync(file).isDirectory()) {
-      if(!out.dirs) out.dirs = [];
-      out.dirs.push(_.extend({name:name,path:relPath},self.getFiles(file)));
-    } else {
-      if(!out.files) out.files = [];
-      out.files.push({name:name,path:relPath,project:self.path});
-    }
-  });
-  return out;
-};
-
 imdone.Project.prototype.getURL = function(file, line) {
   return "/api/source" + this.path + "?path=" + file + "&line=" + line;
 };
@@ -503,6 +452,21 @@ imdone.Project.prototype.modifyTask = function(data,task) {
   return file.content;
 };
 
+// [Add includeFiles, excludeFiles, includeDirs, excludeDirs to config](#doing:0)
+imdone.Project.prototype.shouldProcessFile = function(file) {
+  var relPath = this.relativePath(file);
+  if (!this.config.include.test(relPath)) return false;
+  if (this.config.exclude.test(relPath)) return false;
+  if (isBinaryFile(file)) return false;
+  return true;
+};
+
+imdone.Project.prototype.shouldProcessDir = function(file) {
+  var relPath = this.relativePath(file) + "/";
+  if (!this.config.include.test(relPath)) return false;
+  return !this.config.exclude.test(relPath);
+};
+
 imdone.Project.prototype.filesToProcess = function(files, showDirs) {
   var self = this;
   var passed = [];
@@ -511,15 +475,51 @@ imdone.Project.prototype.filesToProcess = function(files, showDirs) {
     file = self.fullPath(file);
     var relPathFile = self.relativePath(file);
     //console.log(relPathFile);
+    var stat = fs.statSync(file);
 
-    if (fs.statSync(file).isFile() && self.shouldProcessFile(file)) {
-      passed.push(file);
-    } else if (showDirs && self.shouldProcessDir(file)) {
-      passed.push(file);
+    if (stat.isFile()) {
+      if (self.shouldProcessFile(file)) passed.push(file);
+    } else if (stat.isDirectory()) {
+      if (showDirs && self.shouldProcessDir(file)) passed.push(file);
     }
   });
 
   return passed;
+};
+
+imdone.Project.prototype.getFiles = function(path) {
+  var self = this,
+      out = {},
+      sub = false;
+
+  if (path) {
+    sub = true;
+  } else {
+    path = this.path;
+  }
+  
+  var files =  fs.readdirSync(path);
+
+  if (sub) {
+    _.each(files, function(val,i) {
+      files[i] = path + "/" + val;
+    });
+  }
+
+  files = self.filesToProcess(files,true).sort();
+  if (!sub) out.path="/";
+  _.each(files, function(file) {
+    var name = file.split("/").pop();
+    var relPath = self.relativePath(file);
+    if (fs.statSync(file).isDirectory()) {
+      if(!out.dirs) out.dirs = [];
+      out.dirs.push(_.extend({name:name,path:relPath},self.getFiles(file)));
+    } else {
+      if(!out.files) out.files = [];
+      out.files.push({name:name,path:relPath,project:self.path});
+    }
+  });
+  return out;
 };
 
 imdone.Project.prototype.processFiles = function(files, callback) {
