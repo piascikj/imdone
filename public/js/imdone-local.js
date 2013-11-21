@@ -202,7 +202,7 @@ define([
   };
 
   imdone.getSearchHref = function(project,query,offset,limit) {
-    var href = "#search/{}/{}/{}".tokenize(encodeURIComponent(project),query,offset);
+    var href = "#search/{}/{}/{}".tokenize(encodeURIComponent(project),encodeURIComponent(query),offset);
     if (limit) href += ("/"+limit);
     return href;
   };
