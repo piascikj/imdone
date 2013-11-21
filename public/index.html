@@ -230,7 +230,7 @@
         {{/if}}
         {{#if files}}
           {{#each files}}
-          <li><a href="{{fileHref project path}}" class="js-file" data-path="{{path}}"><i class="icon-file-alt"></i>{{name}}</a></li>
+          <li><a href="{{fileHref project path true}}" class="js-file" data-path="{{path}}"><i class="icon-file-alt"></i>{{name}}</a></li>
           {{/each}}
         {{/if}}
       </ul>

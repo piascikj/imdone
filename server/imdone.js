@@ -18,6 +18,7 @@ var open = require('open');
 var request = require('request');
 var express = require('express');
 var http = require('http');
+var mkdirp = require('mkdirp');
 var server = require("./server");
 var tasks = require("./tasks");
 var languages = require("./util/languages");

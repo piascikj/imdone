@@ -197,6 +197,7 @@ define([
     var href = '#file/{}/{}'.tokenize(project, path);
     if (line) href+= ("/" + line);
     if (preview) href += "/true";
+    console.log(href);
     return href;
   };
 
@@ -242,8 +243,14 @@ define([
     return _.findWhere(imdone.currentProject().lists, {name:list}).hidden;
   };
 
-  imdone.isMD = function() {
-    return imdone.source.lang == "md";
+  imdone.isMD = function(file) {
+    if (file) {
+      if (/\.md$/i.test(file)) return true;
+    }
+
+    if (imdone.source.lang == "md") return true;
+
+    return false;
   };
 
   imdone.moveTask = function(e, ui) {
@@ -555,7 +562,7 @@ define([
       imdone.hideAllContent();
       imdone.hideBoard();
 
-      if (imdone.isMD() && (imdone.previewMode === true || !params.line)) {
+      if (imdone.isMD() && imdone.previewMode === true) {
         imdone.showPreview();
       } else {
         imdone.showEditor();
@@ -1039,7 +1046,6 @@ define([
             path = imdone.currentProject().cwd.path + "/" + imdone.fileField.val();
             path = path.replace(/^(\/)+/,"");
           }
-          // [Fix this to ]
           imdone.app.navigate(imdone.getFileHref(imdone.currentProjectId(),path), {trigger:true});
           $(this).closest(".modal").modal('hide');
         }
