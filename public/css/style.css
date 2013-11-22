@@ -208,6 +208,10 @@ blockquote p {
   margin-right: 10px;
 }
 
+.task.alert {
+  padding: 19px;
+}
+
 .column-nav-menu {
   top: 100%;
   width: 220px;

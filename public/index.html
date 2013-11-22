@@ -195,11 +195,21 @@
         {{#if tasks}}
         {{#each tasks}}
         <div class="wrap well task" data-id="{{pathTaskId}}" data-list="{{list}}" data-order="{{order}}" data-path="{{path}}">
+          <span class="row-fluid task-text">{{{markDown text}}}</span>
+          <span class="row-fluid task-info">
+            <a href="{{fileHref project path line}}" class="source-link" data-url="{{url}}" data-target="#src-panel" data-list="{{list}}">{{path}}</a>
+            <span class="sort">{{line}} | {{order}}</span>
+          </span>
+        </div>
+        <!--
+        <div class="wrap well task" data-id="{{pathTaskId}}" data-list="{{list}}" data-order="{{order}}" data-path="{{path}}">
           <div class="task-text">{{{markDown text}}}</div>
           <div class="task-info">
-            <a href="{{fileHref project path line}}" class="source-link" data-url="{{url}}" data-target="#src-panel" data-list="{{list}}">{{path}}</a><span class="sort">{{line}} | {{order}}</span>
+            <a href="{{fileHref project path line}}" class="source-link" data-url="{{url}}" data-target="#src-panel" data-list="{{list}}">{{path}}</a>
+            <span class="sort">{{line}} | {{order}}</span>
           </div>
         </div>
+        -->
         {{/each}}
         {{else}}
           <button class="btn btn-inverse remove-list" type="button" data-list="{{name}}">Remove list</button>
