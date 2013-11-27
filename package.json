@@ -1,7 +1,7 @@
 {
   "name": "imdone",
   "preferGlobal": "true",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "description": "A simple scrum board and markdown wiki.",
   "keywords": [
     "scrum",
@@ -37,7 +37,7 @@
   },
   "main": "server/imdone",
   "engines": {
-    "node": ">= 0.4.12"
+    "node": ">=0.8"
   },
   "scripts": {
     "test": "grunt test",
@@ -64,6 +64,6 @@
     "grunt-contrib-jshint": "~0.6.0",
     "grunt": "~0.4.1",
     "grunt-jasmine-node-coverage": "~0.1.5",
-    "grunt-bower-task": "~0.3.3"
+    "grunt-bower-task": "~0.3.2"
   }
 }

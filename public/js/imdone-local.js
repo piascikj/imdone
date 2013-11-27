@@ -96,6 +96,16 @@ define([
       return code;
     }
   });
+
+  String.prototype.format = function (col) {
+    col = typeof col === 'object' ? col : Array.prototype.slice.call(arguments, 1);
+
+    return this.replace(/\{\{|\}\}|\{(\w+)\}/g, function (m, n) {
+        if (m == "{{") { return "{"; }
+        if (m == "}}") { return "}"; }
+        return col[n];
+    });
+  }
   
   String.prototype.tokenize = function() {
     var args = arguments;
@@ -140,8 +150,8 @@ define([
           list = taskList;
           out = href;
         });
-        out = ('<span class="label label-info task-label">{}</span>{}{}{} class="task-link" data-list="{}">' + 
-                      '<span class="task-content">{}</span>{}').tokenize(list,head,href,tail,list,content,end);
+        out = ('<span class="label label-info task-label">{0}</span>{1}{2}{3} class="task-link" data-list="{0}">' + 
+                      '<span class="task-content">{4}</span>{5}').format([list,head,href,tail,content,end]);
       //Check for filter links
       } else if (filterLinks.test(href)) {
         var filterBy = href.split("/")[1];
@@ -382,7 +392,7 @@ define([
 
   imdone.isSearchResultsVisible = function() {
     return imdone.searchResults.is(":visible");
-  }
+  };
 
   imdone.showBoard = function() {
     imdone.boardBar.show();
@@ -582,7 +592,7 @@ define([
     if (filter) this.filterField.val(filter);
     filter = this.filterField.val();
     
-    if (filter != "") $('.task:not([data-path*="' + filter + '"])').hide();          
+    if (filter != "") $('.task:not([data-path*="{0}"])'.format([filter])).hide();          
   };
 
   imdone.clearFilter = function() {
@@ -832,7 +842,11 @@ define([
     return false;
   });
 
+  imdone.navigateToCurrentProject = function() {
+    imdone.app.navigate("project" + imdone.currentProjectId(), {trigger:true});
+  };
 
+  // [Clean up init before implementing backbone views](#doing:20)
   imdone.init = function() {
       var nameFld = $('#list-name-field');
       var nameModal = $('#list-name-modal').modal({show:false});
@@ -961,12 +975,12 @@ define([
         var list = $(this).attr("data-list");
         var order = $(this).closest('.task').attr("data-order");
         var content =  $(this).closest(".task").find('.task-text').html();
-        var template = '<a href="#{}:{}" class="task-link" data-list="{}"><span class="task-content">{}</span></a>';
+        var template = '<a href="#{0}:{1}" class="task-link" data-list="{0}"><span class="task-content">{2}</span></a>';
 
         //[Show the current task as notification with <http://pinesframework.org/pnotify/>](#archive:130)
         $.pnotify({
           title: list,
-          text: template.tokenize(list,order,list,content),
+          text: template.format([list,order,content]),
           nonblock: false,
           hide: false,
           sticker: false,
@@ -1126,10 +1140,6 @@ define([
         Backbone.history.start();
         imdone.initUpdate();
       });
-
-      imdone.navigateToCurrentProject = function() {
-        imdone.app.navigate("project" + imdone.currentProjectId(), {trigger:true});
-      };
   };
 
   var AppRouter = Backbone.Router.extend({

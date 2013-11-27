@@ -1,4 +1,4 @@
-var tasks = require('../lib/tasks.js');
+var tasks = require('../server/tasks.js');
 
 describe("tasks helper", function() {
 	var mdFile = {

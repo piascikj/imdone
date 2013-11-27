@@ -1,7 +1,7 @@
 var _ = require('underscore');
 
-var search = require('../lib/search.js');
-var Project = require('../lib/imdone.js').Project;
+var search = require('../server/search.js');
+var Project = require('../server/imdone.js').Project;
 
 describe("Search", function() {
 
@@ -22,7 +22,7 @@ describe("Search", function() {
     project.init();
     var s = search.newSearch({project:project, query:"var", limit:200});
     var result = s.execute();
-    expect(s.hits).toBe(200);
+    expect(s.total).toBe(200);
   })
 
 });

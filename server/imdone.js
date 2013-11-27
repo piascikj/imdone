@@ -453,7 +453,7 @@ imdone.Project.prototype.modifyTask = function(data,task) {
   return file.content;
 };
 
-// [Add includeFiles, excludeFiles, includeDirs, excludeDirs to config](#doing:0)
+// [Add includeFiles, excludeFiles, includeDirs, excludeDirs to config](#doing:50)
 imdone.Project.prototype.shouldProcessFile = function(file) {
   var relPath = this.relativePath(file);
   if (!this.config.include.test(relPath)) return false;

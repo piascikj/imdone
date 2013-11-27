@@ -1,6 +1,6 @@
 var _ = require('underscore');
 
-var Repository = require('../lib/model/repository.js');
+var Repository = require('../server/model/repository.js');
 
 var subclass = function(_super, _class) {
 	_class.prototype = Object.create(_super.prototype);
