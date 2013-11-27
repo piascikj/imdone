@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/piascikj/imdone.png?branch=master)](https://travis-ci.org/piascikj/imdone)
 [![Dependency Status](https://gemnasium.com/piascikj/imdone.png)](https://gemnasium.com/piascikj/imdone)
 [![NPM version](https://badge.fury.io/js/imdone.png)](https://npmjs.org/package/imdone)
 [![Flattr this](http://api.flattr.com/button/flattr-badge-large.png)](http://flattr.com/thing/1286067/iMDone)
