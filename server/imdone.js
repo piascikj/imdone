@@ -22,7 +22,7 @@ var mkdirp = require('mkdirp');
 var server = require("./server");
 var tasks = require("./tasks");
 var languages = require("./util/languages");
-var isBinaryFile = require("isbinaryfile");
+var isBinaryFileSync = require("isbinaryfile").isBinaryFileSync;
 
 var imdone = module.exports = {pause:{}};
 var pkginfo = require('pkginfo')(module);
@@ -458,7 +458,7 @@ imdone.Project.prototype.shouldProcessFile = function(file) {
   var relPath = this.relativePath(file);
   if (!this.config.include.test(relPath)) return false;
   if (this.config.exclude.test(relPath)) return false;
-  if (isBinaryFile(file)) return false;
+  if (isBinaryFileSync(file)) return false;
   return true;
 };
 
