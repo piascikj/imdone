@@ -140,26 +140,28 @@ define([
       if (links.test(content)) content = content.replace(links, replaceLinks);
       var out = html;
       // [Fix external links in tasks text to use `target="_blank"`](#done:70)
-      //Check for external links
+      // Check for external links
       if (externalLinks.test(href)) {
         out = head + href + tail + ' target="_blank">' + content + end;
-      //Check for task links
+      // Check for task links
       } else if (taskLinks.test(href)) {
         var list;
         href.replace(taskLinks, function(href, taskList, order) {
           list = taskList;
           out = href;
         });
-        out = ('<span class="label label-info task-label">{0}</span>{1}{2}{3} class="task-link" data-list="{0}">' + 
-                      '<span class="task-content">{4}</span>{5}').format([list,head,href,tail,content,end]);
-      //Check for filter links
+        var template = '<span class="label label-info task-label">{0}</span>' +
+        '{1}{2}{3} class="task-link" data-list="{0}"><span class="task-content">{4}</span>{5}';
+        
+        out = (template).format([list,head,href,tail,content,end]);
+      // Check for filter links
       } else if (filterLinks.test(href)) {
         var filterBy = href.split("/")[1];
         out = head + href + tail + ' title="Filter by ' + filterBy + '">' + content + end;   
-      //Check for mailto links
+      // Check for mailto links
       } else if (mailtoLinks.test(href) || mailtoLinks.test($('<div />').html(href).text())) {
         out = anchor;
-      //Then it must be a link to a file
+      // Then it must be a link to a file
       } else {
         if (/.*\.md$/.test(href)) preview = true;
         out = head + imdone.getFileHref(imdone.currentProjectId(),href,preview) + tail + '>' + content + end;
@@ -170,6 +172,7 @@ define([
 
     html = html.replace(links, replaceLinks);
 
+    // Replace all gollum links
     html = html.replace(gollumLinks, function(link, open, name, close) {
       var file = name;
       if (/\|/.test(name)) {

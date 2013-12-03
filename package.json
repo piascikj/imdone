@@ -58,7 +58,7 @@
     "handlebars": "1.x",
     "mkdirp": "0.3.x",
     "node-syntaxhighlighter": "0.8.1",
-    "isbinaryfile": "~0.1.9"
+    "isbinaryfile": "~1.0.0"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.6.0",

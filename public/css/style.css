@@ -206,6 +206,7 @@ blockquote p {
 
 .task-label {
   margin-right: 10px;
+  padding: 2px 4px 0 4px;
 }
 
 .task.alert {
