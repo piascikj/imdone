@@ -101,7 +101,11 @@ blockquote p {
 }
 
 .list-hide {
-  opacity: 1;
+  color: #468847;
+}
+
+.list-show {
+  color: #b94a48;
 }
 
 .plain-list {

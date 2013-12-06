@@ -3,6 +3,7 @@ var _ = require('underscore');
 var languages = require("./util/languages");
 
 var taskregex = /\[(.+?)\]\(#([\w\-]+?):(\d+?\.{0,1}\d*?)\)/g;
+// [Support TODO and FIXME type tasks in code](#doing:0)
 
 //for ignoring code search for code and replace with empty string or blacnk lines if it's a block before finding tasks
 var codeRegExp = {
@@ -37,10 +38,10 @@ var utils = module.exports = {
     
     clone.replace(taskregex, function(md, text, list, order, pos) {
       if (utils.isValidTask(clone, file, pos)) {
-        //[add the line number of the task by finding position and counting newlines prior - 0.1.4](#archive:330)
-        //[Use line number when loading page in github - 0.1.4](#archive:300)
+        //[add the line number of the task by finding position and counting newlines prior - 0.1.4](#archive:300)
+        //[Use line number when loading page in github - 0.1.4](#archive:280)
         var line = (clone.substring(0,pos).match(/\n/g)||[]).length + 1;
-        //[For task modification, store text as text and create another property for html](#done:230)
+        //[For task modification, store text as text and create another property for html](#done:250)
         var task = {
           md:md,
           text:text,

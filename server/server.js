@@ -100,7 +100,7 @@
   }
 
   //[Have this use splat for project name like getFiles](#archive:180)
-  //[Move getSource to imdone.js](#done:80)
+  //[Move getSource to imdone.js](#done:90)
   function getSource(req, res) {
     if (isProcessing(req,res)) {
       res.send({processing:true});
@@ -115,7 +115,7 @@
     });
   }
 
-  // [Have this use splat for project name like getFiles](#archive:150)
+  // [Have this use splat for project name like getFiles](#archive:160)
   function saveSource(req, res) {
     if (isProcessing(req,res)) {
       res.send({processing:true});
@@ -131,7 +131,7 @@
     });
   }
 
-  // [Move removeSource to imdone.js and add hook](#doing:10)    
+  // [Move removeSource to imdone.js and add hook](#doing:20)    
   function removeSource(req, res) {
     if (isProcessing(req,res)) {
       res.send({processing:true});
@@ -185,7 +185,7 @@
   server.start = function(imdone, callback) {
     server.imdone = imdone;
 
-    //[migrate to express 3.x <https://github.com/visionmedia/express/wiki/Migrating-from-2.x-to-3.x>](#archive:100)
+    //[migrate to express 3.x <https://github.com/visionmedia/express/wiki/Migrating-from-2.x-to-3.x>](#archive:110)
     var app = server.app = express();
     var  xserver = http.createServer(app);
 

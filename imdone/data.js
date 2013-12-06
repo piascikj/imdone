@@ -4,12 +4,10 @@
     "planning",
     "doing",
     "done",
-    "archive",
-    "filters"
+    "archive"
   ],
   "hidden": [
-    "planning",
-    "filters",
-    "archive"
+    "archive",
+    "planning"
   ]
 }

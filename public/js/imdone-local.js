@@ -89,12 +89,6 @@ define([
     sanitize: false,
     smartLists: true,
     langPrefix: 'language-',
-    highlight: function(code, lang) {
-      if (lang === 'js') {
-        return highlighter.javascript(code);
-      }
-      return code;
-    }
   });
 
   String.prototype.format = function (col) {
@@ -105,7 +99,7 @@ define([
         if (m == "}}") { return "}"; }
         return col[n];
     });
-  }
+  };
   
   String.prototype.tokenize = function() {
     var args = arguments;
@@ -130,16 +124,16 @@ define([
         taskLinks = /#([\w\-]+?):(\d+?\.{0,1}\d*?)/,
         filterLinks = /#filter\//,
         gollumLinks = /(\[\[)(.*?)(\]\])/ig;
-    //Replace any script elements
+    // Replace any script elements
     html = html.replace(/<script.*?>([\s\S]*?)<\/.*?script>/ig,"$1").replace(/(href=["|'].*)javascript:.*(["|'].?>)/ig,"$1#$2");
-    //Make all links with http open in new tab
-    //[For markdown files, find tasks links and give them a badge](#archive:30)
-    //[For internal inks, take them to the page](#archive:50)
-    //[Let mailto links open email client](#done:170)
+    // Make all links with http open in new tab
+    // [For markdown files, find tasks links and give them a badge](#archive:30)
+    // [For internal inks, take them to the page](#archive:50)
+    // [Let mailto links open email client](#done:190)
     var replaceLinks = function(anchor, head, href, tail, content, end) {
       if (links.test(content)) content = content.replace(links, replaceLinks);
       var out = html;
-      // [Fix external links in tasks text to use `target="_blank"`](#done:70)
+      // [Fix external links in tasks text to use `target="_blank"`](#done:80)
       // Check for external links
       if (externalLinks.test(href)) {
         out = head + href + tail + ' target="_blank">' + content + end;
@@ -210,7 +204,6 @@ define([
     var href = '#file/{}/{}'.tokenize(project, path);
     if (line) href+= ("/" + line);
     if (preview) href += "/true";
-    console.log(href);
     return href;
   };
 
@@ -259,6 +252,7 @@ define([
   imdone.isMD = function(file) {
     if (file) {
       if (/\.md$/i.test(file)) return true;
+      else return false;
     }
 
     if (imdone.source.lang == "md") return true;
@@ -542,6 +536,18 @@ define([
 
     return projectHist;
   };
+
+  imdone.removeCurrentFileFromHistory = function() {
+    var projectHist;
+    var hist = store.get('history');
+    if (!hist) return;
+
+    if (!hist[imdone.currentProjectId()]) return;
+
+    //remove other occurences of path
+    hist[imdone.currentProjectId()] = _.without(hist[imdone.currentProjectId()], imdone.source.path);
+    store.set('history', hist);
+  };
   
   imdone.getSource = function(params) {
     //[We have to convert the source api url URL first](#archive:190)
@@ -812,6 +818,7 @@ define([
         contentType: 'application/json',
         dataType: 'json',
         success: function(data) {
+          imdone.removeCurrentFileFromHistory();
           imdone.closeFile();
           imdone.getKanban({callback:function() {
             imdone.fileNotify = $.pnotify({
@@ -834,7 +841,7 @@ define([
         },
     });
   };
-  //[Implement delete file functionality](#done:220)
+  //[Implement delete file functionality](#done:240)
   imdone.removeFileBtn.live('click', function() {
     imdone.removeSourceConfirm();
   });
@@ -849,7 +856,7 @@ define([
     imdone.app.navigate("project" + imdone.currentProjectId(), {trigger:true});
   };
 
-  // [Clean up init before implementing backbone views](#doing:20)
+  // [Clean up init before implementing backbone views](#todo:0)
   imdone.init = function() {
       var nameFld = $('#list-name-field');
       var nameModal = $('#list-name-modal').modal({show:false});
@@ -980,7 +987,7 @@ define([
         var content =  $(this).closest(".task").find('.task-text').html();
         var template = '<a href="#{0}:{1}" class="task-link" data-list="{0}"><span class="task-content">{2}</span></a>';
 
-        //[Show the current task as notification with <http://pinesframework.org/pnotify/>](#archive:130)
+        //[Show the current task as notification with <http://pinesframework.org/pnotify/>](#archive:140)
         $.pnotify({
           title: list,
           text: template.format([list,order,content]),
@@ -1002,14 +1009,14 @@ define([
       });
 
       //Open or create a file
-      var lsTemplate = Handlebars.compile($("#ls-template").html());
+      var lsTemplate = Handlebars.compile($("#files-template").html());
       $('#open-file-btn').live('click',function() {
         $.get("/api/files" + imdone.currentProjectId(), function(data) {
           imdone.currentProject().ls = data;
           imdone.currentProject().cwd = data;
           data.history = imdone.getHistory();
           data.history = _.map(data.history, function(path) {
-            return {path:path, project:imdone.currentProjectId()};
+            return {path:path, project:imdone.currentProjectId(), line:null, preview:imdone.isMD(path)};
           });
           $('#ls').html(lsTemplate(data));
           imdone.fileField.val("");
@@ -1054,7 +1061,7 @@ define([
 
       
       function openFile() {
-        //[Create a new file based on path and project with call to /api/source](#archive:110)
+        //[Create a new file based on path and project with call to /api/source](#archive:120)
         var path = imdone.fileField.val();
         if (path != "") {
           if (/^\//.test(path)) {
@@ -1147,16 +1154,16 @@ define([
 
   var AppRouter = Backbone.Router.extend({
       routes: {
-          //[fix search path to use slashes instead of dashes](#done:30)
+          //[fix search path to use slashes instead of dashes](#done:40)
           "search/:project/:query/:offset(/:limit)": "searchRoute",
           "project*project": "projectRoute",
           "file/:project/:path(/:line)(/:preview)": "fileRoute",
-          "filter/*filter" : "filterRoute", //[Filter route so links can change filter](#done:190)
+          "filter/*filter" : "filterRoute", //[Filter route so links can change filter](#done:210)
           "*action": "defaultRoute" // Backbone will try match the route above first
         },
 
       initialize: function() {
-        //[Construct views and models in here!](#todo:30)
+        //[Construct views and models in here!](#todo:50)
         imdone.data.projects = new Projects();
       },
       

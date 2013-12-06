@@ -17,7 +17,7 @@
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
-          <!-- [implement dropdown for switching between projects](#archive:280)-->
+          <!-- [implement dropdown for switching between projects](#archive:260)-->
           <div class="nav-collapse collapse">
             <a class="brand" href="/">iMDone</a>
             <ul class="nav">
@@ -41,7 +41,7 @@
                   Search Results&nbsp;<i class="icon-search"></i>
                 </button>
               </li>
-              <!--[Move close file button here and hide on paintKanban](#done:150)-->
+              <!--[Move close file button here and hide on paintKanban](#done:170)-->
             </ul>
             <ul class="nav content-nav hide" id="content-nav" style="display:none">
               <li>
@@ -61,7 +61,7 @@
                 </ul>
               </li>
             </ul>
-            <!-- [Add path filters to board - 0.1.6](#archive:290) -->
+            <!-- [Add path filters to board - 0.1.6](#archive:270) -->
             <ul class="board-bar nav pull-right" style="display:none;">
               <li>
                 <div class="pull-left">
@@ -107,12 +107,12 @@
           </div>
           <div class="preview span12" id="preview"></div>
         </div>
-        <!--[Show file info above edit-bar using <http://pinesframework.org/pnotify/>](#archive:120) -->
+        <!--[Show file info above edit-bar using <http://pinesframework.org/pnotify/>](#archive:130) -->
       </div>
       <div class="search-results" id="search-results" style="display:none;"></div>
       <div class="board" id="board">
       </div>
-      <!-- [Use sticky footer <http://twitter.github.com/bootstrap/examples/sticky-footer.html>](#todo:120) -->
+      <!-- [Use sticky footer <http://twitter.github.com/bootstrap/examples/sticky-footer.html>](#done:110) -->
       <!--
       <div class="navbar">
       <p>&copy; iMDone 2013</p>
@@ -147,7 +147,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <!--[Add auto complete to file-field like ubuntu](#todo:40) -->
+        <!--[Add auto complete to file-field like ubuntu](#todo:60) -->
         <div class="pull-left"><input class="span4" type="text" id="file-field" placeholder="file path" title="enter a file path"></input></div>
         <a href="#" class="btn modal-close">Cancel</a>
         <a href="#" id="file-open" class="btn btn-primary">Open</a>
@@ -219,12 +219,12 @@
       {{/each}}
     </script>
 
-    <script id="ls-template" type="text/x-handlebars-template">
+    <script id="files-template" type="text/x-handlebars-template">
       {{#if history}}
       <h5>Recent</h5>
       <ul class="plain-list">
         {{#each history}}
-        <li><a href="{{fileHref project path}}" class="js-file" data-path="{{path}}"><i class="icon-file-alt"></i>{{path}}</a></li>
+        <li><a href="{{fileHref project path line preview}}" class="js-file" data-path="{{path}}"><i class="icon-file-alt"></i>{{path}}</a></li>
         {{/each}}
       </ul>
       <hr>

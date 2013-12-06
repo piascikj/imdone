@@ -27,8 +27,6 @@ Features
 
 Quickstart
 ----
-iMDone is written in javascript and runs on [nodejs](http://nodejs.org/).  You'll need to install nodejs to use iMDone
-
 - Install
 ```
 npm install -g imdone
