@@ -755,8 +755,14 @@ imdone.Project.prototype.watchFiles = function(path) {
 
 */
 imdone.Project.prototype.initConfig = function(callback) {
-  this.dataDir = this.path + "/imdone";
+  this.dataDir = this.path + "/.imdone";
   var self = this;
+
+  //Rename legacy data dir if it exists
+  var legacyDataDir = this.path + "/imdone";
+  if (fs.existsSync(legacyDataDir)) {
+    fs.renameSync(legacyDataDir, this.dataDir);
+  }
 
   //Check for the imdone directory
   if (!fs.existsSync(this.dataDir)) fs.mkdirSync(this.dataDir);

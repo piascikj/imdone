@@ -3,7 +3,8 @@ var _ = require('underscore');
 var languages = require("./util/languages");
 
 var taskregex = /\[(.+?)\]\(#([\w\-]+?):(\d+?\.{0,1}\d*?)\)/g;
-// [Support TODO and FIXME type tasks in code](#doing:0)
+var codeStylePattern = "\\s*([A-Z]{2,}):(\\d+?\.{0,1}\\d*?)\\s+(.*)$"
+// [Support TODO and FIXME type tasks in code](#todo:0)
 
 //for ignoring code search for code and replace with empty string or blacnk lines if it's a block before finding tasks
 var codeRegExp = {
@@ -13,8 +14,7 @@ var codeRegExp = {
 
 var utils = module.exports = {
   taskRegex: taskregex,
-  dataPath: "imdone/data.js",
-  
+
   getHtml: function(md) {
       var html = marked(md);
       return html;
@@ -35,15 +35,34 @@ var utils = module.exports = {
     var tasks = {};
     var id = 0;
     var clone = utils.ignoreCode(new String(data), file);
-    
+
+    // var symbol = this.getLang(file).symbol;
+    // if (symbol !== "") {
+    //   var defactoPattern = "^\\s*" + symbol + codeStylePattern;
+    //   var defactoRegex = new RegExp(defactoPattern, "m");
+    //   clone.replace(defactoRegex, function(match, list, order, text, pos) {
+    //     var line = (clone.substring(0,pos).match(/\n/g)||[]).length + 1;
+    //     var task = {
+    //       //md:md,
+    //       text:text,
+    //       html:utils.getHtml(text),
+    //       list:list,
+    //       order:parseFloat(order),
+    //       line:line,
+    //       pathTaskId:id
+    //     };
+    //     //Run the task through the callers processor
+    //     if (_.isFunction(taskProcessor)) task = taskProcessor(task);
+    //     tasks[id] = task;
+    //     id++;
+    //   });
+    // }
+
     clone.replace(taskregex, function(md, text, list, order, pos) {
       if (utils.isValidTask(clone, file, pos)) {
-        //[add the line number of the task by finding position and counting newlines prior - 0.1.4](#archive:300)
-        //[Use line number when loading page in github - 0.1.4](#archive:280)
         var line = (clone.substring(0,pos).match(/\n/g)||[]).length + 1;
-        //[For task modification, store text as text and create another property for html](#done:250)
         var task = {
-          md:md,
+          //md:md,
           text:text,
           html:utils.getHtml(text),
           list:list,

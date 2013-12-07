@@ -50,7 +50,7 @@ After running imdone for the first time, modify imdone/imdone.js in your project
 ```javascript
 module.exports = {
   include:/^.*$/,
-  exclude:/^(node_modules|bower_components|imdone|target|build)\/|\.(git|svn)|\~$|\.(jpg|png|gif|swp|ttf|otf)$/,
+  exclude:/^(node_modules|bower_components|imdone|target|build)\/|\.(git|svn|imdone)|\~$|\.(jpg|png|gif|swp|ttf|otf)$/,
   marked : {
     gfm: true,
     pedantic: false,
@@ -79,7 +79,8 @@ Tips
 ```  
 This would create a filters list containing this task and a link that will populate the filter box with *src/main/java*
 
-### Keep the imdone folder in source control!
+### Keep the .imdone folder in source control!
+- It contains your configuration and list order
 
 ### If tracking a large number of files
   - Increase the "watch handle limit" to 512k**
@@ -112,7 +113,7 @@ var util = require('util');
  */
 module.exports = {
   include:/^.*$/,
-  exclude:/^(node_modules|bower_components|imdone|target|build)\/|\.(git|svn)|\~$|\.(jpg|png|gif|swp|ttf|otf)$/,
+  exclude:/^(node_modules|bower_components|imdone|target|build)\/|\.(git|svn|imdone)|\~$|\.(jpg|png|gif|swp|ttf|otf)$/,
   marked : {
     gfm: true,
     pedantic: false,
@@ -175,9 +176,6 @@ Common Errors
 See it in action!
 ----
 Fork this repository and run imdone in your local copy.  I use imdone for keeping track of imdone development.
-
-**imdone will create a directory named imdone that will contain your custom configuration and a file to keep your lists in order**  
-- you should keep the imdone directory in source control  
 
 How you can help
 ----

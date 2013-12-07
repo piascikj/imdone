@@ -8,7 +8,7 @@ var _ = require("underscore");
  */
 module.exports = {
 	include:/^.*$/,
-	exclude:/^(node_modules|bower_components|imdone|target|build)\/|\.(git|svn)|\~$|\.(jpg|png|gif|swp|ttf|otf)$/,
+	exclude:/^(node_modules|bower_components|imdone|target|build)\/|\.(git|svn|imdone)|\~$|\.(jpg|png|gif|swp|ttf|otf)$/,
 	marked : {
 		gfm: true,
 		pedantic: false,

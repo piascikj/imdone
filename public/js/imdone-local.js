@@ -129,11 +129,9 @@ define([
     // Make all links with http open in new tab
     // [For markdown files, find tasks links and give them a badge](#archive:30)
     // [For internal inks, take them to the page](#archive:50)
-    // [Let mailto links open email client](#done:190)
     var replaceLinks = function(anchor, head, href, tail, content, end) {
       if (links.test(content)) content = content.replace(links, replaceLinks);
       var out = html;
-      // [Fix external links in tasks text to use `target="_blank"`](#done:80)
       // Check for external links
       if (externalLinks.test(href)) {
         out = head + href + tail + ' target="_blank">' + content + end;
@@ -401,6 +399,39 @@ define([
     imdone.board.hide();
   };
 
+  imdone.getProjectStore = function() {
+    var projects = store.get('projects') || {};
+    this.projectStore = projects[this.currentProjectId()] || {};
+    
+    return this.projectStore;
+  };
+
+  imdone.saveProjectStore = function() {
+    var projects = store.get('projects') || {};
+    projects[this.currentProjectId()] = this.projectStore || {};
+    store.set('projects', projects);
+  };
+
+  imdone.filter = function(filter) {
+    $(".task").show();
+
+    if (_.isString(filter)) this.filterField.val(filter);
+    else filter = this.filterField.val();
+    
+    if (filter) {
+      imdone.getProjectStore().filter = filter;
+      imdone.saveProjectStore();
+      $('.task:not([data-path*="{0}"])'.format([filter])).hide();
+    }
+  };
+
+  imdone.clearFilter = function() {
+    this.filterField.val("");
+    delete this.getProjectStore().filter;
+    this.saveProjectStore();
+    $(".task").show();
+  };
+  
   imdone.paintKanban = function(data) {
     if (!data.processing && !imdone.editMode) {
       imdone.board.empty();
@@ -411,7 +442,8 @@ define([
       template =  Handlebars.compile($("#lists-template").html());
       imdone.listsMenu.html(template(data));
       //Apply existing filter
-      imdone.filter();
+      var filter = imdone.getProjectStore().filter || "";
+      imdone.filter(filter);
 
       $( ".list" ).sortable({
             items: ".task",
@@ -463,7 +495,7 @@ define([
           }
         };
 
-        scrollToTask()
+        scrollToTask();
       }
     }
   };
@@ -595,20 +627,6 @@ define([
     imdone.editBar.show();
   };
   
-  imdone.filter = function(filter) {
-    $(".task").show();
-
-    if (filter) this.filterField.val(filter);
-    filter = this.filterField.val();
-    
-    if (filter != "") $('.task:not([data-path*="{0}"])'.format([filter])).hide();          
-  };
-
-  imdone.clearFilter = function() {
-    $(".task").show();
-    this.filterField.val("");
-  };
-  
   imdone.parseQueryString = function(queryString) {
       var params = {};
       if(queryString){
@@ -658,9 +676,11 @@ define([
 
     var line = data.line || 1;
     
-    var session = ace.createEditSession(data.src);
+    // [User should be able to set global ace confiuration and have it saved to config.js](#doing:20)
+    var session = imdone.aceSession = ace.createEditSession(data.src);
     session.setMode("ace/mode/" + mode);
     session.setUseWrapMode(true);
+    session.setWrapLimitRange(120, 180);
 
     //Editor change events
     session.on('change', function(e) {
@@ -761,9 +781,8 @@ define([
         return false;
       });
       imdone.closeFileOkBtn.click(function(e) {
-        imdone.saveFile();
         imdone.closeFileModal.modal("hide");
-        cb();
+        imdone.saveFile(cb);
         return false;
       });
 
@@ -797,7 +816,7 @@ define([
               sticker: false,
               type: 'success'
             });
-
+            if (_.isFunction(evt)) evt();
           }
       });
     }
@@ -959,10 +978,7 @@ define([
         return false;
         
       }).bind('keydown', 'esc', function(e){
-        var boardMode = !(imdone.previewMode && imdone.editMode);
-        if (boardMode) {
-          imdone.clearFilter();
-        }
+        if (!imdone.previewMode && !imdone.editMode) imdone.clearFilter();
         imdone.navigateToCurrentProject();
         e.preventDefault();
         e.stopPropagation();
@@ -1154,11 +1170,10 @@ define([
 
   var AppRouter = Backbone.Router.extend({
       routes: {
-          //[fix search path to use slashes instead of dashes](#done:40)
           "search/:project/:query/:offset(/:limit)": "searchRoute",
           "project*project": "projectRoute",
           "file/:project/:path(/:line)(/:preview)": "fileRoute",
-          "filter/*filter" : "filterRoute", //[Filter route so links can change filter](#done:210)
+          "filter/*filter" : "filterRoute",
           "*action": "defaultRoute" // Backbone will try match the route above first
         },
 
