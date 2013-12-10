@@ -100,7 +100,7 @@
   }
 
   //[Have this use splat for project name like getFiles](#archive:180)
-  //[Move getSource to imdone.js](#done:90)
+  //[Move getSource to imdone.js](#done:80)
   function getSource(req, res) {
     if (isProcessing(req,res)) {
       res.send({processing:true});
@@ -131,7 +131,7 @@
     });
   }
 
-  // [Move removeSource to imdone.js and add hook](#doing:20)    
+  // [Move removeSource to imdone.js and add hook](#doing:0)    
   function removeSource(req, res) {
     if (isProcessing(req,res)) {
       res.send({processing:true});

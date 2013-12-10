@@ -606,7 +606,7 @@ imdone.Project.prototype.unpause = function(file) {
   }
 };
 
-// [add hook to saveSource](#done:10)    
+// [add hook to saveSource](#done:20)    
 imdone.Project.prototype.saveSource = function(path, src, callback) {
   var project = this;
   var filePath = project.path + "/" + path;
@@ -869,8 +869,8 @@ imdone.Project.prototype.saveListData = function() {
   var fileData = {lists:self.lists, hidden:self.hidden};
 
   fs.exists(self.dataFile, function(exists) {
-    if (!exists) return;
-    currentFileData = JSON.parse(fs.readFileSync(self.dataFile, 'utf8'));
+    var currentFileData;
+    if (exists) currentFileData = JSON.parse(fs.readFileSync(self.dataFile, 'utf8'));
 
     if (!_.isEqual(fileData,currentFileData)) {
       var fileDataSrc = JSON.stringify(fileData, null, 2);

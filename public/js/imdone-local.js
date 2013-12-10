@@ -676,7 +676,7 @@ define([
 
     var line = data.line || 1;
     
-    // [User should be able to set global ace confiuration and have it saved to config.js](#doing:20)
+    // [User should be able to set global ace confiuration and have it saved to config.js](#doing:10)
     var session = imdone.aceSession = ace.createEditSession(data.src);
     session.setMode("ace/mode/" + mode);
     session.setUseWrapMode(true);
@@ -860,7 +860,7 @@ define([
         },
     });
   };
-  //[Implement delete file functionality](#done:240)
+  //[Implement delete file functionality](#done:210)
   imdone.removeFileBtn.live('click', function() {
     imdone.removeSourceConfirm();
   });
