@@ -676,7 +676,7 @@ define([
 
     var line = data.line || 1;
     
-    // [User should be able to set global ace confiuration and have it saved to config.js](#doing:20)
+    // [User should be able to set global ace confiuration and have it saved to config.js](#doing:10)
     var session = imdone.aceSession = ace.createEditSession(data.src);
     session.setMode("ace/mode/" + mode);
     session.setUseWrapMode(true);
@@ -796,30 +796,28 @@ define([
   
   //Save source from editor
   imdone.saveFile = function(evt) {
-    if (imdone.fileContainer.is(":visible")) {
-      imdone.source.src = imdone.editor.getValue();
-      $.ajax({
-          url: "/api/source" + imdone.source.project,
-          type: 'PUT',
-          contentType: 'application/json',
-          data: JSON.stringify(imdone.source),
-          dataType: 'json',
-          success: function(data) {
-            if (imdone.fileModified) {
-              imdone.fileModified = false;
-              imdone.fileModifiedNotify.pnotify_remove();
-            }
-            imdone.fileNotify = $.pnotify({
-              title: "File saved!",
-              nonblock: true,
-              hide: true,
-              sticker: false,
-              type: 'success'
-            });
-            if (_.isFunction(evt)) evt();
+    imdone.source.src = imdone.editor.getValue();
+    $.ajax({
+        url: "/api/source" + imdone.source.project,
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify(imdone.source),
+        dataType: 'json',
+        success: function(data) {
+          if (imdone.fileModified) {
+            imdone.fileModified = false;
+            imdone.fileModifiedNotify.pnotify_remove();
           }
-      });
-    }
+          imdone.fileNotify = $.pnotify({
+            title: "File saved!",
+            nonblock: true,
+            hide: true,
+            sticker: false,
+            type: 'success'
+          });
+          if (_.isFunction(evt)) evt();
+        }
+    });
 
     return true;
   }
@@ -860,7 +858,7 @@ define([
         },
     });
   };
-  //[Implement delete file functionality](#done:210)
+  //[Implement delete file functionality](#done:220)
   imdone.removeFileBtn.live('click', function() {
     imdone.removeSourceConfirm();
   });
