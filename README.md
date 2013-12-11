@@ -4,6 +4,7 @@
 [![Flattr this](http://api.flattr.com/button/flattr-badge-large.png)](http://flattr.com/thing/1286067/iMDone)
 
 [![NPM](https://nodei.co/npm/imdone.png?downloads=true&stars=true)](https://nodei.co/npm/imdone/)
+[![Support via Gittip](https://rawgithub.com/twolfson/gittip-badge/0.1.0/dist/gittip.png)](https://www.gittip.com/piascikj/)
 
 Introduction
 ----
