@@ -65,6 +65,22 @@ module.exports = {
 };
 ```
 
+How you can help
+----
+If you like iMDone and want to help me make it better, you can make a contribution at Gittip.  Every donation is very much appreciated.  
+
+[![Support via Gittip](https://rawgithub.com/twolfson/gittip-badge/0.1.0/dist/gittip.png)](https://www.gittip.com/piascikj/)
+
+If you have some spare time, then there is no better way to help an open source project than to get involved in one of the following ways.
+
+- Help diagnose and report problems
+- Suggest fixes by sending in patches
+- Improve the code
+- Help with unit and end-to-end testing
+- Provide peer support on our forum
+- Publish an article on your blog (send the link) to educate others regarding some aspect of the project
+- Help with missing documentation
+
 Tips
 ----
 ### Tasks are sorted by the number after the colon
@@ -177,25 +193,7 @@ See it in action!
 ----
 Fork this repository and run imdone in your local copy.  I use imdone for keeping track of imdone development.
 
-How you can help
-----
-If you like iMDone and want to help me make it better, you can make a contribution at pledgie.  Every donation is very much appreciated.  
-
-<a href='http://www.pledgie.com/campaigns/19536'><img alt='Click here to lend your support to: iMDone - TODO, doing, done! and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/19536.png?skin_name=chrome' border='0' /></a>
-
-If you have some spare time, then there is no better way to help an open source project than to get involved in one of the following ways.
-
-- Help diagnose and report problems
-- Suggest fixes by sending in patches
-- Improve the code
-- Help with unit and end-to-end testing
-- Provide peer support on our forum
-- Publish an article on your blog (send the link) to educate others regarding some aspect of the project
-- Help with missing documentation
-
 Testing
 ----
-- iMDone has been tested on my Ubuntu 12.04 desktop using chrome 23.0.x and Firefox 19.x.  It should work on any machine that has nodejs and npm installed and for auto update of boards, a browser that supports websockets.
-- We us [jasmine](http://pivotal.github.io/jasmine/) and [mhevery/jasmine-node](https://github.com/mhevery/jasmine-node) for testing.
-
-[![NPM](https://nodei.co/npm-dl/imdone.png?months=3)](https://nodei.co/npm-dl/imdone/)
+- I use iMDone every day on Ubuntu 13.04 and the latest version of chrome.  It should work on any machine that has nodejs and npm installed and for auto update of boards, a browser that supports websockets.
+- I us [jasmine](http://pivotal.github.io/jasmine/) and [mhevery/jasmine-node](https://github.com/mhevery/jasmine-node) for testing.

@@ -131,7 +131,7 @@
     });
   }
 
-  // [Move removeSource to imdone.js and add hook](#doing:0)    
+  // [Move removeSource to imdone.js and add hook](#doing:10)    
   function removeSource(req, res) {
     if (isProcessing(req,res)) {
       res.send({processing:true});

@@ -22,7 +22,7 @@ imdone notes for development
 - [Fix show list on task-link](#done:90) 
 - [User should be able to execute a javscript callback when a files are modified in the editor or by moving a task](#done:30)
 - [User should be able to jump back to the task in the board if the task is clicked in the file view task notification](#done:70)
-- [User should be able to rename a file](#doing:20)
+- [User should be able to rename a file](#doing:30)
 - [Switch from flattr to gittip](#todo:20)
 - [User should get a modal confirmation if closing a file that has been edited #feature](#done:120)
 - [User should be able to add #hashtags to a #task and filter by them #feature](#todo:30)
@@ -62,6 +62,7 @@ imdone notes for development
     - [Setting up a custom domain with Pages · GitHub Help](https://help.github.com/articles/setting-up-a-custom-domain-with-pages)
     - [User, Organization and Project Pages · GitHub Help](https://help.github.com/articles/user-organization-and-project-pages)
 ### Bugs
+- [When a file is modified and a search link is clicked, changes are lost](#doing:0)
 - [Renaming lists is broken with multiple projects loaded #bug](#archive:100)
 - [Open editor for new files #bug](#planning:130) 
 - [Move search to a dialog that's always available with ctrl+shift+f #bug](#done:170)
