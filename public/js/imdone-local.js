@@ -143,7 +143,7 @@ define([
           out = href;
         });
         var template = '<span class="label label-info task-label">{0}</span>' +
-        '{1}{2}{3} class="task-link" data-list="{0}"><span class="task-content">{4}</span>{5}';
+        '{1}{2}{3} class="task-link" data-list="{0}"> <span class="task-content">{4}</span>{5}';
         
         out = (template).format([list,head,href,tail,content,end]);
       // Check for filter links
@@ -587,7 +587,7 @@ define([
     
     var url = "/api/source" + params.project + "?path=" + params.path;
     if (params.line) url += "&line=" + params.line;
-    if (params.preview) imdone.previewMode = true;
+    imdone.previewMode = params.preview;
     
     //Get the source and show the editor
     $.get(url, function(data){
@@ -837,15 +837,14 @@ define([
         success: function(data) {
           imdone.removeCurrentFileFromHistory();
           imdone.closeFile();
-          imdone.getKanban({callback:function() {
-            imdone.fileNotify = $.pnotify({
-              title: "File deleted!",
-              nonblock: true,
-              hide: true,
-              sticker: false,
-              type: 'success'
-            });
-          }});
+          imdone.fileNotify = $.pnotify({
+            title: "File deleted!",
+            nonblock: true,
+            hide: true,
+            sticker: false,
+            type: 'success'
+          });
+          imdone.navigateToCurrentProject();
         },
         error: function(data) {
           imdone.fileNotify = $.pnotify({
@@ -1222,7 +1221,8 @@ define([
       fileRoute: function(project, path, line, preview) {
         this.lastRoute = "file";
         var self = this;
-        if (arguments.length > 2 && isNaN(line)) preview = true, line = 0;
+        if (_.isNull(preview) && (/true/i).test(line)) preview = true, line = null;
+        else if (_.isNull(preview)) preview = false;
 
         var opts = {project:project, path:path, line:line, preview:preview};
         if (imdone.fileModified) imdone.closeFileConfirm(function() { self.changeFile(opts); });
