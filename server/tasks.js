@@ -27,7 +27,6 @@ var utils = module.exports = {
         return block.replace(taskregex, "**TASK**");
       });
     }
-
     return cleanData;
   },
 
@@ -99,7 +98,7 @@ var utils = module.exports = {
       symbol = lang.symbol,
       symbolRegex = new RegExp(symbol);
 
-    if (lang) {
+    if (lang && symbol) {
       for(var i=pos-1; !done; i--) {
         beforeTask = data.substring(i,pos);
         if (/\n/.test(beforeTask)) {
@@ -108,6 +107,8 @@ var utils = module.exports = {
           done = true, valid = true;
         }
       }
+    } else {
+      valid = true;
     }
     
     return valid;
