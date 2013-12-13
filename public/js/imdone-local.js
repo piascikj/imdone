@@ -1221,8 +1221,10 @@ define([
       fileRoute: function(project, path, line, preview) {
         this.lastRoute = "file";
         var self = this;
-        if (_.isNull(preview) && (/true/i).test(line)) preview = true, line = null;
-        else if (_.isNull(preview)) preview = false;
+        if (_.isNull(preview)) {
+          if ((/true/i).test(line)) preview = true, line = null;
+          else preview = false;
+        }
 
         var opts = {project:project, path:path, line:line, preview:preview};
         if (imdone.fileModified) imdone.closeFileConfirm(function() { self.changeFile(opts); });
