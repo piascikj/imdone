@@ -1,7 +1,7 @@
 {
   "name": "imdone",
   "preferGlobal": "true",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "A simple scrum board and markdown wiki.",
   "keywords": [
     "scrum",
@@ -58,7 +58,7 @@
     "handlebars": "1.x",
     "mkdirp": "0.3.x",
     "node-syntaxhighlighter": "0.8.1",
-    "isbinaryfile": "~1.0.0"
+    "isbinaryfile": "~2.0.0"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.6.0",

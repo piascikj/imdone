@@ -22,7 +22,7 @@ var mkdirp = require('mkdirp');
 var server = require("./server");
 var tasks = require("./tasks");
 var languages = require("./util/languages");
-var isBinaryFileSync = require("isbinaryfile").isBinaryFileSync;
+var isBinaryFileSync = require("isbinaryfile");
 
 var imdone = module.exports = {pause:{}};
 var pkginfo = require('pkginfo')(module);

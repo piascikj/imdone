@@ -7,7 +7,7 @@
     "archive"
   ],
   "hidden": [
-    "archive",
-    "planning"
+    "planning",
+    "archive"
   ]
 }
