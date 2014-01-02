@@ -138,12 +138,12 @@ module.exports = {
   events : {
     modified: function(params) {
       console.log("Files modified in project:", params.project.path);
-      var statusCmd = util.format('cd %s & git status -s', params.project.path);
-      var addCmd = util.format('cd %s & git add -A', params.project.path);
-      var commitCmd = util.format('cd %s & git commit -a -m "Update to notes from imdone"', params.project.path);
-
+      var statusCmd = "git status -s";
+      var addCmd = "git add -A";
+      var commitCmd = 'git commit -a -m "Update to notes from imdone"';
+      var opts = { cwd: params.project.path };
       console.log("---Running ", statusCmd);
-      exec(statusCmd, function(err, stdout, stderr) {
+      exec(statusCmd, opts, function(err, stdout, stderr) {
         if (err || stderr) {
           console.log("Error executing ", statusCmd);
           console.log("err:", err);
@@ -155,7 +155,7 @@ module.exports = {
           console.log("Found changes to commit!");
           console.log(stdout);
           console.log("---Running ", addCmd);
-          exec(addCmd, function(err, stdout, stderr) {
+          exec(addCmd, opts, function(err, stdout, stderr) {
             if (err || stderr) {
               console.log("Error executing ", addCmd);
               console.log("err:", err);
@@ -165,7 +165,7 @@ module.exports = {
             console.log("stdout:", stdout);
 
             console.log("---Running ", commitCmd);
-            exec(commitCmd, function(err, stdout, stderr) {
+            exec(commitCmd, opts, function(err, stdout, stderr) {
               if (err || stderr) {
                 console.log("Error executing ", commitCmd);
                 console.log("err:", err);
