@@ -701,11 +701,11 @@ imdone.Project.prototype.watchFiles = function(path) {
           },
           */
           error: function(err){
-              console.error('an error occured:', err);
+              if (err) console.error('an error occured:', err);
           },
           watching: function(err,watcherInstance,isWatching){
               //console.log('a new watcher instance finished setting up', arguments);
-              console.log('a new watcher instance finished setting up');
+              console.log('A new watcher instance finished setting up for project:', path);
           },
           change: function(changeType,filePath,fileCurrentStat,filePreviousStat){
               //console.log('a change event occured:',arguments);
@@ -742,7 +742,7 @@ imdone.Project.prototype.watchFiles = function(path) {
           }
       },
       next: function(err,watchers){
-          console.log('watching for all our paths has completed');
+          console.log('watching for all our paths has completed for project:', path);
           //console.log('watching for all our paths has completed', arguments);
       }
   });
