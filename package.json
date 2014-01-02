@@ -52,7 +52,7 @@
     "marked": "0.2.x",
     "wrench": "1.5.x",
     "open": "0.0.x",
-    "watchr": "2.4.x",
+    "watchr": "~2.4.8",
     "socket.io": "0.9.x",
     "request": "2.x",
     "handlebars": "1.x",
