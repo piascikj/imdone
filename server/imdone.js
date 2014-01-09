@@ -619,8 +619,10 @@ imdone.Project.prototype.saveSource = function(path, src, callback) {
       }
       var files = {};
       files[filePath] = src;
-      project.emitModified({files:files});
-      callback({path:path, ok:1});
+      project.processFiles([path],function() {
+        project.emitModified({files:files});
+        callback({path:path, ok:1});
+      });
     });
   } else {
     callback({error:"Unable to get source"});

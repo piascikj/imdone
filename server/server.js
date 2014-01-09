@@ -246,7 +246,7 @@
     io.sockets.on('connection', function(socket) {
             var id = setInterval(function() {
         socket.emit('last-update',server.imdone.getLastUpdate());
-      }, 300);
+      }, 150);
             console.log('started client interval');
             socket.on('disconnect', function() {
               console.log('stopping client interval');
