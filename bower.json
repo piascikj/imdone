@@ -32,7 +32,8 @@
     "handlebars": "~1.1.2",
     "jquery.hotkeys": "*",
     "store": "~2.1.3",
-    "ace-builds": "~1.1.1"
+    "ace-builds": "~1.1.1",
+    "zeroclipboard": "~1.3.0-beta.1"
   },
   "exportsOverride": {
     "requirejs": {
@@ -84,6 +85,10 @@
     },
     "ace-builds": {
       "":"src-min/*.js"
+    },
+    "zeroclipboard": {
+      "js": "ZeroClipboard*.js",
+      "swf": "*.swf"
     }
   }
 }

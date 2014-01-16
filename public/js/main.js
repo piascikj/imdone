@@ -20,7 +20,8 @@ requirejs.config({
     prism:'prismjs/js/prism',
     toc:'jquery.toc/jquery.toc',
   	app:'/js/imdone-local',
-    scrollTo: "jquery.scrollTo/jquery.scrollTo"
+    scrollTo: "jquery.scrollTo/jquery.scrollTo",
+    zeroclipboard: 'zeroclipboard/js/ZeroClipboard'
   },
 
   shim: {
@@ -64,6 +65,9 @@ requirejs.config({
       deps: ['jquery']
     },
     'scrollTo': {
+      deps: ['jquery']
+    },
+    'zeroclipboard': {
       deps: ['jquery']
     }
   }

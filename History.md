@@ -1,5 +1,8 @@
 Change Log
 ----
+### 0.5.6
+- Add copy button to preview
+
 ### 0.5.2
 - Fix valid task check for filetypes without a symbol
 

@@ -38,6 +38,10 @@ blockquote p {
   }
 }
 
+.copy-btn {
+  margin-left: 5px;
+}
+
 .ui-pnotify-icon span[class^=icon] {
   font-size: 1.4em;
 }

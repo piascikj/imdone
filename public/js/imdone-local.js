@@ -9,6 +9,7 @@ define([
   'prism',
   'store',
   '/js/models/search.js',
+  'zeroclipboard',
   'ace',
   'jqueryui',
   'bootstrap',
@@ -17,7 +18,7 @@ define([
   'hotkeys',
   'toc',
   'scrollTo'
-], function(_, $, Backbone, Handlebars, JSON, io, marked, Prism, store, Search) {
+], function(_, $, Backbone, Handlebars, JSON, io, marked, Prism, store, Search, ZeroClipboard) {
   ace = window.ace;
   
   var imdone = window.imdone = {
@@ -68,7 +69,8 @@ define([
       "py":"python",
       "txt":"text"
     },
-    Search: Search
+    Search: Search,
+    copyButton: '<button class="btn btn-inverse pull-right copy-btn" title="Copy text"><i class="icon-copy"></i></button>'
   };
 
   //pnotify options
@@ -90,6 +92,9 @@ define([
     smartLists: true,
     langPrefix: 'language-',
   });
+
+  // ZeroClipboard options
+  ZeroClipboard.config({ moviePath: "/lib/zeroclipboard/swf/ZeroClipboard.swf" });
 
   String.prototype.format = function (col) {
     col = typeof col === 'object' ? col : Array.prototype.slice.call(arguments, 1);
@@ -741,6 +746,32 @@ define([
       imdone.fileContainer.show();
       imdone.previewContainer.show();
       imdone.fileContainer.focus();
+      
+      // setup the clipboard for pre elements
+      preId = 0;
+      imdone.preview.find("pre").each(function() {
+        var id = "pre-id-" + preId;
+        var copyButton = $(imdone.copyButton);
+        copyButton.attr('data-clipboard-target', id);
+        $(this).attr('id', id);
+        $(this).before(copyButton);
+        preId++;
+      });
+
+      var clip = new ZeroClipboard($('.copy-btn'));
+
+      clip.on( "load", function(client) {
+        client.on( "complete", function(client, args) {
+          $.pnotify({
+              title: "Text coppied!",
+              nonblock: true,
+              hide: true,
+              sticker: false,
+              type: 'success'
+            });
+        });
+      });
+
       Prism.highlightAll();
       $("#toc").html('').toc({
         'content':'#preview',
