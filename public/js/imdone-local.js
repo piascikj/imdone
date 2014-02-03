@@ -772,12 +772,20 @@ define([
         });
       });
 
+      // Highlight code
       Prism.highlightAll();
+      
+      // TOC
       $("#toc").html('').toc({
         'content':'#preview',
         'headings': 'h1,h2'
       });
+      
       imdone.fileContainer.scrollspy('refresh');
+
+      // Add borders to tables
+      imdone.preview.find("table").addClass("table table-bordered table-nonfluid");
+
     } else {
       imdone.previewMode = false;
     }

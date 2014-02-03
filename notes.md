@@ -1,7 +1,13 @@
 imdone notes for development
 ==========
 - [test task](#archive:170)
-## npm 
+## npm
+
+Markdown | Less | Pretty
+--- | :---: | ---:
+*Still* | `renders` | **nicely**
+1 | 2 | 3
+
 ### Stats  
 - [NPM stats for imdone](http://isaacs.iriscouch.com/downloads/_design/app/_view/pkg?group_level=3&end_key=[%22imdone%22]&start_key=[%22imdone%22,{}]&descending=true)
 - [NPM stats for imdone total downloads](http://isaacs.iriscouch.com/downloads/_design/app/_view/pkg?group_level=1&start_key=["imdone"]&end_key=["imdone",{}])

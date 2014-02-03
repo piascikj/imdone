@@ -38,6 +38,10 @@ blockquote p {
   }
 }
 
+.table-nonfluid {
+  width: auto;
+}
+
 .copy-btn {
   margin-left: 5px;
 }
