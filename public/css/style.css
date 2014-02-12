@@ -12,6 +12,7 @@ code, pre {
   -moz-box-shadow: none;
   box-shadow: none;
   font-size: 14px;
+  color: white;
 }
 
 code.highlight {

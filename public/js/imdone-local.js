@@ -749,12 +749,13 @@ define([
       
       // setup the clipboard for pre elements
       preId = 0;
-      imdone.preview.find("pre").each(function() {
-        var id = "pre-id-" + preId;
+      imdone.preview.find('pre').each(function() {
+        var id = 'pre-id-' + preId;
         var copyButton = $(imdone.copyButton);
         copyButton.attr('data-clipboard-target', id);
         $(this).attr('id', id);
         $(this).before(copyButton);
+        if (!/language-/.test($(this).attr('class'))) $(this).addClass('language-none');
         preId++;
       });
 

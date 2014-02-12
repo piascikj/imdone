@@ -1,7 +1,7 @@
 {
   "name": "imdone",
   "preferGlobal": "true",
-  "version": "0.5.7",
+  "version": "0.5.8",
   "description": "A simple scrum board and markdown wiki.",
   "keywords": [
     "scrum",
@@ -48,20 +48,20 @@
     "pkginfo": "0.3.0",
     "async": "0.2.x",
     "express": "3.x",
-    "underscore": "1.5.x",
+    "underscore": "~1.6.0",
     "marked": "~0.3.1",
     "wrench": "1.5.x",
     "open": "0.0.x",
     "watchr": "~2.4.8",
     "socket.io": "0.9.x",
     "request": "2.x",
-    "handlebars": "1.x",
+    "handlebars": "~2.0.0-alpha.1",
     "mkdirp": "0.3.x",
     "node-syntaxhighlighter": "0.8.1",
     "isbinaryfile": "~2.0.0"
   },
   "devDependencies": {
-    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-jshint": "~0.8.0",
     "grunt": "~0.4.1",
     "grunt-jasmine-node-coverage": "~0.1.5",
     "grunt-bower-task": "~0.3.2"
