@@ -70,7 +70,7 @@ define([
       "txt":"text"
     },
     Search: Search,
-    copyButton: '<button class="btn btn-inverse pull-right copy-btn" title="Copy text"><i class="icon-copy"></i></button>'
+    copyButton: '<button class="btn btn-inverse pull-right copy-btn" title="Copy text"><i class="icomoon-copy"></i></button>'
   };
 
   //pnotify options
@@ -226,7 +226,7 @@ define([
     return new Handlebars.SafeString(result);
   });
 
-  //[Take a look at this <https://speakerdeck.com/ammeep/unsuck-your-backbone>, <http://amy.palamounta.in/2013/04/12/unsuck-your-backbone/>](#planning:10)
+  //[Take a look at this <https://speakerdeck.com/ammeep/unsuck-your-backbone>, <http://amy.palamounta.in/2013/04/12/unsuck-your-backbone/>](#todo:90)
   //--------------------------------------Backbone Models---------------------------------------
   var Project = Backbone.Model.extend();
   var Projects = Backbone.Collection.extend({
@@ -338,7 +338,7 @@ define([
         limit:(params.limit)?parseInt(params.limit):undefined
       });
       search.fetch({success: function(model, response)  {
-          // [Put search in a view.  [What is a view? - Backbone.js Tutorials](http://backbonetutorials.com/what-is-a-view/)](#planning:120)
+          // [Put search in a view.  [What is a view? - Backbone.js Tutorials](http://backbonetutorials.com/what-is-a-view/)](#todo:40)
           var template = Handlebars.compile($("#search-results-template").html());
           var results = model.toJSON();
           var last = results.total+results.offset;
@@ -482,7 +482,7 @@ define([
           nonblock: false,
           hide: false,
           sticker: true,
-          icon: "icon-book",
+          icon: "icomoon-book",
           type: 'info'
         });
       }
@@ -681,7 +681,7 @@ define([
 
     var line = data.line || 1;
     
-    // [User should be able to set global ace confiuration and have it saved to config.js](#doing:30)
+    // [User should be able to set global ace confiuration and have it saved to config.js](#todo:20)
     var session = imdone.aceSession = ace.createEditSession(data.src);
     session.setMode("ace/mode/" + mode);
     session.setUseWrapMode(true);
@@ -699,7 +699,8 @@ define([
             nonblock: true,
             hide: false,
             sticker: false,
-            type: 'warning'
+            type: 'warning',
+            icon: 'icomoon-exclamation-sign'
           });                    
         }
       } else {
@@ -853,7 +854,8 @@ define([
             nonblock: true,
             hide: true,
             sticker: false,
-            type: 'success'
+            type: 'success',
+            icon: 'icomoon-exclamation-sign'
           });
           if (_.isFunction(evt)) evt();
         }
@@ -897,7 +899,7 @@ define([
         },
     });
   };
-  //[Implement delete file functionality](#done:220)
+  //[Implement delete file functionality](#done:340)
   imdone.removeFileBtn.live('click', function() {
     imdone.removeSourceConfirm();
   });
@@ -912,7 +914,7 @@ define([
     imdone.app.navigate("project" + imdone.currentProjectId(), {trigger:true});
   };
 
-  // [Clean up init before implementing backbone views](#todo:0)
+  // [Clean up init before implementing backbone views](#todo:70)
   imdone.init = function() {
       var nameFld = $('#list-name-field');
       var nameModal = $('#list-name-modal').modal({show:false});
@@ -965,7 +967,7 @@ define([
       imdone.editor.setTheme("ace/theme/merbivore_soft");
       imdone.editor.setHighlightActiveLine(true);
       imdone.editor.setPrintMarginColumn(120);
-      //[Use Vim keyboard bindings](#planning:220)
+      //[Use Vim keyboard bindings](#done:150)
       //imdone.editor.setKeyboardHandler(require("ace/keybinding-vim").Vim);
       
       //Ace keyboard handlers
@@ -1047,7 +1049,7 @@ define([
           nonblock: false,
           hide: false,
           sticker: false,
-          icon: 'icon-tasks',
+          icon: 'icomoon-tasks',
           type: 'info'
         });
       });
@@ -1215,7 +1217,7 @@ define([
         },
 
       initialize: function() {
-        //[Construct views and models in here!](#todo:50)
+        //[Construct views and models in here!](#todo:170)
         imdone.data.projects = new Projects();
       },
       

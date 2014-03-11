@@ -4,7 +4,7 @@ var languages = require("./util/languages");
 
 var taskregex = /\[(.+?)\]\(#([\w\-]+?):(\d+?\.{0,1}\d*?)\)/g;
 var codeStylePattern = "\\s*([A-Z]{2,}):(\\d+?\.{0,1}\\d*?)\\s+(.*)$"
-// [Support TODO and FIXME type tasks in code](#todo:0)
+// [Support TODO and FIXME type tasks in code](#planning:10)
 
 //for ignoring code search for code and replace with empty string or blacnk lines if it's a block before finding tasks
 var codeRegExp = {

@@ -39,6 +39,18 @@ blockquote p {
   }
 }
 
+.brand img {
+  margin-top: -10px;
+  margin-bottom: -10px;
+}
+
+.dropdown-menu a [class^="icomoon-"], .dropdown-menu a [class*=" icomoon-"] {
+  width: 16px;
+  font-size: 14px;
+  display: inline-block;
+  text-align: right;
+  margin-right: 10px;
+}
 .table-nonfluid {
   width: auto;
 }

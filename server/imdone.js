@@ -453,7 +453,7 @@ imdone.Project.prototype.modifyTask = function(data,task) {
   return file.content;
 };
 
-// [Add includeFiles, excludeFiles, includeDirs, excludeDirs to config](#todo:10)
+// [Add includeFiles, excludeFiles, includeDirs, excludeDirs to config](#todo:130)
 imdone.Project.prototype.shouldProcessFile = function(file) {
   var relPath = this.relativePath(file);
   if (!this.config.include.test(relPath)) return false;
@@ -606,7 +606,7 @@ imdone.Project.prototype.unpause = function(file) {
   }
 };
 
-// [add hook to saveSource](#done:30)    
+// [add hook to saveSource](#done:110)    
 imdone.Project.prototype.saveSource = function(path, src, callback) {
   var project = this;
   var filePath = project.path + "/" + path;
@@ -689,7 +689,7 @@ imdone.Project.prototype.getSource = function(path, line, callback) {
 }
 
 imdone.Project.prototype.watchFiles = function(path) {
-  //[Test watchr on hundreds of directories](#todo:80)
+  //[Test watchr on hundreds of directories](#todo:200)
   var self = this;
   watchr.watch({
       path: path,

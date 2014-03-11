@@ -1,10 +1,11 @@
-# ![Logo](http://piascikj.github.io/imdone/images/iMDone_Logo_Long.png)
+![Logo](http://piascikj.github.io/imdone/images/iMDone_Logo_Long.png)  
+
 A task board in your code!
 
 Connect directly to github!
 ----
 ![iMDone UI](https://raw.githubusercontent.com/piascikj/imdone/master/docs/images/imdone-ui.png)  
-I am going to be releasing an iMDone service that connects directly to your github project.  Sign up for the newsletter [here](http://signup.imdoneapp.com).
+I'll be releasing an iMDone service that connects directly to your github project.  Sign up for the newsletter [here](http://signup.imdoneapp.com).
 
 Introduction
 ----
@@ -37,7 +38,7 @@ Quickstart
 ----
 - Install
 ```
-npm install -g imdone
+sudo npm install -g imdone
 ```
 - Run iMDone by opening a terminal window, navigate to your local project directory and run...
 ```
@@ -50,6 +51,10 @@ imdone -h
 - Open a file by clicking on the folder icon and create a task like this
 ```
 [Use imdone to manage tasks in my project](#doing:0)
+```
+- Add another project by navigating to the project directory in the terminal and run...
+```
+imdone
 ```
 
 Configuration

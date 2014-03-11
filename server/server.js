@@ -100,7 +100,7 @@
   }
 
   //[Have this use splat for project name like getFiles](#archive:180)
-  //[Move getSource to imdone.js](#done:90)
+  //[Move getSource to imdone.js](#done:190)
   function getSource(req, res) {
     if (isProcessing(req,res)) {
       res.send({processing:true});
@@ -131,7 +131,7 @@
     });
   }
 
-  // [Move removeSource to imdone.js and add hook](#doing:10)    
+  // [Move removeSource to imdone.js and add hook](#todo:0)    
   function removeSource(req, res) {
     if (isProcessing(req,res)) {
       res.send({processing:true});
@@ -200,7 +200,7 @@
       /api/source
       /api/files
     */
-    // [Make sure we're restful](#planning:80)
+    // [Make sure we're restful](#todo:30)
     app.post("/api/moveTask", moveTask);
     app.post("/api/moveList", moveList);
     app.post("/api/removeList", removeList);
