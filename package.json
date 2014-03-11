@@ -1,8 +1,8 @@
 {
   "name": "imdone",
   "preferGlobal": "true",
-  "version": "0.6.0",
-  "description": "A simple scrum board and markdown wiki.",
+  "version": "0.6.1",
+  "description": "A task board in your code!",
   "keywords": [
     "scrum",
     "markdown",
@@ -11,7 +11,10 @@
     "code",
     "comments",
     "cli",
-    "git"
+    "git",
+    "task",
+    "board",
+    "task-board"
   ],
   "subdomain": "piascikj.imdone",
   "homepage": "http://piascikj.github.io/imdone/",

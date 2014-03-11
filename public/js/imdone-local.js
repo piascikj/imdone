@@ -681,7 +681,7 @@ define([
 
     var line = data.line || 1;
     
-    // [User should be able to set global ace confiuration and have it saved to config.js](#doing:10)
+    // [User should be able to set global ace confiuration and have it saved to config.js](#doing:30)
     var session = imdone.aceSession = ace.createEditSession(data.src);
     session.setMode("ace/mode/" + mode);
     session.setUseWrapMode(true);

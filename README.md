@@ -1,5 +1,10 @@
 # ![Logo](http://piascikj.github.io/imdone/images/iMDone_Logo_Long.png)
-A simple scrumboard in your code!
+A task board in your code!
+
+Connect directly to github!
+----
+## ![iMDone UI](https://raw.githubusercontent.com/piascikj/imdone/master/docs/images/imdone-ui.png)
+I am going to be releasing an iMDone service that connects directly to your github project.  Sign up for the newsletter [here](http://signup.imdoneapp.com).
 
 Introduction
 ----

@@ -63,7 +63,7 @@
       "fonts": "dist/fonts/*"
     },
     "bootswatch": {
-      "css": "cosmo/*.css",
+      "css": "cerulean/*.css",
       "fonts": "../bootstrap/dist/fonts/*"
     },
     "font-awesome": {

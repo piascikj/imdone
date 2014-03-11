@@ -21,6 +21,7 @@ Markdown | Less | Pretty
 - [forever-monitor for cli <https://github.com/nodejitsu/forever-monitor>](#archive:90)
 
 ### Misc
+- [Add filter link on each task to filter by file task is in](#doing:0)
 - [parse github wiki links to point at files](#done:60)
 - [Move task causes multiple updates to board](#done:70)
 - [Filter should stick with project, but clear when project changes](#done:10)
@@ -28,8 +29,8 @@ Markdown | Less | Pretty
 - [Fix show list on task-link](#done:100) 
 - [User should be able to execute a javscript callback when a files are modified in the editor or by moving a task](#done:40)
 - [User should be able to jump back to the task in the board if the task is clicked in the file view task notification](#done:80)
-- [User should be able to rename a file](#doing:20)
-- [User should be able to batch move tasks to another list](#doing:0)
+- [User should be able to rename a file](#doing:40)
+- [User should be able to batch move tasks to another list](#doing:20)
 - [Switch from flattr to gittip](#todo:20)
 - [User should get a modal confirmation if closing a file that has been edited #feature](#done:130)
 - [User should be able to add #hashtags to a #task and filter by them #feature](#todo:30)
