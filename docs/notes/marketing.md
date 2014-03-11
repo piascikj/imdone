@@ -1,0 +1,1 @@
+- [update logos in twitter, tumblr, readme etc.](#doing:0)
