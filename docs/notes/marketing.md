@@ -1,1 +1,2 @@
-- [update logos in twitter, tumblr, readme etc.](#doing:0)
+- [update logos in twitter, tumblr, readme etc.](#doing:10)
+- [Create how to video for imdone](#doing:0)
