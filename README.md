@@ -1,4 +1,4 @@
-![Logo](http://piascikj.github.io/imdone/images/iMDone_Logo_Long.png)  
+![Logo](https://raw.githubusercontent.com/piascikj/imdone/master/docs/logo.png)  
 
 A task board in your code!
 
