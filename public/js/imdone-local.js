@@ -17,8 +17,7 @@ define([
   'pnotify',
   'hotkeys',
   'toc',
-  'scrollTo',
-  'prettycheckable'
+  'scrollTo'
 ], function(_, $, Backbone, Handlebars, JSON, io, marked, Prism, store, Search, ZeroClipboard) {
   ace = window.ace;
   
