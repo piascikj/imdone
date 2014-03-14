@@ -21,7 +21,7 @@ requirejs.config({
     toc:'jquery.toc/jquery.toc',
   	app:'/js/imdone-local',
     scrollTo: "jquery.scrollTo/jquery.scrollTo",
-    zeroclipboard: 'zeroclipboard/js/ZeroClipboard'
+    zeroclipboard: 'zeroclipboard/js/ZeroClipboard',
   },
 
   shim: {

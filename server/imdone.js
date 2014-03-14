@@ -23,6 +23,7 @@ var server = require("./server");
 var tasks = require("./tasks");
 var languages = require("./util/languages");
 var isBinaryFileSync = require("isbinaryfile");
+var async = require("async");
 
 var imdone = module.exports = {pause:{}};
 var pkginfo = require('pkginfo')(module);
@@ -351,7 +352,22 @@ imdone.Project.prototype.showList = function(request) {
   return this.hidden;
 };
 
-//[When moving task to top of list, it goes to second place.  Need to fix this](#archive:210)
+// [Move multiple tasks in sequence](#doing:0)
+imdone.Project.prototype.moveTasks = function(request, callback) {
+  var self = this;
+  var funcs = [];
+  _.each(request, function(val) {
+    funcs.push(function(cb) {
+      self.moveTask(val, cb(null));
+    });
+  });
+  async.series(funcs,
+  // optional callback
+  function(err, results){
+    if (_.isFunction(callback)) callback();
+  });
+};
+
 imdone.Project.prototype.moveTask = function(request, callback) {
   var self = this;
   var path = request.path;

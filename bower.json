@@ -33,7 +33,7 @@
     "jquery.hotkeys": "*",
     "store": "~2.1.3",
     "ace-builds": "~1.1.1",
-    "zeroclipboard": "~1.3.0-beta.1"
+    "zeroclipboard": "~1.3.0-beta.1",
   },
   "exportsOverride": {
     "requirejs": {
@@ -84,7 +84,7 @@
       "": "jquery.hotkeys.js"
     },
     "ace-builds": {
-      "":"src-min/*.js"
+      "": "src-min/*.js"
     },
     "zeroclipboard": {
       "js": "ZeroClipboard*.js",

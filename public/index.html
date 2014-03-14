@@ -8,7 +8,7 @@
     <!--<link href="lib/bootswatch/css/bootstrap.min.css" rel="stylesheet" media="screen"/>-->
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen"/>
     <link href='css/darkstrap-v0.9.0.css' rel='stylesheet' media="screen"/>
-    <!-- <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" media="screen"/> -->
+    <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" media="screen"/>
     <link href="css/icomoon.css" rel="stylesheet" media="screen"/>
     <link href="css/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" media="screen"/>
     <link href="css/jquery.pnotify.default.css" rel="stylesheet" media="screen"/>
@@ -56,13 +56,13 @@
             <ul class="nav pull-right help-nav">
               <li>
                 <button class="btn btn-inverse dropdown-toggle" data-toggle="dropdown">Help & Feedback</button>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="http://signup.imdoneapp.com" target="_blank"><i class="icomoon-info"></i> News letter</a></li>
-                  <li><a href="mailto:imdone@innobuilt.com?subject=imdone support"><i class="icomoon-envelope-alt"></i> Email the author</a></li>
-                  <li><a href="http://piascikj.github.io/imdone/" target="_blank"><i class="icomoon-home"></i> iMDone site</a></li>
-                  <li><a href="http://guides.github.com/overviews/mastering-markdown/" target="_blank"><i class="icomoon-markdown-mark"></i> Mastering Markdown</a></li>
-                  <li><a href="https://github.com/piascikj/imdone" target="_blank"><i class="icomoon-github-alt"></i> Github</a></li>
-                  <li><a href="https://github.com/piascikj/imdone/issues" target="_blank"><i class="icomoon-bug"></i> Issues</a></li>
+                <ul class="dropdown-menu column-nav-menu" role="menu">
+                  <li class="column-nav-item"><a href="http://signup.imdoneapp.com" target="_blank"><i class="icomoon-info"></i> News letter</a></li>
+                  <li class="column-nav-item"><a href="mailto:imdone@innobuilt.com?subject=imdone support"><i class="icomoon-envelope-alt"></i> Email the author</a></li>
+                  <li class="column-nav-item"><a href="http://piascikj.github.io/imdone/" target="_blank"><i class="icomoon-home"></i> iMDone site</a></li>
+                  <li class="column-nav-item"><a href="http://guides.github.com/overviews/mastering-markdown/" target="_blank"><i class="icomoon-markdown-mark"></i> Mastering Markdown</a></li>
+                  <li class="column-nav-item"><a href="https://github.com/piascikj/imdone" target="_blank"><i class="icomoon-github-alt"></i> Github</a></li>
+                  <li class="column-nav-item"><a href="https://github.com/piascikj/imdone/issues" target="_blank"><i class="icomoon-bug"></i> Issues</a></li>
                 </ul>
               </li>
             </ul>
@@ -140,7 +140,7 @@
         <a href="#" id="list-name-save" class="btn btn-primary">Save changes</a>
       </div>
     </div>
-    <div id="file-modal" class="modal hide">
+    <div id="file-modal" class="modal hide fade">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
           <i class="icomoon-remove"></i>
@@ -194,12 +194,14 @@
       {{#each lists}}
       {{^hidden}}
       <div class="span4 well list" id="{{name}}">
-        <div class="list-name-container" title="Edit list name" data-list="{{name}}">
-        <h2><span class="list-name">{{name}}</span></h2>
+        <div class="list-name-container well" title="Edit list name" data-list="{{name}}">
+          <div class="list-name pull-left">{{name}}</div>
+          <div class="task-select-all pull-right" data-list="{{name}}"><i class="icomoon-check-empty" title="Select/Deselect all tasks"></i></div>
+          <div class="clearfix"></div>
         </div>
         {{#if tasks}}
         {{#each tasks}}
-        <div class="wrap well task" data-id="{{pathTaskId}}" data-list="{{list}}" data-order="{{order}}" data-path="{{path}}">
+        <div class="wrap well task" id="{{list}}-{{pathTaskId}}" data-id="{{pathTaskId}}" data-list="{{list}}" data-order="{{order}}" data-path="{{path}}">
           <span class="row-fluid task-text">{{{markDown text}}}</span>
           <span class="row-fluid task-info">
             <a href="#filter/{{path}}" title="Filter by {{path}},  Esc to clear filter"><i class="icomoon-filter"></i></a>
@@ -264,9 +266,9 @@
     <script id="projects-template" type="text/x-handlebars-template">
       {{#if projects}}
       <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="cwd" id="cwd">{{cwd}}</span> <b class="caret"></b></a>
-      <ul class="dropdown-menu" role="menu">
+      <ul class="dropdown-menu column-nav-menu" role="menu">
         {{#each projects}}
-        <li><a href="#project{{this}}" data-project="{{this}}" class="project-item">{{this}}</a></li>
+        <li class="column-nav-menu-item"><a href="#project{{this}}" data-project="{{this}}" class="project-item">{{this}}</a></li>
         {{/each}}
       </ul>
       {{else}}

@@ -53,6 +53,17 @@
     });
   }
 
+  function moveTasks(req, res) {
+    if (isProcessing(req,res)) {
+      res.send({processing:true});
+      return;
+    }
+    var project = server.imdone.getProject(req.body.project);
+    project.moveTasks(req.body.tasks, function() {
+      res.send(200);
+    });
+  }
+
   function moveList(req, res) {
     if (isProcessing(req,res)) {
       res.send({processing:true});
@@ -202,6 +213,7 @@
     */
     // [Make sure we're restful](#todo:30)
     app.post("/api/moveTask", moveTask);
+    app.post("/api/moveTasks", moveTasks);
     app.post("/api/moveList", moveList);
     app.post("/api/removeList", removeList);
     app.post("/api/renameList", renameList);

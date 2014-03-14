@@ -17,7 +17,8 @@ define([
   'pnotify',
   'hotkeys',
   'toc',
-  'scrollTo'
+  'scrollTo',
+  'prettycheckable'
 ], function(_, $, Backbone, Handlebars, JSON, io, marked, Prism, store, Search, ZeroClipboard) {
   ace = window.ace;
   
@@ -263,6 +264,35 @@ define([
     return false;
   };
 
+  imdone.moveTasks = function(e, ui) {
+    var tasks = [];
+    var toListId = ui.item.closest(".list").attr("id");
+    var pos = ui.item.index()-1;
+    imdone.selectedTasks.each(function() {
+      //var $el = ($(this) == ui.item) ? ui.item : $(this);
+      var $el = $(this);
+      var taskId = $el.attr("data-id");
+      var listId = $el.attr("data-list");
+      var path = $el.attr("data-path");
+      var list = _.where(imdone.currentProject().lists, {name:listId})[0];
+      var task = _.where(list.tasks, {pathTaskId:parseInt(taskId), path:path})[0];
+      tasks.push({
+        path:path,
+        pathTaskId:task.pathTaskId,
+        lastUpdate:task.lastUpdate,
+        from:listId,
+        to:toListId,
+        pos:pos,
+        project:imdone.currentProjectId()
+      });
+    });
+    //Now call the service and call getKanban
+    $.post("/api/moveTasks", {tasks:tasks, project:imdone.currentProjectId()},
+      function(data){
+        imdone.getKanban();
+      }, "json");
+  };
+
   imdone.moveTask = function(e, ui) {
     var taskId = ui.item.attr("data-id");
     var listId = ui.item.attr("data-list");
@@ -446,14 +476,57 @@ define([
       imdone.board.html(template(data));
       template =  Handlebars.compile($("#lists-template").html());
       imdone.listsMenu.html(template(data));
-      //Apply existing filter
+      
+      // Apply existing filter
       var filter = imdone.getProjectStore().filter || "";
       imdone.filter(filter);
 
-      $( ".list" ).sortable({
+      // Select tasks and select all
+      $(".task-select-all").click(function(evt) {
+          var list = $(this).attr("data-list");          
+          var tasks = $("#" + list + " .task");
+          if ($(this).hasClass("selected")) {
+            $(this).removeClass("selected").find("i").removeClass("icomoon-check").addClass("icomoon-check-empty");
+            tasks.each(function() {
+              $(this).removeClass("selected");
+            });
+          } else {
+            $(this).addClass("selected").find("i").removeClass("icomoon-check-empty").addClass("icomoon-check");
+            tasks.each(function() {
+              $(this).addClass("selected");
+            });
+          }
+          imdone.selectedTasks = $(".task.selected");
+       });
+
+      $('.task').mouseup(function() {
+        var $el = $(this);
+        if (!imdone.sortingTasks) {
+          if ($el.hasClass("selected")) {
+            $el.removeClass("selected");
+          } else {
+            $el.addClass("selected");
+          }
+          imdone.selectedTasks = $(".task.selected");
+        }
+      });
+      // Make Sortable
+      $(".list").sortable({
             items: ".task",
             connectWith: ".list",
-            stop: imdone.moveTask
+            start: function(evt, ui) {
+              imdone.sortingTasks = true;
+              imdone.selectedTasks.each(function() {
+                if ($(this).attr("id") != ui.item.attr("id")) $(this).hide();
+              });
+            },
+            stop: function(evt, ui) {
+              imdone.sortingTasks = false;
+              if (imdone.selectedTasks && imdone.selectedTasks.length > 1) {
+                imdone.moveTasks(evt, ui);
+              }
+              else imdone.moveTask(evt, ui);
+            }
         }).disableSelection();
 
       imdone.listsMenu.sortable({
@@ -472,7 +545,7 @@ define([
 
       if (!imdone.isSearchResultsVisible()) imdone.board.show();
             
-      $('.list-name-container, .list-hide, .list-show').tooltip({placement:"bottom"});
+      //$('.list-name-container, .list-hide, .list-show, [title]').tooltip({placement:"bottom"});
 
       if (imdone.readmeNotify) imdone.readmeNotify.pnotify_remove();
       if (data.readme) {
@@ -495,7 +568,7 @@ define([
         var scrollToTask = function() {
           var $task = $('.task:contains("' + task + '")');
           if ($task.length > 0) {
-            $task.addClass('alert alert-info').removeClass('well');
+            $task.addClass('selected');
             $('.app-container').scrollTo($task)
           }
         };
@@ -925,7 +998,7 @@ define([
       });    
 
       //listen for list name click
-      $('.list-name-container').live('click', function() {
+      $('.list-name').live('click', function() {
         var name = $(this).attr("data-list");
         nameModal.modal('show');
         nameFld.val(name);
