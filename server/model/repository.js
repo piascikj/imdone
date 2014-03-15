@@ -5,7 +5,7 @@
  * Copyright (c) 2012 Jesse Piascik
  * Licensed under the MIT license.
  */
-//[Implement base repository functionality with [declare.js](https://npmjs.org/package/declare.js)](#done:30) 
+//[Implement base repository functionality with [declare.js](https://npmjs.org/package/declare.js)](#archive:40) 
 var fs = require('fs');
 var _ = require('underscore');
 

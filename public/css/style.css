@@ -309,6 +309,14 @@ blockquote p {
   margin-right: 4px;
 }
 
+.task-info .filter-link {
+  font-size: 2em;
+}
+
+.task-info .filter-link:hover {
+  text-decoration: none;
+}
+
 .column-nav-menu {
   top: 100%;
   padding: 4px 0 0;

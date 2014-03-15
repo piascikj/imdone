@@ -110,8 +110,8 @@
     res.send({lists:server.imdone.getProject(req.body.project).showList(req.body)});
   }
 
-  //[Have this use splat for project name like getFiles](#archive:180)
-  //[Move getSource to imdone.js](#done:190)
+  //[Have this use splat for project name like getFiles](#archive:540)
+  //[Move getSource to imdone.js](#archive:200)
   function getSource(req, res) {
     if (isProcessing(req,res)) {
       res.send({processing:true});
@@ -126,7 +126,7 @@
     });
   }
 
-  // [Have this use splat for project name like getFiles](#archive:160)
+  // [Have this use splat for project name like getFiles](#archive:520)
   function saveSource(req, res) {
     if (isProcessing(req,res)) {
       res.send({processing:true});
@@ -196,7 +196,7 @@
   server.start = function(imdone, callback) {
     server.imdone = imdone;
 
-    //[migrate to express 3.x <https://github.com/visionmedia/express/wiki/Migrating-from-2.x-to-3.x>](#archive:110)
+    //[migrate to express 3.x <https://github.com/visionmedia/express/wiki/Migrating-from-2.x-to-3.x>](#archive:470)
     var app = server.app = express();
     var  xserver = http.createServer(app);
 
@@ -269,6 +269,6 @@
     if (callback) app.on('listening', callback);
     xserver.listen(imdone.config.port);
 
-    //[Move open board to command line option **open**](#archive:200)
+    //[Move open board to command line option **open**](#archive:560)
   };
   

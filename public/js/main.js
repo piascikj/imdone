@@ -22,6 +22,7 @@ requirejs.config({
   	app:'/js/imdone-local',
     scrollTo: "jquery.scrollTo/jquery.scrollTo",
     zeroclipboard: 'zeroclipboard/js/ZeroClipboard',
+    wiggle: '/js/jquery.classywiggle.min'
   },
 
   shim: {
@@ -68,6 +69,9 @@ requirejs.config({
       deps: ['jquery']
     },
     'zeroclipboard': {
+      deps: ['jquery']
+    },
+    'wiggle': {
       deps: ['jquery']
     }
   }

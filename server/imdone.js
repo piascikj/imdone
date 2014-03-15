@@ -5,7 +5,7 @@
  * Copyright (c) 2012 Jesse Piascik
  * Licensed under the MIT license.
  */
-//[Implement hide functionality to hide a list from board](#archive:220)
+//[Implement hide functionality to hide a list from board](#archive:570)
 // Nodejs libs.
 var fs = require('fs');
 var events = require('events');
@@ -352,7 +352,7 @@ imdone.Project.prototype.showList = function(request) {
   return this.hidden;
 };
 
-// [Move multiple tasks in sequence](#doing:0)
+// [Move multiple tasks in sequence](#done:0)
 imdone.Project.prototype.moveTasks = function(request, callback) {
   var self = this;
   var funcs = [];
@@ -558,7 +558,7 @@ imdone.Project.prototype.processFiles = function(files, callback) {
       var relPathFile = self.relativePath(file);
       //console.log("Extracting tasks from file: " + fullPathFile);
       //for each file get the tasks
-      //[Make this an async file read](#archive:250)
+      //[Make this an async file read](#archive:600)
       var data = fs.readFile(fullPathFile, 'utf8', function (err, data) {
         if (err) {
           console.log("Unable to open file:", err);
@@ -599,7 +599,7 @@ imdone.Project.prototype.update = function(files) {
   var self = this;
   _.each(files, function(file) {
     if (!self.isPaused(file)) {
-      //[Store last updated time, and check to see if we should process - 0.1.3](#archive:290)
+      //[Store last updated time, and check to see if we should process - 0.1.3](#archive:630)
       self.processFiles([file]);  
     }
   });
@@ -622,7 +622,7 @@ imdone.Project.prototype.unpause = function(file) {
   }
 };
 
-// [add hook to saveSource](#done:110)    
+// [add hook to saveSource](#archive:120)    
 imdone.Project.prototype.saveSource = function(path, src, callback) {
   var project = this;
   var filePath = project.path + "/" + path;
@@ -654,7 +654,7 @@ imdone.Project.prototype.getSource = function(path, line, callback) {
   if (project.path && !/^\.\./.test(path) && !/\/$/.test(path)) {
     var filePath = project.path + "/" + path;
 
-    //[Make sure this source file is in one of the projects paths](#archive:230)
+    //[Make sure this source file is in one of the projects paths](#archive:580)
     if (fs.existsSync(filePath)) {
       fs.readFile(filePath, 'utf-8', function(err,data) {
         if (err) {
@@ -710,7 +710,7 @@ imdone.Project.prototype.watchFiles = function(path) {
   watchr.watch({
       path: path,
       ignoreCommonPatterns:true,
-      //[Use ignoreCustomPatterns](#archive:240)
+      //[Use ignoreCustomPatterns](#archive:590)
       ignoreCustomPatterns:self.config.exclude,
       listeners: {
           /*

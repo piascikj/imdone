@@ -17,7 +17,8 @@ define([
   'pnotify',
   'hotkeys',
   'toc',
-  'scrollTo'
+  'scrollTo',
+  'wiggle'
 ], function(_, $, Backbone, Handlebars, JSON, io, marked, Prism, store, Search, ZeroClipboard) {
   ace = window.ace;
   
@@ -56,6 +57,8 @@ define([
     closeFileModal: $('#close-file-modal').modal({show:false, keyboard:false}),
     closeFileOkBtn: $('#close-file-ok-btn'),
     closeFileCancelBtn: $('#close-file-cancel-btn'),
+    openReadmeBtn: $("#open-readme-btn"),
+    archiveBtn: $("#archive-btn"),
     modes : {
       "md":"markdown",
       "js":"javascript",
@@ -132,8 +135,8 @@ define([
     // Replace any script elements
     html = html.replace(/<script.*?>([\s\S]*?)<\/.*?script>/ig,"$1").replace(/(href=["|'].*)javascript:.*(["|'].?>)/ig,"$1#$2");
     // Make all links with http open in new tab
-    // [For markdown files, find tasks links and give them a badge](#archive:30)
-    // [For internal inks, take them to the page](#archive:50)
+    // [For markdown files, find tasks links and give them a badge](#archive:390)
+    // [For internal inks, take them to the page](#archive:410)
     var replaceLinks = function(anchor, head, href, tail, content, end) {
       if (links.test(content)) content = content.replace(links, replaceLinks);
       var out = html;
@@ -465,6 +468,14 @@ define([
     this.saveProjectStore();
     $(".task").show();
   };
+
+  imdone.tasksSelected = function() {
+    imdone.selectedTasks = $(".task.selected");
+    /*
+    if (imdone.selectedTasks.length > 0) archiveBtn.show();
+    else archiveBtn.hide();
+    */
+  }
   
   imdone.paintKanban = function(data) {
     if (!data.processing && !imdone.editMode) {
@@ -495,7 +506,7 @@ define([
               $(this).addClass("selected");
             });
           }
-          imdone.selectedTasks = $(".task.selected");
+          imdone.tasksSelected();
        });
 
       $('.task').mouseup(function() {
@@ -506,7 +517,7 @@ define([
           } else {
             $el.addClass("selected");
           }
-          imdone.selectedTasks = $(".task.selected");
+          imdone.tasksSelected();
         }
       });
       // Make Sortable
@@ -515,9 +526,11 @@ define([
             connectWith: ".list",
             start: function(evt, ui) {
               imdone.sortingTasks = true;
-              imdone.selectedTasks.each(function() {
-                if ($(this).attr("id") != ui.item.attr("id")) $(this).hide();
-              });
+              if (imdone.selectedTasks && imdone.selectedTasks.length > 0) {
+                imdone.selectedTasks.each(function() {
+                  if ($(this).attr("id") != ui.item.attr("id")) $(this).hide();
+                });
+              }
             },
             stop: function(evt, ui) {
               imdone.sortingTasks = false;
@@ -546,17 +559,14 @@ define([
             
       //$('.list-name-container, .list-hide, .list-show, [title]').tooltip({placement:"bottom"});
 
-      if (imdone.readmeNotify) imdone.readmeNotify.pnotify_remove();
       if (data.readme) {
         var href = imdone.getFileHref(imdone.currentProjectId(),data.readme,true);
-        imdone.readmeNotify = $.pnotify({
-          title: '<a href="{}">{}</a>'.tokenize(href,data.readme),
-          nonblock: false,
-          hide: false,
-          sticker: true,
-          icon: "icomoon-book",
-          type: 'info'
-        });
+        imdone.openReadmeBtn.attr("title", "Open " + data.readme)
+        .show()
+        .unbind()
+        .click(function() {
+          imdone.app.navigate(href, true);
+        }).ClassyWiggle("start",{randomStart:false,limit:10});
       }
 
       if (imdone.scrollToTask) {
@@ -565,7 +575,7 @@ define([
         delete imdone.scrollToList;
 
         var scrollToTask = function() {
-          var $task = $('.task:contains("' + task + '")');
+          var $task = $('.task:contains("{}")'.tokenize(task));
           if ($task.length > 0) {
             $task.addClass('selected');
             $('.app-container').scrollTo($task)
@@ -638,7 +648,7 @@ define([
     hist[imdone.currentProjectId()] = _.without(hist[imdone.currentProjectId()], imdone.source.path);
     projectHist = hist[imdone.currentProjectId()];
     projectHist.push(imdone.source.path);
-    //[Don't pop, shift](#archive:70)
+    //[Don't pop, shift](#archive:430)
     if (projectHist.length > 10) projectHist.shift();
     store.set('history', hist);
     projectHist.reverse();
@@ -659,7 +669,7 @@ define([
   };
   
   imdone.getSource = function(params) {
-    //[We have to convert the source api url URL first](#archive:190)
+    //[We have to convert the source api url URL first](#archive:550)
     if (params && params.path) params.path = params.path.replace(/^\/*/,'');
     
     var url = "/api/source" + params.project + "?path=" + params.path;
@@ -676,7 +686,7 @@ define([
       //Make sure we have the right project displayed
       imdone.paintProjectsMenu();
       
-      //[Update file-path on edit button](#archive:60)
+      //[Update file-path on edit button](#archive:420)
       imdone.filename.empty().html(imdone.source.path);
       imdone.contentNav.show();
       imdone.editMode = true;
@@ -869,7 +879,7 @@ define([
   });
   imdone.fileContainer.scrollspy({ target: '#sidebar'});
 
-  //[User should be notified when a file has been modified](#archive:10)
+  //[User should be notified when a file has been modified](#archive:370)
   imdone.closeFile = function() {
       imdone.editMode = false;
       imdone.fileModified = false;
@@ -971,7 +981,7 @@ define([
         },
     });
   };
-  //[Implement delete file functionality](#done:340)
+  //[Implement delete file functionality](#archive:350)
   imdone.removeFileBtn.live('click', function() {
     imdone.removeSourceConfirm();
   });
@@ -1039,7 +1049,7 @@ define([
       imdone.editor.setTheme("ace/theme/merbivore_soft");
       imdone.editor.setHighlightActiveLine(true);
       imdone.editor.setPrintMarginColumn(120);
-      //[Use Vim keyboard bindings](#done:150)
+      //[Use Vim keyboard bindings](#archive:160)
       //imdone.editor.setKeyboardHandler(require("ace/keybinding-vim").Vim);
       
       //Ace keyboard handlers
@@ -1114,7 +1124,7 @@ define([
         var content =  $(this).closest(".task").find('.task-text').html();
         var template = '<a href="#{0}:{1}" class="task-link" data-list="{0}"><span class="task-content">{2}</span></a>';
 
-        //[Show the current task as notification with <http://pinesframework.org/pnotify/>](#archive:140)
+        //[Show the current task as notification with <http://pinesframework.org/pnotify/>](#archive:500)
         $.pnotify({
           title: list,
           text: template.format([list,order,content]),
@@ -1188,7 +1198,7 @@ define([
 
       
       function openFile() {
-        //[Create a new file based on path and project with call to /api/source](#archive:120)
+        //[Create a new file based on path and project with call to /api/source](#archive:480)
         var path = imdone.fileField.val();
         if (path != "") {
           if (/^\//.test(path)) {
@@ -1244,7 +1254,7 @@ define([
       });
 
       //listen for filter input
-      //[Apply filter when kanban is reloaded](#archive:40)
+      //[Apply filter when kanban is reloaded](#archive:400)
       imdone.filterField.keyup(function() {
         imdone.filter();
       });
