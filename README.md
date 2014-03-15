@@ -24,6 +24,7 @@ Features
 ----
 - Create tasks in any text file using markdown link syntax
 - Sort tasks and move them between lists using drag and drop
+- Select and move multiple tasks at once
 - Reorder lists
 - Hide and show lists
 - Task filters
