@@ -675,8 +675,8 @@ imdone.Project.prototype.getSource = function(path, line, callback) {
       var pathAry = filePath.split("/");
       var name = pathAry.pop();
       var dir = pathAry.join("/");
-      console.log(dir);
-      console.log(name);
+      // console.log(dir);
+      // console.log(name);
       mkdirp(dir, function (err) {
         if (err) {
           callback({error:"Unable to get source"});

@@ -271,7 +271,6 @@ define([
   };
 
   imdone.moveTasks = function(opts) {
-    console.log(opts);
     var tasks = [];
     var toListId = (opts.to) ? opts.to : opts.item.closest(".list").attr("id");
     var pos = (opts.pos !== undefined) ? opts.pos : opts.item.index()-1;
@@ -476,7 +475,7 @@ define([
 
   imdone.tasksSelected = function() {
     imdone.selectedTasks = $(".task.selected");
-    if (imdone.selectedTasks.length > 0) imdone.archiveBtn.show();
+    if (imdone.selectedTasks.length > 0) imdone.archiveBtn.show().ClassyWiggle("start",{randomStart:false,limit:10});
     else imdone.archiveBtn.hide();
   }
   
