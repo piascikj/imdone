@@ -3,8 +3,8 @@ var _ = require('underscore');
 var languages = require("./util/languages");
 
 var taskregex = /\[(.+?)\]\(#([\w\-]+?):(\d+?\.{0,1}\d*?)\)/g;
-var codeStylePattern = "\\s*([A-Z]{2,}):(\\d+?\.{0,1}\\d*?)\\s+(.*)$"
-// [Support TODO and FIXME type tasks in code](#planning:10)
+var codeStylePattern = "\\s*([A-Z]{2,})\\s+(.*)$"
+// [Support TODO and FIXME type tasks in code.](#doing:0)
 
 //for ignoring code search for code and replace with empty string or blacnk lines if it's a block before finding tasks
 var codeRegExp = {

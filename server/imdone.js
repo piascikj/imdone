@@ -352,7 +352,7 @@ imdone.Project.prototype.showList = function(request) {
   return this.hidden;
 };
 
-// [Move multiple tasks in sequence](#done:0)
+// [Move multiple tasks in sequence](#archive:0)
 imdone.Project.prototype.moveTasks = function(request, callback) {
   var self = this;
   var funcs = [];
