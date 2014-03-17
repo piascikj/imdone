@@ -251,6 +251,10 @@ define([
     return imdone.data[imdone.currentProjectId()];
   };
 
+  imdone.currentListNames = function() {
+    return _.pluck(imdone.currentProject().lists, "name");
+  };
+
   imdone.isListHidden = function(list) {
     return _.findWhere(imdone.currentProject().lists, {name:list}).hidden;
   };
@@ -266,10 +270,11 @@ define([
     return false;
   };
 
-  imdone.moveTasks = function(e, ui) {
+  imdone.moveTasks = function(opts) {
+    console.log(opts);
     var tasks = [];
-    var toListId = ui.item.closest(".list").attr("id");
-    var pos = ui.item.index()-1;
+    var toListId = (opts.to) ? opts.to : opts.item.closest(".list").attr("id");
+    var pos = (opts.pos !== undefined) ? opts.pos : opts.item.index()-1;
     imdone.selectedTasks.each(function() {
       //var $el = ($(this) == ui.item) ? ui.item : $(this);
       var $el = $(this);
@@ -295,14 +300,14 @@ define([
       }, "json");
   };
 
-  imdone.moveTask = function(e, ui) {
-    var taskId = ui.item.attr("data-id");
-    var listId = ui.item.attr("data-list");
-    var path = ui.item.attr("data-path");
-    var toListId = ui.item.closest(".list").attr("id");
+  imdone.moveTask = function(item) {
+    var taskId = item.attr("data-id");
+    var listId = item.attr("data-list");
+    var path = item.attr("data-path");
+    var toListId = item.closest(".list").attr("id");
     var list = _.where(imdone.currentProject().lists, {name:listId})[0];
     var task = _.where(list.tasks, {pathTaskId:parseInt(taskId), path:path})[0];
-    var pos = ui.item.index()-1;
+    var pos = item.index()-1;
     var reqObj = {
       path:path,
       pathTaskId:task.pathTaskId,
@@ -471,10 +476,8 @@ define([
 
   imdone.tasksSelected = function() {
     imdone.selectedTasks = $(".task.selected");
-    /*
-    if (imdone.selectedTasks.length > 0) archiveBtn.show();
-    else archiveBtn.hide();
-    */
+    if (imdone.selectedTasks.length > 0) imdone.archiveBtn.show();
+    else imdone.archiveBtn.hide();
   }
   
   imdone.paintKanban = function(data) {
@@ -491,6 +494,14 @@ define([
       var filter = imdone.getProjectStore().filter || "";
       imdone.filter(filter);
 
+      // Add archiveBtn listener
+      imdone.archiveBtn.unbind().click(function() {
+        var list = "archive";
+        _.each(imdone.currentListNames(), function(name) {
+          if ((/archive|deleted/i).test(name)) list = name;
+        });
+        if (imdone.selectedTasks && imdone.selectedTasks.length > 0) imdone.moveTasks({pos:0, to:list});
+      });
       // Select tasks and select all
       $(".task-select-all").click(function(evt) {
           var list = $(this).attr("data-list");          
@@ -535,9 +546,9 @@ define([
             stop: function(evt, ui) {
               imdone.sortingTasks = false;
               if (imdone.selectedTasks && imdone.selectedTasks.length > 1) {
-                imdone.moveTasks(evt, ui);
+                imdone.moveTasks({item:ui.item});
               }
-              else imdone.moveTask(evt, ui);
+              else imdone.moveTask(ui.item);
             }
         }).disableSelection();
 

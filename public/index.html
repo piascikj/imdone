@@ -24,18 +24,23 @@
           <div class="nav-collapse collapse">
             <a class="brand" href="/"><img src="img/logo-inverse-small.png"/></a>
             <ul class="nav">
+              <li>
+                <button class="btn btn-inverse hide wiggle" id="open-readme-btn" title="Open Readme"><i class="icomoon-book"></i></button>
+              </li>
+              <li>
+                <button class="btn btn-inverse" id="open-file-btn" title="Open/Create file"><i class="icomoon-folder-open"></i></button>
+              </li>
               <li id="search-dialog">
+                <div class="dropdown pull-left">
                 <button class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" id="search-dialog-btn" title="Search for files"><i class="icomoon-search"></i></button>
-                <ul class="dropdown-menu" role="menu">
+                <ul class="dropdown-menu column-nav-menu" role="menu">
                   <li>
                     <form class="navbar-form" id="search-form">
                       <input class="span3" type="text" id="search-field" placeholder="Search files in this project">
                     </form>
                   </li>
                 </ul>
-              </li>
-              <li>
-                <button class="btn btn-inverse" id="open-file-btn" title="Open/Create file"><i class="icomoon-folder-open"></i></button>
+                </div>
               </li>
               <li class="dropdown" id="projects-dropdown">
               </li>
@@ -43,9 +48,6 @@
                 <button class="btn btn-inverse hide" id="search-results-btn" title="Show search results">
                   Search Results&nbsp;<i class="icomoon-search"></i>
                 </button>
-              </li>
-              <li>
-                <button class="btn btn-inverse hide wiggle" id="open-readme-btn" title="Open Readme"><i class="icomoon-book"></i></button>
               </li>
             <!--[Move close file button here and hide on paintKanban](#archive:300)-->
             </ul>
@@ -57,7 +59,7 @@
               </li>
             </ul>
             <ul class="nav pull-right help-nav">
-              <li>
+              <li class="dropdown">
                 <button class="btn btn-inverse dropdown-toggle" data-toggle="dropdown">Help & Feedback</button>
                 <ul class="dropdown-menu column-nav-menu" role="menu">
                   <li class="column-nav-item"><a href="http://signup.imdoneapp.com" target="_blank"><i class="icomoon-info"></i> News letter</a></li>
@@ -75,10 +77,10 @@
                 <button class="btn btn-inverse wiggle hide" id="archive-btn" title="Archive selected tasks"><i class="icomoon-archive"></i></button>
                 </li>
                 <li>
-                  <div class="pull-left">
-                  <button class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" id="lists-btn" title="Manage Lists"><i class="icomoon-tasks"></i></button>
-                  <ul class="dropdown-menu column-nav-menu" id="lists-menu">
-                  </ul>
+                  <div class="pull-left dropdown">
+                    <button class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" id="lists-btn" title="Manage Lists"><i class="icomoon-tasks"></i></button>
+                    <ul class="dropdown-menu column-nav-menu" id="lists-menu">
+                    </ul>
                   </div>
                   <div class="pull-left">
                   <form class="navbar-form">

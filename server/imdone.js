@@ -362,7 +362,6 @@ imdone.Project.prototype.moveTasks = function(request, callback) {
     });
   });
   async.series(funcs,
-  // optional callback
   function(err, results){
     if (_.isFunction(callback)) callback();
   });
@@ -382,6 +381,8 @@ imdone.Project.prototype.moveTask = function(request, callback) {
     task = pathObj.tasks[pathTaskId];
 
   task.list = to;
+  
+  if (_.indexOf(this.lists, to) < 0) this.lists.push(to);
   //console.log("------------------Moving Task---------------------");
   //console.log(JSON.stringify(task, null, 3));
 

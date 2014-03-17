@@ -1,5 +1,11 @@
 Change Log
 ----
+### 0.6.5
+- Add archiving of tasks to existing archive or deleted list or create archive list
+
+### 0.6.4
+- Add batch move tasks
+
 ### 0.5.6
 - Add copy button to preview
 
