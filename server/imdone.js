@@ -5,7 +5,7 @@
  * Copyright (c) 2012 Jesse Piascik
  * Licensed under the MIT license.
  */
-//[Implement hide functionality to hide a list from board](#archive:570)
+//ARCHIVE:180 Implement hide functionality to hide a list from board
 // Nodejs libs.
 var fs = require('fs');
 var events = require('events');
@@ -367,7 +367,7 @@ imdone.Project.prototype.showList = function(request) {
   return this.hidden;
 };
 
-// [Move multiple tasks in sequence](#archive:0)
+// ARCHIVE:110 Move multiple tasks in sequence
 imdone.Project.prototype.moveTasks = function(request, callback) {
   var self = this;
   var funcs = [];
@@ -485,7 +485,7 @@ imdone.Project.prototype.modifyTask = function(data,task) {
   return file.content;
 };
 
-// [Add includeFiles, excludeFiles, includeDirs, excludeDirs to config](#todo:130)
+// ARCHIVE:710 Add includeFiles, excludeFiles, includeDirs, excludeDirs to config
 imdone.Project.prototype.shouldProcessFile = function(file) {
   var relPath = this.relativePath(file);
   if (!this.config.include.test(relPath)) return false;
@@ -574,7 +574,7 @@ imdone.Project.prototype.processFiles = function(files, callback) {
       var relPathFile = self.relativePath(file);
       //console.log("Extracting tasks from file: " + fullPathFile);
       //for each file get the tasks
-      //[Make this an async file read](#archive:600)
+      //ARCHIVE:720 Make this an async file read
       var data = fs.readFile(fullPathFile, 'utf8', function (err, data) {
         if (err) {
           console.log("Unable to open file:", err);
@@ -615,7 +615,7 @@ imdone.Project.prototype.update = function(files) {
   var self = this;
   _.each(files, function(file) {
     if (!self.isPaused(file)) {
-      //[Store last updated time, and check to see if we should process - 0.1.3](#archive:630)
+      //ARCHIVE:730 Store last updated time, and check to see if we should process - 0.1.3
       self.processFiles([file]);  
     }
   });
@@ -638,7 +638,7 @@ imdone.Project.prototype.unpause = function(file) {
   }
 };
 
-// [add hook to saveSource](#archive:120)    
+// ARCHIVE:740 add hook to saveSource    
 imdone.Project.prototype.saveSource = function(path, src, callback) {
   var project = this;
   var filePath = project.path + "/" + path;
@@ -670,7 +670,7 @@ imdone.Project.prototype.getSource = function(path, line, callback) {
   if (project.path && !/^\.\./.test(path) && !/\/$/.test(path)) {
     var filePath = project.path + "/" + path;
 
-    //[Make sure this source file is in one of the projects paths](#archive:580)
+    //ARCHIVE:120 Make sure this source file is in one of the projects paths
     if (fs.existsSync(filePath)) {
       fs.readFile(filePath, 'utf-8', function(err,data) {
         if (err) {
@@ -721,12 +721,12 @@ imdone.Project.prototype.getSource = function(path, line, callback) {
 }
 
 imdone.Project.prototype.watchFiles = function(path) {
-  //[Test watchr on hundreds of directories](#todo:200)
+  //ARCHIVE:130 Test watchr on hundreds of directories
   var self = this;
   watchr.watch({
       path: path,
       ignoreCommonPatterns:true,
-      //[Use ignoreCustomPatterns](#archive:590)
+      //ARCHIVE:140 Use ignoreCustomPatterns
       ignoreCustomPatterns:self.config.exclude,
       listeners: {
           /*

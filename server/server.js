@@ -110,8 +110,8 @@
     res.send({lists:server.imdone.getProject(req.body.project).showList(req.body)});
   }
 
-  //[Have this use splat for project name like getFiles](#archive:540)
-  //[Move getSource to imdone.js](#archive:200)
+  //ARCHIVE:660 Have this use splat for project name like getFiles
+  //ARCHIVE:360 Move getSource to imdone.js
   function getSource(req, res) {
     if (isProcessing(req,res)) {
       res.send({processing:true});
@@ -126,7 +126,7 @@
     });
   }
 
-  // [Have this use splat for project name like getFiles](#archive:520)
+  // ARCHIVE:680 Have this use splat for project name like getFiles
   function saveSource(req, res) {
     if (isProcessing(req,res)) {
       res.send({processing:true});
@@ -142,7 +142,7 @@
     });
   }
 
-  // [Move removeSource to imdone.js and add hook](#todo:0)    
+  // ARCHIVE:610 Move removeSource to imdone.js and add hook    
   function removeSource(req, res) {
     if (isProcessing(req,res)) {
       res.send({processing:true});
@@ -196,7 +196,7 @@
   server.start = function(imdone, callback) {
     server.imdone = imdone;
 
-    //[migrate to express 3.x <https://github.com/visionmedia/express/wiki/Migrating-from-2.x-to-3.x>](#archive:470)
+    //ARCHIVE:550 migrate to express 3.x <https://github.com/visionmedia/express/wiki/Migrating-from-2.x-to-3.x>
     var app = server.app = express();
     var  xserver = http.createServer(app);
 
@@ -211,7 +211,7 @@
       /api/source
       /api/files
     */
-    // [Make sure we're restful](#todo:30)
+    // ARCHIVE:700 Make sure we're restful
     app.post("/api/moveTask", moveTask);
     app.post("/api/moveTasks", moveTasks);
     app.post("/api/moveList", moveList);
@@ -269,6 +269,6 @@
     if (callback) app.on('listening', callback);
     xserver.listen(imdone.config.port);
 
-    //[Move open board to command line option **open**](#archive:560)
+    //ARCHIVE:100 Move open board to command line option **open**
   };
   
