@@ -296,6 +296,7 @@ imdone.Project.prototype.getSortedLists = function() {
   return out;  
 };
 
+// DOING:0 renameList is not renaming list for all tasks in list
 imdone.Project.prototype.renameList = function(request) {
   var self = this;
   var name = request.name;
