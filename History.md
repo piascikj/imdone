@@ -1,5 +1,8 @@
 Change Log
 ----
+### 0.6.6
+- Hide archive and filter buttons when swithing projects
+
 ### 0.6.5
 - Add archiving of tasks to existing archive or deleted list or create archive list
 - Add filter by selected tasks filenames

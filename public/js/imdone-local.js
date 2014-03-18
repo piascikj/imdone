@@ -635,6 +635,10 @@ define([
 
         scrollToTask();
       }
+
+      // Check for selected tasks, there shouldn't be any, but it'll hide the buttone
+      imdone.tasksSelected()
+
     }
   };
 
