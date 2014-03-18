@@ -1,5 +1,10 @@
 Change Log
 ----
+### 1.0
+- Fix refresh on file rename, create, or delete
+- Add support for code style tasks
+- Fix browser open for imdone running on another port
+
 ### 0.6.6
 - Hide archive and filter buttons when swithing projects
 

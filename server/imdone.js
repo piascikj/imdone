@@ -78,15 +78,15 @@ imdone.start = function(dir) {
     imdone.cliStop();
   } else {
 
-    if (program.open) open('http://localhost:' + imdone.config.port);
-
     imdone.checkCLIService(function() {
       console.log("iMDone service is already running!");
+      if (program.open) imdone.cliOpen();
       _.each(dirs, function(d) {
         imdone.cliAddProject(d);
       });
     }, function() {
       imdone.startCLIService(function() {
+        if (program.open) imdone.cliOpen();
         _.each(dirs, function(d) {
           imdone.addProject(d);
         });
@@ -114,7 +114,11 @@ imdone.startCLIService = function(callback) {
     res.send({ok:true});
     process.exit();
   });
-  
+  app.post("/cli/open", function(req, res) {
+    open('http://localhost:' + imdone.config.port);
+    res.send({ok:true});
+  });
+
   xserver.on('listening', function() {
     imdone.up = true;
     if (callback) callback();
@@ -122,6 +126,17 @@ imdone.startCLIService = function(callback) {
   xserver.listen(imdone.config.cliPort);
 
   server.start(imdone);
+};
+
+imdone.cliOpen = function() {
+  request.post({
+    url:"http://localhost:" + imdone.config.cliPort + "/cli/open"
+  }, function(error, res, body) {
+    if (!res) {
+      console.log("failed to open browser");
+    }
+  });
+
 };
 
 imdone.cliAddProject = function(dir) {
@@ -132,7 +147,7 @@ imdone.cliAddProject = function(dir) {
     if (!res) {
       console.log("failed to add project");
     } else {
-      console.log(body);
+      console.log('Added project:', body.path);
     }
   });
 
@@ -495,9 +510,9 @@ imdone.Project.prototype.filesToProcess = function(files, showDirs) {
     //console.log(relPathFile);
     var stat = fs.statSync(file);
 
-    if (stat.isFile()) {
+    if (stat && stat.isFile()) {
       if (self.shouldProcessFile(file)) passed.push(file);
-    } else if (stat.isDirectory()) {
+    } else if (stat && stat.isDirectory()) {
       if (showDirs && self.shouldProcessDir(file)) passed.push(file);
     }
   });
@@ -730,6 +745,7 @@ imdone.Project.prototype.watchFiles = function(path) {
               //console.log('a change event occured:',arguments);
               console.log("An " + changeType + " occured on " + filePath);
               var stat = fileCurrentStat || filePreviousStat;
+              if (!stat) return;
               if (!stat.isFile() && !stat.isDirectory()) return;
               else if (stat.isFile() && !self.shouldProcessFile(filePath)) return;
               else if (stat.isDirectory() && !self.shouldProcessDir(filePath)) return;
@@ -750,11 +766,14 @@ imdone.Project.prototype.watchFiles = function(path) {
                   break;
                 case "create":
                   console.log("Processing create of:",filePath);
-                  self.processFiles([filePath]);
+                  self.processFiles([filePath], function() {
+                    self.lastUpdate = new Date();
+                  });
                   break;
                 case "delete":
-                  console.log("Processing delete of:",filePath);
-                  delete self.tasks[filePath];
+                  console.log("Processing delete of:",self.relativePath(filePath));
+                  delete self.tasks[self.relativePath(filePath)];
+                  self.lastUpdate = new Date();
                   self.saveListData();
                   break;
               }

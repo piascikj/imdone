@@ -675,7 +675,11 @@ define([
       if (imdone && imdone.data && (imdone.currentProject() == undefined || 
           (imdone.currentProject().lastUpdate && (new Date(lastUpdate) > new Date(imdone.currentProject().lastUpdate))))) {
         console.log("we need a refresh..."); 
-        imdone.getKanban({project:imdone.currentProjectId(), noPaint:!imdone.board.is(':visible')});
+        imdone.getKanban({project:imdone.currentProjectId(), 
+          noPaint:!imdone.board.is(':visible'), 
+          callback:function() {
+            console.log("refresh complete!");
+          }});
       }
     });
     imdone.initialized = true;
@@ -914,7 +918,7 @@ define([
       // Highlight code
       Prism.highlightAll();
       
-      // TOC
+      // T.O.C
       $("#toc").html('').toc({
         'content':'#preview',
         'headings': 'h1,h2'
