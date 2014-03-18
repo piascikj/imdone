@@ -25,7 +25,8 @@ That's where iMDone comes in.  Tasks are just markdown links!
 
 Features
 ----
-- Create tasks in any text file using markdown link syntax
+- Now supports code style comments like `// FIXME: this is really broken` in code files
+- Create tasks in any text file using markdown link syntax like `[Finish the latest blog post](doing:0)`
 - Sort tasks and move them between lists using drag and drop
 - Select and move multiple tasks at once
 - Reorder lists
@@ -55,6 +56,10 @@ imdone -h
 - Open a file by clicking on the folder icon and create a task like this
 ```
 [Use imdone to manage tasks in my project](#doing:0)
+```
+- Or create tasks like this in code files (java example)
+```
+// TODO: Use HashMap instead of HashTable
 ```
 - Add another project by navigating to the project directory in the terminal and run...
 ```
