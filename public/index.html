@@ -74,7 +74,7 @@
             <!-- [Add path filters to board - 0.1.6](#archive:620) -->
             <ul class="board-bar nav pull-right hide">
                 <li>
-                <button class="btn btn-inverse wiggle hide" id="archive-btn" title="Archive selected tasks"><i class="icomoon-archive"></i></button>
+                  <button class="btn btn-inverse wiggle hide" id="archive-btn" title="Archive selected tasks"><i class="icomoon-archive"></i></button>
                 </li>
                 <li>
                   <div class="pull-left dropdown">
@@ -82,6 +82,11 @@
                     <ul class="dropdown-menu column-nav-menu" id="lists-menu">
                     </ul>
                   </div>
+                </li>
+                <li>
+                  <button class="btn btn-inverse wiggle hide" id="filter-btn" title="Filter by selected tasks,  Esc to clear filter"><i class="icomoon-filter"></i></button>
+                </li>
+                <li>
                   <div class="pull-left">
                   <form class="navbar-form">
                     <input class="span3" type="text" id="filter-field" placeholder="Filter by file name">
@@ -212,7 +217,6 @@
         <div class="wrap well task" id="{{list}}-{{pathTaskId}}" data-id="{{pathTaskId}}" data-list="{{list}}" data-order="{{order}}" data-path="{{path}}">
           <span class="row-fluid task-text">{{{markDown text}}}</span>
           <span class="row-fluid task-info">
-            <a href="#filter/{{path}}" title="Filter by {{path}},  Esc to clear filter" class="filter-link"><i class="icomoon-filter"></i></a>
             <a href="{{fileHref project path line}}" title="Open {{path}}" class="source-link" data-url="{{url}}" data-target="#src-panel" data-list="{{list}}">{{path}}</a>
           </span>
         </div>

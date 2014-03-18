@@ -59,6 +59,7 @@ define([
     closeFileCancelBtn: $('#close-file-cancel-btn'),
     openReadmeBtn: $("#open-readme-btn"),
     archiveBtn: $("#archive-btn"),
+    filterBtn: $("#filter-btn"),
     modes : {
       "md":"markdown",
       "js":"javascript",
@@ -84,6 +85,20 @@ define([
       stack: {"dir1": "up", "dir2": "left", "firstpos1": 25, "firstpos2": 25}
       //stack: {"dir1": "down", "dir2": "left", "push": "bottom", "firstpos1": 45, "spacing1": 25, "spacing2": 25}
   });
+
+  // Regex selector for filter
+  jQuery.expr[':'].regex = function(elem, index, match) {
+    var matchParams = match[3].split(','),
+        validLabels = /^(data|css):/,
+        attr = {
+            method: matchParams[0].match(validLabels) ? 
+                        matchParams[0].split(':')[0] : 'attr',
+            property: matchParams.shift().replace(validLabels,'')
+        },
+        regexFlags = 'ig',
+        regex = new RegExp(matchParams.join('').replace(/^\s+|\s+$/g,''), regexFlags);
+    return regex.test(jQuery(elem)[attr.method](attr.property));
+  };
 
   //marked options
   marked.setOptions({
@@ -462,7 +477,23 @@ define([
     if (filter) {
       imdone.getProjectStore().filter = filter;
       imdone.saveProjectStore();
-      $('.task:not([data-path*="{0}"])'.format([filter])).hide();
+      // [Use a regex for filter and create button to filter by files of selected tasks](#doing:0)
+      // $('.task:not([data-path*="{0}"])'.format([filter])).hide();
+      $('.task').hide();
+      $('.task:regex(data-path,{0})'.format([filter])).show();
+    }
+  };
+
+  imdone.filterBySelectedTasks = function() {
+    if (imdone.selectedTasks.length > 0) {
+      var paths = [];
+      imdone.selectedTasks.each(function() {
+        var path = $(this).attr("data-path");
+        if (_.indexOf(paths, path) < 0) paths.push(path);
+      });
+
+      var filter = paths.join("|");
+      imdone.app.navigate('#filter/{0}'.format([filter]), true);
     }
   };
 
@@ -475,9 +506,15 @@ define([
 
   imdone.tasksSelected = function() {
     imdone.selectedTasks = $(".task.selected");
-    if (imdone.selectedTasks.length > 0) imdone.archiveBtn.show().ClassyWiggle("start",{randomStart:false,limit:10});
-    else imdone.archiveBtn.hide();
-  }
+    if (imdone.selectedTasks.length > 0) {
+      imdone.archiveBtn.show().ClassyWiggle("start",{randomStart:false,limit:10});
+      imdone.filterBtn.show().ClassyWiggle("start",{randomStart:false,limit:10});
+    }
+    else {
+      imdone.archiveBtn.hide();
+      imdone.filterBtn.hide();
+    }
+  };
   
   imdone.paintKanban = function(data) {
     if (!data.processing && !imdone.editMode) {
@@ -501,6 +538,10 @@ define([
         });
         if (imdone.selectedTasks && imdone.selectedTasks.length > 0) imdone.moveTasks({pos:0, to:list});
       });
+
+      // Add filterBtn listener
+      imdone.filterBtn.unbind().click(imdone.filterBySelectedTasks);
+
       // Select tasks and select all
       $(".task-select-all").click(function(evt) {
           var list = $(this).attr("data-list");          
