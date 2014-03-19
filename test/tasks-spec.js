@@ -32,7 +32,7 @@ describe("tasks helper", function() {
 		console.log(tasks.taskRegex.toString());
 		var file = "test.js";
 		var data = [
-					'//- TODO:160 Show file explorer when editing files',
+					'// TODO:160 Show file explorer when editing files',
 					'var task = "- [Enable svn and git commit after file changes](#planning:0)";']
 		var tasksAry = tasks.getTasks(data.join('\n'), file);
 		console.log(tasksAry);
