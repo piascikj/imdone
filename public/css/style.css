@@ -69,7 +69,6 @@ blockquote p {
   -webkit-animation-fill-mode: forwards;  
   animation-fill-mode: forwards; 
   -webkit-transform: scale(1, 0);
-  display: block;
   
   transition: all 0.2s ease-out;
   -webkit-transition: all 0.2s ease-out;
@@ -298,11 +297,7 @@ blockquote p {
 
 .task-select-all {
   font-size: 2em;
-  margin-top: 8px;
-}
-
-.task-select-all {
-  margin-top: .4em;
+  margin-top: .3em;
 }
 
 .task-select-all i.icomoon-check-empty {
@@ -344,6 +339,7 @@ blockquote p {
 
 .column-nav-menu .column-nav-menu-item .column-nav-menu-link {
   padding: 5px 3px;
+  min-height: 20px;
 }
 
 .obj-left {

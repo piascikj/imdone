@@ -29,7 +29,6 @@ describe("tasks helper", function() {
 
 	it("should not find tasks in javscript code", function() {
 		
-		console.log(tasks.taskRegex.toString());
 		var file = "test.js";
 		var data = [
 					'// TODO:160 Show file explorer when editing files',
@@ -42,7 +41,6 @@ describe("tasks helper", function() {
 
 	it("should not find tasks in shell code", function() {
 		
-		console.log(tasks.taskRegex.toString());
 		var file = "test.sh";
 		var data = [
 					'this is a task #- [Show file explorer when editing files](#todo:0)',

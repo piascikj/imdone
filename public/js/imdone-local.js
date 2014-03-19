@@ -78,7 +78,7 @@ define([
     Search: Search,
     copyButton: '<button class="btn btn-inverse pull-right copy-btn" title="Copy text"><i class="icomoon-copy"></i></button>'
   };
-
+  // PLANNING:10 Use [spin.js](http://fgnass.github.io/spin.js/#?lines=15&length=24&width=9&radius=60&corners=0.1&rotate=0&trail=60&speed=0.5&direction=1&hwaccel=on) for loading gif
   //pnotify options
   $.extend($.pnotify.defaults,{
       styling: 'bootstrap',
@@ -102,7 +102,7 @@ define([
     return regex.test(jQuery(elem)[attr.method](attr.property));
   };
 
-  //marked options
+  // marked options
   marked.setOptions({
     gfm: true,
     tables: true,
@@ -115,6 +115,16 @@ define([
 
   // ZeroClipboard options
   ZeroClipboard.config({ moviePath: "/lib/zeroclipboard/swf/ZeroClipboard.swf" });
+
+  // Handlebars helpers
+  Handlebars.registerHelper('markDown', function(md) {
+    return imdone.md(md);
+  });
+
+  Handlebars.registerHelper('concat', function(data, len) {
+    if (data.length > len) return data.substring(0,len-3)+"...";
+    return data;
+  });
 
   String.prototype.format = function (col) {
     col = typeof col === 'object' ? col : Array.prototype.slice.call(arguments, 1);
@@ -213,11 +223,6 @@ define([
     evt.stopPropagation();
   });
   
-  //Handlebars helpers
-  Handlebars.registerHelper('markDown', function(md) {
-    return imdone.md(md);
-  });
-
   imdone.getFileHref = function(project, path, line, preview) {
     if (_.isObject(preview)) preview = undefined;
     if (_.isObject(line)) line = undefined;
@@ -298,10 +303,10 @@ define([
       var listId = $el.attr("data-list");
       var path = $el.attr("data-path");
       var list = _.where(imdone.currentProject().lists, {name:listId})[0];
-      var task = _.where(list.tasks, {pathTaskId:parseInt(taskId), path:path})[0];
+      var task = _.where(list.tasks, {pathId:parseInt(taskId), path:path})[0];
       tasks.push({
         path:path,
-        pathTaskId:task.pathTaskId,
+        pathId:task.pathId,
         lastUpdate:task.lastUpdate,
         from:listId,
         to:toListId,
@@ -322,11 +327,11 @@ define([
     var path = item.attr("data-path");
     var toListId = item.closest(".list").attr("id");
     var list = _.where(imdone.currentProject().lists, {name:listId})[0];
-    var task = _.where(list.tasks, {pathTaskId:parseInt(taskId), path:path})[0];
+    var task = _.where(list.tasks, {pathId:parseInt(taskId), path:path})[0];
     var pos = item.index()-1;
     var reqObj = {
       path:path,
-      pathTaskId:task.pathTaskId,
+      pathId:task.pathId,
       lastUpdate:task.lastUpdate,
       from:listId,
       to:toListId,
@@ -1324,7 +1329,8 @@ define([
         return false;
       });
 
-      //Listen for hide
+      // Listen for hide
+      // PLANNING:10 Show prompt if list is large before showing
       $(".list-hide, .list-show").live('click', function(e) {
         var list = $(this).attr("data-list");
         var el = $("#" + list);

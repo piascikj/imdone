@@ -4,8 +4,8 @@ var languages = require("./util/languages");
 
 var taskregex = /\[(.+?)\]\(#([\w\-]+?):(\d+?\.?\d*?)\)/g;
 var codeStylePattern = "\\s*)([A-Z]{2,}):?(\\d+?\\.?\\d*?)?\\s+(.*)$"
-// DONE:10 Support TODO and FIXME type tasks in code.
-// PLANNING:20 Support @username and @Date in tasks
+// ARCHIVE:0 Support TODO and FIXME type tasks in code.
+// PLANNING:50 Support @username and @Date in tasks
 
 //for ignoring code search for code and replace with empty string or blacnk lines if it's a block before finding tasks
 var codeRegExp = {
@@ -14,16 +14,14 @@ var codeRegExp = {
 }
 
 var utils = module.exports = {
-  taskRegex: taskregex,
-
   getHtml: function(md) {
       var html = marked(md);
       return html;
   },
 
-  ignoreCode: function(data, file) {
+  ignoreCode: function(data, path) {
     var cleanData = data;
-    if (utils.isMarkDownFile(file)) {
+    if (utils.isMarkDownFile(path)) {
       cleanData = data.replace(codeRegExp.block, function(block) {
         return block.replace(taskregex, "**TASK**");
       });
@@ -31,20 +29,20 @@ var utils = module.exports = {
     return cleanData;
   },
 
-  isMarkDownFile: function(file) {
-    var lang = utils.getLang(file);
+  isMarkDownFile: function(path) {
+    var lang = utils.getLang(path);
     return lang && lang.name === "markdown";
   },
 
-  getLang: function(file) {
-    var dotPos = file.indexOf(".");
-    var suffix = file.substring(dotPos);
+  getLang: function(path) {
+    var dotPos = path.indexOf(".");
+    var suffix = path.substring(dotPos);
     var lang = languages[suffix];
     return lang || {name:"text",symbol:""};
   },
 
-  getCodeStyleRegex: function(file) {
-    var symbol = this.getLang(file).symbol;
+  getCodeStyleRegex: function(path) {
+    var symbol = this.getLang(path).symbol;
     if (symbol !== "") {
       symbol.replace("/", "\\/");
       var defactoPattern = "^(\\s*" + symbol + codeStylePattern;
@@ -52,27 +50,26 @@ var utils = module.exports = {
     }
   },
 
-  getTasks: function(data, file, taskProcessor) {
+  getTasks: function(data, path, taskProcessor) {
     var tasks = {};
     var id = 0;
-    var clone = utils.ignoreCode(new String(data), file);
+    var clone = utils.ignoreCode(new String(data), path);
 
     // Check for codestyle tasks
-    var codeStyleRegex = utils.getCodeStyleRegex(file);
+    var codeStyleRegex = utils.getCodeStyleRegex(path);
     if (codeStyleRegex) {
       clone.replace(codeStyleRegex, function(match, start, list, order, text, pos) {
         if ((text.toUpperCase() == text) || (text.replace(" ", "") == "")) return;
         order = (order !== undefined) ? parseFloat(order) : 0;
         var line = (clone.substring(0,pos).match(/\n/g)||[]).length + 1;
         var task = {
-          //md:md,
           codeStyle: true,
           text:text,
           html:utils.getHtml(text),
           list:list,
           order: order,
           line:line,
-          pathTaskId:id
+          pathId:id
         };
         //Run the task through the callers processor
         if (_.isFunction(taskProcessor)) task = taskProcessor(task);
@@ -82,16 +79,15 @@ var utils = module.exports = {
     }
 
     clone.replace(taskregex, function(md, text, list, order, pos) {
-      if (utils.isValidTask(clone, file, pos)) {
+      if (utils.isValidTask(clone, path, pos)) {
         var line = (clone.substring(0,pos).match(/\n/g)||[]).length + 1;
         var task = {
-          //md:md,
           text:text,
           html:utils.getHtml(text),
           list:list,
           order:parseFloat(order),
           line:line,
-          pathTaskId:id
+          pathId:id
         };
         //Run the task through the callers processor
         if (_.isFunction(taskProcessor)) task = taskProcessor(task);
@@ -102,11 +98,11 @@ var utils = module.exports = {
     return tasks;
   },
 
-  isValidTask: function(data, file, pos) {
+  isValidTask: function(data, path, pos) {
     var done = false, 
       beforeTask = "",
       valid = false,
-      lang = utils.getLang(file),
+      lang = utils.getLang(path),
       symbol = lang.symbol,
       symbolRegex = new RegExp(symbol);
 
@@ -126,7 +122,13 @@ var utils = module.exports = {
     return valid;
   },
   
+  taskText: function(start, text, list, order, codeStyle) {
+    if (codeStyle) return start + list + ":" + order + " " + text;
+    return start + "[" + text + "](#" + list + ":" + order + ")";
+  },
+
   modifyTask: function(file, task) {
+    self = this;
     var n = 0;
 
     // Check for codestyle tasks
@@ -135,13 +137,12 @@ var utils = module.exports = {
       file.content = file.content.replace(codeStyleRegex, function(match, start, list, order, text, pos) {
 
         var newText = match;
-        if (n === task.pathTaskId) {
+        if (n === task.pathId) {
           // if the new list is not all upercase use md style
           if (/[A-Z]+/.test(task.list)) {
-            newText = start + task.list + ":" + task.order + " " + text;
+            newText = self.taskText(start, text, task.list, task.order, true);
           } else {
-            task.md = "[" + text + "](#" + task.list + ":" + task.order + ")";
-            newText = start + task.md;
+            newText = self.taskText(start, text, task.list, task.order);
             delete task.codeStyle;
           }
           file.modified = true;
@@ -157,13 +158,13 @@ var utils = module.exports = {
       }
 
       var newMD = md;
-      if (n === task.pathTaskId) {
+      if (n === task.pathId) {
         if (/[A-Z]+/.test(task.list) && codeStyleRegex) {
           delete task.md;
-          newMD = task.list + ":" + task.order + " " + text;
+          newMD = self.taskText("", text, task.list, task.order, true);
           task.codeStyle = true;
         } else {
-          newMD = "[" + text + "](#" + task.list + ":" + task.order + ")";
+          newMD = self.taskText("", text, task.list, task.order);
           task.md = newMD;
         }
         file.modified = true;
@@ -173,6 +174,7 @@ var utils = module.exports = {
     });
   },
 
+  // PLANNING:30 Create Classes for file and task
   modifyListName: function(file, oldList, newList) {
     // Check for codestyle tasks
     var codeStyleRegex = utils.getCodeStyleRegex(file.path);
@@ -183,9 +185,9 @@ var utils = module.exports = {
         if (oldList == list) {
           // if the new list is not all upercase use md style
           if (/[A-Z]+/.test(newList)) {
-            newText = start + newList + ":" + order + " " + text;
+            newText = self.taskText(start, text, newList, order, true);
           } else {
-            newText = start + "[" + text + "](#" + newList + ":" + order + ")";
+            newText = self.taskText(start, text, newList, order);
           }
           file.modified = true;
         }
@@ -201,9 +203,9 @@ var utils = module.exports = {
       var newMD = md;
       if (oldList == list) {
         if (/[A-Z]+/.test(newList) && codeStyleRegex) {
-          newMD = newList + ":" + order + " " + text;
+          newMD = self.taskText("", text, newList, order, true);
         } else {
-          newMD = "[" + text + "](#" + newList + ":" + order + ")";
+          newMD = self.taskText("", text, newList, order);
         }
         file.modified = true;
       }

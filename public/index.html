@@ -208,13 +208,13 @@
       {{^hidden}}
       <div class="span4 well list" id="{{name}}">
         <div class="list-name-container well" title="Edit list name" data-list="{{name}}">
-          <div class="list-name pull-left" data-list="{{name}}">{{name}}</div>
+          <div class="list-name pull-left" data-list="{{name}}">{{concat name 16}}</div>
           <div class="task-select-all pull-right" data-list="{{name}}"><i class="icomoon-check-empty" title="Select/Deselect all tasks"></i></div>
           <div class="clearfix"></div>
         </div>
         {{#if tasks}}
         {{#each tasks}}
-        <div class="wrap well task" id="{{list}}-{{pathTaskId}}" data-id="{{pathTaskId}}" data-list="{{list}}" data-order="{{order}}" data-path="{{path}}">
+        <div class="wrap well task" id="{{list}}-{{pathId}}" data-id="{{pathId}}" data-list="{{list}}" data-order="{{order}}" data-path="{{path}}">
           <span class="row-fluid task-text">{{{markDown text}}}</span>
           <span class="row-fluid task-info">
             <a href="{{fileHref project path line}}" title="Open {{path}}" class="source-link" data-url="{{url}}" data-target="#src-panel" data-list="{{list}}">{{path}}</a>
@@ -263,11 +263,11 @@
           <span class="js-drag-handle drag-handle obj-left" data-list="{{name}}">
             <i class="icomoon-reorder"></i>
           </span>
-          {{name}}
+          <span class="pull-left">{{concat name 10}}</span>
           {{#if hidden}}
-          <span class="list-show obj-right" data-list="{{name}}" title="Show {{name}}"><i class="icomoon-eye-close"></i></span>
+          <span class="list-show obj-right" data-list="{{name}}" title="Show {{name}}"><i class="icomoon-eye-close"></i> </span>
           {{else}}
-          <span class="list-hide obj-right" data-list="{{name}}" title="Hide {{name}}"><i class="icomoon-eye-open"></i></span>
+          <span class="list-hide obj-right" data-list="{{name}}" title="Hide {{name}}"><i class="icomoon-eye-open"></i> </span>
           {{/if}}
         </a>
       </li>

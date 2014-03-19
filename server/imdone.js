@@ -296,7 +296,7 @@ imdone.Project.prototype.getSortedLists = function() {
   return out;  
 };
 
-// DONE:0 renameList is not renaming list for all tasks in list
+// ARCHIVE:0 renameList is not renaming list for all tasks in list
 imdone.Project.prototype.renameList = function(request) {
   var self = this;
   var name = request.name;
@@ -416,11 +416,11 @@ imdone.Project.prototype.moveTask = function(request, callback) {
   var to = request.to;
   var lastUpdate = request.lastUpdate;
   var pos = parseInt(request.pos, null);
-  var pathTaskId = parseInt(request.pathTaskId, null);
+  var pathId = parseInt(request.pathId, null);
 
   //Get the current task from the data
   var pathObj = this.tasks[path],
-    task = pathObj.tasks[pathTaskId];
+    task = pathObj.tasks[pathId];
 
   task.list = to;
   
@@ -438,7 +438,7 @@ imdone.Project.prototype.moveTask = function(request, callback) {
 
   //move the task to the correct position in the list
   toList.tasks = _.reject(toList.tasks, function(task) {
-    return task.pathTaskId === pathTaskId && task.path === path;
+    return task.pathId === pathId && task.path === path;
   });
   toList.tasks.splice(pos,0,task);
   //console.log(JSON.stringify(toList, null,3));
@@ -463,7 +463,7 @@ imdone.Project.prototype.moveTask = function(request, callback) {
   if (to !== from) {
     var fromList = _.findWhere(lists, {name:from});
     _.reject(fromList.tasks, function(task) {
-      return task.pathTaskId === pathTaskId && task.path === path;
+      return task.pathId === pathId && task.path === path;
     });
     _.each(fromList.tasks, function(task, index) {
       var fullPath = self.fullPath(task.path);
