@@ -32,7 +32,7 @@ Markdown | Less | Pretty
 - [User should be able to jump back to the task in the board if the task is clicked in the file view task notification](#ARCHIVE:350)
 - [User should be able to rename a file including it's path](#PLANNING:0)
 - [User should be able archive tasks](#ARCHIVE:150)
-- [Use json for configuration, not module](#DOING:50)
+- [Use json for configuration, not module](#DOING:40)
 - [User should be able to batch move tasks to another list](#ARCHIVE:160)
 - [Switch from flattr to gittip](#ARCHIVE:300)
 - [User should get a modal confirmation if closing a file that has been edited #feature](#ARCHIVE:410)

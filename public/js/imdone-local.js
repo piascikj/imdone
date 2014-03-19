@@ -54,12 +54,14 @@ define([
     removeFileBtn:   $('#remove-file-btn'),
     removeFileOkBtn: $('#remove-file-ok-btn'),
     removeFileName:  $('#remove-file-name'),
-    closeFileModal: $('#close-file-modal').modal({show:false, keyboard:false}),
-    closeFileOkBtn: $('#close-file-ok-btn'),
+    closeFileModal:  $('#close-file-modal').modal({show:false, keyboard:false}),
+    closeFileOkBtn:  $('#close-file-ok-btn'),
     closeFileCancelBtn: $('#close-file-cancel-btn'),
-    openReadmeBtn: $("#open-readme-btn"),
-    archiveBtn: $("#archive-btn"),
-    filterBtn: $("#filter-btn"),
+    nameFld:            $('#list-name-field'),
+    nameModal:          $('#list-name-modal'),
+    openReadmeBtn:      $("#open-readme-btn"),
+    archiveBtn:         $("#archive-btn"),
+    filterBtn:          $("#filter-btn"),
     modes : {
       "md":"markdown",
       "js":"javascript",
@@ -1057,27 +1059,26 @@ define([
 
   // ARCHIVE:560 Clean up init before implementing backbone views
   imdone.init = function() {
-      var nameFld = $('#list-name-field');
-      var nameModal = $('#list-name-modal').modal({show:false});
-
       //Put the focus on the name field when changing list names
-      nameModal.on('shown', function() {
-        nameFld.focus();
+      imdone.nameModal.modal({show:false});
+      imdone.nameModal.on('shown.bs.modal', function() {
+        console.log("shown");
+        imdone.nameFld.focus();
       });    
 
       //listen for list name click
       $('.list-name').live('click', function() {
         var name = $(this).attr("data-list");
-        nameModal.modal('show');
-        nameFld.val(name);
-        nameFld.attr('placeholder', name);
+        imdone.nameModal.modal('show');
+        imdone.nameFld.val(name);
+        imdone.nameFld.attr('placeholder', name);
       });
       
       //Save a list name
       $("#list-name-save").click(function() {
         var req = {
-          name: nameFld.attr('placeholder'),
-          newName:  nameFld.val(),
+          name: imdone.nameFld.attr('placeholder'),
+          newName:  imdone.nameFld.val(),
           project: imdone.currentProjectId()
         };
         if (req.newName != "") {

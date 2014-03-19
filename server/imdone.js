@@ -296,40 +296,66 @@ imdone.Project.prototype.getSortedLists = function() {
   return out;  
 };
 
-// DOING:0 renameList is not renaming list for all tasks in list
+// DONE:0 renameList is not renaming list for all tasks in list
 imdone.Project.prototype.renameList = function(request) {
   var self = this;
   var name = request.name;
   var newName = request.newName;
   var pos = _.indexOf(this.lists, name);
   var list = _.where(this.getSortedLists(),{name:name})[0];
-  //console.log(JSON.stringify(list, null, 3));
-  
-  var files = {};
-  _.each(list.tasks, function(task) {
-    var fullPath = self.fullPath(task.path);
-    if (!files[task.path]) {
-      self.pause(task.path);
-      files[task.path] = fs.readFileSync(fullPath, "utf8");
-    }
-    task.list = newName;
-    files[task.path] = self.modifyTask(files[task.path], task);
-  });
 
-  //unpause all paths in the list and write files
-  _.each(files, function(data, path) {
-    fs.writeFileSync( self.fullPath(path), data, "utf8");
-    if (self.isPaused(path)) self.unpause(path);
-  });
-
+  // replace the list name
   var lists = _.without(this.lists, name, newName);
   lists.splice(pos,0,newName);
   this.lists = lists;
-  this.saveListData();
 
-  this.emitModified({files:files});
+  // modify the files
+  var files = [];
+  var paths = _.uniq(_.pluck(list.tasks, "path"));
+  _.each(paths, function(path) {
+    self.tasks[path] = [];
+    var fullPath = self.fullPath(path);
+    self.pause(path);
+    var file = {fullPath: fullPath, content:fs.readFileSync(fullPath, "utf8"), path:path};
+    files.push(file);
+    tasks.modifyListName(file, name, newName);
+    fs.writeFileSync(fullPath, file.content, "utf8");
+    self.unpause(path);
+  });
 
-  return imdone.lists;
+  // self.update(_.pluck(files,"fullPath"));
+
+  // var name = request.name;
+  // var newName = request.newName;
+  // var pos = _.indexOf(this.lists, name);
+  // var list = _.where(this.getSortedLists(),{name:name})[0];
+  // //console.log(JSON.stringify(list, null, 3));
+  
+  // var files = {};
+  // _.each(list.tasks, function(task) {
+  //   var fullPath = self.fullPath(task.path);
+  //   if (!files[task.path]) {
+  //     self.pause(task.path);
+  //     files[task.path] = fs.readFileSync(fullPath, "utf8");
+  //   }
+  //   task.list = newName;
+  //   files[task.path] = self.modifyTask(files[task.path], task);
+  // });
+
+  // //unpause all paths in the list and write files
+  // _.each(files, function(data, path) {
+  //   fs.writeFileSync( self.fullPath(path), data, "utf8");
+  //   if (self.isPaused(path)) self.unpause(path);
+  // });
+
+  // var lists = _.without(this.lists, name, newName);
+  // lists.splice(pos,0,newName);
+  // this.lists = lists;
+  // this.saveListData();
+
+  // this.emitModified({files:files});
+
+  // return imdone.lists;
 };
 
 imdone.Project.prototype.removeList = function(request) {
@@ -560,6 +586,7 @@ imdone.Project.prototype.processFiles = function(files, callback) {
   try {
     var self = this;
     files = this.filesToProcess(files);
+    //console.log("Processing files:", files);
 
     var remaining = _.without(files);
     var isComplete = function(val) {
@@ -881,6 +908,7 @@ imdone.Project.prototype.saveListData = function() {
   _.each(self.tasks, function(fileTasks, file){
     _.each(fileTasks.tasks,function(task, id) {
       if (!_.contains(currentLists, task.list)) {
+        console.log("Adding list from task:", task);
         currentLists.push(task.list);
       }
     });
@@ -907,17 +935,17 @@ imdone.Project.prototype.saveListData = function() {
 
   var fileData = {lists:self.lists, hidden:self.hidden};
 
-  fs.exists(self.dataFile, function(exists) {
-    var currentFileData;
-    if (exists) currentFileData = JSON.parse(fs.readFileSync(self.dataFile, 'utf8'));
+  var exists = fs.existsSync(self.dataFile)
+  var currentFileData;
+  if (exists) currentFileData = JSON.parse(fs.readFileSync(self.dataFile, 'utf8'));
 
-    if (!_.isEqual(fileData,currentFileData)) {
-      var fileDataSrc = JSON.stringify(fileData, null, 2);
-      console.log("Saving iMDone data: " + fileDataSrc);
-      console.log(self.dataFile);
-      fs.writeFileSync(self.dataFile, fileDataSrc, 'utf8');
+  if (!_.isEqual(fileData,currentFileData)) {
+    var fileDataSrc = JSON.stringify(fileData, null, 2);
+    console.log("Saving iMDone data: " + fileDataSrc);
+    console.log(self.dataFile);
+    fs.writeFileSync(self.dataFile, fileDataSrc, 'utf8');
 
-      var files={}; files[self.dataFile]=fileDataSrc; self.emitModified({files:files});
-    }
-  })
+    var files={}; files[self.dataFile]=fileDataSrc; self.emitModified({files:files});
+  }
+
 };

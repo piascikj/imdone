@@ -4,7 +4,7 @@ var languages = require("./util/languages");
 
 var taskregex = /\[(.+?)\]\(#([\w\-]+?):(\d+?\.?\d*?)\)/g;
 var codeStylePattern = "\\s*)([A-Z]{2,}):?(\\d+?\\.?\\d*?)?\\s+(.*)$"
-// DONE:0 Support TODO and FIXME type tasks in code.
+// DONE:10 Support TODO and FIXME type tasks in code.
 // PLANNING:20 Support @username and @Date in tasks
 
 //for ignoring code search for code and replace with empty string or blacnk lines if it's a block before finding tasks
@@ -125,7 +125,7 @@ var utils = module.exports = {
     
     return valid;
   },
-
+  
   modifyTask: function(file, task) {
     var n = 0;
 
@@ -171,5 +171,44 @@ var utils = module.exports = {
       n++;
       return newMD;
     });
+  },
+
+  modifyListName: function(file, oldList, newList) {
+    // Check for codestyle tasks
+    var codeStyleRegex = utils.getCodeStyleRegex(file.path);
+    if (codeStyleRegex) {
+      file.content = file.content.replace(codeStyleRegex, function(match, start, list, order, text, pos) {
+
+        var newText = match;
+        if (oldList == list) {
+          // if the new list is not all upercase use md style
+          if (/[A-Z]+/.test(newList)) {
+            newText = start + newList + ":" + order + " " + text;
+          } else {
+            newText = start + "[" + text + "](#" + newList + ":" + order + ")";
+          }
+          file.modified = true;
+        }
+        return newText;
+      });
+    } 
+
+    file.content = file.content.replace(taskregex, function(md, text, list, order, pos) {
+      if (!utils.isValidTask(file.content, file.path, pos)) {
+        return md;
+      }
+
+      var newMD = md;
+      if (oldList == list) {
+        if (/[A-Z]+/.test(newList) && codeStyleRegex) {
+          newMD = newList + ":" + order + " " + text;
+        } else {
+          newMD = "[" + text + "](#" + newList + ":" + order + ")";
+        }
+        file.modified = true;
+      }
+      return newMD;
+    });
   }
+
 };
