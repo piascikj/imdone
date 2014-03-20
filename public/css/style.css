@@ -284,6 +284,10 @@ blockquote p {
   padding: 2px 4px 0 4px;
 }
 
+.task:hover {
+  opacity: .65;
+}
+
 .task.alert {
   padding: 19px;
 }

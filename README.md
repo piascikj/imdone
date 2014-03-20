@@ -30,8 +30,8 @@ Features
 - Select and move multiple tasks at once
 - Reorder lists
 - Hide and show lists
-- Task filters
-- Search
+- Task filters (Regular Expression syntax) 
+- Search (Regular Expression syntax)
 - Create, delete and edit files
 - Markdown preview with table of contents
 - Syntax highlighting in markdown code blocks 

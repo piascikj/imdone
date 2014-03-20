@@ -76,7 +76,17 @@ define([
       "txt":"text"
     },
     Search: Search,
-    copyButton: '<button class="btn btn-inverse pull-right copy-btn" title="Copy text"><i class="icomoon-copy"></i></button>'
+    copyButton: '<button class="btn btn-inverse pull-right copy-btn" title="Copy text"><i class="icomoon-copy"></i></button>',
+    wiggleOpts: {
+      randomStart:false,
+      limit:10,
+      onWiggleStart: function(el) {
+        $(el).removeClass("btn-inverse");
+      },
+      onWiggleStop: function(el) {
+        $(el).addClass("btn-inverse");
+      }
+    }
   };
   // PLANNING:10 Use [spin.js](http://fgnass.github.io/spin.js/#?lines=15&length=24&width=9&radius=60&corners=0.1&rotate=0&trail=60&speed=0.5&direction=1&hwaccel=on) for loading gif
   //pnotify options
@@ -126,6 +136,7 @@ define([
     return data;
   });
 
+  // TODO: Replace format with _.template 
   String.prototype.format = function (col) {
     col = typeof col === 'object' ? col : Array.prototype.slice.call(arguments, 1);
 
@@ -158,6 +169,7 @@ define([
         mailtoLinks = /^mailto/,
         taskLinks = /#([\w\-]+?):(\d+?\.{0,1}\d*?)/,
         filterLinks = /#filter\//,
+        inPageLinks = /^#.*$/,
         gollumLinks = /(\[\[)(.*?)(\]\])/ig;
     // Replace any script elements
     html = html.replace(/<script.*?>([\s\S]*?)<\/.*?script>/ig,"$1").replace(/(href=["|'].*)javascript:.*(["|'].?>)/ig,"$1#$2");
@@ -188,8 +200,8 @@ define([
       // Check for mailto links
       } else if (mailtoLinks.test(href) || mailtoLinks.test($('<div />').html(href).text())) {
         out = anchor;
-      // Then it must be a link to a file
-      } else {
+      // If not an in page link then it must be a link to a file
+      } else if (!inPageLinks.test(href)) {
         if (/.*\.md$/.test(href)) preview = true;
         out = head + imdone.getFileHref(imdone.currentProjectId(),href,preview) + tail + '>' + content + end;
       }
@@ -292,6 +304,7 @@ define([
     return false;
   };
 
+  // PLANNING: add notify and undo for move
   imdone.moveTasks = function(opts) {
     var tasks = [];
     var toListId = (opts.to) ? opts.to : opts.item.closest(".list").attr("id");
@@ -514,8 +527,8 @@ define([
   imdone.tasksSelected = function() {
     imdone.selectedTasks = $(".task.selected");
     if (imdone.selectedTasks.length > 0) {
-      imdone.archiveBtn.show().ClassyWiggle("start",{randomStart:false,limit:10});
-      imdone.filterBtn.show().ClassyWiggle("start",{randomStart:false,limit:10});
+      imdone.archiveBtn.show().ClassyWiggle("start",imdone.wiggleOpts);
+      imdone.filterBtn.show().ClassyWiggle("start",imdone.wiggleOpts);
     }
     else {
       imdone.archiveBtn.hide();
@@ -624,7 +637,7 @@ define([
         .unbind()
         .click(function() {
           imdone.app.navigate(href, true);
-        }).ClassyWiggle("start",{randomStart:false,limit:10});
+        }).ClassyWiggle("start",imdone.wiggleOpts);
       }
 
       if (imdone.scrollToTask) {
@@ -928,7 +941,8 @@ define([
       // T.O.C
       $("#toc").html('').toc({
         'content':'#preview',
-        'headings': 'h1,h2'
+        'headings': 'h1,h2',
+        'smoothScrolling': true
       });
       
       imdone.fileContainer.scrollspy('refresh');
@@ -1262,6 +1276,7 @@ define([
       });
 
       
+      // PLANNING: Use [egdelwonk/SlidePanel](https://github.com/egdelwonk/slidepanel) for opening files and removing clutter
       function openFile() {
         //ARCHIVE:70 Create a new file based on path and project with call to /api/source
         var path = imdone.fileField.val();

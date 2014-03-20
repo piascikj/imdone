@@ -1,5 +1,8 @@
 Change Log
 ----
+### 1.0.2
+- Fix bug for rename list when code style comments don't have a sort order
+
 ### 1.0.1
 - Fix firefox dropdown display bug
 

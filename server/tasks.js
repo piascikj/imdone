@@ -7,7 +7,7 @@ var codeStylePattern = "\\s*)([A-Z]{2,}):?(\\d+?\\.?\\d*?)?\\s+(.*)$"
 // ARCHIVE:0 Support TODO and FIXME type tasks in code.
 // PLANNING:50 Support @username and @Date in tasks
 
-//for ignoring code search for code and replace with empty string or blacnk lines if it's a block before finding tasks
+// for ignoring code search for code and replace with empty string or blacnk lines if it's a block before finding tasks
 var codeRegExp = {
   inline: /^(`+)\s*([\s\S]*?[^`])\s*\1(?!`)/,
   block: /`{3}[\s\S]*?`{3}/gm
@@ -176,6 +176,7 @@ var utils = module.exports = {
 
   // PLANNING:30 Create Classes for file and task
   modifyListName: function(file, oldList, newList) {
+    var self = this;
     // Check for codestyle tasks
     var codeStyleRegex = utils.getCodeStyleRegex(file.path);
     if (codeStyleRegex) {
@@ -183,6 +184,7 @@ var utils = module.exports = {
 
         var newText = match;
         if (oldList == list) {
+          if (order === undefined) order = "";
           // if the new list is not all upercase use md style
           if (/[A-Z]+/.test(newList)) {
             newText = self.taskText(start, text, newList, order, true);
