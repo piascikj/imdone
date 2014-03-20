@@ -1,6 +1,9 @@
 Change Log
 ----
-### 1.0
+### 1.0.1
+- Fix firefox dropdown display bug
+
+### 1.0.0
 - Fix refresh on file rename, create, or delete
 - Add support for code style tasks
 - Fix browser open for imdone running on another port
