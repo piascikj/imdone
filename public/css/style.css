@@ -286,6 +286,7 @@ blockquote p {
 
 .task:hover {
   opacity: .65;
+  cursor: move;
 }
 
 .task.alert {

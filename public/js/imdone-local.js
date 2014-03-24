@@ -118,7 +118,7 @@ define([
     tables: true,
     breaks: false,
     pedantic: false,
-    sanitize: false,
+    sanitize: true,
     smartLists: true,
     langPrefix: 'language-',
   });
@@ -747,6 +747,12 @@ define([
     store.set('history', hist);
   };
   
+  imdone.getHtml = function(path, cb) {
+    $.get("/api/md/" + imdone.currentProjectId() + "?path=" + path, function(data) {
+      cb(data);
+    })
+  };
+
   imdone.getSource = function(params) {
     //ARCHIVE:620 We have to convert the source api url URL first
     if (params && params.path) params.path = params.path.replace(/^\/*/,'');

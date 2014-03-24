@@ -179,6 +179,18 @@
     }
   }
 
+  function md(req,res) {
+    var project = server.imdone.getProject(req.params[0]);
+    var path = req.query.path;
+    if (project.path) {
+      project.md(path, function(html) {
+        res.send(html);
+      })
+    } else {
+      res.send(404, "Unable to get html for file");
+    }
+  }
+
   function doSearch(req,res) {
     var opts = {project:server.imdone.getProject(req.params[0])};
     var query = req.query.query;
@@ -227,6 +239,7 @@
     app.del("/api/source/*", removeSource);
     app.get("/api/files/*", getFiles);
     app.get("/api/search/*", doSearch);
+    app.get("/api/md/*", md);
 
     app.get("/js/marked.js", function(req,res) {
       console.log(require.resolve("marked"));

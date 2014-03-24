@@ -28,6 +28,10 @@ var async = require("async");
 var imdone = module.exports = {pause:{}};
 var pkginfo = require('pkginfo')(module);
 
+_.templateSettings = {
+  interpolate: /\{\{(.+?)\}\}/g
+};
+
 imdone.config = {
   port: process.env.IMDONE_PORT || 8080,
   cliPort: process.env.IMDONE_CLI_PORT || 8899
@@ -212,7 +216,7 @@ imdone.getLastUpdate = function() {
 
 imdone.Project = function(path) {
   events.EventEmitter.call(this);
-  this.cwd = this.path = path;
+  this.id = this.cwd = this.path = path;
   this.tasks = {};
   this.config = {};
 };
@@ -322,40 +326,6 @@ imdone.Project.prototype.renameList = function(request) {
     fs.writeFileSync(fullPath, file.content, "utf8");
     self.unpause(path);
   });
-
-  // self.update(_.pluck(files,"fullPath"));
-
-  // var name = request.name;
-  // var newName = request.newName;
-  // var pos = _.indexOf(this.lists, name);
-  // var list = _.where(this.getSortedLists(),{name:name})[0];
-  // //console.log(JSON.stringify(list, null, 3));
-  
-  // var files = {};
-  // _.each(list.tasks, function(task) {
-  //   var fullPath = self.fullPath(task.path);
-  //   if (!files[task.path]) {
-  //     self.pause(task.path);
-  //     files[task.path] = fs.readFileSync(fullPath, "utf8");
-  //   }
-  //   task.list = newName;
-  //   files[task.path] = self.modifyTask(files[task.path], task);
-  // });
-
-  // //unpause all paths in the list and write files
-  // _.each(files, function(data, path) {
-  //   fs.writeFileSync( self.fullPath(path), data, "utf8");
-  //   if (self.isPaused(path)) self.unpause(path);
-  // });
-
-  // var lists = _.without(this.lists, name, newName);
-  // lists.splice(pos,0,newName);
-  // this.lists = lists;
-  // this.saveListData();
-
-  // this.emitModified({files:files});
-
-  // return imdone.lists;
 };
 
 imdone.Project.prototype.removeList = function(request) {
@@ -664,6 +634,97 @@ imdone.Project.prototype.unpause = function(file) {
     this.processFiles([file]);
     delete this.pause[file];
   }
+};
+
+imdone.Project.taskHtmlTemplate = '<span class="label label-info task-label">{{list}}</span>' +
+      '{{head}}{{href}}{{tail}} class="task-link" data-list="{{list}}"> <span class="task-content">{{content}}</span>{{end}}';
+
+imdone.Project.prototype.taskHtml = function(opts) {
+  return _.template(imdone.Project.taskHtmlTemplate, opts);
+};
+
+imdone.Project.prototype.getFileHref = function(path, line, preview) {
+  if (_.isObject(preview)) preview = undefined;
+  if (_.isObject(line)) line = undefined;
+  if (line && isNaN(line)) preview = line;
+  project = encodeURIComponent(this.id);
+  path = encodeURIComponent(path);
+  var href = _.template('#file/{{project}}/{{path}}',{project:project, path:path});
+  if (line) href+= ("/" + line);
+  if (preview) href += "/true";
+  return href;
+};
+
+imdone.Project.prototype.md = function(path, cb) {
+  var self = this;
+  this.getSource(path,undefined, function(file) {
+    md = file.src;
+    var html = marked(md);
+    var links = /(<a.*?href=")(.*?)(".*?)>(.*)(<\/a>)/ig,
+        externalLinks = /^http/,
+        mailtoLinks = /^mailto/,
+        taskLinks = /#([\w\-]+?):(\d+?\.{0,1}\d*?)/,
+        filterLinks = /#filter\//,
+        inPageLinks = /^#.*$/,
+        gollumLinks = /(\[\[)(.*?)(\]\])/ig;
+    // Replace any script elements
+    html = html.replace(/<script.*?>([\s\S]*?)<\/.*?script>/ig,"$1").replace(/(href=["|'].*)javascript:.*(["|'].?>)/ig,"$1#$2");
+    // Make all links with http open in new tab
+    // ARCHIVE:570 For markdown files, find tasks links and give them a badge
+    // ARCHIVE:40 For internal inks, take them to the page
+    var replaceLinks = function(anchor, head, href, tail, content, end) {
+      if (links.test(content)) content = content.replace(links, replaceLinks);
+      var out = html;
+      // Check for external links
+      if (externalLinks.test(href)) {
+        out = head + href + tail + ' target="_blank">' + content + end;
+      // Check for task links
+      } else if (taskLinks.test(href)) {
+        var list;
+        href.replace(taskLinks, function(href, taskList, order) {
+          list = taskList;
+          out = href;
+        });
+        out = self.taskHtml({
+          list:list,
+          head:head,
+          href:href,
+          tail:tail,
+          content:content,
+          end:end
+        });
+      // Check for filter links
+      } else if (filterLinks.test(href)) {
+        var filterBy = href.split("/")[1];
+        out = head + href + tail + ' title="Filter by ' + filterBy + '">' + content + end;   
+      // Check for mailto links
+      } else if (mailtoLinks.test(href)) { // || mailtoLinks.test($('<div />').html(href).text())) {
+        out = anchor;
+      // If not an in page link then it must be a link to a file
+      } else if (!inPageLinks.test(href)) {
+        var preview = (/.*\.md$/.test(href)) ? true : false;
+        out = head + self.getFileHref(href,preview) + tail + '>' + content + end;
+      }
+
+      return out;
+    }
+
+    html = html.replace(links, replaceLinks);
+
+    // Replace all gollum links
+    html = html.replace(gollumLinks, function(link, open, name, close) {
+      var file = name;
+      if (/\|/.test(name)) {
+        var pieces = name.split("|");
+        file = pieces[1];
+        name = pieces[0];
+      }
+      var file = file.replace(/(\s)|(\/)/g,"-") + ".md";
+      var href = self.getFileHref(file,true);
+      return '<a href="{}">{}</a>'.tokenize(href, name);
+    });
+    return cb(html);
+  });
 };
 
 // ARCHIVE:740 add hook to saveSource    

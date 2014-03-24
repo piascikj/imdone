@@ -10,8 +10,12 @@ module.exports = {
   exclude:/^(node_modules|bower_components|\.imdone|target|build)\/|\.(git|svn)|\~$|\.(jpg|png|gif|swp|ttf|otf)$/,
   marked : {
     gfm: true,
+    tables: true,
+    breaks: false,
     pedantic: false,
-    sanitize: true
+    sanitize: true,
+    smartLists: true,
+    langPrefix: 'language-',
   },
   events : {
     modified: function(params) {

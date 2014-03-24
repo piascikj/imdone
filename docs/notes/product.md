@@ -1,1 +1,2 @@
-- [Read the [Android Development - Tutorial](http://www.vogella.com/tutorials/Android/article.html)](#DOING:0)
+- [Read the [Android Development - Tutorial](http://www.vogella.com/tutorials/Android/article.html)](#DOING:10)
+- [Add Pomodoro timer for a task, using a tomato icon](#DOING:20)
