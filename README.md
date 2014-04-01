@@ -1,7 +1,7 @@
 ![iMDone](https://raw.githubusercontent.com/piascikj/imdone/master/docs/logo.png)  
 ----
 
-### A task board in your code!
+### A task board and wiki in one!
 
 ----
 

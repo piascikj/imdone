@@ -2,7 +2,7 @@
   "name": "imdone",
   "preferGlobal": "true",
   "version": "1.0.2",
-  "description": "A task board in your code!",
+  "description": "A task board and wiki in one!",
   "keywords": [
     "scrum",
     "markdown",

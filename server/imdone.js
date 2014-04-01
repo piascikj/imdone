@@ -24,6 +24,7 @@ var tasks = require("./tasks");
 var languages = require("./util/languages");
 var isBinaryFileSync = require("isbinaryfile");
 var async = require("async");
+var sanitize
 
 var imdone = module.exports = {pause:{}};
 var pkginfo = require('pkginfo')(module);
@@ -432,7 +433,7 @@ imdone.Project.prototype.moveTask = function(request, callback) {
   //console.log("\nModify the old list\n");
   if (to !== from) {
     var fromList = _.findWhere(lists, {name:from});
-    _.reject(fromList.tasks, function(task) {
+    fromList.tasks = _.reject(fromList.tasks, function(task) {
       return task.pathId === pathId && task.path === path;
     });
     _.each(fromList.tasks, function(task, index) {
@@ -485,8 +486,8 @@ imdone.Project.prototype.modifyTask = function(data,task) {
 // ARCHIVE:710 Add includeFiles, excludeFiles, includeDirs, excludeDirs to config
 imdone.Project.prototype.shouldProcessFile = function(file) {
   var relPath = this.relativePath(file);
-  if (!this.config.include.test(relPath)) return false;
-  if (this.config.exclude.test(relPath)) return false;
+  if (!(new RegExp(this.config.include)).test(relPath)) return false;
+  if ((new RegExp(this.config.exclude)).test(relPath)) return false;
   if (isBinaryFileSync(file)) return false;
   return true;
 };
