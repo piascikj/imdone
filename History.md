@@ -1,5 +1,8 @@
 Change Log
 ----
+### 1.0.4
+- Add callback to start for embedding
+
 ### 1.0.2
 - Fix bug for rename list when code style comments don't have a sort order
 

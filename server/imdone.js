@@ -46,7 +46,7 @@ imdone.server = server;
   `imdone` will add the current working directory to imdone projects and start imdone if not already up
   `imdone stop` will stop imdone
 */
-imdone.start = function(dir) {
+imdone.start = function(dir, cb) {
   program
   .usage("[options]")
   .version(imdone.version)
@@ -86,12 +86,14 @@ imdone.start = function(dir) {
     imdone.checkCLIService(function() {
       console.log("iMDone service is already running!");
       if (program.open) imdone.cliOpen();
+      if (_.isFunction(cb)) cb();
       _.each(dirs, function(d) {
         imdone.cliAddProject(d);
       });
     }, function() {
       imdone.startCLIService(function() {
         if (program.open) imdone.cliOpen();
+        if (_.isFunction(cb)) cb();
         _.each(dirs, function(d) {
           imdone.addProject(d);
         });
