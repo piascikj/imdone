@@ -22,5 +22,5 @@ var cwd = process.cwd();
 console.log("cwd:" + cwd);
 //console.log("args:" + process.argv);
 //ARCHIVE:580 We want to accept a root directory as an argument
-imdone.start(cwd);
+imdone.startFromCLI(cwd);
 

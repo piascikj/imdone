@@ -46,7 +46,7 @@ imdone.server = server;
   `imdone` will add the current working directory to imdone projects and start imdone if not already up
   `imdone stop` will stop imdone
 */
-imdone.start = function(dir, cb) {
+imdone.startFromCLI = function(dir) {
   program
   .usage("[options]")
   .version(imdone.version)
@@ -82,24 +82,27 @@ imdone.start = function(dir, cb) {
   if (program.stop) {
     imdone.cliStop();
   } else {
+    imdone.start(dirs, program.open);
+  }
+};
 
-    imdone.checkCLIService(function() {
-      console.log("iMDone service is already running!");
-      if (program.open) imdone.cliOpen();
+imdone.start = function(dirs, open, cb) {
+  imdone.checkCLIService(function() {
+    console.log("iMDone service is already running!");
+    if (open) imdone.cliOpen();
+    if (_.isFunction(cb)) cb();
+    _.each(dirs, function(d) {
+      imdone.cliAddProject(d);
+    });
+  }, function() {
+    imdone.startCLIService(function() {
+      if (open) imdone.cliOpen();
       if (_.isFunction(cb)) cb();
       _.each(dirs, function(d) {
-        imdone.cliAddProject(d);
-      });
-    }, function() {
-      imdone.startCLIService(function() {
-        if (program.open) imdone.cliOpen();
-        if (_.isFunction(cb)) cb();
-        _.each(dirs, function(d) {
-          imdone.addProject(d);
-        });
+        imdone.addProject(d);
       });
     });
-  }
+  });
 };
 
 imdone.startCLIService = function(callback) {
@@ -116,6 +119,9 @@ imdone.startCLIService = function(callback) {
   });
   app.post("/cli/project", function(req, res) {
     res.send(imdone.addProject(req.body.cwd));
+  });
+  app.delete("/cli/project", function(req, res) {
+    res.send(imdone.removeProject(req.body.cwd));
   });
   app.post("/cli/stop", function(req, res) {
     res.send({ok:true});
@@ -160,6 +166,20 @@ imdone.cliAddProject = function(dir) {
 
 };
 
+imdone.cliRemoveProject = function(dir) {
+  request.delete({
+    url:"http://localhost:" + imdone.config.cliPort + "/cli/project",
+    json:{cwd:dir}
+  }, function(error, res, body) {
+    if (!res) {
+      console.log("failed to remove project");
+    } else {
+      console.log('Removed project:', body.path);
+    }
+  });
+
+};
+
 imdone.cliStop = function() {
   request.post({
     url:"http://localhost:" + imdone.config.cliPort + "/cli/stop"
@@ -187,8 +207,6 @@ imdone.checkCLIService = function(success, failure) {
 };
 
 imdone.addProject = function(dir) {
-  if (!/^\//.test(dir)) dir = process.cwd() + "/" + dir;
-
   console.log("Adding project at:" + dir);
 
   if (imdone.projects[dir]) delete imdone.projects[dir];
@@ -196,6 +214,12 @@ imdone.addProject = function(dir) {
   imdone.projects[dir].init();
 
   return imdone.projects[dir];
+};
+
+imdone.removeProject = function(dir) {
+  console.log("Removing project at:" + dir);
+
+  if (imdone.projects[dir]) delete imdone.projects[dir];
 };
 
 imdone.getProject = function(dir) {
@@ -249,6 +273,7 @@ imdone.Project.prototype.init = function() {
 
     self.loadListData(function() {
 
+      console.log(self.path);
       self.processFiles(wrench.readdirSyncRecursive(self.path), function() {
         //set up watcher
         self.watchFiles(self.path);
