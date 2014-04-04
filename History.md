@@ -1,5 +1,8 @@
 Change Log
 ----
+### 1.0.7
+- Update events for better push updates
+
 ### 1.0.4
 - Add callback to start for embedding
 

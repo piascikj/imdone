@@ -235,6 +235,7 @@ imdone.getLastUpdate = function() {
   return _.map(imdone.projects, function(project, key){ return {project:project.path, lastUpdate:project.lastUpdate}; });
 };
 
+imdone.emitter = new events.EventEmitter();
 /*
 
   This is the Project class
@@ -250,18 +251,16 @@ imdone.Project = function(path) {
 
 imdone.Project.prototype.__proto__ = events.EventEmitter.prototype;
 
-imdone.Project.prototype.emitAsync = function(event, params) {
+imdone.Project.prototype.emitModified = function(files) {
   var self = this;
-  params = _.extend(params, {project:self});
-  process.nextTick(function() {
-    self.emit(event, params);
-  });
+  this.emit('modified', {files:files, project:self});
+  imdone.emitter.emit('project.modified', {project:self.path});
 };
 
-imdone.Project.prototype.emitModified = function(params) {
+imdone.Project.prototype.emitInitialized = function() {
   var self = this;
-  params = _.extend(params, {project:self});
-  this.emit('modified', params);
+  this.emit('initialized', {project:self});
+  imdone.emitter.emit('project.initialized', {project:self.path});
 };
 
 imdone.Project.prototype.init = function() {
@@ -277,6 +276,7 @@ imdone.Project.prototype.init = function() {
       self.processFiles(wrench.readdirSyncRecursive(self.path), function() {
         //set up watcher
         self.watchFiles(self.path);
+        self.emitInitialized();
       });
     });
   });
@@ -482,7 +482,7 @@ imdone.Project.prototype.moveTask = function(request, callback) {
     if (self.isPaused(path)) self.unpause(path);
   });
 
-  this.emitModified({files:files});
+  this.emitModified(files);
 
   //process all files
   var fileNames = _.keys(files);
@@ -769,7 +769,7 @@ imdone.Project.prototype.saveSource = function(path, src, callback) {
       var files = {};
       files[filePath] = src;
       project.processFiles([path],function() {
-        project.emitModified({files:files});
+        project.emitModified(files);
         callback({path:path, ok:1});
       });
     });
@@ -1034,7 +1034,7 @@ imdone.Project.prototype.saveListData = function() {
     console.log(self.dataFile);
     fs.writeFileSync(self.dataFile, fileDataSrc, 'utf8');
 
-    var files={}; files[self.dataFile]=fileDataSrc; self.emitModified({files:files});
+    var files={}; files[self.dataFile]=fileDataSrc; self.emitModified(files);
   }
 
 };

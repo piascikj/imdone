@@ -270,14 +270,14 @@
     ]);    
 
     io.sockets.on('connection', function(socket) {
-            var id = setInterval(function() {
-        socket.emit('last-update',server.imdone.getLastUpdate());
-      }, 150);
-            console.log('started client interval');
-            socket.on('disconnect', function() {
-              console.log('stopping client interval');
-              clearInterval(id);
-            });
+
+      server.imdone.emitter.on('project.modified', function(data) {
+        socket.emit('project.modified', data);
+      });
+      server.imdone.emitter.on('project.initialized', function(data) {
+        socket.emit('project.initialized', data);
+      });
+
     });    
 
     if (callback) app.on('listening', callback);

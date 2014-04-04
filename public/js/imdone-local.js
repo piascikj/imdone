@@ -667,7 +667,7 @@ define([
       imdone.projects = data;
       imdone.currentProjectId(data[0]);
       imdone.paintProjectsMenu();
-      if (_.isFunction(callback)) callback();
+      if (_.isFunction(callback)) callback(data);
     }, "json");
   };
 
@@ -683,26 +683,36 @@ define([
 
   imdone.initUpdate = function() {
     var socket = io.connect('http://' + window.document.location.host);
-    socket.on('last-update', function (data) {
-      var obj = data;
-      var lastUpdate = _.where(obj, {project:imdone.currentProjectId()})[0].lastUpdate; 
-      //First check if new projects were added
-      if (imdone.projects.length < obj.length) {
-        imdone.projects = _.pluck(obj,"project");
+    socket.on('project.modified', function(data) {
+      var projectId = data.project;
+      console.log("Project modified: ", projectId);
+      var currentProjectId = imdone.currentProjectId();
+      if (_.indexOf(imdone.projects, projectId) < 0) return;
+      var boardHidden = !imdone.board.is(':visible');
+      var noPaint = (boardHidden || (projectId !== currentProjectId) );
+      // only react if project exists.  If it does get kanban
+      imdone.getKanban({
+        project:projectId, 
+        noPaint:noPaint, 
+        callback:function() {
+          console.log("refresh of " + projectId + " complete!");
+        }
+      });
+    });
+
+    socket.on('project.initialized', function(data) {
+      // add the project and get kanban
+      var projectId = data.project;
+      console.log("Project initialized: ", projectId);
+      var currentProjectId = imdone.currentProjectId();
+      if (_.indexOf(imdone.projects, projectId) < 0) {
+        imdone.projects.push(projectId);
         imdone.paintProjectsMenu();
       }
 
-      if (imdone && imdone.data && (imdone.currentProject() == undefined || 
-          (imdone.currentProject().lastUpdate && (new Date(lastUpdate) > new Date(imdone.currentProject().lastUpdate))))) {
-        console.log("we need a refresh..."); 
-        imdone.getKanban({project:imdone.currentProjectId(), 
-          noPaint:!imdone.board.is(':visible'), 
-          callback:function() {
-            console.log("refresh complete!");
-          }});
-      }
+      // only react if project exists.  If it does get kanban
+      if (imdone.projects.length === 1) imdone.getKanban({ project:projectId });
     });
-    imdone.initialized = true;
   };
 
   imdone.getHistory = function() {
@@ -1364,15 +1374,17 @@ define([
         return false;
       });
 
+      imdone.initUpdate();
       //Get projects and start listening for updates
-      imdone.getProjects(function() {
+      imdone.getProjects(function(projects) {
         imdone.app = new AppRouter();
         imdone.calls = 0;
         Backbone.history.on('route', function () {
           imdone.calls++;
         });
         Backbone.history.start();
-        imdone.initUpdate();
+        if (projects.length > 0) imdone.getKanban({project:projects[0]});
+        imdone.initialized = true;
       });
   };
 
