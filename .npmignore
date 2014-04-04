@@ -1,0 +1,6 @@
+node_modules
+*.log
+build
+bower_components
+docs
+.imdone
