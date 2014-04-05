@@ -5,7 +5,7 @@
  * Copyright (c) 2012 Jesse Piascik
  * Licensed under the MIT license.
  */
-//ARCHIVE:180 Implement hide functionality to hide a list from board
+//ARCHIVE:210 Implement hide functionality to hide a list from board
 // Nodejs libs.
 var fs = require('fs');
 var events = require('events');
@@ -392,7 +392,7 @@ imdone.Project.prototype.showList = function(request) {
   return this.hidden;
 };
 
-// ARCHIVE:110 Move multiple tasks in sequence
+// ARCHIVE:140 Move multiple tasks in sequence
 imdone.Project.prototype.moveTasks = function(request, callback) {
   var self = this;
   var funcs = [];
@@ -510,7 +510,7 @@ imdone.Project.prototype.modifyTask = function(data,task) {
   return file.content;
 };
 
-// ARCHIVE:710 Add includeFiles, excludeFiles, includeDirs, excludeDirs to config
+// ARCHIVE:750 Add includeFiles, excludeFiles, includeDirs, excludeDirs to config
 imdone.Project.prototype.shouldProcessFile = function(file) {
   var relPath = this.relativePath(file);
   if (!(new RegExp(this.config.include)).test(relPath)) return false;
@@ -600,7 +600,7 @@ imdone.Project.prototype.processFiles = function(files, callback) {
       var relPathFile = self.relativePath(file);
       //console.log("Extracting tasks from file: " + fullPathFile);
       //for each file get the tasks
-      //ARCHIVE:720 Make this an async file read
+      //ARCHIVE:760 Make this an async file read
       var data = fs.readFile(fullPathFile, 'utf8', function (err, data) {
         if (err) {
           console.log("Unable to open file:", err);
@@ -641,8 +641,10 @@ imdone.Project.prototype.update = function(files) {
   var self = this;
   _.each(files, function(file) {
     if (!self.isPaused(file)) {
-      //ARCHIVE:730 Store last updated time, and check to see if we should process - 0.1.3
-      self.processFiles([file]);  
+      //ARCHIVE:770 Store last updated time, and check to see if we should process - 0.1.3
+      self.processFiles([file], function() {
+        self.emitModified([file]);
+      });  
     }
   });
 };
@@ -698,8 +700,8 @@ imdone.Project.prototype.md = function(path, cb) {
     // Replace any script elements
     html = html.replace(/<script.*?>([\s\S]*?)<\/.*?script>/ig,"$1").replace(/(href=["|'].*)javascript:.*(["|'].?>)/ig,"$1#$2");
     // Make all links with http open in new tab
-    // ARCHIVE:570 For markdown files, find tasks links and give them a badge
-    // ARCHIVE:40 For internal inks, take them to the page
+    // ARCHIVE:600 For markdown files, find tasks links and give them a badge
+    // ARCHIVE:60 For internal inks, take them to the page
     var replaceLinks = function(anchor, head, href, tail, content, end) {
       if (links.test(content)) content = content.replace(links, replaceLinks);
       var out = html;
@@ -755,7 +757,7 @@ imdone.Project.prototype.md = function(path, cb) {
   });
 };
 
-// ARCHIVE:740 add hook to saveSource    
+// ARCHIVE:780 add hook to saveSource    
 imdone.Project.prototype.saveSource = function(path, src, callback) {
   var project = this;
   var filePath = project.path + "/" + path;
@@ -787,7 +789,7 @@ imdone.Project.prototype.getSource = function(path, line, callback) {
   if (project.path && !/^\.\./.test(path) && !/\/$/.test(path)) {
     var filePath = project.path + "/" + path;
 
-    //ARCHIVE:120 Make sure this source file is in one of the projects paths
+    //ARCHIVE:150 Make sure this source file is in one of the projects paths
     if (fs.existsSync(filePath)) {
       fs.readFile(filePath, 'utf-8', function(err,data) {
         if (err) {
@@ -838,12 +840,12 @@ imdone.Project.prototype.getSource = function(path, line, callback) {
 }
 
 imdone.Project.prototype.watchFiles = function(path) {
-  //ARCHIVE:130 Test watchr on hundreds of directories
+  //ARCHIVE:160 Test watchr on hundreds of directories
   var self = this;
   watchr.watch({
       path: path,
       ignoreCommonPatterns:true,
-      //ARCHIVE:140 Use ignoreCustomPatterns
+      //ARCHIVE:170 Use ignoreCustomPatterns
       ignoreCustomPatterns:self.config.exclude,
       listeners: {
           /*
@@ -885,6 +887,7 @@ imdone.Project.prototype.watchFiles = function(path) {
                   console.log("Processing create of:",filePath);
                   self.processFiles([filePath], function() {
                     self.lastUpdate = new Date();
+                    self.emitModified([file]);
                   });
                   break;
                 case "delete":

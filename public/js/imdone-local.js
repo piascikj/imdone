@@ -88,7 +88,7 @@ define([
       }
     }
   };
-  // PLANNING:10 Use [spin.js](http://fgnass.github.io/spin.js/#?lines=15&length=24&width=9&radius=60&corners=0.1&rotate=0&trail=60&speed=0.5&direction=1&hwaccel=on) for loading gif
+  // PLANNING:30 Use [spin.js](http://fgnass.github.io/spin.js/#?lines=15&length=24&width=9&radius=60&corners=0.1&rotate=0&trail=60&speed=0.5&direction=1&hwaccel=on) for loading gif
   //pnotify options
   $.extend($.pnotify.defaults,{
       styling: 'bootstrap',
@@ -136,7 +136,7 @@ define([
     return data;
   });
 
-  // TODO: Replace format with _.template 
+  // TODO:0 Replace format with _.template 
   String.prototype.format = function (col) {
     col = typeof col === 'object' ? col : Array.prototype.slice.call(arguments, 1);
 
@@ -174,8 +174,8 @@ define([
     // Replace any script elements
     html = html.replace(/<script.*?>([\s\S]*?)<\/.*?script>/ig,"$1").replace(/(href=["|'].*)javascript:.*(["|'].?>)/ig,"$1#$2");
     // Make all links with http open in new tab
-    // ARCHIVE:570 For markdown files, find tasks links and give them a badge
-    // ARCHIVE:40 For internal inks, take them to the page
+    // ARCHIVE:610 For markdown files, find tasks links and give them a badge
+    // ARCHIVE:70 For internal inks, take them to the page
     var replaceLinks = function(anchor, head, href, tail, content, end) {
       if (links.test(content)) content = content.replace(links, replaceLinks);
       var out = html;
@@ -263,7 +263,7 @@ define([
     return new Handlebars.SafeString(result);
   });
 
-  //TODO:0 Take a look at this <https://speakerdeck.com/ammeep/unsuck-your-backbone>, <http://amy.palamounta.in/2013/04/12/unsuck-your-backbone/>
+  //TODO:10 Take a look at this <https://speakerdeck.com/ammeep/unsuck-your-backbone>, <http://amy.palamounta.in/2013/04/12/unsuck-your-backbone/>
   //--------------------------------------Backbone Models---------------------------------------
   var Project = Backbone.Model.extend();
   var Projects = Backbone.Collection.extend({
@@ -304,7 +304,7 @@ define([
     return false;
   };
 
-  // PLANNING: add notify and undo for move
+  // PLANNING:20 add notify and undo for move
   imdone.moveTasks = function(opts) {
     var tasks = [];
     var toListId = (opts.to) ? opts.to : opts.item.closest(".list").attr("id");
@@ -409,7 +409,7 @@ define([
         limit:(params.limit)?parseInt(params.limit):undefined
       });
       search.fetch({success: function(model, response)  {
-          // TODO:10 Put search in a view.  [What is a view? - Backbone.js Tutorials](http://backbonetutorials.com/what-is-a-view/)
+          // TODO:20 Put search in a view.  [What is a view? - Backbone.js Tutorials](http://backbonetutorials.com/what-is-a-view/)
           var template = Handlebars.compile($("#search-results-template").html());
           var results = model.toJSON();
           var last = results.total+results.offset;
@@ -497,7 +497,7 @@ define([
     if (filter) {
       imdone.getProjectStore().filter = filter;
       imdone.saveProjectStore();
-      // ARCHIVE:510 Use a regex for filter and create button to filter by files of selected tasks
+      // ARCHIVE:540 Use a regex for filter and create button to filter by files of selected tasks
       // $('.task:not([data-path*="{0}"])'.format([filter])).hide();
       $('.task').hide();
       $('.task:regex(data-path,{0})'.format([filter])).show();
@@ -683,6 +683,7 @@ define([
 
   imdone.initUpdate = function() {
     var socket = io.connect('http://' + window.document.location.host);
+    
     socket.on('project.modified', function(data) {
       var projectId = data.project;
       console.log("Project modified: ", projectId);
@@ -715,6 +716,9 @@ define([
         imdone.navigateToCurrentProject();
       }
     });
+    // DOING:0 Add project removed event
+    socket.on('project.removed', function(data) {
+    });
   };
 
   imdone.getHistory = function() {
@@ -739,7 +743,7 @@ define([
     hist[imdone.currentProjectId()] = _.without(hist[imdone.currentProjectId()], imdone.source.path);
     projectHist = hist[imdone.currentProjectId()];
     projectHist.push(imdone.source.path);
-    //ARCHIVE:640 Don't pop, shift
+    //ARCHIVE:680 Don't pop, shift
     if (projectHist.length > 10) projectHist.shift();
     store.set('history', hist);
     projectHist.reverse();
@@ -766,7 +770,7 @@ define([
   };
 
   imdone.getSource = function(params) {
-    //ARCHIVE:620 We have to convert the source api url URL first
+    //ARCHIVE:660 We have to convert the source api url URL first
     if (params && params.path) params.path = params.path.replace(/^\/*/,'');
     
     var url = "/api/source" + params.project + "?path=" + params.path;
@@ -783,7 +787,7 @@ define([
       //Make sure we have the right project displayed
       imdone.paintProjectsMenu();
       
-      //ARCHIVE:490 Update file-path on edit button
+      //ARCHIVE:520 Update file-path on edit button
       imdone.filename.empty().html(imdone.source.path);
       imdone.contentNav.show();
       imdone.editMode = true;
@@ -860,7 +864,7 @@ define([
 
     var line = data.line || 1;
     
-    // ARCHIVE:530 User should be able to set global ace confiuration and have it saved to config.js
+    // ARCHIVE:560 User should be able to set global ace confiuration and have it saved to config.js
     var session = imdone.aceSession = ace.createEditSession(data.src);
     session.setMode("ace/mode/" + mode);
     session.setUseWrapMode(true);
@@ -977,7 +981,7 @@ define([
   });
   imdone.fileContainer.scrollspy({ target: '#sidebar'});
 
-  //ARCHIVE:690 User should be notified when a file has been modified
+  //ARCHIVE:730 User should be notified when a file has been modified
   imdone.closeFile = function() {
       imdone.editMode = false;
       imdone.fileModified = false;
@@ -1079,7 +1083,7 @@ define([
         },
     });
   };
-  //ARCHIVE:630 Implement delete file functionality
+  //ARCHIVE:670 Implement delete file functionality
   imdone.removeFileBtn.live('click', function() {
     imdone.removeSourceConfirm();
   });
@@ -1094,7 +1098,7 @@ define([
     imdone.app.navigate("project" + imdone.currentProjectId(), {trigger:true});
   };
 
-  // ARCHIVE:560 Clean up init before implementing backbone views
+  // ARCHIVE:590 Clean up init before implementing backbone views
   imdone.init = function() {
       //Put the focus on the name field when changing list names
       imdone.nameModal.modal({show:false});
@@ -1146,7 +1150,7 @@ define([
       imdone.editor.setTheme("ace/theme/merbivore_soft");
       imdone.editor.setHighlightActiveLine(true);
       imdone.editor.setPrintMarginColumn(120);
-      //ARCHIVE:540 Use Vim keyboard bindings
+      //ARCHIVE:570 Use Vim keyboard bindings
       //imdone.editor.setKeyboardHandler(require("ace/keybinding-vim").Vim);
       
       //Ace keyboard handlers
@@ -1221,7 +1225,7 @@ define([
         var content =  $(this).closest(".task").find('.task-text').html();
         var template = '<a href="#{0}:{1}" class="task-link" data-list="{0}"><span class="task-content">{2}</span></a>';
 
-        //ARCHIVE:60 Show the current task as notification with <http://pinesframework.org/pnotify/>
+        //ARCHIVE:90 Show the current task as notification with <http://pinesframework.org/pnotify/>
         $.pnotify({
           title: list,
           text: template.format([list,order,content]),
@@ -1294,9 +1298,9 @@ define([
       });
 
       
-      // PLANNING: Use [egdelwonk/SlidePanel](https://github.com/egdelwonk/slidepanel) for opening files and removing clutter
+      // PLANNING:10 Use [egdelwonk/SlidePanel](https://github.com/egdelwonk/slidepanel) for opening files and removing clutter
       function openFile() {
-        //ARCHIVE:70 Create a new file based on path and project with call to /api/source
+        //ARCHIVE:100 Create a new file based on path and project with call to /api/source
         var path = imdone.fileField.val();
         if (path != "") {
           if (/^\//.test(path)) {
@@ -1352,7 +1356,7 @@ define([
       });
 
       //listen for filter input
-      //ARCHIVE:80 Apply filter when kanban is reloaded
+      //ARCHIVE:110 Apply filter when kanban is reloaded
       imdone.filterField.keyup(function() {
         imdone.filter();
       });
@@ -1363,7 +1367,7 @@ define([
       });
 
       // Listen for hide
-      // PLANNING:10 Show prompt if list is large before showing
+      // PLANNING:40 Show prompt if list is large before showing
       $(".list-hide, .list-show").live('click', function(e) {
         var list = $(this).attr("data-list");
         var el = $("#" + list);
@@ -1400,7 +1404,7 @@ define([
         },
 
       initialize: function() {
-        //ARCHIVE:90 Construct views and models in here!
+        //ARCHIVE:120 Construct views and models in here!
         imdone.data.projects = new Projects();
       },
       
