@@ -704,14 +704,16 @@ define([
       // add the project and get kanban
       var projectId = data.project;
       console.log("Project initialized: ", projectId);
-      var currentProjectId = imdone.currentProjectId();
       if (_.indexOf(imdone.projects, projectId) < 0) {
         imdone.projects.push(projectId);
         imdone.paintProjectsMenu();
       }
 
       // only react if project exists.  If it does get kanban
-      if (imdone.projects.length === 1) imdone.getKanban({ project:projectId });
+      if (imdone.projects.length === 1) {
+        imdone.currentProjectId(projectId);
+        imdone.navigateToCurrentProject();
+      }
     });
   };
 
