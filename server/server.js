@@ -203,7 +203,17 @@
     s.execute();
     s.opts.project = undefined;
     res.send(s);
+  }
 
+  function addProject(req, res) {
+    var dir = req.params[0];
+    res.send(server.imdone.addProject(dir));
+  }
+
+  function removeProject(req, res) {
+    var dir = req.params[0];
+    server.imdone.removeProject(dir)
+    res.send(200);
   }
 
   server.start = function(imdone, callback) {
@@ -233,6 +243,8 @@
     app.post("/api/hideList", hideList);
     app.post("/api/showList", showList);
     app.get("/api/kanban/*", getKanban);
+    app.post("/api/project/*", addProject);
+    app.delete("/api/project/*", removeProject);
     app.get("/api/projects", getProjects);
     app.get("/api/source/*", getSource);
     app.put("/api/source/*", saveSource);

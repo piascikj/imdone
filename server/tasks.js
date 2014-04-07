@@ -61,7 +61,7 @@ var utils = module.exports = {
       clone.replace(codeStyleRegex, function(match, start, list, order, text, pos) {
         if ((text.toUpperCase() == text) || (text.replace(" ", "") == "")) return;
         order = (order !== undefined) ? parseFloat(order) : 0;
-        var line = (clone.substring(0,pos).match(/\n/g)||[]).length + 1;
+        var line = (clone.substring(0,pos).match(/^/gm)||[]).length + 1;
         var task = {
           codeStyle: true,
           text:text,

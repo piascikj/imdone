@@ -718,6 +718,21 @@ define([
     });
     // DOING:0 Add project removed event
     socket.on('project.removed', function(data) {
+      var projectId = data.project;
+      console.log("Project removed: ", projectId);
+      // remove the project
+      imdone.projects = _.without(imdone.projects, projectId);
+      delete imdone.data[projectId];
+      // repaint the projects menu
+      imdone.paintProjectsMenu();
+
+      if ( imdone.currentProjectId() == projectId ) {
+        if (imdone.projects.length === 0) imdone.hideBoard();
+        else {
+          imdone.currentProjectId(imdone.projects[0]);
+          imdone.navigateToCurrentProject();
+        } 
+      }
     });
   };
 

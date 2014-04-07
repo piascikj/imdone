@@ -1,5 +1,8 @@
 Change Log
 ----
+### 1.1.1
+- Fix line number of match
+
 ### 1.0.7
 - Update events for better push updates
 

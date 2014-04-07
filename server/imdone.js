@@ -213,13 +213,13 @@ imdone.addProject = function(dir) {
   imdone.projects[dir] = new imdone.Project(dir);
   imdone.projects[dir].init();
 
-  return imdone.projects[dir];
+  return imdone.getProject(dir);
 };
 
 imdone.removeProject = function(dir) {
   console.log("Removing project at:" + dir);
-
   if (imdone.projects[dir]) delete imdone.projects[dir];
+  imdone.emitter.emit("project.removed", {project:dir});
 };
 
 imdone.getProject = function(dir) {
