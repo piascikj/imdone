@@ -665,7 +665,6 @@ define([
   imdone.getProjects = function(callback) {
     $.get("/api/projects", function(data){
       imdone.projects = data;
-      imdone.currentProjectId(data[0]);
       imdone.paintProjectsMenu();
       if (_.isFunction(callback)) callback(data);
     }, "json");
@@ -690,15 +689,16 @@ define([
       var currentProjectId = imdone.currentProjectId();
       if (_.indexOf(imdone.projects, projectId) < 0) return;
       var boardHidden = !imdone.board.is(':visible');
-      var noPaint = (boardHidden || (projectId !== currentProjectId) );
-      // only react if project exists.  If it does get kanban
-      imdone.getKanban({
-        project:projectId, 
-        noPaint:noPaint, 
-        callback:function() {
-          console.log("refresh of " + projectId + " complete!");
-        }
-      });
+      // only react if project exists and is current.
+      if (projectId == currentProjectId) {
+        imdone.getKanban({
+          project:projectId, 
+          noPaint:boardHidden, 
+          callback:function() {
+            console.log("refresh of " + projectId + " complete!");
+          }
+        });
+      }
     });
 
     socket.on('project.initialized', function(data) {
@@ -1404,7 +1404,7 @@ define([
           imdone.calls++;
         });
         Backbone.history.start();
-        if (projects.length > 0) imdone.getKanban({project:projects[0]});
+        //if (projects.length > 0) imdone.getKanban({project:projects[0]});
         imdone.initialized = true;
       });
   };
@@ -1424,23 +1424,25 @@ define([
       },
       
       filterRoute: function(filter) {
-          this.lastRoute = "filter";
-          imdone.filter(filter);
+        this.lastRoute = "filter";
+        imdone.filter(filter);
 
-          if (!imdone.currentProject()) {
-            this.defaultRoute(filter);
-          }
+        if (!imdone.currentProject()) {
+          this.defaultRoute(filter);
+        }
       },
 
       changeProject: function(project) {
-            imdone.closeFile();
-            if (imdone.scrollToList && imdone.isListHidden(imdone.scrollToList)) {
-              imdone.showList(imdone.scrollToList, imdone.paintProjectsMenu);
-            } else {
-              imdone.getKanban({project:project, callback: imdone.paintProjectsMenu});
-            }
-            imdone.hideSearchResults();
-            $(document).attr("title", "iMDone - " + project);
+        console.log("Switching to project:", project);
+        imdone.currentProjectId(project);
+        imdone.closeFile();
+        if (imdone.scrollToList && imdone.isListHidden(imdone.scrollToList)) {
+          imdone.showList(imdone.scrollToList, imdone.paintProjectsMenu);
+        } else {
+          imdone.getKanban({project:project, callback: imdone.paintProjectsMenu});
+        }
+        imdone.hideSearchResults();
+        $(document).attr("title", "iMDone - " + project);
       },
 
       projectRoute: function(project) {
@@ -1490,9 +1492,8 @@ define([
       },
 
       defaultRoute: function() {
-        if (!imdone.initialized) {
-          imdone.app.navigate("project" + imdone.currentProjectId()); 
-        }
+        if (imdone.projects.length > 0) imdone.currentProjectId(imdone.projects[0]);
+        imdone.app.navigate("project" + imdone.currentProjectId(), {trigger:true}); 
       },
   });
 
