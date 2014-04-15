@@ -49,8 +49,8 @@
   "dependencies": {
     "commander": "2.x",
     "pkginfo": "0.3.0",
-    "async": "~0.6.2",
-    "express": "3.x",
+    "async": "~0.7.0",
+    "express": "4.x",
     "underscore": "~1.6.0",
     "marked": "~0.3.1",
     "wrench": "1.5.x",
@@ -62,7 +62,11 @@
     "mkdirp": "0.3.x",
     "node-syntaxhighlighter": "0.8.1",
     "isbinaryfile": "~2.0.0",
-    "sanitize-html": "~1.1.1"
+    "sanitize-html": "~1.1.1",
+    "cookie-parser": "~1.0.1",
+    "body-parser": "~1.0.2",
+    "imdone-core": "0.0.0",
+    "lodash": "~2.4.1"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.8.0",

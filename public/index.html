@@ -214,7 +214,7 @@
         </div>
         {{#if tasks}}
         {{#each tasks}}
-        <div class="wrap well task" id="{{list}}-{{pathId}}" data-id="{{pathId}}" data-list="{{list}}" data-order="{{order}}" data-path="{{path}}">
+        <div class="wrap well task" id="{{list}}-{{id}}" data-id="{{id}}" data-list="{{list}}" data-order="{{order}}" data-path="{{source.path}}">
           <span class="row-fluid task-text">{{{markDown text}}}</span>
           <span class="row-fluid task-info">
             <a href="{{fileHref project path line}}" title="Open {{path}}" class="source-link" data-url="{{url}}" data-target="#src-panel" data-list="{{list}}">{{path}}</a>

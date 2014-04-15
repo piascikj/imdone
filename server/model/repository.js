@@ -7,7 +7,7 @@
  */
 //ARCHIVE:250 Implement base repository functionality with [declare.js](https://npmjs.org/package/declare.js) 
 var fs = require('fs');
-var _ = require('underscore');
+var _  = require('lodash');
 
 /*
 Repository = module.exports = {

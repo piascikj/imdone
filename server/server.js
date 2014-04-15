@@ -5,23 +5,25 @@
  * Copyright (c) 2012 Jesse Piascik
  * Licensed under the MIT license.
  */
-  // PLANNING:60 Upgrade express - [ExpressJS 4.0: New Features and Upgrading from 3.0 ♥ Scotch](http://scotch.io/bar-talk/expressjs-4-0-new-features-and-upgrading-from-3-0)
-  var express = require('express');
-  var http = require('http');
-  var fs = require('fs');
-  var nsh = require('node-syntaxhighlighter');
-  var nshPath = require.resolve('node-syntaxhighlighter').split("/").slice(0, -1).join("/");
-  var _ = require('underscore');
-  var Handlebars = require('handlebars');
-  var util = require('util');
-  var io = require('socket.io');
-  var mkdirp = require('mkdirp');
-  var search = require('./search');
-  var server = module.exports;
-  var EVENTS = {
-    PROJECT_MODIFIED: "project.modified",
-    PROJECT_INITIALIZED: "project.initialized"
-  };
+  // PLANNING:120 Upgrade express - [ExpressJS 4.0: New Features and Upgrading from 3.0 ♥ Scotch](http://scotch.io/bar-talk/expressjs-4-0-new-features-and-upgrading-from-3-0)
+  var express      = require('express');
+  var bodyParser   = require('body-parser');
+  var cookieParser = require('cookie-parser');
+  var http         = require('http');
+  var fs           = require('fs');
+  var nsh          = require('node-syntaxhighlighter');
+  var nshPath      = require.resolve('node-syntaxhighlighter').split("/").slice(0, -1).join("/");
+  var _            = require('lodash');
+  var Handlebars   = require('handlebars');
+  var util         = require('util');
+  var io           = require('socket.io');
+  var mkdirp       = require('mkdirp');
+  var search       = require('./search');
+  var server       = module.exports;
+  var EVENTS       = {
+                       PROJECT_MODIFIED: "project.modified",
+                       PROJECT_INITIALIZED: "project.initialized"
+                     };
 
   function isProcessing(req,res) {
     var project = req.body.project || req.query.project;
@@ -32,50 +34,48 @@
       res.send(server.imdone.getProjects());
   }
 
+  // DONE:0 use imdone-core
   function getKanban(req, res){
     if (isProcessing(req,res)) {
       res.send({processing:true});
       return;
     }
     project = server.imdone.getProject(req.params[0]);
-    //console.log(project);
 
     res.send({
-      lists:project.getSortedLists(),
-      lastUpdate:project.lastUpdate,
-      readme:project.getReadme()
+      lists:project.getTasks(),
+      readme:project.getRepos()[0].getDefaultFile()
     });
   }
 
-  function moveTask(req, res) {
-    if (isProcessing(req,res)) {
-      res.send({processing:true});
-      return;
-    }
-    var project = server.imdone.getProject(req.body.project);
-    project.moveTask(req.body, function() {
-      res.send(200);
-    });
-  }
-
+  // DONE:0 use imdone-core
   function moveTasks(req, res) {
     if (isProcessing(req,res)) {
       res.send({processing:true});
       return;
     }
-    var project = server.imdone.getProject(req.body.project);
-    project.moveTasks(req.body.tasks, function() {
+    server.imdone.getProject(req.body.project);
+    var tasks = req.body.tasks;
+    var newList = req.body.newList;
+    var newPos = req.body.newPos;
+    project.moveTasks(tasks, newList, newPos, function() {
       res.send(200);
     });
   }
 
+  // DOING:0 use imdone-core
   function moveList(req, res) {
     if (isProcessing(req,res)) {
       res.send({processing:true});
       return;
     }
-
-    res.send({lists:server.imdone.getProject(req.body.project).moveList(req.body)});
+    var pos = parseInt(req.body.pos, 0);
+    server.imdone.getProject(req.body.project).moveList(req.body.name, pos, function(err) {
+      if (err) {
+        console.log(err);
+        res.send(500);
+      } else res.send(200);
+    });
   }
 
   function removeList(req, res) {
@@ -227,8 +227,8 @@
     var app = server.app = express();
     var  xserver = http.createServer(app);
 
-    app.use(express.cookieParser());
-    app.use(express.bodyParser());
+    app.use(cookieParser());
+    app.use(bodyParser());
 
     //Start the api and static content server
     /*
@@ -239,7 +239,6 @@
       /api/files
     */
     // ARCHIVE:740 Make sure we're restful
-    app.post("/api/moveTask", moveTask);
     app.post("/api/moveTasks", moveTasks);
     app.post("/api/moveList", moveList);
     app.post("/api/removeList", removeList);
@@ -298,7 +297,7 @@
       server.imdone.emitter.on(EVENTS.PROJECT_MODIFIED, onProjectModified);
       server.imdone.emitter.on(EVENTS.PROJECT_INITIALIZED, onProjectInitialized);
 
-      // DONE:0 Remove listeners on disconnect
+      // DONE:10 Remove listeners on disconnect
       socket.on('disconnect', function () {
         server.imdone.emitter.removeListener(EVENTS.PROJECT_MODIFIED, onProjectModified);
         server.imdone.emitter.removeListener(EVENTS.PROJECT_INITIALIZED, onProjectInitialized);

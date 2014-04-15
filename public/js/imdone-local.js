@@ -88,7 +88,7 @@ define([
       }
     }
   };
-  // PLANNING:30 Use [spin.js](http://fgnass.github.io/spin.js/#?lines=15&length=24&width=9&radius=60&corners=0.1&rotate=0&trail=60&speed=0.5&direction=1&hwaccel=on) for loading gif
+  // PLANNING:90 Use [spin.js](http://fgnass.github.io/spin.js/#?lines=15&length=24&width=9&radius=60&corners=0.1&rotate=0&trail=60&speed=0.5&direction=1&hwaccel=on) for loading gif
   //pnotify options
   $.extend($.pnotify.defaults,{
       styling: 'bootstrap',
@@ -304,7 +304,7 @@ define([
     return false;
   };
 
-  // PLANNING:20 add notify and undo for move
+  // PLANNING:80 add notify and undo for move
   imdone.moveTasks = function(opts) {
     var tasks = [];
     var toListId = (opts.to) ? opts.to : opts.item.closest(".list").attr("id");
@@ -315,23 +315,29 @@ define([
       var taskId = $el.attr("data-id");
       var listId = $el.attr("data-list");
       var path = $el.attr("data-path");
-      var list = _.where(imdone.currentProject().lists, {name:listId})[0];
-      var task = _.where(list.tasks, {pathId:parseInt(taskId), path:path})[0];
-      tasks.push({
-        path:path,
-        pathId:task.pathId,
-        lastUpdate:task.lastUpdate,
-        from:listId,
-        to:toListId,
-        pos:pos,
-        project:imdone.currentProjectId()
-      });
+      var list = _.findWhere(imdone.currentProject().lists, {name:listId});
+      var task = _.filter(list.tasks, function(task) {
+        return task.id == parseInt(taskId) && task.source.path == path;
+      })[0];
+      tasks.push(task);
     });
+    var reqObj = {
+      tasks:tasks,
+      newList:toListId,
+      newPos:pos,
+      project:imdone.currentProjectId()
+    };
+
     //Now call the service and call getKanban
-    $.post("/api/moveTasks", {tasks:tasks, project:imdone.currentProjectId()},
-      function(data){
+    $.ajax({
+      url:"/api/moveTasks",
+      type:"POST",
+      data:JSON.stringify(reqObj),
+      contentType:"application/json; charset=utf-8",
+      success: function(data){
         imdone.getKanban();
-      }, "json");
+      }
+    });
   };
 
   imdone.moveTask = function(item) {
@@ -339,37 +345,45 @@ define([
     var listId = item.attr("data-list");
     var path = item.attr("data-path");
     var toListId = item.closest(".list").attr("id");
-    var list = _.where(imdone.currentProject().lists, {name:listId})[0];
-    var task = _.where(list.tasks, {pathId:parseInt(taskId), path:path})[0];
+    var list = _.findWhere(imdone.currentProject().lists, {name:listId});
+    var tasks = _.filter(list.tasks, function(task) {
+      return task.id == parseInt(taskId) && task.source.path == path;
+    });
     var pos = item.index()-1;
     var reqObj = {
-      path:path,
-      pathId:task.pathId,
-      lastUpdate:task.lastUpdate,
-      from:listId,
-      to:toListId,
-      pos:pos,
+      tasks:tasks,
+      newList:toListId,
+      newPos:pos,
       project:imdone.currentProjectId()
     };
 
     //Now call the service and call getKanban
-    $.post("/api/moveTask", reqObj,
-      function(data){
+    $.ajax({
+      url:"/api/moveTasks",
+      type:"POST",
+      data:JSON.stringify(reqObj),
+      contentType:"application/json; charset=utf-8",
+      success: function(data){
         imdone.getKanban();
-      }, "json");
+      }
+    });
   };
 
   imdone.moveList = function(e,ui) {
-    var list = ui.item.attr("data-list");
+    var name = ui.item.attr("data-list");
     var pos = ui.item.index();
-    var reqObj = { list: list, position: pos, project: imdone.currentProjectId() };
+    var reqObj = { name: name, pos: pos, project: imdone.currentProjectId() };
     //Now call the service and call getKanban
-    $.post("/api/moveList", reqObj,
-      function(data){
+   $.ajax({
+      url:"/api/moveList",
+      type:"POST",
+      data:JSON.stringify(reqObj),
+      contentType:"application/json; charset=utf-8",
+      success: function(data){
         imdone.getKanban();
-      }, "json");
-
-  }
+      }
+    });
+  };
 
   imdone.hideList = function(list) {
     $.post("/api/hideList", { list: list, project: imdone.currentProjectId() },
@@ -390,7 +404,7 @@ define([
     //Load the most recent data
     var project = params && params.project || imdone.currentProjectId();
     if (project) {
-      $.get("/api/kanban" + project, function(data){
+      $.get("/api/kanban/" + project, function(data){
         imdone.setProjectData(project,data);
         if ((params && !params.noPaint) || params == undefined) imdone.paintKanban(data);
 
@@ -716,7 +730,7 @@ define([
         imdone.navigateToCurrentProject();
       }
     });
-    // DOING:0 Add project removed event
+    // DOING:0 Test project removed event
     socket.on('project.removed', function(data) {
       var projectId = data.project;
       console.log("Project removed: ", projectId);
@@ -1110,7 +1124,7 @@ define([
   });
 
   imdone.navigateToCurrentProject = function() {
-    imdone.app.navigate("project" + imdone.currentProjectId(), {trigger:true});
+    imdone.app.navigate("project/" + imdone.currentProjectId(), {trigger:true});
   };
 
   // ARCHIVE:590 Clean up init before implementing backbone views
@@ -1313,7 +1327,7 @@ define([
       });
 
       
-      // PLANNING:10 Use [egdelwonk/SlidePanel](https://github.com/egdelwonk/slidepanel) for opening files and removing clutter
+      // PLANNING:70 Use [egdelwonk/SlidePanel](https://github.com/egdelwonk/slidepanel) for opening files and removing clutter
       function openFile() {
         //ARCHIVE:100 Create a new file based on path and project with call to /api/source
         var path = imdone.fileField.val();
@@ -1382,7 +1396,7 @@ define([
       });
 
       // Listen for hide
-      // PLANNING:40 Show prompt if list is large before showing
+      // PLANNING:100 Show prompt if list is large before showing
       $(".list-hide, .list-show").live('click', function(e) {
         var list = $(this).attr("data-list");
         var el = $("#" + list);

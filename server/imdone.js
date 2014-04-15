@@ -7,23 +7,30 @@
  */
 //ARCHIVE:210 Implement hide functionality to hide a list from board
 // Nodejs libs.
-var fs = require('fs');
-var events = require('events');
-var program = require("commander");
-var wrench = require('wrench');
-var _ = require('underscore');
-var watchr = require('watchr');
-var marked = require('marked');
-var open = require('open');
-var request = require('request');
-var express = require('express');
-var http = require('http');
-var mkdirp = require('mkdirp');
-var server = require("./server");
-var tasks = require("./tasks");
-var languages = require("./util/languages");
+var fs               = require('fs');
+var path             = require('path');
+var events           = require('events');
+var program          = require("commander");
+var wrench           = require('wrench');
+var _                = require('lodash');
+var watchr           = require('watchr');
+var marked           = require('marked');
+var open             = require('open');
+var request          = require('request');
+var express          = require('express');
+var bodyParser       = require('body-parser');
+var cookieParser     = require('cookie-parser');
+var http             = require('http');
+var mkdirp           = require('mkdirp');
+var server           = require("./server");
+var tasks            = require("./tasks");
+var languages        = require("./util/languages");
 var isBinaryFileSync = require("isbinaryfile");
-var async = require("async");
+var async            = require("async");
+var core             = require("imdone-core");
+var Repo             = core.Repository;
+var Project          = core.Project;
+var tools            = core.Tools;
 var sanitize
 
 var imdone = module.exports = {pause:{}};
@@ -105,13 +112,14 @@ imdone.start = function(dirs, open, cb) {
   });
 };
 
+// PLANNING:0 Use axon-rpc for cli service and move to it's own module
 imdone.startCLIService = function(callback) {
   //Start a service on 8899 for cli to interact with
   //Access imdone data through getters and setters that require project path
   var app = imdone.cliService = express();
   var xserver = http.createServer(app);
-  app.use(express.cookieParser());
-  app.use(express.bodyParser());
+  app.use(cookieParser());
+  app.use(bodyParser());
 
   //Start the api and static content server
   app.get("/cli", function(req, res) {
@@ -208,12 +216,13 @@ imdone.checkCLIService = function(success, failure) {
 
 imdone.addProject = function(dir) {
   console.log("Adding project at:" + dir);
+  var name = dir.split(path.sep).join("-");
+  if (imdone.projects[name]) delete imdone.projects[name];
+  var repo = new Repo(dir);
+  var project = imdone.projects[name] = new Project(tools.user(), name, [repo]);
+  project.init();
 
-  if (imdone.projects[dir]) delete imdone.projects[dir];
-  imdone.projects[dir] = new imdone.Project(dir);
-  imdone.projects[dir].init();
-
-  return imdone.getProject(dir);
+  return imdone.getProject(name);
 };
 
 imdone.removeProject = function(dir) {
@@ -222,20 +231,17 @@ imdone.removeProject = function(dir) {
   imdone.emitter.emit("project.removed", {project:dir});
 };
 
-imdone.getProject = function(dir) {
-  if (!/^\//.test(dir)) dir = "/" + dir;
-  return imdone.projects[dir] || {};
+imdone.getProject = function(name) {
+  console.log("Getting project with name:", name);
+  return imdone.projects[name] || {};
 };
 
 imdone.getProjects = function() {
   return _.keys(imdone.projects);
 };
 
-imdone.getLastUpdate = function() {
-  return _.map(imdone.projects, function(project, key){ return {project:project.path, lastUpdate:project.lastUpdate}; });
-};
-
 imdone.emitter = new events.EventEmitter();
+
 /*
 
   This is the Project class
@@ -412,7 +418,6 @@ imdone.Project.prototype.moveTask = function(request, callback) {
   var path = request.path;
   var from = request.from;
   var to = request.to;
-  var lastUpdate = request.lastUpdate;
   var pos = parseInt(request.pos, null);
   var pathId = parseInt(request.pathId, null);
 
@@ -425,11 +430,6 @@ imdone.Project.prototype.moveTask = function(request, callback) {
   if (_.indexOf(this.lists, to) < 0) this.lists.push(to);
   //console.log("------------------Moving Task---------------------");
   //console.log(JSON.stringify(task, null, 3));
-
-  //if the lastUpdate is different return need refresh
-  if (new Date(lastUpdate) < pathObj.lastUpdate) {
-    return {refresh:true};
-  }
 
   var lists = self.getSortedLists();
   var toList = _.findWhere(lists, {name:to});

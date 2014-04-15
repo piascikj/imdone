@@ -20,7 +20,6 @@ module.exports = {
   events : {
     modified: function(params) {
       console.log("Files modified in project:", params.project.path);
-      console.log(params.files);
     }
   }
 };

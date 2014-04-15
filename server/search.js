@@ -1,6 +1,6 @@
 var util   = require('util'),
     fs     = require('fs'),
-    _      = require('underscore'),
+    _      = require('lodash'),
     path   = require('path'),
     join   = path.join,
     Errors = require('./errors');
