@@ -17,7 +17,11 @@
   var io = require('socket.io');
   var mkdirp = require('mkdirp');
   var search = require('./search');
-  var server = module.exports; 
+  var server = module.exports;
+  var EVENTS = {
+    PROJECT_MODIFIED: "project.modified",
+    PROJECT_INITIALIZED: "project.initialized"
+  };
 
   function isProcessing(req,res) {
     var project = req.body.project || req.query.project;
@@ -283,13 +287,22 @@
 
     io.sockets.on('connection', function(socket) {
 
-      server.imdone.emitter.on('project.modified', function(data) {
-        socket.emit('project.modified', data);
-      });
-      server.imdone.emitter.on('project.initialized', function(data) {
-        socket.emit('project.initialized', data);
-      });
+      var onProjectModified = function(data) {
+        socket.emit(EVENTS.PROJECT_MODIFIED, data);
+      }
 
+      var onProjectInitialized = function(data) {
+        socket.emit(EVENTS.PROJECT_INITIALIZED, data);
+      }
+
+      server.imdone.emitter.on(EVENTS.PROJECT_MODIFIED, onProjectModified);
+      server.imdone.emitter.on(EVENTS.PROJECT_INITIALIZED, onProjectInitialized);
+
+      // DONE:0 Remove listeners on disconnect
+      socket.on('disconnect', function () {
+        server.imdone.emitter.removeListener(EVENTS.PROJECT_MODIFIED, onProjectModified);
+        server.imdone.emitter.removeListener(EVENTS.PROJECT_INITIALIZED, onProjectInitialized);
+      });
     });    
 
     if (callback) app.on('listening', callback);

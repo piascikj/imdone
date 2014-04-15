@@ -7,6 +7,7 @@
     "ARCHIVE"
   ],
   "hidden": [
-    "ARCHIVE"
+    "ARCHIVE",
+    "TODO"
   ]
 }
