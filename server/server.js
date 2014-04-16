@@ -25,9 +25,9 @@
                        PROJECT_INITIALIZED: "project.initialized"
                      };
 
-  function isProcessing(req,res) {
-    var project = req.body.project || req.query.project;
-    return server.imdone.getProject(project).processing;
+  function isBusy(req,res) {
+    var project = req.body.project || req.query.project || req.params[0];
+    return server.imdone.getProject(project).isBusy();
   }
 
   function getProjects(req, res) {
@@ -36,10 +36,12 @@
 
   // DONE:0 use imdone-core
   function getKanban(req, res){
-    if (isProcessing(req,res)) {
-      res.send({processing:true});
+    if (isBusy(req,res)) {
+      res.send({busy:true});
       return;
     }
+    console.log("Getting project with name:", req.params[0]);
+
     project = server.imdone.getProject(req.params[0]);
 
     res.send({
@@ -50,11 +52,11 @@
 
   // DONE:0 use imdone-core
   function moveTasks(req, res) {
-    if (isProcessing(req,res)) {
-      res.send({processing:true});
+    if (isBusy(req,res)) {
+      res.send({busy:true});
       return;
     }
-    server.imdone.getProject(req.body.project);
+    var project = server.imdone.getProject(req.body.project);
     var tasks = req.body.tasks;
     var newList = req.body.newList;
     var newPos = req.body.newPos;
@@ -63,14 +65,15 @@
     });
   }
 
-  // DOING:0 use imdone-core
+  // DONE:0 use imdone-core
   function moveList(req, res) {
-    if (isProcessing(req,res)) {
-      res.send({processing:true});
+    if (isBusy(req,res)) {
+      res.send({busy:true});
       return;
     }
     var pos = parseInt(req.body.pos, 0);
-    server.imdone.getProject(req.body.project).moveList(req.body.name, pos, function(err) {
+    var project = server.imdone.getProject(req.body.project);
+    project.moveList(req.body.name, pos, function(err) {
       if (err) {
         console.log(err);
         res.send(500);
@@ -78,9 +81,10 @@
     });
   }
 
+  // DOING:0 use imdone-core
   function removeList(req, res) {
-    if (isProcessing(req,res)) {
-      res.send({processing:true});
+    if (isBusy(req,res)) {
+      res.send({busy:true});
       return;
     }
 
@@ -88,27 +92,35 @@
 
   }
 
+  // DONE:0 use imdone-core
   function renameList(req, res) {
-    if (isProcessing(req,res)) {
-      res.send({processing:true});
+    if (isBusy(req,res)) {
+      res.send({busy:true});
       return;
     }
-
-    res.send({lists:server.imdone.getProject(req.body.project).renameList(req.body)});
+    var project = server.imdone.getProject(req.body.project);
+    var name = req.body.name;
+    var newName = req.body.newName;
+    project.renameList(name, newName, function(err) {
+      if (err) return res.send(500);
+      res.send(200);
+    })
   }
 
+  // DOING:0 use imdone-core
   function hideList(req, res) {
-    if (isProcessing(req,res)) {
-      res.send({processing:true});
+    if (isBusy(req,res)) {
+      res.send({busy:true});
       return;
     }
 
     res.send({lists:server.imdone.getProject(req.body.project).hideList(req.body)});
   }
 
+  // DOING:0 use imdone-core
   function showList(req, res) {
-    if (isProcessing(req,res)) {
-      res.send({processing:true});
+    if (isBusy(req,res)) {
+      res.send({busy:true});
       return;
     }
 
@@ -117,24 +129,34 @@
 
   //ARCHIVE:700 Have this use splat for project name like getFiles
   //ARCHIVE:390 Move getSource to imdone.js
+  // DOING:0 use imdone-core
   function getSource(req, res) {
-    if (isProcessing(req,res)) {
-      res.send({processing:true});
+    if (isBusy(req,res)) {
+      res.send({busy:true});
       return;
     }
 
     var path = req.query.path;
     var line = req.query.line;
     var project = server.imdone.getProject(req.params[0]);
-    project.getSource(path, line, function(resp) {
-      res.send(resp);
-    });
+    var file = project.getFileWithContent(project.getRepos()[0].getId(), path);
+    if (file) {
+      return res.send({
+          src:file.getContent(), 
+          line:line,
+          lang:file.getLang().name,
+          project:project.path,
+          path:file.getPath()
+      });
+    }
+    return res.send(500);
   }
 
   // ARCHIVE:720 Have this use splat for project name like getFiles
+  // DOING:0 use imdone-core
   function saveSource(req, res) {
-    if (isProcessing(req,res)) {
-      res.send({processing:true});
+    if (isBusy(req,res)) {
+      res.send({busy:true});
       return;
     }
 
@@ -148,9 +170,10 @@
   }
 
   // ARCHIVE:650 Move removeSource to imdone.js and add hook    
+  // DOING:0 use imdone-core
   function removeSource(req, res) {
-    if (isProcessing(req,res)) {
-      res.send({processing:true});
+    if (isBusy(req,res)) {
+      res.send({busy:true});
       return;
     }
 
@@ -174,6 +197,7 @@
     }
   }
 
+  // DOING:0 use imdone-core
   function getFiles(req,res) {
     var project = server.imdone.getProject(req.params[0]);
     if (project.path) {
@@ -195,6 +219,7 @@
     }
   }
 
+  // DOING:0 use imdone-core
   function doSearch(req,res) {
     var opts = {project:server.imdone.getProject(req.params[0])};
     var query = req.query.query;

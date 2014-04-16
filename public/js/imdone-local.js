@@ -65,15 +65,19 @@ define([
     modes : {
       "md":"markdown",
       "js":"javascript",
+      "javascript": "javascript",
       "html":"html",
       "css":"css",
       "java":"java",
       "json":"json",
       "coffee":"coffee",
+      "coffeescript":"coffee",
       "joe":"coffee",
       "php":"php",
       "py":"python",
-      "txt":"text"
+      "python":"python",
+      "txt":"text",
+      "text":"text"
     },
     Search: Search,
     copyButton: '<button class="btn btn-inverse pull-right copy-btn" title="Copy text"><i class="icomoon-copy"></i></button>',
@@ -203,7 +207,7 @@ define([
       // If not an in page link then it must be a link to a file
       } else if (!inPageLinks.test(href)) {
         if (/.*\.md$/.test(href)) preview = true;
-        out = head + imdone.getFileHref(imdone.currentProjectId(),href,preview) + tail + '>' + content + end;
+        out = head + imdone.getFileHref(href,preview) + tail + '>' + content + end;
       }
 
       return out;
@@ -220,7 +224,7 @@ define([
         name = pieces[0];
       }
       var file = file.replace(/(\s)|(\/)/g,"-") + ".md";
-      var href = imdone.getFileHref(imdone.currentProjectId(),file,true);
+      var href = imdone.getFileHref(file,true);
       return '<a href="{}">{}</a>'.tokenize(href, name);
     });
     return html;
@@ -235,11 +239,11 @@ define([
     evt.stopPropagation();
   });
   
-  imdone.getFileHref = function(project, path, line, preview) {
+  imdone.getFileHref = function(path, line, preview) {
     if (_.isObject(preview)) preview = undefined;
     if (_.isObject(line)) line = undefined;
     if (line && isNaN(line)) preview = true;
-    project = encodeURIComponent(project);
+    project = imdone.currentProjectId();
     path = encodeURIComponent(path);
     var href = '#file/{}/{}'.tokenize(project, path);
     if (line) href+= ("/" + line);
@@ -551,7 +555,7 @@ define([
   };
   
   imdone.paintKanban = function(data) {
-    if (!data.processing && !imdone.editMode) {
+    if (!data.busy && !imdone.editMode) {
       imdone.board.empty();
       imdone.contentNav.hide();
       imdone.listsMenu.empty();
@@ -645,7 +649,7 @@ define([
       //$('.list-name-container, .list-hide, .list-show, [title]').tooltip({placement:"bottom"});
 
       if (data.readme) {
-        var href = imdone.getFileHref(imdone.currentProjectId(),data.readme,true);
+        var href = imdone.getFileHref(data.readme,true);
         imdone.openReadmeBtn.attr("title", "Open " + data.readme)
         .show()
         .unbind()
@@ -802,7 +806,7 @@ define([
     //ARCHIVE:660 We have to convert the source api url URL first
     if (params && params.path) params.path = params.path.replace(/^\/*/,'');
     
-    var url = "/api/source" + params.project + "?path=" + params.path;
+    var url = "/api/source/" + params.project + "?path=" + params.path;
     if (params.line) url += "&line=" + params.line;
     imdone.previewMode = params.preview;
     
@@ -1124,7 +1128,7 @@ define([
   });
 
   imdone.navigateToCurrentProject = function() {
-    imdone.app.navigate("project/" + imdone.currentProjectId(), {trigger:true});
+    imdone.app.navigate("project" + imdone.currentProjectId(), {trigger:true});
   };
 
   // ARCHIVE:590 Clean up init before implementing backbone views
@@ -1155,7 +1159,7 @@ define([
           $.post("/api/renameList", req,
             function(data){
               imdone.getKanban();
-          }, "json");
+          });
         }
 
         $(this).closest(".modal").modal('hide');
@@ -1338,7 +1342,7 @@ define([
             path = imdone.currentProject().cwd.path + "/" + imdone.fileField.val();
             path = path.replace(/^(\/)+/,"");
           }
-          imdone.app.navigate(imdone.getFileHref(imdone.currentProjectId(),path), {trigger:true});
+          imdone.app.navigate(imdone.getFileHref(path), {trigger:true});
           $(this).closest(".modal").modal('hide');
         }
         return false;

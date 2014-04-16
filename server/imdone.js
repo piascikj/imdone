@@ -232,7 +232,6 @@ imdone.removeProject = function(dir) {
 };
 
 imdone.getProject = function(name) {
-  console.log("Getting project with name:", name);
   return imdone.projects[name] || {};
 };
 
