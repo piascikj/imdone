@@ -84,8 +84,8 @@ imdone.startFromCLI = function(dir) {
 
   program.parse(process.argv);
 
-  var dirs = program.dirs || [dir];
-
+  var dirs = _.map(program.dirs || [dir], function(dir) { return path.resolve(dir); } );
+  
   if (program.stop) {
     imdone.cliStop();
   } else {
