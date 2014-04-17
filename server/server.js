@@ -18,6 +18,7 @@
   var util         = require('util');
   var io           = require('socket.io');
   var mkdirp       = require('mkdirp');
+  var path         = require('path');
   var search       = require('./search');
   var server       = module.exports;
   var EVENTS       = {
@@ -208,10 +209,19 @@
   }
 
   // DOING:0 use imdone-core
+  function fileMapper (file) { 
+    return { name: path.basename(file.getPath()), path: file.getPath(), project: project.getName() }; 
+  }
+
   function getFiles(req,res) {
     var project = server.imdone.getProject(req.params[0]);
-    if (project.path) {
-      res.send(project.getFiles());
+    var files = project.getFilesInRepo(project.getRepos()[0].getId(), true);
+    if (files) {
+      var out = {
+        files: _.map(_.where(files, {isDir:false}), fileMapper),
+        dirs: _.map(_.where(files, {isDir:true}), fileMapper)
+      };
+      res.send(out);
     } else {
       res.send(404, "Project not found");
     }
