@@ -135,8 +135,8 @@
     });
   }
 
-  //ARCHIVE:700 Have this use splat for project name like getFiles
-  //ARCHIVE:390 Move getSource to imdone.js
+  // ARCHIVE:700 Have this use splat for project name like getFiles
+  // ARCHIVE:390 Move getSource to imdone.js
   // DONE:0 use imdone-core
   function getSource(req, res) {
     if (isBusy(req,res)) {
@@ -150,6 +150,7 @@
     var file = project.getFileWithContent(project.getRepos()[0].getId(), path);
     if (file) {
       return res.send({
+          repoId: file.getRepoId(),
           src:file.getContent(), 
           line:line,
           lang:file.getLang().name,
@@ -161,7 +162,7 @@
   }
 
   // ARCHIVE:720 Have this use splat for project name like getFiles
-  // DOING:0 use imdone-core
+  // DONE:0 use imdone-core
   function saveSource(req, res) {
     if (isBusy(req,res)) {
       res.send({busy:true});
@@ -170,9 +171,10 @@
 
     var path = req.body.path,
         src = req.body.src,
+        repoId = req.body.repoId,
         project = server.imdone.getProject(req.params[0]);
 
-    project.saveSource(path, src, function(resp) {
+    project.saveFile(repoId, path, src, function(resp) {
       res.send(resp);
     });
   }
@@ -327,13 +329,17 @@
         socket.emit(EVENTS.PROJECT_INITIALIZED, data);
       }
 
-      server.imdone.emitter.on(EVENTS.PROJECT_MODIFIED, onProjectModified);
-      server.imdone.emitter.on(EVENTS.PROJECT_INITIALIZED, onProjectInitialized);
+      _.each(server.imdone.projects, function(project) {
+        project.on(EVENTS.PROJECT_MODIFIED, onProjectModified);
+        project.on(EVENTS.PROJECT_INITIALIZED, onProjectInitialized);
+      });
 
       // DONE:10 Remove listeners on disconnect
       socket.on('disconnect', function () {
-        server.imdone.emitter.removeListener(EVENTS.PROJECT_MODIFIED, onProjectModified);
-        server.imdone.emitter.removeListener(EVENTS.PROJECT_INITIALIZED, onProjectInitialized);
+        _.each(server.imdone.projects, function(project) {
+          project.removeListener(EVENTS.PROJECT_MODIFIED, onProjectModified);
+          project.removeListener(EVENTS.PROJECT_INITIALIZED, onProjectInitialized);
+        });
       });
     });    
 

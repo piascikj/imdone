@@ -611,6 +611,7 @@ define([
       });
       // Make Sortable
       $(".list").sortable({
+            delay: 300,
             items: ".task",
             connectWith: ".list",
             start: function(evt, ui) {
@@ -631,9 +632,10 @@ define([
         }).disableSelection();
 
       imdone.listsMenu.sortable({
-            axis: "y",
-            handle:".js-drag-handle",
-            stop: imdone.moveList
+        delay: 300,
+        axis: "y",
+        handle:".js-drag-handle",
+        stop: imdone.moveList
       }).disableSelection();
 
       //Set width of board based on number of visible lists
@@ -1056,7 +1058,7 @@ define([
   imdone.saveFile = function(evt) {
     imdone.source.src = imdone.editor.getValue();
     $.ajax({
-        url: "/api/source" + imdone.source.project,
+        url: "/api/source/" + imdone.currentProjectId(),
         type: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify(imdone.source),
