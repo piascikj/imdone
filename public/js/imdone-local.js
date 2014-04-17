@@ -393,14 +393,14 @@ define([
     $.post("/api/hideList", { list: list, project: imdone.currentProjectId() },
       function(data){
         imdone.getKanban();
-      }, "json");
+      });
   }
 
   imdone.showList = function(list, cb) {
     $.post("/api/showList", {list:list, project:imdone.currentProjectId()},
       function(data){
         imdone.getKanban({callback:cb});
-      }, "json");
+      });
   }
 
   imdone.getKanban = function(params) {
@@ -1128,7 +1128,7 @@ define([
   });
 
   imdone.navigateToCurrentProject = function() {
-    imdone.app.navigate("project" + imdone.currentProjectId(), {trigger:true});
+    imdone.app.navigate("project/" + imdone.currentProjectId(), {trigger:true});
   };
 
   // ARCHIVE:590 Clean up init before implementing backbone views
@@ -1175,7 +1175,7 @@ define([
         $.post("/api/removeList", req,
           function(data){
             imdone.getKanban();
-        }, "json");
+        });
       });
 
       //Editor config
@@ -1430,7 +1430,7 @@ define([
   var AppRouter = Backbone.Router.extend({
       routes: {
           "search/:project/:query/:offset(/:limit)": "searchRoute",
-          "project*project": "projectRoute",
+          "project/*project": "projectRoute",
           "file/:project/:path(/:line)(/:preview)": "fileRoute",
           "filter/*filter" : "filterRoute",
           "*action": "defaultRoute" // Backbone will try match the route above first
@@ -1511,7 +1511,7 @@ define([
 
       defaultRoute: function() {
         if (imdone.projects.length > 0) imdone.currentProjectId(imdone.projects[0]);
-        imdone.app.navigate("project" + imdone.currentProjectId(), {trigger:true}); 
+        imdone.navigateToCurrentProject();
       },
   });
 

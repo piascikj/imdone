@@ -88,7 +88,10 @@
       return;
     }
 
-    res.send({lists:server.imdone.getProject(req.body.project).removeList(req.body)});
+    server.imdone.getProject(req.body.project).removeList(req.body.list, function(err) {
+      if (err) res.send(500);
+      else res.send(200);
+    });
 
   }
 
@@ -107,29 +110,34 @@
     })
   }
 
-  // DOING:0 use imdone-core
+  // DONE:0 use imdone-core
   function hideList(req, res) {
     if (isBusy(req,res)) {
       res.send({busy:true});
       return;
     }
-
-    res.send({lists:server.imdone.getProject(req.body.project).hideList(req.body)});
+    server.imdone.getProject(req.body.project).hideList(req.body.list, function(err) {
+      if (err) res.send(500);
+      else res.send(200);
+    });
   }
 
-  // DOING:0 use imdone-core
+  // DONE:0 use imdone-core
   function showList(req, res) {
     if (isBusy(req,res)) {
       res.send({busy:true});
       return;
     }
 
-    res.send({lists:server.imdone.getProject(req.body.project).showList(req.body)});
+    server.imdone.getProject(req.body.project).showList(req.body.list, function(err) {
+      if (err) res.send(500);
+      else res.send(200);
+    });
   }
 
   //ARCHIVE:700 Have this use splat for project name like getFiles
   //ARCHIVE:390 Move getSource to imdone.js
-  // DOING:0 use imdone-core
+  // DONE:0 use imdone-core
   function getSource(req, res) {
     if (isBusy(req,res)) {
       res.send({busy:true});

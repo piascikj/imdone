@@ -215,8 +215,8 @@ imdone.checkCLIService = function(success, failure) {
 };
 
 imdone.addProject = function(dir) {
+  var name = dir.replace(/^([A-Za-z]:(\\)?|\/?)/, "").split(path.sep).join("-");
   console.log("Adding project at:" + dir);
-  var name = dir.split(path.sep).join("-");
   if (imdone.projects[name]) delete imdone.projects[name];
   var repo = new Repo(dir);
   var project = imdone.projects[name] = new Project(tools.user(), name, [repo]);
