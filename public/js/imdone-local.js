@@ -593,6 +593,7 @@ define([
       });
       // Make Sortable
       $(".list").sortable({
+            delay: 300,
             items: ".task",
             connectWith: ".list",
             start: function(evt, ui) {
@@ -613,6 +614,7 @@ define([
         }).disableSelection();
 
       imdone.listsMenu.sortable({
+            delay: 300,
             axis: "y",
             handle:".js-drag-handle",
             stop: imdone.moveList
