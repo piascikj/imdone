@@ -45,7 +45,7 @@
     project = server.imdone.getProject(req.params[0]);
 
     res.send({
-      lists:project.getTasks(),
+      lists:project.getTasks(null, true),
       readme:project.getRepos()[0].getDefaultFile()
     });
   }
