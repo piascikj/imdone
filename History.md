@@ -1,5 +1,8 @@
 Change Log
 ----
+### 1.1.3
+- Add delay to sortable elements
+
 ### 1.1.1
 - Fix line number of match
 

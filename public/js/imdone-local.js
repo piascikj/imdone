@@ -92,7 +92,7 @@ define([
       }
     }
   };
-  // PLANNING:90 Use [spin.js](http://fgnass.github.io/spin.js/#?lines=15&length=24&width=9&radius=60&corners=0.1&rotate=0&trail=60&speed=0.5&direction=1&hwaccel=on) for loading gif
+  // PLANNING:30 Use [spin.js](http://fgnass.github.io/spin.js/#?lines=15&length=24&width=9&radius=60&corners=0.1&rotate=0&trail=60&speed=0.5&direction=1&hwaccel=on) for loading gif
   //pnotify options
   $.extend($.pnotify.defaults,{
       styling: 'bootstrap',
@@ -207,7 +207,7 @@ define([
       // If not an in page link then it must be a link to a file
       } else if (!inPageLinks.test(href)) {
         if (/.*\.md$/.test(href)) preview = true;
-        out = head + imdone.getFileHref(href,preview) + tail + '>' + content + end;
+        out = head + imdone.getFileHref(imdone.currentProjectId(),href,preview) + tail + '>' + content + end;
       }
 
       return out;
@@ -224,7 +224,7 @@ define([
         name = pieces[0];
       }
       var file = file.replace(/(\s)|(\/)/g,"-") + ".md";
-      var href = imdone.getFileHref(file,true);
+      var href = imdone.getFileHref(imdone.currentProjectId(),file,true);
       return '<a href="{}">{}</a>'.tokenize(href, name);
     });
     return html;
@@ -308,7 +308,7 @@ define([
     return false;
   };
 
-  // PLANNING:80 add notify and undo for move
+  // PLANNING:20 add notify and undo for move
   imdone.moveTasks = function(opts) {
     var tasks = [];
     var toListId = (opts.to) ? opts.to : opts.item.closest(".list").attr("id");
