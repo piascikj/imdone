@@ -235,7 +235,7 @@
       <h5>Recent</h5>
       <ul class="plain-list">
         {{#each history}}
-        <li><a href="{{fileHref project path line preview}}" class="js-file" data-path="{{path}}"><i class="icomoon-file-alt"></i>{{path}}</a></li>
+        <li><a href="{{fileHref path line preview}}" class="js-file" data-path="{{path}}"><i class="icomoon-file-alt"></i>{{path}}</a></li>
         {{/each}}
       </ul>
       <hr>
@@ -251,7 +251,7 @@
         {{/if}}
         {{#if files}}
           {{#each files}}
-          <li><a href="{{fileHref project path true}}" class="js-file" data-path="{{path}}"><i class="icomoon-file-alt"></i>{{name}}</a></li>
+          <li><a href="{{fileHref path true}}" class="js-file" data-path="{{path}}"><i class="icomoon-file-alt"></i>{{name}}</a></li>
           {{/each}}
         {{/if}}
       </ul>
@@ -304,9 +304,9 @@
       {{#if results.result}}
         <h3>Showing results {{results.opts.offset}}-{{last}}</h3>
         {{#each results.result}}
-          <h4><a href="{{fileHref ../project path}}">{{path}}</a></h4>
+          <h4><a href="{{fileHref path}}">{{path}}</a></h4>
           {{#each lines}}
-          <a href="{{fileHref ../../project ../path line}}">
+          <a href="{{fileHref ../path line}}">
             <pre><code class="line-number">{{line}}:</code>{{highlightCode text ../../results.opts.query}}</pre>
           </a>
           {{/each}}        

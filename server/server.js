@@ -215,13 +215,9 @@
 
   function getFiles(req,res) {
     var project = server.imdone.getProject(req.params[0]);
-    var files = project.getFilesInRepo(project.getRepos()[0].getId(), true);
+    var files = project.getFileTree(project.getRepos()[0].getId());
     if (files) {
-      var out = {
-        files: _.map(_.where(files, {isDir:false}), fileMapper),
-        dirs: _.map(_.where(files, {isDir:true}), fileMapper)
-      };
-      res.send(out);
+      res.send(files);
     } else {
       res.send(404, "Project not found");
     }
