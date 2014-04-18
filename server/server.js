@@ -208,11 +208,7 @@
     }
   }
 
-  // DOING:0 use imdone-core
-  function fileMapper (file) { 
-    return { name: path.basename(file.getPath()), path: file.getPath(), project: project.getName() }; 
-  }
-
+  // DONE:0 use imdone-core
   function getFiles(req,res) {
     var project = server.imdone.getProject(req.params[0]);
     var files = project.getFileTree(project.getRepos()[0].getId());

@@ -1283,6 +1283,7 @@ define([
 
       //Open or create a file
       var lsTemplate = Handlebars.compile($("#files-template").html());
+      
       $('#open-file-btn').live('click',function() {
         $.get("/api/files/" + imdone.currentProjectId(), function(data) {
           imdone.currentProject().ls = data;
