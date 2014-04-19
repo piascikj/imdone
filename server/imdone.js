@@ -31,7 +31,7 @@ var core             = require("imdone-core");
 var Repo             = core.Repository;
 var Project          = core.Project;
 var tools            = core.Tools;
-var sanitize
+var sanitize;
 
 var imdone = module.exports = {pause:{}};
 var pkginfo = require('pkginfo')(module);

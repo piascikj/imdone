@@ -19,7 +19,7 @@
   var io           = require('socket.io');
   var mkdirp       = require('mkdirp');
   var path         = require('path');
-  var search       = require('./search');
+  var Search       = require('imdone-core').Search;
   var server       = module.exports;
   var EVENTS       = {
                        PROJECT_MODIFIED: "project.modified",
@@ -82,7 +82,7 @@
     });
   }
 
-  // DOING:0 use imdone-core
+  // DONE:0 use imdone-core
   function removeList(req, res) {
     if (isBusy(req,res)) {
       res.send({busy:true});
@@ -181,7 +181,7 @@
   }
 
   // ARCHIVE:650 Move removeSource to imdone.js and add hook    
-  // DOING:0 use imdone-core
+  // DOING:0 use imdone-core for removeSource
   function removeSource(req, res) {
     if (isBusy(req,res)) {
       res.send({busy:true});
@@ -231,7 +231,7 @@
     }
   }
 
-  // DOING:0 use imdone-core
+  // DONE:0 use imdone-core for search
   function doSearch(req,res) {
     var opts = {project:server.imdone.getProject(req.params[0])};
     var query = req.query.query;
@@ -240,9 +240,8 @@
     if (query) opts.query = query;
     if (limit) opts.limit = limit;
     if (offset) opts.offset = offset;
-    var s = search.newSearch(opts);
+    var s = new Search(opts);
     s.execute();
-    s.opts.project = undefined;
     res.send(s);
   }
 

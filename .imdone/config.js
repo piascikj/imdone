@@ -1,4 +1,4 @@
-var _ = require("underscore");
+var _ = require("lodash");
 /*
  * imdone
  * https://github.com/piascikj/imdone

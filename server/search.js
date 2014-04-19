@@ -17,12 +17,23 @@ var MissingProjectError = function (msg) {
 util.inherits(MissingProjectError, Errors.AbstractError);
 MissingProjectError.prototype.message = 'project is a required option';
 
+/**
+ * opts : {
+ *         project: a Project
+ *         repoId: a repoId
+ *         query: a regular expression query
+ *         offset: The offset
+ *         limit: max results to return
+ *        }
+ *
+ *
+ */
+ 
 var Search = function(opts) {
-  opts = !opts?{}:opts;
   opts = _.extend({
     offset:0,
     limit: 200
-  }, opts);
+  }, opts || {});
 
   if (!opts.project) throw new MissingProjectError();
 

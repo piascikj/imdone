@@ -304,9 +304,9 @@
       {{#if results.result}}
         <h3>Showing results {{results.opts.offset}}-{{last}}</h3>
         {{#each results.result}}
-          <h4><a href="{{fileHref path}}">{{path}}</a></h4>
+          <h4><a href="{{fileHref file.path}}">{{file.path}}</a></h4>
           {{#each lines}}
-          <a href="{{fileHref ../path line}}">
+          <a href="{{fileHref ../file.path line}}">
             <pre><code class="line-number">{{line}}:</code>{{highlightCode text ../../results.opts.query}}</pre>
           </a>
           {{/each}}        
