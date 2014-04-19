@@ -1336,7 +1336,7 @@ define([
       
       // PLANNING:70 Use [egdelwonk/SlidePanel](https://github.com/egdelwonk/slidepanel) for opening files and removing clutter
       function openFile() {
-        //ARCHIVE:100 Create a new file based on path and project with call to /api/source
+        // DOING:100 Create a new file based on path and project with call to PUT /api/source
         var path = imdone.fileField.val();
         if (path != "") {
           if (/^\//.test(path)) {

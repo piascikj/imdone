@@ -219,6 +219,7 @@
     }
   }
 
+  // DOING:0 Use imdone-core for md, local and remote
   function md(req,res) {
     var project = server.imdone.getProject(req.params[0]);
     var path = req.query.path;
