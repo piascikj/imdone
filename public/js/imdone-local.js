@@ -92,7 +92,7 @@ define([
       }
     }
   };
-  // PLANNING:30 Use [spin.js](http://fgnass.github.io/spin.js/#?lines=15&length=24&width=9&radius=60&corners=0.1&rotate=0&trail=60&speed=0.5&direction=1&hwaccel=on) for loading gif
+  // PLANNING:60 Use [spin.js](http://fgnass.github.io/spin.js/#?lines=15&length=24&width=9&radius=60&corners=0.1&rotate=0&trail=60&speed=0.5&direction=1&hwaccel=on) for loading gif
   //pnotify options
   $.extend($.pnotify.defaults,{
       styling: 'bootstrap',
@@ -308,7 +308,7 @@ define([
     return false;
   };
 
-  // PLANNING:20 add notify and undo for move
+  // PLANNING:40 add notify and undo for move
   imdone.moveTasks = function(opts) {
     var tasks = [];
     var toListId = (opts.to) ? opts.to : opts.item.closest(".list").attr("id");
@@ -337,10 +337,7 @@ define([
       url:"/api/moveTasks",
       type:"POST",
       data:JSON.stringify(reqObj),
-      contentType:"application/json; charset=utf-8",
-      success: function(data){
-        imdone.getKanban();
-      }
+      contentType:"application/json; charset=utf-8"
     });
   };
 
@@ -366,10 +363,7 @@ define([
       url:"/api/moveTasks",
       type:"POST",
       data:JSON.stringify(reqObj),
-      contentType:"application/json; charset=utf-8",
-      success: function(data){
-        imdone.getKanban();
-      }
+      contentType:"application/json; charset=utf-8"
     });
   };
 
@@ -382,25 +376,16 @@ define([
       url:"/api/moveList",
       type:"POST",
       data:JSON.stringify(reqObj),
-      contentType:"application/json; charset=utf-8",
-      success: function(data){
-        imdone.getKanban();
-      }
+      contentType:"application/json; charset=utf-8"
     });
   };
 
   imdone.hideList = function(list) {
-    $.post("/api/hideList", { list: list, project: imdone.currentProjectId() },
-      function(data){
-        imdone.getKanban();
-      });
+    $.post("/api/hideList", { list: list, project: imdone.currentProjectId() });
   }
 
   imdone.showList = function(list, cb) {
-    $.post("/api/showList", {list:list, project:imdone.currentProjectId()},
-      function(data){
-        imdone.getKanban({callback:cb});
-      });
+    $.post("/api/showList", {list:list, project:imdone.currentProjectId()});
   }
 
   imdone.getKanban = function(params) {
@@ -703,6 +688,7 @@ define([
   imdone.initUpdate = function() {
     var socket = io.connect('http://' + window.document.location.host);
     
+    // DOING:0 Fix project.modified so it doesn't fire on all file modifications
     socket.on('project.modified', function(data) {
       var projectId = data.project;
       console.log("Project modified: ", projectId);
@@ -710,6 +696,7 @@ define([
       if (_.indexOf(imdone.projects, projectId) < 0) return;
       var boardHidden = !imdone.board.is(':visible');
       // only react if project exists and is current.
+      console.log("hidden:", boardHidden);
       if (projectId == currentProjectId) {
         imdone.getKanban({
           project:projectId, 
@@ -736,7 +723,7 @@ define([
         imdone.navigateToCurrentProject();
       }
     });
-    // DOING:0 Test project removed event
+    // DOING:40 Test project removed event
     socket.on('project.removed', function(data) {
       var projectId = data.project;
       console.log("Project removed: ", projectId);
@@ -1158,10 +1145,7 @@ define([
           project: imdone.currentProjectId()
         };
         if (req.newName != "") {
-          $.post("/api/renameList", req,
-            function(data){
-              imdone.getKanban();
-          });
+          $.post("/api/renameList", req);
         }
 
         $(this).closest(".modal").modal('hide');
@@ -1174,10 +1158,7 @@ define([
           project: imdone.currentProjectId()
         };
 
-        $.post("/api/removeList", req,
-          function(data){
-            imdone.getKanban();
-        });
+        $.post("/api/removeList", req);
       });
 
       //Editor config
@@ -1334,9 +1315,9 @@ define([
       });
 
       
-      // PLANNING:70 Use [egdelwonk/SlidePanel](https://github.com/egdelwonk/slidepanel) for opening files and removing clutter
+      // PLANNING:100 Use [egdelwonk/SlidePanel](https://github.com/egdelwonk/slidepanel) for opening files and removing clutter
       function openFile() {
-        // DOING:100 Create a new file based on path and project with call to PUT /api/source
+        // DOING:30 Create a new file based on path and project with call to PUT /api/source.  If get fails call saveSource first to create the file
         var path = imdone.fileField.val();
         if (path != "") {
           if (/^\//.test(path)) {
@@ -1403,7 +1384,7 @@ define([
       });
 
       // Listen for hide
-      // PLANNING:100 Show prompt if list is large before showing
+      // PLANNING:110 Show prompt if list is large before showing
       $(".list-hide, .list-show").live('click', function(e) {
         var list = $(this).attr("data-list");
         var el = $("#" + list);

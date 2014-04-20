@@ -5,7 +5,7 @@
  * Copyright (c) 2012 Jesse Piascik
  * Licensed under the MIT license.
  */
-  // PLANNING:120 Upgrade express - [ExpressJS 4.0: New Features and Upgrading from 3.0 ♥ Scotch](http://scotch.io/bar-talk/expressjs-4-0-new-features-and-upgrading-from-3-0)
+  // PLANNING:130 Upgrade express - [ExpressJS 4.0: New Features and Upgrading from 3.0 ♥ Scotch](http://scotch.io/bar-talk/expressjs-4-0-new-features-and-upgrading-from-3-0)
   var express      = require('express');
   var bodyParser   = require('body-parser');
   var cookieParser = require('cookie-parser');
@@ -181,7 +181,7 @@
   }
 
   // ARCHIVE:650 Move removeSource to imdone.js and add hook    
-  // DOING:0 use imdone-core for removeSource
+  // DOING:10 use imdone-core for removeSource
   function removeSource(req, res) {
     if (isBusy(req,res)) {
       res.send({busy:true});
@@ -219,7 +219,7 @@
     }
   }
 
-  // DOING:0 Use imdone-core for md, local and remote
+  // DOING:20 Use imdone-core for md, local and remote
   function md(req,res) {
     var project = server.imdone.getProject(req.params[0]);
     var path = req.query.path;

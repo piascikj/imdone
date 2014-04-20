@@ -5,7 +5,7 @@ var languages = require("./util/languages");
 var taskregex = /\[(.+?)\]\(#([\w\-]+?):(\d+?\.?\d*?)\)/g;
 var codeStylePattern = "\\s*)([A-Z]{2,}):?(\\d+?\\.?\\d*?)?\\s+(.*)$"
 // ARCHIVE:10 Support TODO and FIXME type tasks in code.
-// PLANNING:160 Support @username and @Date in tasks
+// PLANNING:170 Support @username and @Date in tasks
 
 // for ignoring code search for code and replace with empty string or blacnk lines if it's a block before finding tasks
 var codeRegExp = {
@@ -174,7 +174,7 @@ var utils = module.exports = {
     });
   },
 
-  // PLANNING:130 Create Classes for file and task
+  // PLANNING:140 Create Classes for file and task
   modifyListName: function(file, oldList, newList) {
     var self = this;
     // Check for codestyle tasks
