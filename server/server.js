@@ -194,7 +194,7 @@
   }
 
   // ARCHIVE:790 Move removeSource to imdone.js and add hook    
-  // DOING:20 use imdone-core for removeSource
+  // DONE:10 use imdone-core for removeSource
   function removeSource(req, res) {
     if (isBusy(req,res)) {
       res.send({busy:true});
@@ -202,19 +202,13 @@
     }
 
     var path = req.query.path,
-      project = server.imdone.getProject(req.params[0]),
-      filePath = project.path + "/" + path;
+        project = server.imdone.getProject(req.params[0]);
 
-    console.log("Removing file:" + filePath);
-    if (project.path && !/^\.\./.test(path)) {
-      fs.unlink(filePath, function(err, data) {
-        if (err) {
-          res.send(409,"Unable to remove source");
-          return;
-        }      
-
-        res.send({path:path, ok:1});
-      });
+    if (project) {
+       repoId = project.getRepos()[0].getId();
+       project.deleteFile(repoId, path, function(err, file) {
+        res.send(200, {file:file, deleted:true});
+       });
     } else {
       res.send(409,"Unable to remove source");
       return;
@@ -232,7 +226,7 @@
     }
   }
 
-  // DOING:30 Use imdone-core for md, local and remote
+  // DOING:10 Use imdone-core for md, local and remote
   function md(req,res) {
     var project = server.imdone.getProject(req.params[0]);
     var path = req.query.path;

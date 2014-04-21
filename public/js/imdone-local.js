@@ -304,7 +304,7 @@ define([
       else return false;
     }
 
-    if (imdone.source.lang == "md") return true;
+    if (imdone.source && imdone.source.lang == "md") return true;
 
     return false;
   };
@@ -637,9 +637,9 @@ define([
       //$('.list-name-container, .list-hide, .list-show, [title]').tooltip({placement:"bottom"});
 
       if (data.readme) {
-        // DOING:0 Fix readme href
-        var href = imdone.getFileHref(data.readme,true);
-        imdone.openReadmeBtn.attr("title", "Open " + data.readme)
+        // DONE:0 Fix readme href
+        var href = imdone.getFileHref(data.readme.path,true);
+        imdone.openReadmeBtn.attr("title", "Open " + data.readme.path)
         .show()
         .unbind()
         .click(function() {
@@ -724,7 +724,7 @@ define([
         imdone.navigateToCurrentProject();
       }
     });
-    // DOING:40 Test project removed event
+    // DOING:30 Test project removed event
     socket.on('project.removed', function(data) {
       var projectId = data.project;
       console.log("Project removed: ", projectId);
@@ -1089,7 +1089,7 @@ define([
   
   imdone.removeSource = function() {
     $.ajax({
-        url: "/api/source" + imdone.source.project + "?path=" + imdone.source.path,
+        url: "/api/source/" + imdone.currentProjectId() + "?path=" + imdone.source.path,
         type: 'DELETE',
         contentType: 'application/json',
         dataType: 'json',
@@ -1106,7 +1106,7 @@ define([
           imdone.navigateToCurrentProject();
         },
         error: function(data) {
-          // DOING:10 Make this pnotify default for all errors!
+          // DOING:20 Make this pnotify default for all errors!
           imdone.fileNotify = $.pnotify({
             title: "Unable to delete file!",
             nonblock: true,
@@ -1329,7 +1329,7 @@ define([
       
       // PLANNING:110 Use [egdelwonk/SlidePanel](https://github.com/egdelwonk/slidepanel) for opening files and removing clutter
       function openFile() {
-        // DONE:0 Create a new file based on path and project with call to PUT /api/source.  If get fails call saveSource first to create the file
+        // DONE:20 Create a new file based on path and project with call to PUT /api/source.  If get fails call saveSource first to create the file
         var path = imdone.fileField.val();
         if (path != "") {
           if (/^(\/|\\)/.test(path)) {
