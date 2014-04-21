@@ -69,7 +69,7 @@
 				modif += "ctrl_";
 			}
 
-			// TODO: Need to make sure this works consistently across platforms
+			// TODO:20 Need to make sure this works consistently across platforms
 			if ( event.metaKey && !event.ctrlKey && special !== "meta" ) {
 				modif += "meta_";
 			}

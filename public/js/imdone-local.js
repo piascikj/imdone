@@ -90,9 +90,10 @@ define([
       onWiggleStop: function(el) {
         $(el).addClass("btn-inverse");
       }
-    }
+    },
+    pathSep: (navigator.appVersion.indexOf("Win")!=-1) ? "\\" : "/"
   };
-  // PLANNING:60 Use [spin.js](http://fgnass.github.io/spin.js/#?lines=15&length=24&width=9&radius=60&corners=0.1&rotate=0&trail=60&speed=0.5&direction=1&hwaccel=on) for loading gif
+  // PLANNING:70 Use [spin.js](http://fgnass.github.io/spin.js/#?lines=15&length=24&width=9&radius=60&corners=0.1&rotate=0&trail=60&speed=0.5&direction=1&hwaccel=on) for loading gif
   //pnotify options
   $.extend($.pnotify.defaults,{
       styling: 'bootstrap',
@@ -140,7 +141,7 @@ define([
     return data;
   });
 
-  // TODO:0 Replace format with _.template 
+  // TODO:10 Replace format with _.template 
   String.prototype.format = function (col) {
     col = typeof col === 'object' ? col : Array.prototype.slice.call(arguments, 1);
 
@@ -178,8 +179,8 @@ define([
     // Replace any script elements
     html = html.replace(/<script.*?>([\s\S]*?)<\/.*?script>/ig,"$1").replace(/(href=["|'].*)javascript:.*(["|'].?>)/ig,"$1#$2");
     // Make all links with http open in new tab
-    // ARCHIVE:610 For markdown files, find tasks links and give them a badge
-    // ARCHIVE:70 For internal inks, take them to the page
+    // ARCHIVE:750 For markdown files, find tasks links and give them a badge
+    // ARCHIVE:220 For internal inks, take them to the page
     var replaceLinks = function(anchor, head, href, tail, content, end) {
       if (links.test(content)) content = content.replace(links, replaceLinks);
       var out = html;
@@ -267,7 +268,7 @@ define([
     return new Handlebars.SafeString(result);
   });
 
-  //TODO:10 Take a look at this <https://speakerdeck.com/ammeep/unsuck-your-backbone>, <http://amy.palamounta.in/2013/04/12/unsuck-your-backbone/>
+  //TODO:20 Take a look at this <https://speakerdeck.com/ammeep/unsuck-your-backbone>, <http://amy.palamounta.in/2013/04/12/unsuck-your-backbone/>
   //--------------------------------------Backbone Models---------------------------------------
   var Project = Backbone.Model.extend();
   var Projects = Backbone.Collection.extend({
@@ -308,7 +309,7 @@ define([
     return false;
   };
 
-  // PLANNING:40 add notify and undo for move
+  // PLANNING:60 add notify and undo for move
   imdone.moveTasks = function(opts) {
     var tasks = [];
     var toListId = (opts.to) ? opts.to : opts.item.closest(".list").attr("id");
@@ -412,7 +413,7 @@ define([
         limit:(params.limit)?parseInt(params.limit):undefined
       });
       search.fetch({success: function(model, response)  {
-          // TODO:20 Put search in a view.  [What is a view? - Backbone.js Tutorials](http://backbonetutorials.com/what-is-a-view/)
+          // TODO:30 Put search in a view.  [What is a view? - Backbone.js Tutorials](http://backbonetutorials.com/what-is-a-view/)
           var template = Handlebars.compile($("#search-results-template").html());
           var results = model.toJSON();
           var last = results.total+results.offset;
@@ -500,7 +501,7 @@ define([
     if (filter) {
       imdone.getProjectStore().filter = filter;
       imdone.saveProjectStore();
-      // ARCHIVE:540 Use a regex for filter and create button to filter by files of selected tasks
+      // ARCHIVE:680 Use a regex for filter and create button to filter by files of selected tasks
       // $('.task:not([data-path*="{0}"])'.format([filter])).hide();
       $('.task').hide();
       $('.task:regex(data-path,{0})'.format([filter])).show();
@@ -636,6 +637,7 @@ define([
       //$('.list-name-container, .list-hide, .list-show, [title]').tooltip({placement:"bottom"});
 
       if (data.readme) {
+        // DOING:0 Fix readme href
         var href = imdone.getFileHref(data.readme,true);
         imdone.openReadmeBtn.attr("title", "Open " + data.readme)
         .show()
@@ -688,7 +690,7 @@ define([
   imdone.initUpdate = function() {
     var socket = io.connect('http://' + window.document.location.host);
     
-    // DOING:0 Fix project.modified so it doesn't fire on all file modifications
+    // ARCHIVE:0 Fix project.modified so it doesn't fire on all file modifications
     socket.on('project.modified', function(data) {
       var projectId = data.project;
       console.log("Project modified: ", projectId);
@@ -696,7 +698,6 @@ define([
       if (_.indexOf(imdone.projects, projectId) < 0) return;
       var boardHidden = !imdone.board.is(':visible');
       // only react if project exists and is current.
-      console.log("hidden:", boardHidden);
       if (projectId == currentProjectId) {
         imdone.getKanban({
           project:projectId, 
@@ -765,7 +766,7 @@ define([
     hist[imdone.currentProjectId()] = _.without(hist[imdone.currentProjectId()], imdone.source.path);
     projectHist = hist[imdone.currentProjectId()];
     projectHist.push(imdone.source.path);
-    //ARCHIVE:680 Don't pop, shift
+    //ARCHIVE:820 Don't pop, shift
     if (projectHist.length > 10) projectHist.shift();
     store.set('history', hist);
     projectHist.reverse();
@@ -792,7 +793,7 @@ define([
   };
 
   imdone.getSource = function(params) {
-    //ARCHIVE:660 We have to convert the source api url URL first
+    //ARCHIVE:800 We have to convert the source api url URL first
     if (params && params.path) params.path = params.path.replace(/^\/*/,'');
     
     var url = "/api/source/" + params.project + "?path=" + params.path;
@@ -800,36 +801,46 @@ define([
     imdone.previewMode = params.preview;
     
     //Get the source and show the editor
-    $.get(url, function(data){
-      imdone.source = data;
-      imdone.currentProjectId(data.project);
-      //store the path in history
-      imdone.addHistory();
+    $.ajax({
+      url: url,
+      success: function(data){
+        imdone.source = data;
+        imdone.currentProjectId(data.project);
+        //store the path in history
+        imdone.addHistory();
 
-      //Make sure we have the right project displayed
-      imdone.paintProjectsMenu();
-      
-      //ARCHIVE:520 Update file-path on edit button
-      imdone.filename.empty().html(imdone.source.path);
-      imdone.contentNav.show();
-      imdone.editMode = true;
-      
-      if (imdone.isMD()) {
-        imdone.previewToggle.show();
-      } else {
-        imdone.previewToggle.hide();
-      }      
+        //Make sure we have the right project displayed
+        imdone.paintProjectsMenu();
+        
+        //ARCHIVE:660 Update file-path on edit button
+        imdone.filename.empty().html(imdone.source.path);
+        imdone.contentNav.show();
+        imdone.editMode = true;
+        
+        if (imdone.isMD()) {
+          imdone.previewToggle.show();
+        } else {
+          imdone.previewToggle.hide();
+        }      
 
-      imdone.hideAllContent();
-      imdone.hideBoard();
+        imdone.hideAllContent();
+        imdone.hideBoard();
 
-      if (imdone.isMD() && imdone.previewMode === true) {
-        imdone.showPreview();
-      } else {
-        imdone.showEditor();
-      }
+        if (imdone.isMD() && imdone.previewMode === true) {
+          imdone.showPreview();
+        } else {
+          imdone.showEditor();
+        }
 
-    }, "json");
+      },
+      error: function(jqXHR, status, error) {
+        if (jqXHR.status === 404) console.log("Got 404");
+        console.log(jqXHR);
+        console.log(status);
+        console.log(error);
+      },
+      dataType: "json"
+    });
   };
 
   imdone.showFileView = function() {
@@ -886,7 +897,7 @@ define([
 
     var line = data.line || 1;
     
-    // ARCHIVE:560 User should be able to set global ace confiuration and have it saved to config.js
+    // ARCHIVE:700 User should be able to set global ace confiuration and have it saved to config.js
     var session = imdone.aceSession = ace.createEditSession(data.src);
     session.setMode("ace/mode/" + mode);
     session.setUseWrapMode(true);
@@ -1003,7 +1014,7 @@ define([
   });
   imdone.fileContainer.scrollspy({ target: '#sidebar'});
 
-  //ARCHIVE:730 User should be notified when a file has been modified
+  //ARCHIVE:870 User should be notified when a file has been modified
   imdone.closeFile = function() {
       imdone.editMode = false;
       imdone.fileModified = false;
@@ -1095,6 +1106,7 @@ define([
           imdone.navigateToCurrentProject();
         },
         error: function(data) {
+          // DOING:10 Make this pnotify default for all errors!
           imdone.fileNotify = $.pnotify({
             title: "Unable to delete file!",
             nonblock: true,
@@ -1105,7 +1117,7 @@ define([
         },
     });
   };
-  //ARCHIVE:670 Implement delete file functionality
+  //ARCHIVE:810 Implement delete file functionality
   imdone.removeFileBtn.live('click', function() {
     imdone.removeSourceConfirm();
   });
@@ -1120,7 +1132,7 @@ define([
     imdone.app.navigate("project/" + imdone.currentProjectId(), {trigger:true});
   };
 
-  // ARCHIVE:590 Clean up init before implementing backbone views
+  // ARCHIVE:730 Clean up init before implementing backbone views
   imdone.init = function() {
       //Put the focus on the name field when changing list names
       imdone.nameModal.modal({show:false});
@@ -1166,7 +1178,7 @@ define([
       imdone.editor.setTheme("ace/theme/merbivore_soft");
       imdone.editor.setHighlightActiveLine(true);
       imdone.editor.setPrintMarginColumn(120);
-      //ARCHIVE:570 Use Vim keyboard bindings
+      //ARCHIVE:710 Use Vim keyboard bindings
       //imdone.editor.setKeyboardHandler(require("ace/keybinding-vim").Vim);
       
       //Ace keyboard handlers
@@ -1241,7 +1253,7 @@ define([
         var content =  $(this).closest(".task").find('.task-text').html();
         var template = '<a href="#{0}:{1}" class="task-link" data-list="{0}"><span class="task-content">{2}</span></a>';
 
-        //ARCHIVE:90 Show the current task as notification with <http://pinesframework.org/pnotify/>
+        //ARCHIVE:240 Show the current task as notification with <http://pinesframework.org/pnotify/>
         $.pnotify({
           title: list,
           text: template.format([list,order,content]),
@@ -1315,17 +1327,18 @@ define([
       });
 
       
-      // PLANNING:100 Use [egdelwonk/SlidePanel](https://github.com/egdelwonk/slidepanel) for opening files and removing clutter
+      // PLANNING:110 Use [egdelwonk/SlidePanel](https://github.com/egdelwonk/slidepanel) for opening files and removing clutter
       function openFile() {
-        // DOING:30 Create a new file based on path and project with call to PUT /api/source.  If get fails call saveSource first to create the file
+        // DONE:0 Create a new file based on path and project with call to PUT /api/source.  If get fails call saveSource first to create the file
         var path = imdone.fileField.val();
         if (path != "") {
-          if (/^\//.test(path)) {
+          if (/^(\/|\\)/.test(path)) {
             path = path.substring(1);
           } else {
-            path = imdone.currentProject().cwd.path + "/" + imdone.fileField.val();
-            path = path.replace(/^(\/)+/,"");
-          }
+            path = (imdone.currentProject().cwd.path || "") + imdone.pathSep + path;
+            path = path.replace(/^(\/|\\)+/,"");
+          } 
+
           imdone.app.navigate(imdone.getFileHref(path), {trigger:true});
           $(this).closest(".modal").modal('hide');
         }
@@ -1373,7 +1386,7 @@ define([
       });
 
       //listen for filter input
-      //ARCHIVE:110 Apply filter when kanban is reloaded
+      //ARCHIVE:250 Apply filter when kanban is reloaded
       imdone.filterField.keyup(function() {
         imdone.filter();
       });
@@ -1384,7 +1397,7 @@ define([
       });
 
       // Listen for hide
-      // PLANNING:110 Show prompt if list is large before showing
+      // PLANNING:120 Show prompt if list is large before showing
       $(".list-hide, .list-show").live('click', function(e) {
         var list = $(this).attr("data-list");
         var el = $("#" + list);
@@ -1421,7 +1434,7 @@ define([
         },
 
       initialize: function() {
-        //ARCHIVE:120 Construct views and models in here!
+        //ARCHIVE:260 Construct views and models in here!
         imdone.data.projects = new Projects();
       },
       
