@@ -342,6 +342,11 @@ blockquote p {
   cursor: ns-resize;
 }
 
+.column-nav-menu .new-list span:first-child {
+  margin-left: 5px;
+  margin-top: 1px;
+}
+
 .column-nav-menu .column-nav-menu-item .column-nav-menu-link {
   padding: 5px 3px;
   min-height: 20px;

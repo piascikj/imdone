@@ -5,7 +5,7 @@
   - [5 Tips for Pre-Launch Landing Pages](http://sixrevisions.com/content-strategy/pre-launch-landing-page-tips/)
   - [Best practices for coming soon launch landing pages - Kickofflabs](http://kickofflabs.com/education/best-practices-for-coming-soon-launch-landing-pages/)
 - [update logos in twitter, tumblr, readme etc.](#PLANNING:100)
-- [Create how to video for imdone](#ARCHIVE:170)
+- [Create how to video for imdone](#ARCHIVE:200)
   - [Embed Video – Ideas & Support](http://support.launchrock.co/forums/126277-general/suggestions/2471544-embed-video)
 - [Do the twitter thing](#PLANNING:60)
 - [New tumblr blogpost](#PLANNING:30)
