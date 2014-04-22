@@ -59,6 +59,10 @@ define([
     closeFileCancelBtn: $('#close-file-cancel-btn'),
     nameFld:            $('#list-name-field'),
     nameModal:          $('#list-name-modal'),
+    newListBtn:         $('#new-list'),
+    newListField:       $('#new-list-field'),
+    newListModal:       $('#new-list-modal'),
+    newListSave:        $('#new-list-save'),
     openReadmeBtn:      $("#open-readme-btn"),
     archiveBtn:         $("#archive-btn"),
     filterBtn:          $("#filter-btn"),
@@ -1132,10 +1136,19 @@ define([
 
   // ARCHIVE:790 Clean up init before implementing backbone views
   imdone.init = function() {
+      function listNameFilter(saveFunc) {
+        return function (e) {
+          var keyCode = (e.keyCode ? e.keyCode : e.which);
+          if (keyCode === 13) return saveFunc();
+          if (!/\w|-/i.test(String.fromCharCode(keyCode))) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        };
+      }
       //Put the focus on the name field when changing list names
       imdone.nameModal.modal({show:false});
       imdone.nameModal.on('shown.bs.modal', function() {
-        console.log("shown");
         imdone.nameFld.focus();
       });    
 
@@ -1147,8 +1160,9 @@ define([
         imdone.nameFld.attr('placeholder', name);
       });
       
-      //Save a list name
-      $("#list-name-save").click(function() {
+      imdone.nameFld.keypress(listNameFilter(saveListName));
+
+      function saveListName() {
         var req = {
           name: imdone.nameFld.attr('placeholder'),
           newName:  imdone.nameFld.val(),
@@ -1158,8 +1172,37 @@ define([
           $.post("/api/renameList", req);
         }
 
-        $(this).closest(".modal").modal('hide');
+        imdone.nameModal.modal('hide');
+      }
+
+      //Save a list name
+      $("#list-name-save").click(saveListName);
+
+      imdone.newListModal.modal({show:false});
+      imdone.newListModal.on('shown.bs.modal', function() {
+        imdone.newListField.focus();
       });
+
+      imdone.newListField.keypress(listNameFilter(saveNewList));
+
+      function saveNewList() {
+        var self = this;
+        var name = imdone.newListField.val();
+        if (name !== "") {
+          $.post("/api/list/{0}/{1}".format([imdone.currentProjectId(), name]), function() {
+            imdone.newListModal.modal('hide');
+            imdone.newListField.val("");
+          });
+        }
+      }
+
+      imdone.newListSave.click(saveNewList);
+
+      imdone.newListBtn.live('click', function() {
+        var name = $(this).attr("data-list");
+        imdone.newListField.attr('placeholder', "New list name");
+        imdone.newListModal.modal('show');
+      });    
 
       //Remove a list
       $(".remove-list").live("click", function() {
