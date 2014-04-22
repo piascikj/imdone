@@ -5,7 +5,7 @@
  * Copyright (c) 2012 Jesse Piascik
  * Licensed under the MIT license.
  */
-  // PLANNING:140 Upgrade express - [ExpressJS 4.0: New Features and Upgrading from 3.0 ♥ Scotch](http://scotch.io/bar-talk/expressjs-4-0-new-features-and-upgrading-from-3-0)
+  // DONE:20 Upgrade express - [ExpressJS 4.0: New Features and Upgrading from 3.0 ♥ Scotch](http://scotch.io/bar-talk/expressjs-4-0-new-features-and-upgrading-from-3-0)
   var express      = require('express');
   var bodyParser   = require('body-parser');
   var cookieParser = require('cookie-parser');
@@ -36,7 +36,7 @@
       res.send(server.imdone.getProjects());
   }
 
-  // ARCHIVE:20 use imdone-core
+  // ARCHIVE:50 use imdone-core
   function getKanban(req, res){
     if (isBusy(req,res)) {
       res.send({busy:true});
@@ -52,7 +52,7 @@
     });
   }
 
-  // ARCHIVE:30 use imdone-core
+  // ARCHIVE:60 use imdone-core
   function moveTasks(req, res) {
     if (isBusy(req,res)) {
       res.send({busy:true});
@@ -67,7 +67,7 @@
     });
   }
 
-  // ARCHIVE:40 use imdone-core
+  // ARCHIVE:70 use imdone-core
   function moveList(req, res) {
     if (isBusy(req,res)) {
       res.send({busy:true});
@@ -83,7 +83,7 @@
     });
   }
 
-  // ARCHIVE:50 use imdone-core
+  // ARCHIVE:80 use imdone-core
   function removeList(req, res) {
     if (isBusy(req,res)) {
       res.send({busy:true});
@@ -97,7 +97,7 @@
 
   }
 
-  // ARCHIVE:60 use imdone-core
+  // ARCHIVE:90 use imdone-core
   function renameList(req, res) {
     if (isBusy(req,res)) {
       res.send({busy:true});
@@ -112,7 +112,7 @@
     })
   }
 
-  // ARCHIVE:70 use imdone-core
+  // ARCHIVE:100 use imdone-core
   function hideList(req, res) {
     if (isBusy(req,res)) {
       res.send({busy:true});
@@ -124,7 +124,7 @@
     });
   }
 
-  // ARCHIVE:80 use imdone-core
+  // ARCHIVE:110 use imdone-core
   function showList(req, res) {
     if (isBusy(req,res)) {
       res.send({busy:true});
@@ -137,9 +137,9 @@
     });
   }
 
-  // ARCHIVE:840 Have this use splat for project name like getFiles
-  // ARCHIVE:530 Move getSource to imdone.js
-  // ARCHIVE:90 use imdone-core
+  // ARCHIVE:870 Have this use splat for project name like getFiles
+  // ARCHIVE:560 Move getSource to imdone.js
+  // ARCHIVE:120 use imdone-core
   function getSource(req, res) {
     if (isBusy(req,res)) {
       res.send({busy:true});
@@ -175,8 +175,8 @@
     }
   }
 
-  // ARCHIVE:860 Have this use splat for project name like getFiles
-  // ARCHIVE:100 use imdone-core
+  // ARCHIVE:890 Have this use splat for project name like getFiles
+  // ARCHIVE:130 use imdone-core
   function saveSource(req, res) {
     if (isBusy(req,res)) {
       res.send({busy:true});
@@ -193,8 +193,8 @@
     });
   }
 
-  // ARCHIVE:790 Move removeSource to imdone.js and add hook    
-  // DONE:10 use imdone-core for removeSource
+  // ARCHIVE:820 Move removeSource to imdone.js and add hook    
+  // ARCHIVE:10 use imdone-core for removeSource
   function removeSource(req, res) {
     if (isBusy(req,res)) {
       res.send({busy:true});
@@ -215,7 +215,7 @@
     }
   }
 
-  // ARCHIVE:110 use imdone-core
+  // ARCHIVE:140 use imdone-core
   function getFiles(req,res) {
     var project = server.imdone.getProject(req.params[0]);
     var files = project.getFileTree(project.getRepos()[0].getId());
@@ -226,7 +226,7 @@
     }
   }
 
-  // DOING:10 Use imdone-core for md, local and remote
+  // PLANNING:230 Use imdone-core for md, local and remote
   function md(req,res) {
     var project = server.imdone.getProject(req.params[0]);
     var path = req.query.path;
@@ -239,7 +239,7 @@
     }
   }
 
-  // ARCHIVE:120 use imdone-core for search
+  // ARCHIVE:150 use imdone-core for search
   function doSearch(req,res) {
     var opts = {project:server.imdone.getProject(req.params[0])};
     var query = req.query.query;
@@ -267,7 +267,7 @@
   server.start = function(imdone, callback) {
     server.imdone = imdone;
 
-    //ARCHIVE:720 migrate to express 3.x <https://github.com/visionmedia/express/wiki/Migrating-from-2.x-to-3.x>
+    //ARCHIVE:750 migrate to express 3.x <https://github.com/visionmedia/express/wiki/Migrating-from-2.x-to-3.x>
     var app = server.app = express();
     var  xserver = http.createServer(app);
 
@@ -282,7 +282,7 @@
       /api/source
       /api/files
     */
-    // ARCHIVE:880 Make sure we're restful
+    // ARCHIVE:910 Make sure we're restful
     app.post("/api/moveTasks", moveTasks);
     app.post("/api/moveList", moveList);
     app.post("/api/removeList", removeList);
@@ -343,7 +343,7 @@
         project.on(EVENTS.PROJECT_INITIALIZED, onProjectInitialized);
       });
 
-      // ARCHIVE:130 Remove listeners on disconnect
+      // ARCHIVE:160 Remove listeners on disconnect
       socket.on('disconnect', function () {
         _.each(server.imdone.projects, function(project) {
           project.removeListener(EVENTS.PROJECT_MODIFIED, onProjectModified);
@@ -355,6 +355,6 @@
     if (callback) app.on('listening', callback);
     xserver.listen(imdone.config.port);
 
-    //ARCHIVE:270 Move open board to command line option **open**
+    //ARCHIVE:300 Move open board to command line option **open**
   };
   
