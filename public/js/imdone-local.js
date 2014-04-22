@@ -59,7 +59,7 @@ define([
     closeFileCancelBtn: $('#close-file-cancel-btn'),
     nameFld:            $('#list-name-field'),
     nameModal:          $('#list-name-modal'),
-    newListBtn:         $('#new-list'),
+    newListBtn:         $('.new-list'),
     newListField:       $('#new-list-field'),
     newListModal:       $('#new-list-modal'),
     newListSave:        $('#new-list-save'),
@@ -1148,16 +1148,21 @@ define([
       }
       //Put the focus on the name field when changing list names
       imdone.nameModal.modal({show:false});
-      imdone.nameModal.on('shown.bs.modal', function() {
-        imdone.nameFld.focus();
-      });    
+      imdone.nameModal.on('show.bs.modal', function() {
+        setTimeout(function() {
+          document.activeElement.blur();
+          imdone.nameFld.focus();
+        }, 500);
+      });
 
       //listen for list name click
-      $('.list-name').live('click', function() {
+      $('.list-name').live('click', function(e) {
         var name = $(this).attr("data-list");
         imdone.nameModal.modal('show');
         imdone.nameFld.val(name);
         imdone.nameFld.attr('placeholder', name);
+        e.preventDefault();
+        e.stopPropagation();        
       });
       
       imdone.nameFld.keypress(listNameFilter(saveListName));
@@ -1179,8 +1184,11 @@ define([
       $("#list-name-save").click(saveListName);
 
       imdone.newListModal.modal({show:false});
-      imdone.newListModal.on('shown.bs.modal', function() {
-        imdone.newListField.focus();
+      imdone.newListModal.on('show.bs.modal', function() {
+        setTimeout(function() {
+          document.activeElement.blur();
+          imdone.newListField.focus();
+        }, 500);
       });
 
       imdone.newListField.keypress(listNameFilter(saveNewList));
@@ -1198,10 +1206,11 @@ define([
 
       imdone.newListSave.click(saveNewList);
 
-      imdone.newListBtn.live('click', function() {
-        var name = $(this).attr("data-list");
+      imdone.newListBtn.live('click', function(e) {
+        imdone.newListField.val("");
         imdone.newListField.attr('placeholder', "New list name");
         imdone.newListModal.modal('show');
+        e.preventDefault();
       });    
 
       //Remove a list
