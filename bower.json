@@ -20,8 +20,7 @@
     "jquery": "~2.1.0",
     "bootswatch": "*",
     "backbone": "*",
-    "bootstrap": "~3.0.0",
-    "jquery.toc": "~0.3.5",
+    "bootstrap": "~3.1.1",
     "marked": "~0.3.1",
     "prismjs": "*",
     "underscore": "*",
@@ -35,7 +34,8 @@
     "ace-builds": "~1.1.1",
     "zeroclipboard": "~1.3.0-beta.1",
     "chardin.js": "~0.1.3",
-    "printThis": "imdone/printThis#master"
+    "printThis": "imdone/printThis#master",
+    "jquery.toc": "~0.3.5"
   },
   "exportsOverride": {
     "requirejs": {

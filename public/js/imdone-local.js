@@ -663,7 +663,7 @@ define([
           var $task = $('.task:contains("{}")'.tokenize(task));
           if ($task.length > 0) {
             $task.addClass('selected');
-            $('.app-container').scrollTo($task)
+            $('.app-container').scrollTo($task, 500);
           }
         };
 
@@ -998,10 +998,10 @@ define([
       // T.O.C
       $("#toc").html('').toc({
         'content':'#preview',
-        'headings': 'h1,h2',
-        'smoothScrolling': true
+        'headings': 'h1,h2'
       });
-      
+
+      // DONE:10 Fix scrollSpy
       imdone.fileContainer.scrollspy('refresh');
 
       // Add borders to tables
@@ -1011,6 +1011,16 @@ define([
       imdone.previewMode = false;
     }
   }
+
+  // DONE:0 Fix toc click
+  $(document).on('click', '#toc a', function(e) {
+    var id = $(this).attr('href');
+    imdone.fileContainer.scrollTo($(id), 500);
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+  });
+
   imdone.previewBtn.on("click", function() {
     imdone.closeFileConfirm(imdone.showPreview);
   });
@@ -1559,7 +1569,7 @@ define([
         $(document).attr("title", "iMDone - " + params.project + " Find: " + params.query);
       },
 
-      defaultRoute: function() {
+      defaultRoute: function(action) {
         if (imdone.projects.length > 0) imdone.currentProjectId(imdone.projects[0]);
         imdone.navigateToCurrentProject();
       },
