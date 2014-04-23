@@ -12,6 +12,7 @@ define([
   'zeroclipboard',
   'ace',
   'ace-language-tools',
+  'ace-spellcheck',
   'jqueryui',
   'bootstrap',
   'printThis',

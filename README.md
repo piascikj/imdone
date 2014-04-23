@@ -29,7 +29,7 @@ Most people use a separate tool to record tasks and keep track of their progress
 
 Features
 ----
-- Now supports code style comments like this in code files
+- Supports code style comments like this in code files
   - `// FIXME: this is really broken`
 - Create tasks in any text file using markdown link syntax like
   - `[Finish the latest blog post](doing:0)`
@@ -40,6 +40,7 @@ Features
 - Task filters (Regular Expression syntax) 
 - Search (Regular Expression syntax)
 - Create, delete and edit files
+- Code completion with ctrl+space in editor
 - Markdown preview with table of contents
 - Syntax highlighting in markdown code blocks 
 - [Use gollum link syntax](https://github.com/gollum/gollum/wiki#page-links)

@@ -15,6 +15,7 @@ requirejs.config({
     marked:'marked/marked',
     ace:'ace-builds/ace',
     'ace-language-tools':'ace-builds/ext-language_tools',
+    'ace-spellcheck':'ace-builds/ext-spellcheck',
     pnotify:'/js/jquery.pnotify.min',
     store:'/js/store.min',
     prism:'prismjs/js/prism',
@@ -83,6 +84,9 @@ requirejs.config({
       exports: 'ace'
     },
     'ace-language-tools': {
+      deps: ['ace']
+    },
+    'ace-spellcheck': {
       deps: ['ace']
     }
   }
