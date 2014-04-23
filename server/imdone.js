@@ -23,6 +23,7 @@ var http             = require('http');
 var mkdirp           = require('mkdirp');
 var server           = require("./server");
 var async            = require("async");
+var log              = require('debug')('imdone');
 var core             = require("imdone-core");
 var Repo             = core.Repository;
 var Project          = core.Project;
@@ -90,19 +91,25 @@ imdone.startFromCLI = function(dir) {
 };
 
 imdone.start = function(dirs, open, cb) {
+  cb = _.isFunction(cb) ? cb : _.noop;
+  log('Begin initializing projects');
   imdone.checkCLIService(function() {
     console.log("iMDone service is already running!");
     if (open) imdone.cliOpen();
-    if (_.isFunction(cb)) cb();
+    cb();
     _.each(dirs, function(d) {
       imdone.cliAddProject(d);
     });
   }, function() {
     imdone.startCLIService(function() {
       if (open) imdone.cliOpen();
-      if (_.isFunction(cb)) cb();
+      var funcs = [];
       _.each(dirs, function(d) {
-        imdone.addProject(d);
+        funcs.push(function(cb) { imdone.addProject(d, cb); }); 
+      });
+      async.parallel(funcs, function(err, result) {
+        log('All projects initialized');
+        cb(err, result);
       });
     });
   });
@@ -122,7 +129,9 @@ imdone.startCLIService = function(callback) {
     res.send({ok:imdone.up});
   });
   app.post("/cli/project", function(req, res) {
-    res.send(imdone.addProject(req.body.cwd));
+    imdone.addProject(req.body.cwd, function(err, project) {
+      res.send(project.getName());
+    });
   });
   app.delete("/cli/project", function(req, res) {
     res.send(imdone.removeProject(req.body.cwd));
@@ -164,7 +173,7 @@ imdone.cliAddProject = function(dir) {
     if (!res) {
       console.log("failed to add project");
     } else {
-      console.log('Added project:', body.path);
+      console.log('Added project:', body);
     }
   });
 
@@ -210,15 +219,16 @@ imdone.checkCLIService = function(success, failure) {
   });
 };
 
-imdone.addProject = function(dir) {
+imdone.addProject = function(dir, cb) {
+  cb = _.isFunction(cb) ? cb : _.noop;
   var name = dir.replace(/^([A-Za-z]:(\\)?|\/?)/, "").split(path.sep).join("-");
   console.log("Adding project at:" + dir);
   if (imdone.projects[name]) delete imdone.projects[name];
   var repo = new Repo(dir);
   var project = imdone.projects[name] = new Project(tools.user(), name, [repo]);
-  project.init();
-
-  return imdone.getProject(name);
+  project.init(function(err) {
+    cb(err,project)
+  });
 };
 
 imdone.removeProject = function(dir) {
