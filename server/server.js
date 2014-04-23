@@ -357,6 +357,7 @@
 
       // ARCHIVE:210 Remove listeners on disconnect
       socket.on('disconnect', function () {
+        server.imdone.emitter.removeListener(EVENTS.PROJECT_INITIALIZED, onProjectInitialized);
         _.each(server.imdone.projects, function(project) {
           project.removeListener(EVENTS.PROJECT_MODIFIED, onProjectModified);
           project.removeListener(EVENTS.PROJECT_INITIALIZED, onProjectInitialized);
