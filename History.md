@@ -1,5 +1,9 @@
 Change Log
 ----
+### 1.2.0
+- Now using the imdone-core library
+- Create lists without having to create tasks in that list
+
 ### 1.1.3
 - Add delay to sortable elements
 

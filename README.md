@@ -5,6 +5,11 @@
 
 ----
 
+### Important
+If you're migrating from an older version of iMDone the configuration is in a new place.  It's still in the .imdone 
+folder, but it's now in JSON format and lists are also stored there.
+Because it's in JSON format, you'll have to escape the '\' character in your excludes.
+
 Connect directly to github!
 ----
 ![iMDone UI](https://raw.githubusercontent.com/piascikj/imdone/master/docs/images/imdone-ui.png)  
@@ -24,8 +29,8 @@ Most people use a separate tool to record tasks and keep track of their progress
 
 Features
 ----
-- Now supports code style comments like
-  - `// FIXME: this is really broken` in code files
+- Now supports code style comments like this in code files
+  - `// FIXME: this is really broken`
 - Create tasks in any text file using markdown link syntax like
   - `[Finish the latest blog post](doing:0)`
 - Sort tasks and move them between lists with drag and drop
@@ -59,7 +64,7 @@ imdone -h
 ```
 [Use imdone to manage tasks in my project](#doing:0)
 ```
-- Or create tasks like this in code files (java example)
+- Or create tasks like this in code files (javascript example)
 ```
 // TODO: Use HashMap instead of HashTable
 ```
@@ -70,23 +75,24 @@ imdone
 
 Configuration
 ----
-After running imdone for the first time, modify imdone/imdone.js in your project directory.  The default config looks like this.  Your imdone.js will extend this.
+After running imdone for the first time, modify .imdone/imdone.json in your project directory.  The default config looks like this.  Your imdone.json will extend this.
 ```javascript
-module.exports = {
-  include:/^.*$/,
-  exclude:/^(node_modules|bower_components|imdone|target|build)\/|\.(git|svn|imdone)|\~$|\.(jpg|png|gif|swp|ttf|otf)$/,
-  marked : {
-    gfm: true,
-    pedantic: false,
-    sanitize: true
-  },
-  events : {
-    modified: function(params) {
-      console.log("Files modified in project:", params.project.path);
-      console.log(params.files);
-    }
+{
+  "exclude": [
+    "^(node_modules|bower_components|\\.imdone|target|build)\\/?|\\.(git|svn)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
+  ],
+  "watcher": true,
+  "lists": [],
+  "marked": {
+    "gfm": true,
+    "tables": true,
+    "breaks": false,
+    "pedantic": false,
+    "sanitize": true,
+    "smartLists": true,
+    "langPrefix": "language-"
   }
-};
+}
 ```
 
 How you can help
@@ -137,76 +143,6 @@ sudo sysctl -p
   - If the github clone url is https://github.com/piascikj/imdone.git then
 ```
 git clone https://github.com/piascikj/imdone.wiki.git
-```
-
-### Configuration for running git add and commit after files are modified
-```javascript
-var exec = require('child_process').exec;
-var util = require('util');
-
-/*
- * imdone
- * https://github.com/piascikj/imdone
- *
- * Copyright (c) 2012 Jesse Piascik
- * Licensed under the MIT license.
- */
-module.exports = {
-  include:/^.*$/,
-  exclude:/^(node_modules|bower_components|imdone|target|build)\/|\.(git|svn|imdone)|\~$|\.(jpg|png|gif|swp|ttf|otf)$/,
-  marked : {
-    gfm: true,
-    pedantic: false,
-    sanitize: true
-  },
-  events : {
-    modified: function(params) {
-      console.log("Files modified in project:", params.project.path);
-      var statusCmd = "git status -s";
-      var addCmd = "git add -A";
-      var commitCmd = 'git commit -a -m "Update to notes from imdone"';
-      var opts = { cwd: params.project.path };
-      console.log("---Running ", statusCmd);
-      exec(statusCmd, opts, function(err, stdout, stderr) {
-        if (err || stderr) {
-          console.log("Error executing ", statusCmd);
-          console.log("err:", err);
-          console.log("stderr:", stderr);
-          return;
-        }
-
-        if (/^\s*(\?|M|A|D|R|C|U)/g.test(stdout)) {
-          console.log("Found changes to commit!");
-          console.log(stdout);
-          console.log("---Running ", addCmd);
-          exec(addCmd, opts, function(err, stdout, stderr) {
-            if (err || stderr) {
-              console.log("Error executing ", addCmd);
-              console.log("err:", err);
-              console.log("stderr:", stderr);
-              return;
-            }
-            console.log("stdout:", stdout);
-
-            console.log("---Running ", commitCmd);
-            exec(commitCmd, opts, function(err, stdout, stderr) {
-              if (err || stderr) {
-                console.log("Error executing ", commitCmd);
-                console.log("err:", err);
-                console.log("stderr:", stderr);
-                return;
-              }
-              console.log("stdout:", stdout);
-            });
-          });
-        } else {
-          console.log("No changes detected.");
-        }
-      });
-
-    }
-  }
-};
 ```
 
 Common Errors

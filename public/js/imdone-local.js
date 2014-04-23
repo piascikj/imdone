@@ -146,6 +146,8 @@ define([
     return data;
   });
 
+  imdone.lsTemplate = Handlebars.compile($("#files-template").html());
+
   // TODO:10 Replace format with _.template 
   String.prototype.format = function (col) {
     col = typeof col === 'object' ? col : Array.prototype.slice.call(arguments, 1);
@@ -1144,6 +1146,22 @@ define([
     imdone.app.navigate("project/" + imdone.currentProjectId(), {trigger:true});
   };
 
+  imdone.openFileDialog = function(e) {
+    $.get("/api/files/" + imdone.currentProjectId(), function(data) {
+      imdone.currentProject().ls = data;
+      imdone.currentProject().cwd = data;
+      data.history = imdone.getHistory();
+      data.history = _.map(data.history, function(path) {
+        return {path:path, project:imdone.currentProjectId(), line:null, preview:imdone.isMD(path)};
+      });
+      $('#ls').html(imdone.lsTemplate(data));
+      imdone.fileField.val("");
+      $('#file-modal').modal().on('shown', function() {
+        imdone.fileField.focus();
+      });
+    })
+  };
+
   // ARCHIVE:730 Clean up init before implementing backbone views
   imdone.init = function() {
       function listNameFilter(saveFunc) {
@@ -1216,13 +1234,15 @@ define([
 
       imdone.newListSave.click(saveNewList);
 
-      $(document).on('click', '.new-list', function(e) {
+      function newList(e) {
         e.preventDefault();
         e.stopPropagation();
         imdone.newListField.val("");
         imdone.newListField.attr('placeholder', "New list name");
         imdone.newListModal.modal('show');
-      });    
+      }
+
+      $(document).on('click', '.new-list', newList);    
 
       //Remove a list
       $(document).on('click','.remove-list', function() {
@@ -1288,24 +1308,29 @@ define([
         e.stopPropagation();
         return false;
         
-      }).bind('keydown', 'esc', function(e){
+      })
+      .bind('keydown', 'esc', function(e){
         if (!imdone.previewMode && !imdone.editMode) imdone.clearFilter();
         imdone.navigateToCurrentProject();
         e.preventDefault();
         e.stopPropagation();
         return false;
-      // close file
-      }).bind('keydown', 'Ctrl+Shift+X', function(e) {
+      })
+      // delete file
+      .bind('keydown', 'Ctrl+Shift+X', function(e) {
         if (imdone.editMode) {
           imdone.removeSource();
         }
         e.preventDefault();
         e.stopPropagation();
         return false;
+      })
       // search
-      }).bind('keydown', 'Ctrl+Shift+F', function(e) {
+      .bind('keydown', 'Ctrl+Shift+F', function(e) {
         imdone.searchBtn.dropdown('toggle');
-      });
+      })
+      // new list
+      .bind('keydown', 'Ctrl+Shift+L', newList);
 
       //Get the file source for a task
       $(document).on('click','.source-link', function(e) {
@@ -1336,23 +1361,7 @@ define([
       });
 
       //Open or create a file
-      var lsTemplate = Handlebars.compile($("#files-template").html());
-      
-      $(document).on('click','#open-file-btn',function() {
-        $.get("/api/files/" + imdone.currentProjectId(), function(data) {
-          imdone.currentProject().ls = data;
-          imdone.currentProject().cwd = data;
-          data.history = imdone.getHistory();
-          data.history = _.map(data.history, function(path) {
-            return {path:path, project:imdone.currentProjectId(), line:null, preview:imdone.isMD(path)};
-          });
-          $('#ls').html(lsTemplate(data));
-          imdone.fileField.val("");
-          $('#file-modal').modal().on('shown', function() {
-            imdone.fileField.focus();
-          });
-        })
-      });
+      $(document).on('click','#open-file-btn',imdone.openFileDialog);
 
       //Find a path in files API response node
       function findDir(path, node) {
@@ -1377,7 +1386,7 @@ define([
         var node = findDir($(this).attr('data-path'));
         node = node || imdone.currentProject().ls;
         imdone.currentProject().cwd = node;
-        $('#ls').html(lsTemplate(node));
+        $('#ls').html(imdone.lsTemplate(node));
         imdone.fileField.focus();
         return false;
       });
