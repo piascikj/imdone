@@ -1,12 +1,8 @@
-/**
- * Copyright (c) 2013, ESHA Research
- * Dual licensed under the MIT and GPL licenses:
- *   http://www.opensource.org/licenses/mit-license.php
- *   http://www.gnu.org/licenses/gpl.html
- */
-;(function(window) {
+/*! store2 - v2.1.6 - 2014-03-10
+* Copyright (c) 2014 Nathan Bubna; Licensed MIT, GPL */
+;(function(window, define) {
     var _ = {
-        version: "<%= pkg.version %>",
+        version: "2.1.6",
         areas: {},
         apis: {},
 
@@ -204,7 +200,7 @@
 
     // setup the primary store fn
     if (window.store){ _.conflict = window.store; }
-    var store = window.store =
+    var store =
         // safely set this up (throws error in IE10/32bit mode for local files)
         _.Store("local", (function(){try{ return localStorage; }catch(e){}})());
     store.local = store;// for completeness
@@ -212,8 +208,14 @@
     // safely setup store.session (throws exception in FF for file:/// urls)
     store.area("session", (function(){try{ return sessionStorage; }catch(e){}})());
 
-    if (typeof module !== 'undefined' && module.exports) {
+    if (typeof define === 'function' && define.amd !== undefined) {
+        define(function () {
+            return store;
+        });
+    } else if (typeof module !== 'undefined' && module.exports) {
         module.exports = store;
+    } else {
+        window.store = store;
     }
 
-})(window);
+})(window, window.define);

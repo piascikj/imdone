@@ -43,7 +43,14 @@
 			keys = jQuery.map(keys, function(key) { return key.split("."); });
 
 		//no need to modify handler if no keys specified
-		if (keys.length === 1 && (keys[0] === "" || keys[0] === "autocomplete")) {
+		//Added keys[0].substring(0, 12) to work with jQuery ui 1.9.0
+		//Added accordion, tabs and menu, then jquery ui can use keys.
+
+			if (keys.length === 1 && (keys[0] === "" || 
+			keys[0].substring(0, 12) === "autocomplete"  || 
+			keys[0].substring(0, 9) === "accordion"  || 
+			keys[0].substring(0, 4) === "tabs"  || 
+			keys[0].substring(0, 4) === "menu")) {
 			return;
 		}
 
@@ -69,7 +76,7 @@
 				modif += "ctrl_";
 			}
 
-			// TODO:20 Need to make sure this works consistently across platforms
+			// TODO: Need to make sure this works consistently across platforms
 			if ( event.metaKey && !event.ctrlKey && special !== "meta" ) {
 				modif += "meta_";
 			}

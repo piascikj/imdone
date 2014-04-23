@@ -5,12 +5,12 @@
   "watcher": true,
   "lists": [
     {
-      "name": "PLANNING",
+      "name": "TODO",
       "hidden": false
     },
     {
-      "name": "TODO",
-      "hidden": true
+      "name": "PLANNING",
+      "hidden": false
     },
     {
       "name": "DOING",

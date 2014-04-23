@@ -4,7 +4,7 @@
     <title>iMDone</title>
     <link rel="shortcut icon" href="/favicon.ico" /> 
     <!-- Bootstrap -->
-    <!-- [Use bootswatch](#TODO:40)-->
+    <!-- [Use bootswatch](#DONE:0)-->
     <!--<link href="lib/bootswatch/css/bootstrap.min.css" rel="stylesheet" media="screen"/>-->
     <link href="css/bootstrap.css" rel="stylesheet" media="screen"/>
     <link href='css/darkstrap-v0.9.0.css' rel='stylesheet' media="screen"/>
@@ -12,6 +12,7 @@
     <link href="css/icomoon.css" rel="stylesheet" media="screen"/>
     <link href="css/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" media="screen"/>
     <link href="css/jquery.pnotify.default.css" rel="stylesheet" media="screen"/>
+    <link href="lib/chardin.js/css/chardinjs.css" type="text/css" rel="stylesheet" media="screen">
     <link href="css/style.css" type="text/css" rel="stylesheet" media="screen"/>
     <link href="css/prism.css" type="text/css" rel="stylesheet" media="screen"/>
     <link href="css/print.css" type="text/css" rel="stylesheet" media="print"/>
@@ -20,7 +21,7 @@
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
-          <!-- [implement dropdown for switching between projects](#ARCHIVE:290)-->
+          <!-- [implement dropdown for switching between projects](#ARCHIVE:280)-->
           <div class="nav-collapse collapse">
             <a class="brand" href="/"><img src="img/logo-inverse-small.png"/></a>
             <ul class="nav">
@@ -28,7 +29,10 @@
                 <button class="btn btn-inverse hide wiggle" id="open-readme-btn" title="Open Readme"><i class="icomoon-book"></i></button>
               </li>
               <li>
-                <button class="btn btn-inverse" id="open-file-btn" title="Open/Create file"><i class="icomoon-folder-open"></i></button>
+                <button class="btn btn-inverse" id="open-file-btn" title="Open/Create file" 
+                        data-intro="Open or create a file" data-position="right">
+                  <i class="icomoon-folder-open"></i>
+                </button>
               </li>
               <li id="search-dialog">
                 <div class="dropdown pull-left">
@@ -182,7 +186,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <!--[Add auto complete to file-field like ubuntu](#TODO:50) -->
+        <!--[Add auto complete to file-field like ubuntu](#TODO:40) -->
         <div class="pull-left"><input class="span4" type="text" id="file-field" placeholder="file path" title="enter a file path"></input></div>
         <a href="#" class="btn modal-close">Cancel</a>
         <a href="#" id="file-open" class="btn btn-primary">Open</a>
@@ -277,8 +281,8 @@
       </ul>
     </script>
 
-    <!-- [User should be able to add a list to a project](#DOING:0) -->
-    <!-- [User should be able to select from lists recognized by characters typed when creating a task](#PLANNING:10) -->
+    <!-- [User should be able to add a list to a project](#DONE:10) -->
+    <!-- [User should be able to select from lists recognized by characters typed when creating a task](#PLANNING:0) -->
     <script id="lists-template" type="text/x-handlebars-template">
       <li class="column-nav-menu-item">
         <a href="#" class="column-nav-menu-link new-list">

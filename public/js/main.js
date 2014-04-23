@@ -3,9 +3,9 @@ requirejs.config({
 
   //[Put paths in lib](#doing:-1)
   paths: {
-    underscore:"underscore/underscore-min",
+    underscore:"underscore/underscore",
     json2:'json2/json2',
-    backbone:'backbone/backbone-min',
+    backbone:'backbone/backbone',
     bootstrap: 'bootstrap/js/bootstrap.min',
     jquery:"jquery/jquery.min",
   	jqueryui: '/js/jquery-ui-1.9.2.custom.min',
@@ -13,7 +13,6 @@ requirejs.config({
   	socketio:'/socket.io/socket.io',
     hotkeys:'/js/jquery.hotkeys',
     marked:'marked/marked',
-    printElement:'/js/jquery.printElement.min',
     ace:'/lib/ace-builds/ace',
     pnotify:'/js/jquery.pnotify.min',
     store:'/js/store.min',
@@ -22,7 +21,9 @@ requirejs.config({
   	app:'/js/imdone-local',
     scrollTo: "jquery.scrollTo/jquery.scrollTo",
     zeroclipboard: 'zeroclipboard/js/ZeroClipboard',
-    wiggle: '/js/jquery.classywiggle.min'
+    wiggle: '/js/jquery.classywiggle.min',
+    chardin: 'chardin.js/js/chardinjs',
+    printThis: 'printThis/printThis'
   },
 
   shim: {
@@ -50,7 +51,7 @@ requirejs.config({
       deps: ['jquery'],
       exports: 'marked'
     },
-    'printElement': {
+    'printThis': {
       deps: ['jquery']
     },
     'pnotify': {
@@ -72,6 +73,9 @@ requirejs.config({
       deps: ['jquery']
     },
     'wiggle': {
+      deps: ['jquery']
+    },
+    'chardin': {
       deps: ['jquery']
     }
   }

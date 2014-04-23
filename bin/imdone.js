@@ -21,6 +21,6 @@ var imdone = require(dir);
 var cwd = process.cwd();
 console.log("cwd:" + cwd);
 //console.log("args:" + process.argv);
-//ARCHIVE:820 We want to accept a root directory as an argument
+//ARCHIVE:750 We want to accept a root directory as an argument
 imdone.startFromCLI(cwd);
 

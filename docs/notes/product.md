@@ -1,6 +1,0 @@
-- [Read the [Android Development - Tutorial](http://www.vogella.com/tutorials/Android/article.html)](#PLANNING:190)
-- [Add Pomodoro timer for a task, using a tomato icon](#PLANNING:120)
-- [Make lists scroll independently and keep list name at top](#PLANNING:200)
-- [Make client events meaningful so we can react accordingly!](#ARCHIVE:70)
-- [Pro users should be able to add a task from any website using a chrome extension](#TODO:180)
-- [Use [ExactTarget/fuelux](https://github.com/ExactTarget/fuelux)](#DOING:0)

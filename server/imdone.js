@@ -5,7 +5,7 @@
  * Copyright (c) 2012 Jesse Piascik
  * Licensed under the MIT license.
  */
-//ARCHIVE:410 Implement hide functionality to hide a list from board
+//ARCHIVE:360 Implement hide functionality to hide a list from board
 // Nodejs libs.
 var fs               = require('fs');
 var path             = require('path');
@@ -115,7 +115,7 @@ imdone.start = function(dirs, open, cb) {
   });
 };
 
-// PLANNING:20 Use axon-rpc for cli service and move to it's own module
+// PLANNING:10 Use axon-rpc for cli service and move to it's own module
 imdone.startCLIService = function(callback) {
   //Start a service on 8899 for cli to interact with
   //Access imdone data through getters and setters that require project path
@@ -226,6 +226,9 @@ imdone.addProject = function(dir, cb) {
   if (imdone.projects[name]) delete imdone.projects[name];
   var repo = new Repo(dir);
   var project = imdone.projects[name] = new Project(tools.user(), name, [repo]);
+  project.on('project.initialized', function(data) {
+    imdone.emitter.emit('project.initialized', data);
+  });
   project.init(function(err) {
     cb(err,project)
   });

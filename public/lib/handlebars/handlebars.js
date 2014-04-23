@@ -356,7 +356,7 @@ var __module6__ = (function(__dependency1__, __dependency2__, __dependency3__) {
     }
   }
 
-  // TODO:30 Remove this line and break up compilePartial
+  // TODO: Remove this line and break up compilePartial
 
   function template(templateSpec, env) {
     if (!env) {
@@ -366,7 +366,7 @@ var __module6__ = (function(__dependency1__, __dependency2__, __dependency3__) {
     var invokePartialWrapper;
     if (env.compile) {
       invokePartialWrapper = function(partial, name, context, helpers, partials, data) {
-        // TODO:0 : Check this for all inputs and the options handling (partial flag, etc). This feels
+        // TODO : Check this for all inputs and the options handling (partial flag, etc). This feels
         // like there should be a common exec path
         var result = invokePartial.apply(this, arguments);
         if (result) { return result; }
