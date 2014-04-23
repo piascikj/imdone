@@ -83,7 +83,8 @@
       "": "jquery.hotkeys.js"
     },
     "ace-builds": {
-      "": "src-min/*.js"
+      "snippets": "src-noconflict/snippets/*.js",
+      "": "src-noconflict/*.js"
     },
     "zeroclipboard": {
       "js": "ZeroClipboard*.js",

@@ -11,6 +11,7 @@ define([
   '/js/models/search.js',
   'zeroclipboard',
   'ace',
+  'ace-language-tools',
   'jqueryui',
   'bootstrap',
   'printThis',
@@ -20,9 +21,8 @@ define([
   'scrollTo',
   'wiggle',
   'chardin'
-], function(_, $, Backbone, Handlebars, JSON, io, marked, Prism, store, Search, ZeroClipboard) {
-  ace = window.ace;
-  
+], function(_, $, Backbone, Handlebars, JSON, io, marked, Prism, store, Search, ZeroClipboard, ace) {
+
   var imdone = window.imdone = {
     data:{},
     board:           $("#board"),
@@ -219,7 +219,7 @@ define([
       }
 
       return out;
-    }
+    };
 
     html = html.replace(links, replaceLinks);
 
@@ -231,7 +231,7 @@ define([
         file = pieces[1];
         name = pieces[0];
       }
-      var file = file.replace(/(\s)|(\/)/g,"-") + ".md";
+      file = file.replace(/(\s)|(\/)/g,"-") + ".md";
       var href = imdone.getFileHref(imdone.currentProjectId(),file,true);
       return '<a href="{}">{}</a>'.tokenize(href, name);
     });
@@ -329,7 +329,7 @@ define([
       var path = $el.attr("data-path");
       var list = _.findWhere(imdone.currentProject().lists, {name:listId});
       var task = _.filter(list.tasks, function(task) {
-        return task.id == parseInt(taskId) && task.source.path == path;
+        return task.id == parseInt(taskId, 10) && task.source.path == path;
       })[0];
       tasks.push(task);
     });
@@ -356,7 +356,7 @@ define([
     var toListId = item.closest(".list").attr("id");
     var list = _.findWhere(imdone.currentProject().lists, {name:listId});
     var tasks = _.filter(list.tasks, function(task) {
-      return task.id == parseInt(taskId) && task.source.path == path;
+      return task.id == parseInt(taskId, 10) && task.source.path == path;
     });
     var pos = item.index()-1;
     var reqObj = {
@@ -390,11 +390,11 @@ define([
 
   imdone.hideList = function(list) {
     $.post("/api/hideList", { list: list, project: imdone.currentProjectId() });
-  }
+  };
 
   imdone.showList = function(list, cb) {
     $.post("/api/showList", {list:list, project:imdone.currentProjectId()});
-  }
+  };
 
   imdone.getKanban = function(params) {
     //Clear out all elements and event handlers
@@ -403,7 +403,7 @@ define([
     if (project) {
       $.get("/api/kanban/" + project, function(data){
         imdone.setProjectData(project,data);
-        if ((params && !params.noPaint) || params == undefined) imdone.paintKanban(data);
+        if ((params && !params.noPaint) || params === undefined) imdone.paintKanban(data);
 
         if (params && params.callback && _.isFunction(params.callback)) params.callback(data);
       }, "json");
@@ -416,8 +416,8 @@ define([
       var search = new imdone.Search({
         id:project,
         query:params.query, 
-        offset:parseInt(params.offset), 
-        limit:(params.limit)?parseInt(params.limit):undefined
+        offset:parseInt(params.offset, 10), 
+        limit:(params.limit)?parseInt(params.limit, 10):undefined
       });
       search.fetch({success: function(model, response)  {
           // TODO:30 Put search in a view.  [What is a view? - Backbone.js Tutorials](http://backbonetutorials.com/what-is-a-view/)
@@ -445,7 +445,7 @@ define([
     e.preventDefault();
     e.stopPropagation();
     return false;
-  })
+  });
 
   imdone.showSearchResults = function() {
     imdone.hideAllContent();
@@ -673,7 +673,7 @@ define([
       }
 
       // Check for selected tasks, there shouldn't be any, but it'll hide the buttone
-      imdone.tasksSelected()
+      imdone.tasksSelected();
 
     }
   };
@@ -692,7 +692,7 @@ define([
     var context = {
       cwd: imdone.currentProjectId(),
       projects:_.without(imdone.projects, imdone.currentProjectId())
-    }
+    };
     imdone.projectsMenu.html(template(context));
   };
 
@@ -858,7 +858,7 @@ define([
               _.map(decodeURI(queryString).split(/&/g),function(el,i){
                   var aux = el.split('='), o = {};
                   if(aux.length >= 1){
-                      var val = undefined;
+                      var val;
                       if(aux.length == 2)
                           val = aux[1];
                       o[aux[0]] = val;
@@ -887,7 +887,7 @@ define([
     } else {
       imdone.board.printThis(printOptions);
     }
-  }
+  };
   imdone.printBtn.on("click", imdone.print);
 
   // ARCHIVE:20 Fix markdown language mode for editor
@@ -942,7 +942,7 @@ define([
             imdone.editor.focus();
         }
     });
-  }
+  };
   imdone.editBtn.on("click", imdone.showEditor);
 
   imdone.hideAllContent = function() {
@@ -1012,7 +1012,7 @@ define([
     } else {
       imdone.previewMode = false;
     }
-  }
+  };
 
   // DONE:0 Fix toc click
   $(document).on('click', '#toc a', function(e) {
@@ -1093,7 +1093,7 @@ define([
     });
 
     return true;
-  }
+  };
   $(document).on('click', '#save-file-btn', imdone.saveFile);
 
   imdone.removeSourceConfirm = function() {
@@ -1159,7 +1159,7 @@ define([
       $('#file-modal').modal().on('shown', function() {
         imdone.fileField.focus();
       });
-    })
+    });
   };
 
   // ARCHIVE:730 Clean up init before implementing backbone views
@@ -1201,7 +1201,7 @@ define([
           newName:  imdone.nameFld.val(),
           project: imdone.currentProjectId()
         };
-        if (req.newName != "") {
+        if (req.newName !== "") {
           $.post("/api/renameList", req);
         }
 
@@ -1255,7 +1255,10 @@ define([
       });
 
       //Editor config
-      imdone.editor.setOption("spellcheck", true);
+      imdone.editor.setOptions({
+        enableBasicAutocompletion: true,
+        enableSnippets: true
+      });
       imdone.editor.setTheme("ace/theme/merbivore_soft");
       imdone.editor.setHighlightActiveLine(true);
       imdone.editor.setPrintMarginColumn(120);
@@ -1370,7 +1373,7 @@ define([
         _.each(node.dirs, function(dirNode) {
           if (dir) return;
           if (path == dirNode.path) {
-            dirNode.parent = node
+            dirNode.parent = node;
             dir = dirNode;
           } else if (!dir) {
             dir = findDir(path, dirNode);
@@ -1401,7 +1404,7 @@ define([
       function openFile() {
         // ARCHIVE:70 Create a new file based on path and project with call to PUT /api/source.  If get fails call saveSource first to create the file
         var path = imdone.fileField.val();
-        if (path != "") {
+        if (path !== "") {
           if (/^(\/|\\)/.test(path)) {
             path = path.substring(1);
           } else {
@@ -1413,7 +1416,7 @@ define([
           $(this).closest(".modal").modal('hide');
         }
         return false;
-      };
+      }
 
       //Open a file from file-modal
       imdone.fileOpenBtn.on('click',openFile);

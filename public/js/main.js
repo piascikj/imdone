@@ -13,7 +13,8 @@ requirejs.config({
   	socketio:'/socket.io/socket.io',
     hotkeys:'/js/jquery.hotkeys',
     marked:'marked/marked',
-    ace:'/lib/ace-builds/ace',
+    ace:'ace-builds/ace',
+    'ace-language-tools':'ace-builds/ext-language_tools',
     pnotify:'/js/jquery.pnotify.min',
     store:'/js/store.min',
     prism:'prismjs/js/prism',
@@ -77,10 +78,16 @@ requirejs.config({
     },
     'chardin': {
       deps: ['jquery']
+    },
+    'ace': {
+      exports: 'ace'
+    },
+    'ace-language-tools': {
+      deps: ['ace']
     }
   }
 });
 
-require(['app'],function(App) {
+require(['app', 'ace'],function(App, ace) {
   App.init();
 });
