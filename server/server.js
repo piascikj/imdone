@@ -42,7 +42,7 @@
     }
     // console.log("Getting project with name:", req.params[0]);
 
-    project = server.imdone.getProject(req.params[0]);
+    var project = server.imdone.getProject(req.params[0]);
 
     res.send({
       lists:project.getTasks(null, true),
@@ -107,7 +107,7 @@
     project.renameList(name, newName, function(err) {
       if (err) return res.send(500);
       res.send(200);
-    })
+    });
   }
 
   // ARCHIVE:150 use imdone-core
@@ -205,7 +205,7 @@
         project = server.imdone.getProject(req.params[0]);
 
     if (project) {
-       repoId = project.getRepos()[0].getId();
+       var repoId = project.getRepos()[0].getId();
        project.deleteFile(repoId, path, function(err, file) {
         res.send(200, {file:file, deleted:true});
        });
@@ -233,7 +233,7 @@
     if (project.path) {
       project.md(path, function(html) {
         res.send(html);
-      })
+      });
     } else {
       res.send(404, "Unable to get html for file");
     }
@@ -260,7 +260,7 @@
 
   function removeProject(req, res) {
     var dir = req.params[0];
-    server.imdone.removeProject(dir)
+    server.imdone.removeProject(dir);
     res.send(200);
   }
 
@@ -342,11 +342,11 @@
 
       var onProjectModified = function(data) {
         socket.emit(EVENTS.PROJECT_MODIFIED, data);
-      }
+      };
 
       var onProjectInitialized = function(data) {
         socket.emit(EVENTS.PROJECT_INITIALIZED, data);
-      }
+      };
 
       server.imdone.emitter.on(EVENTS.PROJECT_INITIALIZED, onProjectInitialized);
 

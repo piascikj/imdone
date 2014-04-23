@@ -230,7 +230,7 @@ imdone.addProject = function(dir, cb) {
     imdone.emitter.emit('project.initialized', data);
   });
   project.init(function(err) {
-    cb(err,project)
+    cb(err,project);
   });
 };
 

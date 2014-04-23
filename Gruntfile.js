@@ -26,10 +26,9 @@ module.exports = function (grunt) {
         boss: true,
         eqnull: true,
         node: true,
-        expr: true,
-        ignores: ['lib/static/**/*.js']
+        expr: true
       },
-      all: ['lib/**/*.js','bin/*.js'],
+      files: ['server/**/*.js','bin/*.js'],
     },
     jasmine_node: {
       coverage:{
