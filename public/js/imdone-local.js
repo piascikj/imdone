@@ -911,7 +911,7 @@ define([
     var session = imdone.aceSession = ace.createEditSession(data.src);
     session.setMode("ace/mode/" + mode);
     session.setUseWrapMode(true);
-    session.setWrapLimitRange(120, 140);
+    session.setWrapLimitRange(120, 160);
 
     //Editor change events
     session.on('change', function(e) {
