@@ -29,39 +29,15 @@ module.exports = function (grunt) {
         expr: true
       },
       files: ['server/**/*.js','bin/*.js'],
-    },
-    jasmine_node: {
-      coverage:{
-        savePath: "build/coverage",
-        print: "both",
-        excludes:["**/test/**"]
-      },
-      options:{
-        specFolders:["./test"],
-        specNameMatcher: "-spec", // load only specs containing specNameMatcher
-        projectRoot: ".",
-        requirejs: false,
-        forceExit: true,
-        verbose: true,
-        showColors: true,
-        jUnit: {
-          report: true,
-          savePath : "build/reports/jasmine/",
-          useDotNotation: true,
-          consolidate: true
-        }
-      }
     }
-
   });
 
   process.env.NODE_ENV="local";
   
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-jasmine-node-coverage');
   grunt.loadNpmTasks('grunt-bower-task');
 
-  grunt.registerTask('default', ['jshint','jasmine_node','bower:install']);
-  grunt.registerTask('test', 'jasmine_node');
+  grunt.registerTask('default', ['jshint', 'bower:install']);
+  grunt.registerTask('test', 'default');
   grunt.registerTask('lint', 'jshint');
 };
