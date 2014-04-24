@@ -378,6 +378,10 @@ blockquote p {
   color: #204B61;
 }
 
+.introjs-helperLayer {
+  background-color: rgba(255,255,255,.4);
+}
+
 ::-webkit-scrollbar {
     height: 16px;
     overflow: visible;

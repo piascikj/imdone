@@ -11,6 +11,7 @@ define([
   '/js/models/search.js',
   'zeroclipboard',
   'ace',
+  'introjs',
   'ace-language-tools',
   'ace-spellcheck',
   'jqueryui',
@@ -20,9 +21,8 @@ define([
   'hotkeys',
   'toc',
   'scrollTo',
-  'wiggle',
-  'chardin'
-], function(_, $, Backbone, Handlebars, JSON, io, marked, Prism, store, Search, ZeroClipboard, ace) {
+  'wiggle'
+], function(_, $, Backbone, Handlebars, JSON, io, marked, Prism, store, Search, ZeroClipboard, ace, introJs) {
 
   var imdone = window.imdone = {
     data:{},
@@ -99,7 +99,7 @@ define([
     },
     pathSep: (navigator.appVersion.indexOf("Win")!=-1) ? "\\" : "/"
   };
-  // PLANNING:90 Use [spin.js](http://fgnass.github.io/spin.js/#?lines=15&length=24&width=9&radius=60&corners=0.1&rotate=0&trail=60&speed=0.5&direction=1&hwaccel=on) for loading gif
+  // PLANNING:50 Use [spin.js](http://fgnass.github.io/spin.js/#?lines=15&length=24&width=9&radius=60&corners=0.1&rotate=0&trail=60&speed=0.5&direction=1&hwaccel=on) for loading gif
   //pnotify options
   $.extend($.pnotify.defaults,{
       styling: 'bootstrap',
@@ -318,7 +318,7 @@ define([
     return false;
   };
 
-  // PLANNING:80 add notify and undo for move
+  // PLANNING:40 add notify and undo for move
   imdone.moveTasks = function(opts) {
     var tasks = [];
     var toListId = (opts.to) ? opts.to : opts.item.closest(".list").attr("id");
@@ -655,7 +655,11 @@ define([
         .unbind()
         .click(function() {
           imdone.app.navigate(href, true);
-        }).ClassyWiggle("start",imdone.wiggleOpts);
+        });
+
+        if (data.lists && data.lists.length > 0) imdone.openReadmeBtn.ClassyWiggle("start",imdone.wiggleOpts);
+      } else {
+        imdone.openReadmeBtn.hide();
       }
 
       if (imdone.scrollToTask) {
@@ -798,6 +802,7 @@ define([
   };
 
   imdone.getSource = function(params) {
+    params.project = params.project || imdone.currentProjectId();
     //ARCHIVE:790 We have to convert the source api url URL first
     if (params && params.path) params.path = params.path.replace(/^\/*/,'');
     
@@ -1130,7 +1135,7 @@ define([
           imdone.navigateToCurrentProject();
         },
         error: function(data) {
-          // DOING:20 Make this pnotify default for all errors!
+          // PLANNING:0 Make this pnotify default for all errors!
           imdone.fileNotify = $.pnotify({
             title: "Unable to delete file!",
             nonblock: true,
@@ -1156,6 +1161,10 @@ define([
     imdone.app.navigate("project/" + imdone.currentProjectId(), {trigger:true});
   };
 
+  imdone.navigateToFile = function(path, line, preview) {
+    imdone.app.navigate(imdone.getFileHref(path, line, preview), {trigger:true});
+  };
+
   imdone.openFileDialog = function(e) {
     $.get("/api/files/" + imdone.currentProjectId(), function(data) {
       imdone.currentProject().ls = data;
@@ -1166,9 +1175,14 @@ define([
       });
       $('#ls').html(imdone.lsTemplate(data));
       imdone.fileField.val("");
-      $('#file-modal').modal().on('shown', function() {
-        imdone.fileField.focus();
+      var fileModal = $('#file-modal').modal({show:false});
+      fileModal.on('show.bs.modal', function() {
+        setTimeout(function() {
+          document.activeElement.blur();
+          imdone.fileField.focus();
+        }, 500);
       });
+      fileModal.modal("show");
     });
   };
 
@@ -1410,7 +1424,7 @@ define([
       });
 
       
-      // PLANNING:130 Use [egdelwonk/SlidePanel](https://github.com/egdelwonk/slidepanel) for opening files and removing clutter
+      // PLANNING:70 Use [egdelwonk/SlidePanel](https://github.com/egdelwonk/slidepanel) for opening files and removing clutter
       function openFile() {
         // ARCHIVE:70 Create a new file based on path and project with call to PUT /api/source.  If get fails call saveSource first to create the file
         var path = imdone.fileField.val();
@@ -1481,7 +1495,7 @@ define([
       });
 
       // Listen for hide
-      // PLANNING:140 Show prompt if list is large before showing
+      // PLANNING:80 Show prompt if list is large before showing
       $(document).on('click', '.list-hide, .list-show', function(e) {
         var list = $(this).attr("data-list");
         var el = $("#" + list);
@@ -1506,6 +1520,60 @@ define([
         //if (projects.length > 0) imdone.getKanban({project:projects[0]});
         imdone.initialized = true;
       });
+  };
+
+  imdone.intro = function(project) {
+    var intro = introJs();
+
+    var steps = [
+      {
+        element: '#open-file-btn',
+        intro: 'To get started, create a file and add tasks...'
+      },
+      {
+        element: '#lists-btn',
+        intro: 'or create a list'
+      }
+    ];
+
+    if (project.readme) {
+      steps.unshift({
+        element: '#open-readme-btn',
+        intro: 'To get started open your readme file and create tasks...'
+      });
+      steps[1].intro = 'or create a file and add tasks';
+    }
+
+    intro.setOptions({
+      steps: steps,
+      showStepNumbers: false
+    });
+
+    var $lastBtn;
+    function done() {
+      $lastBtn.ClassyWiggle("stop");
+      $lastBtn.addClass('btn-inverse');
+    }
+
+    intro.onbeforechange(function(el) {
+      // DOING:0 fix error in intro.js on line 557 when showStepNumbers is false and introduce overlay option
+      $('.introjs-overlay').css('opacity', .5);
+      var $btn = $(el);
+      if ($lastBtn) done();
+      $lastBtn = $btn; 
+      $btn.ClassyWiggle("start",{
+        randomStart:false,
+        onWiggleStart: function(el) {
+          $(el).removeClass("btn-inverse");
+        },
+        onWiggleStop: function(el) {
+          $(el).addClass("btn-inverse");
+        }
+      });
+    });
+    intro.onexit(done);
+    intro.oncomplete(done);
+    intro.start();
   };
 
   var AppRouter = Backbone.Router.extend({
@@ -1540,7 +1608,15 @@ define([
           imdone.showBoard();
           imdone.showList(imdone.scrollToList, imdone.paintProjectsMenu);
         } else {
-          imdone.getKanban({project:project, callback: imdone.paintProjectsMenu});
+          imdone.getKanban({
+            project:project, 
+            noPaint:true, 
+            callback: function(project) {
+                        imdone.paintProjectsMenu();
+                        imdone.paintKanban(project);
+                        if (project && project.lists && project.lists.length < 1) imdone.intro(project); 
+                      } 
+          });
         }
         $(document).attr("title", "iMDone - " + project);
       },
@@ -1596,7 +1672,6 @@ define([
         imdone.navigateToCurrentProject();
       },
   });
-
 
   return imdone;
 });

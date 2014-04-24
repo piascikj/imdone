@@ -24,8 +24,8 @@ requirejs.config({
     scrollTo: "jquery.scrollTo/jquery.scrollTo",
     zeroclipboard: 'zeroclipboard/js/ZeroClipboard',
     wiggle: '/js/jquery.classywiggle.min',
-    chardin: 'chardin.js/js/chardinjs',
-    printThis: 'printThis/printThis'
+    printThis: 'printThis/printThis',
+    introjs: 'intro.js/js/intro'
   },
 
   shim: {
@@ -75,9 +75,6 @@ requirejs.config({
       deps: ['jquery']
     },
     'wiggle': {
-      deps: ['jquery']
-    },
-    'chardin': {
       deps: ['jquery']
     },
     'ace': {

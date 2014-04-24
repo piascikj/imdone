@@ -115,7 +115,7 @@ imdone.start = function(dirs, open, cb) {
   });
 };
 
-// PLANNING:10 Use axon-rpc for cli service and move to it's own module
+// PLANNING:30 Use axon-rpc for cli service and move to it's own module
 imdone.startCLIService = function(callback) {
   //Start a service on 8899 for cli to interact with
   //Access imdone data through getters and setters that require project path

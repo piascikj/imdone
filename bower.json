@@ -33,9 +33,9 @@
     "store": "~2.1.3",
     "ace-builds": "~1.1.1",
     "zeroclipboard": "~1.3.0-beta.1",
-    "chardin.js": "~0.1.3",
     "printThis": "imdone/printThis#master",
-    "jquery.toc": "~0.3.5"
+    "jquery.toc": "~0.3.5",
+    "intro.js": "~0.8.0"
   },
   "exportsOverride": {
     "requirejs": {
@@ -62,7 +62,7 @@
       "fonts": "dist/fonts/*"
     },
     "bootswatch": {
-      "css": "cerulean/*.css",
+      "css": "slate/*.css",
       "fonts": "../bootstrap/dist/fonts/*"
     },
     "font-awesome": {
@@ -90,12 +90,12 @@
       "js": "ZeroClipboard*.js",
       "swf": "*.swf"
     },
-    "chardin.js": {
-      "js": "*.js",
-      "css": "*.css"
-    },
     "printThis": {
       "": "printThis.js"
+    },
+    "intro.js": {
+      "js":"intro.js",
+      "css":"introjs.css"
     }
   }
 }
