@@ -894,7 +894,11 @@ define([
 
   // ARCHIVE:20 Fix markdown language mode for editor
   //Show the editor
-  imdone.showEditor = function() {
+  imdone.showEditor = function(e) {
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
     imdone.previewMode = false;
     imdone.editBtn.addClass("active");
     imdone.previewBtn.removeClass("active");
@@ -955,7 +959,11 @@ define([
   };
 
   //Show the markdown preview
-  imdone.showPreview = function() {
+  imdone.showPreview = function(e) {
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
     if (imdone.isMD()) {
       imdone.previewMode = true;
       imdone.showFileView();
