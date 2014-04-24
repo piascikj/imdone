@@ -180,8 +180,8 @@ define([
     var links = /(<a.*?href=")(.*?)(".*?)>(.*)(<\/a>)/ig,
         externalLinks = /^http/,
         mailtoLinks = /^mailto/,
-        taskLinks = /#([\w\-]+?):(\d+?\.{0,1}\d*?)/,
-        filterLinks = /#filter\//,
+        taskLinks = /^#([\w\-]+?):(\d+?\.{0,1}\d*?)/,
+        filterLinks = /^#filter\//,
         inPageLinks = /^#.*$/,
         gollumLinks = /(\[\[)(.*?)(\]\])/ig;
     // Replace any script elements
@@ -190,15 +190,16 @@ define([
     // ARCHIVE:740 For markdown files, find tasks links and give them a badge
     // ARCHIVE:270 For internal inks, take them to the page
     var replaceLinks = function(anchor, head, href, tail, content, end) {
-      if (links.test(content)) content = content.replace(links, replaceLinks);
+      // For links within links
+      if (new RegExp(links).test(content)) content = content.replace(links, replaceLinks);
       var out = html;
       // Check for external links
-      if (externalLinks.test(href)) {
+      if (new RegExp(externalLinks).test(href)) {
         out = head + href + tail + ' target="_blank">' + content + end;
       // Check for task links
-      } else if (taskLinks.test(href)) {
+      } else if (new RegExp(taskLinks).test(href)) {
         var list;
-        href.replace(taskLinks, function(href, taskList, order) {
+        href.replace(new RegExp(taskLinks), function(href, taskList, order) {
           list = taskList;
           out = href;
         });
@@ -207,14 +208,14 @@ define([
         
         out = (template).format([list,head,href,tail,content,end]);
       // Check for filter links
-      } else if (filterLinks.test(href)) {
+      } else if (new RegExp(filterLinks).test(href)) {
         var filterBy = href.split("/")[1];
         out = head + href + tail + ' title="Filter by ' + filterBy + '">' + content + end;   
       // Check for mailto links
-      } else if (mailtoLinks.test(href) || mailtoLinks.test($('<div />').html(href).text())) {
+      } else if (new RegExp(mailtoLinks).test(href) || mailtoLinks.test($('<div />').html(href).text())) {
         out = anchor;
       // If not an in page link then it must be a link to a file
-      } else if (!inPageLinks.test(href)) {
+      } else if (!(new RegExp(inPageLinks).test(href))) {
         if (/.*\.md$/.test(href)) preview = true;
         out = head + imdone.getFileHref(imdone.currentProjectId(),href,preview) + tail + '>' + content + end;
       }
@@ -222,10 +223,10 @@ define([
       return out;
     };
 
-    html = html.replace(links, replaceLinks);
+    html = html.replace(new RegExp(links), replaceLinks);
 
     // Replace all gollum links
-    html = html.replace(gollumLinks, function(link, open, name, close) {
+    html = html.replace(new RegExp(gollumLinks), function(link, open, name, close) {
       var file = name;
       if (/\|/.test(name)) {
         var pieces = name.split("|");
@@ -233,7 +234,7 @@ define([
         name = pieces[0];
       }
       file = file.replace(/(\s)|(\/)/g,"-") + ".md";
-      var href = imdone.getFileHref(imdone.currentProjectId(),file,true);
+      var href = imdone.getFileHref(file,true);
       return '<a href="{}">{}</a>'.tokenize(href, name);
     });
     return html;
@@ -734,7 +735,7 @@ define([
         imdone.navigateToCurrentProject();
       }
     });
-    // DOING:50 Test project removed event
+    // DOING:30 Test project removed event
     socket.on('project.removed', function(data) {
       var projectId = data.project;
       console.log("Project removed: ", projectId);
@@ -830,7 +831,7 @@ define([
         imdone.hideAllContent();
         imdone.hideBoard();
 
-        if (imdone.isMD() && imdone.previewMode === true) {
+        if (imdone.isMD() && imdone.previewMode === true && imdone.source.src !== "") {
           imdone.showPreview();
         } else {
           imdone.showEditor();
@@ -906,7 +907,7 @@ define([
     var session = imdone.aceSession = ace.createEditSession(data.src);
     session.setMode("ace/mode/" + mode);
     session.setUseWrapMode(true);
-    session.setWrapLimitRange(120, 180);
+    session.setWrapLimitRange(120, 140);
 
     //Editor change events
     session.on('change', function(e) {
@@ -1121,7 +1122,7 @@ define([
           imdone.navigateToCurrentProject();
         },
         error: function(data) {
-          // DOING:30 Make this pnotify default for all errors!
+          // DOING:20 Make this pnotify default for all errors!
           imdone.fileNotify = $.pnotify({
             title: "Unable to delete file!",
             nonblock: true,

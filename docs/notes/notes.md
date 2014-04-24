@@ -92,10 +92,11 @@ Roadmap
 - [respect marked configuration in client javascript](#TODO:160)
 - [User should be able to remove task syntax with hotkey when in task text](#PLANNING:160)
 - [User should be able to use TOC in preview mode for md files](#ARCHIVE:590)
-- [User should be able to get quick help with keyboard shortcuts](#PLANNING:210)
+- [User should be able to get quick help with keyboard shortcuts](#DOING:10)
 - [User should get a guided tour](#ARCHIVE:0)
 - [Enable vfs <https://github.com/c9/vfs-socket> as method of interacting with other storage providers.](#ARCHIVE:430)
-- [Use [Broadway](https://npmjs.org/package/broadway) for IOC.](#ARCHIVE:10)
+- [User should be able to remove all tasks in the archive](#PLANNING:0)
+- [User should be able to add and remove projects in the UI](#DOING:0)
 
 Future Design CRC
 ----
