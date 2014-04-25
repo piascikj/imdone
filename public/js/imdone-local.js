@@ -11,7 +11,7 @@ define([
   '/js/models/search.js',
   'zeroclipboard',
   'ace',
-  'introjs',
+  'tour',
   'ace-language-tools',
   'ace-spellcheck',
   'jqueryui',
@@ -22,7 +22,7 @@ define([
   'toc',
   'scrollTo',
   'wiggle'
-], function(_, $, Backbone, Handlebars, JSON, io, marked, Prism, store, Search, ZeroClipboard, ace, introJs) {
+], function(_, $, Backbone, Handlebars, JSON, io, marked, Prism, store, Search, ZeroClipboard, ace, Tour) {
 
   var imdone = window.imdone = {
     data:{},
@@ -1522,60 +1522,6 @@ define([
       });
   };
 
-  imdone.intro = function(project) {
-    var intro = introJs();
-
-    var steps = [
-      {
-        element: '#open-file-btn',
-        intro: 'To get started, create a file and add tasks...'
-      },
-      {
-        element: '#lists-btn',
-        intro: 'or create a list'
-      }
-    ];
-
-    if (project.readme) {
-      steps.unshift({
-        element: '#open-readme-btn',
-        intro: 'To get started open your readme file and create tasks...'
-      });
-      steps[1].intro = 'or create a file and add tasks';
-    }
-
-    intro.setOptions({
-      steps: steps,
-      showStepNumbers: false
-    });
-
-    var $lastBtn;
-    function done() {
-      $lastBtn.ClassyWiggle("stop");
-      $lastBtn.addClass('btn-inverse');
-    }
-
-    intro.onbeforechange(function(el) {
-      // DOING:0 fix error in intro.js on line 557 when showStepNumbers is false and introduce overlay option
-      $('.introjs-overlay').css('opacity', .5);
-      var $btn = $(el);
-      if ($lastBtn) done();
-      $lastBtn = $btn; 
-      $btn.ClassyWiggle("start",{
-        randomStart:false,
-        onWiggleStart: function(el) {
-          $(el).removeClass("btn-inverse");
-        },
-        onWiggleStop: function(el) {
-          $(el).addClass("btn-inverse");
-        }
-      });
-    });
-    intro.onexit(done);
-    intro.oncomplete(done);
-    intro.start();
-  };
-
   var AppRouter = Backbone.Router.extend({
       routes: {
           "search/:project/:query/:offset(/:limit)": "searchRoute",
@@ -1614,7 +1560,10 @@ define([
             callback: function(project) {
                         imdone.paintProjectsMenu();
                         imdone.paintKanban(project);
-                        if (project && project.lists && project.lists.length < 1) imdone.intro(project); 
+                        if (project && project.lists && project.lists.length < 1) {
+                          imdone.tour = new Tour(project);
+                          imdone.tour.start('newProject');
+                        } 
                       } 
           });
         }

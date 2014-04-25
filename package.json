@@ -62,7 +62,7 @@
     "sanitize-html": "~1.1.1",
     "cookie-parser": "~1.0.1",
     "body-parser": "~1.0.2",
-    "imdone-core": "0.0.3",
+    "imdone-core": "0.0.4",
     "lodash": "~2.4.1",
     "debug": "~0.8.0"
   },
