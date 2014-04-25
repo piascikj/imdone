@@ -26,7 +26,13 @@ define([
 
   Tour.prototype.start = function(name) {
     var tour = _.findWhere(this.tours, {name:name});
-    if (tour) tour.start.call(this, name);
+    var self = this;
+    if (tour) {
+      if (this.isCompleted(name)) return;
+      tour.start.call(this, name, function() {
+        self.setCompleted(name);
+      });
+    }
   };
 
   Tour.prototype.setCompleted = function(name, completed) {
@@ -42,9 +48,31 @@ define([
     if (tour === undefined) return false;
     return tour.completed;
   };
+  
+  Tour.prototype._newFile_start = function(name, done) {
+    var self = this;
+    var intro   = introJs(),
+        project = this.project,
+        steps = [
+          {
+            intro: 'Create a task by typing something like<br><br><pre>[Learn more about iMDone](#doing:0)</pre>'
+          }
+        ];
+    intro.setOptions({
+      steps: steps,
+      showStepNumbers: false,
+      showBullets: false,
+      tooltipClass: 'span5'
+    });
+    intro.onbeforechange(function(el) {
+      $('.introjs-tooltip').css('min-width','420px');
+    });
+    intro.onexit(done);
+    intro.oncomplete(done);
+    intro.start();
+  };
 
-  Tour.prototype._newProject_start = function(name) {
-    if (this.isCompleted(name)) return;
+  Tour.prototype._newProject_start = function(name, done) {
     var self = this;
     var intro   = introJs(),
         project = this.project,
@@ -73,17 +101,17 @@ define([
     });
 
     var $lastBtn;
-    function done() {
+    function cleanup() {
       $lastBtn.ClassyWiggle("stop");
       $lastBtn.addClass('btn-inverse');
-      self.setCompleted(name);
+      done();
     }
 
     intro.onbeforechange(function(el) {
       // DOING:0 fix error in intro.js on line 557 when showStepNumbers is false and introduce overlay option
       $('.introjs-overlay').css('opacity', .5);
       var $btn = $(el);
-      if ($lastBtn) done();
+      if ($lastBtn) cleanup();
       $lastBtn = $btn; 
       $btn.ClassyWiggle("start",{
         randomStart:false,
@@ -95,8 +123,8 @@ define([
         }
       });
     });
-    intro.onexit(done);
-    intro.oncomplete(done);
+    intro.onexit(cleanup);
+    intro.oncomplete(cleanup);
     intro.start();
   };
 

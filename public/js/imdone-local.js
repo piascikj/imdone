@@ -405,6 +405,7 @@ define([
     if (project) {
       $.get("/api/kanban/" + project, function(data){
         imdone.setProjectData(project,data);
+        imdone.tour = new Tour(project);
         if ((params && !params.noPaint) || params === undefined) imdone.paintKanban(data);
 
         if (params && params.callback && _.isFunction(params.callback)) params.callback(data);
@@ -951,6 +952,7 @@ define([
             imdone.editor.resize(true);
             imdone.editor.gotoLine(line);
             imdone.editor.focus();
+            imdone.tour.start('newFile');
         }
     });
   };
@@ -1561,7 +1563,6 @@ define([
                         imdone.paintProjectsMenu();
                         imdone.paintKanban(project);
                         if (project && project.lists && project.lists.length < 1) {
-                          imdone.tour = new Tour(project);
                           imdone.tour.start('newProject');
                         } 
                       } 
