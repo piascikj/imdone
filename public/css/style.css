@@ -7,6 +7,10 @@ h1, h2, h3, h4, h5, h6 {
   color: #bbb;
 }
 
+a {
+  color: #61BDEB;
+}
+
 code, pre {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
