@@ -71,6 +71,7 @@ define([
     openProjectBtn:     $('#project-open'),
     addProjectBtn:      $('#open-project-btn'),
     projectNav:         $('.project-nav'),
+    showHidden:         false,
     modes : {
       "md":"markdown",
       "markdown":"markdown",
@@ -1201,10 +1202,18 @@ define([
     $.get('/api/files/' + _path).done(cb);
   };
 
-  imdone.openProjectDialog = function(e) {
-    imdone.getDirs("",function(data) {
+  imdone.paintProjectDialog = function(_path, cb) {
+    cb = (cb !== undefined) ? cb : function(){};
+    imdone.getDirs(_path,function(data) {
       $('#dirs').html(imdone.dirsTemplate(data));
       $('#dir-field').html(data.path);
+      if (!imdone.showHidden) $('.fs-dir[data-hidden=true]').hide();
+      cb();
+    });
+  };
+
+  imdone.openProjectDialog = function(e) {
+    imdone.paintProjectDialog("", function() {
       $('#project-modal').modal();
     });
   };
@@ -1492,13 +1501,13 @@ define([
       imdone.addProjectBtn.click(imdone.openProjectDialog);
 
       // respond to project dir click
-      $(document).on('click','.fs-dir', function() {
+      $(document).on('click','.fs-dir', function(e) {
         var dir = $(this).attr('data-path');
-        imdone.getDirs(dir,function(data) {
-          $('#dirs').html(imdone.dirsTemplate(data));
-          $('#dir-field').html(data.path);
-        });
+        imdone.paintProjectDialog(dir);
+        e.stopPropagation();
+        e.preventDefault();
       });
+
       // Open a project
       imdone.openProjectBtn.click(function(e) {
         var $self = $(this);

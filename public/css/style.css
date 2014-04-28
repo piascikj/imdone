@@ -313,6 +313,14 @@ blockquote p {
   margin-right: 4px;
 }
 
+.project-nav {
+  display: none;
+}
+
+.board-bar {
+  display: none;
+}
+
 .column-nav-menu {
   top: 100%;
   padding: 4px 0 0;

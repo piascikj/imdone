@@ -214,7 +214,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
           <i class="icomoon-remove"></i>
         </button>
-        <h3 class="mdl-header">Open/Create Project</h3>
+        <h3 class="mdl-header">Open Project</h3>
       </div>
       <div class="modal-body">
         <div id="dirs">
@@ -323,7 +323,7 @@
       <h5>Recent</h5>
       <ul class="plain-list">
         {{#each history}}
-        <li><a href="{{fileHref path}}" class="js-dir" data-path="{{path}}"><i class="icomoon-folder-close"></i>{{path}}</a></li>
+        <li><a href="{{fileHref path}}" class="fs-dir" data-path="{{path}}"><i class="icomoon-folder-close"></i>{{path}}</a></li>
         {{/each}}
       </ul>
       <hr>
@@ -334,7 +334,7 @@
         {{/if}}
         {{#if dirs}}
           {{#each dirs}}
-          <li><a href="#" class="fs-dir" data-path="{{path}}"><i class="icomoon-folder-close"></i>{{name}}</a></li>
+          <li><a href="#" class="fs-dir" data-path="{{path}}" data-hidden="{{hidden}}"><i class="icomoon-folder-close"></i>{{name}}</a></li>
           {{/each}}
         {{/if}}
       </ul>

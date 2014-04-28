@@ -86,33 +86,47 @@ imdone.startFromCLI = function(dir) {
   if (program.stop) {
     imdone.cliStop();
   } else {
-    imdone.start(dirs, program.open);
+    imdone.start(dirs, program.open, true);
   }
 };
 
-imdone.start = function(dirs, open, cb) {
+imdone.start = function(dirs, _open, woCLI, cb) {
+  if (_.isFunction(woCLI)) {
+    cb = woCLI;
+    woCLI = null
+  }
   cb = _.isFunction(cb) ? cb : _.noop;
-  log('Begin initializing projects');
-  imdone.checkCLIService(function() {
-    console.log("iMDone service is already running!");
-    if (open) imdone.cliOpen();
-    cb();
+  
+  function init() {
+    server.start(imdone);
+    var funcs = [];
     _.each(dirs, function(d) {
-      imdone.cliAddProject(d);
+      funcs.push(function(cb) { imdone.addProject(d, cb); }); 
     });
-  }, function() {
-    imdone.startCLIService(function() {
-      if (open) imdone.cliOpen();
-      var funcs = [];
+    async.parallel(funcs, function(err, result) {
+      log('All projects initialized');
+      if (_open) open('http://localhost:' + imdone.config.port);
+      cb(err, result);
+    });
+  }
+
+  if (woCLI) init();
+  else {
+    log('Begin initializing projects');
+    imdone.checkCLIService(function() {
+      console.log("iMDone service is already running!");
+      if (_open) imdone.cliOpen();
+      cb();
       _.each(dirs, function(d) {
-        funcs.push(function(cb) { imdone.addProject(d, cb); }); 
+        imdone.cliAddProject(d);
       });
-      async.parallel(funcs, function(err, result) {
-        log('All projects initialized');
-        cb(err, result);
+    }, function() {
+      imdone.startCLIService(function() {
+        init();
       });
     });
-  });
+
+  }
 };
 
 // PLANNING:30 Use axon-rpc for cli service and move to it's own module
@@ -151,7 +165,6 @@ imdone.startCLIService = function(callback) {
   });
   xserver.listen(imdone.config.cliPort);
 
-  server.start(imdone);
 };
 
 imdone.cliOpen = function() {
