@@ -86,7 +86,7 @@ imdone.startFromCLI = function(dir) {
   if (program.stop) {
     imdone.cliStop();
   } else {
-    imdone.start(dirs, program.open, true);
+    imdone.start(dirs, program.open);
   }
 };
 

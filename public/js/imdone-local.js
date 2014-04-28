@@ -1169,7 +1169,7 @@ define([
   });
 
   imdone.navigateToCurrentProject = function() {
-    imdone.app.navigate("project/" + imdone.currentProjectId(), {trigger:true});
+    imdone.app.navigate("#project/" + imdone.currentProjectId(), {trigger:true});
   };
 
   imdone.navigateToFile = function(path, line, preview) {
