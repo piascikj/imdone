@@ -67,6 +67,10 @@ define([
     openReadmeBtn:      $("#open-readme-btn"),
     archiveBtn:         $("#archive-btn"),
     filterBtn:          $("#filter-btn"),
+    closeProjectBtn:    $('#close-project-btn'),
+    openProjectBtn:     $('#project-open'),
+    addProjectBtn:      $('#open-project-btn'),
+    projectNav:         $('.project-nav'),
     modes : {
       "md":"markdown",
       "markdown":"markdown",
@@ -148,6 +152,7 @@ define([
   });
 
   imdone.lsTemplate = Handlebars.compile($("#files-template").html());
+  imdone.dirsTemplate = Handlebars.compile($("#dirs-template").html());
 
   // TODO:10 Replace format with _.template 
   String.prototype.format = function (col) {
@@ -409,7 +414,9 @@ define([
         if ((params && !params.noPaint) || params === undefined) imdone.paintKanban(data);
 
         if (params && params.callback && _.isFunction(params.callback)) params.callback(data);
-      }, "json");
+      }, "json").fail(function() {
+        imdone.app.navigate('/', {trigger:true});
+      });
     }
   };
 
@@ -663,6 +670,8 @@ define([
         imdone.openReadmeBtn.hide();
       }
 
+      imdone.projectNav.show();
+
       if (imdone.scrollToTask) {
         var task = imdone.scrollToTask, list = imdone.scrollToList;
         delete imdone.scrollToTask;
@@ -688,19 +697,20 @@ define([
   imdone.getProjects = function(callback) {
     $.get("/api/projects", function(data){
       imdone.projects = data;
-      imdone.paintProjectsMenu();
+      if (data.length > 0) imdone.paintProjectsMenu();
       if (_.isFunction(callback)) callback(data);
     }, "json");
   };
 
   imdone.paintProjectsMenu = function() {
     imdone.projectsMenu.empty();
+
     var template = Handlebars.compile($("#projects-template").html());
     var context = {
       cwd: imdone.currentProjectId(),
       projects:_.without(imdone.projects, imdone.currentProjectId())
     };
-    imdone.projectsMenu.html(template(context));
+    imdone.projectsMenu.html(template(context)).show();
   };
 
   imdone.initUpdate = function() {
@@ -734,11 +744,8 @@ define([
         imdone.paintProjectsMenu();
       }
 
-      // only react if project exists.  If it does get kanban
-      if (imdone.projects.length === 1) {
-        imdone.currentProjectId(projectId);
-        imdone.navigateToCurrentProject();
-      }
+      imdone.currentProjectId(projectId);
+      imdone.navigateToCurrentProject();
     });
     // DOING:30 Test project removed event
     socket.on('project.removed', function(data) {
@@ -750,13 +757,12 @@ define([
       // repaint the projects menu
       imdone.paintProjectsMenu();
 
-      if ( imdone.currentProjectId() == projectId ) {
-        if (imdone.projects.length === 0) imdone.hideBoard();
-        else {
-          imdone.currentProjectId(imdone.projects[0]);
-          imdone.navigateToCurrentProject();
-        } 
-      }
+      if (imdone.projects.length === 0) {
+        imdone.app.navigate('/', {trigger:true});
+      } else {
+        imdone.currentProjectId(imdone.projects[0]);
+        imdone.navigateToCurrentProject();
+      } 
     });
   };
 
@@ -961,6 +967,7 @@ define([
   imdone.hideAllContent = function() {
     imdone.previewContainer.hide();
     imdone.fileContainer.hide();
+    imdone.contentNav.hide();
     imdone.hideSearchResults();
     imdone.board.hide();
   };
@@ -1020,7 +1027,7 @@ define([
         'headings': 'h1,h2'
       });
 
-      // DONE:10 Fix scrollSpy
+      // DONE:20 Fix scrollSpy
       imdone.fileContainer.scrollspy('refresh');
 
       // Add borders to tables
@@ -1031,7 +1038,7 @@ define([
     }
   };
 
-  // DONE:0 Fix toc click
+  // DONE:10 Fix toc click
   $(document).on('click', '#toc a', function(e) {
     var id = $(this).attr('href');
     imdone.fileContainer.scrollTo($(id), 500);
@@ -1053,6 +1060,7 @@ define([
       $.pnotify_remove_all();
       imdone.fileContainer.hide();
       imdone.editBar.hide();
+      imdone.hideAllContent();
   };
 
   imdone.closeFileConfirm = function(cb) {
@@ -1185,6 +1193,32 @@ define([
         }, 500);
       });
       fileModal.modal("show");
+    });
+  };
+
+  imdone.getDirs = function(_path, cb) {
+    _path = (_path === undefined) ? "" : _path;
+    $.get('/api/files/' + _path).done(cb);
+  };
+
+  imdone.openProjectDialog = function(e) {
+    imdone.getDirs("",function(data) {
+      $('#dirs').html(imdone.dirsTemplate(data));
+      $('#dir-field').html(data.path);
+      $('#project-modal').modal();
+    });
+  };
+
+  imdone.removeProject = function(projectId) {
+    $.ajax({
+        url: "/api/project/" + projectId,
+        type: 'DELETE',
+        complete: function(data) {
+          if (data.status !== 200) {
+            console.log('Error removing project');
+            console.log(data);
+          }
+        }
     });
   };
 
@@ -1454,7 +1488,27 @@ define([
         return false;        
       });
 
-      //listen for search input
+      // Open project dialog
+      imdone.addProjectBtn.click(imdone.openProjectDialog);
+
+      // respond to project dir click
+      $(document).on('click','.fs-dir', function() {
+        var dir = $(this).attr('data-path');
+        imdone.getDirs(dir,function(data) {
+          $('#dirs').html(imdone.dirsTemplate(data));
+          $('#dir-field').html(data.path);
+        });
+      });
+      // Open a project
+      imdone.openProjectBtn.click(function(e) {
+        var $self = $(this);
+        $.post('/api/project/' + $('#dir-field').text())
+          .done(function() {
+            $self.closest(".modal").modal('hide');
+          });
+      });
+
+      // listen for search input
       imdone.searchForm.submit(function(event) {
         event.preventDefault();
         imdone.searchBtn.dropdown('toggle');
@@ -1510,8 +1564,18 @@ define([
         return false;
       });
 
+      // Listen for project close
+      imdone.closeProjectBtn.click(function(e) {
+        imdone.closeFileConfirm(function() {
+          imdone.closeFile();
+          imdone.removeProject(imdone.currentProjectId());
+          imdone.searchResultsBtn.hide();
+        });
+      });
+
+      // Get projects and start listening for updates
       imdone.initUpdate();
-      //Get projects and start listening for updates
+
       imdone.getProjects(function(projects) {
         imdone.app = new AppRouter();
         imdone.calls = 0;
@@ -1618,8 +1682,15 @@ define([
       },
 
       defaultRoute: function(action) {
-        if (imdone.projects.length > 0) imdone.currentProjectId(imdone.projects[0]);
-        imdone.navigateToCurrentProject();
+        if (imdone.projects.length > 0) {
+          imdone.currentProjectId(imdone.projects[0]);
+          imdone.projectNav.show();
+          imdone.searchResults.hide();
+          imdone.navigateToCurrentProject();
+        } else {
+          imdone.projectNav.hide();
+          imdone.hideBoard();
+        }
       },
   });
 

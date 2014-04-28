@@ -234,14 +234,14 @@ imdone.addProject = function(dir, cb) {
   });
 };
 
-imdone.removeProject = function(dir) {
-  console.log("Removing project at:" + dir);
-  if (imdone.projects[dir]) delete imdone.projects[dir];
-  imdone.emitter.emit("project.removed", {project:dir});
+imdone.removeProject = function(name) {
+  console.log("Removing project with name:" + name);
+  if (imdone.projects[name]) delete imdone.projects[name];
+  imdone.emitter.emit("project.removed", {project:name});
 };
 
 imdone.getProject = function(name) {
-  return imdone.projects[name] || {};
+  return imdone.projects[name] || undefined;
 };
 
 imdone.getProjects = function() {

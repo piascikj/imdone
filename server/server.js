@@ -18,10 +18,12 @@
   var mkdirp       = require('mkdirp');
   var path         = require('path');
   var Search       = require('imdone-core').Search;
+  var tree         = require('./util/tree');
   var server       = module.exports;
   var EVENTS       = {
                        PROJECT_MODIFIED: "project.modified",
-                       PROJECT_INITIALIZED: "project.initialized"
+                       PROJECT_INITIALIZED: "project.initialized",
+                       PROJECT_REMOVED: "project.removed"
                      };
 
   function isBusy(req,res) {
@@ -44,10 +46,14 @@
 
     var project = server.imdone.getProject(req.params[0]);
 
-    res.send({
-      lists:project.getTasks(null, true),
-      readme:project.getRepos()[0].getDefaultFile()
-    });
+    if (project) {
+      res.send({
+        lists:project.getTasks(null, true),
+        readme:project.getRepos()[0].getDefaultFile()
+      });
+    } else {
+      res.send(404);
+    }
   }
 
   // ARCHIVE:110 use imdone-core
@@ -218,11 +224,20 @@
   // ARCHIVE:190 use imdone-core
   function getFiles(req,res) {
     var project = server.imdone.getProject(req.params[0]);
-    var files = project.getFileTree(project.getRepos()[0].getId());
-    if (files) {
-      res.send(files);
+    if (project) {
+      var files = project.getFileTree(project.getRepos()[0].getId());
+      if (files) {
+        res.send(files);
+      } else {
+        res.send(404, "Project not found");
+      }
     } else {
-      res.send(404, "Project not found");
+      var files = tree.getFiles(req.params[0]);
+      if (files) {
+        res.send(files);
+      } else {
+        res.send(404, "Directory not found");
+      }
     }
   }
 
@@ -259,8 +274,8 @@
   }
 
   function removeProject(req, res) {
-    var dir = req.params[0];
-    server.imdone.removeProject(dir);
+    var name = req.params[0];
+    server.imdone.removeProject(name);
     res.send(200);
   }
 
@@ -327,17 +342,6 @@
     io.enable('browser client gzip');          // gzip the file
     io.set('log level', 1);                    // reduce logging
 
-    // enable all transports (optional if you want flashsocket support, please note that some hosting
-    // providers do not allow you to create servers that listen on a port different than 80 or their
-    // default port)
-    io.set('transports', [
-      'websocket',
-      'flashsocket',
-      'htmlfile',
-      'xhr-polling',
-      'jsonp-polling'
-    ]);    
-
     io.sockets.on('connection', function(socket) {
 
       var onProjectModified = function(data) {
@@ -348,7 +352,12 @@
         socket.emit(EVENTS.PROJECT_INITIALIZED, data);
       };
 
+      var onProjectRemoved = function(data) {
+        socket.emit(EVENTS.PROJECT_REMOVED, data);
+      };
+
       server.imdone.emitter.on(EVENTS.PROJECT_INITIALIZED, onProjectInitialized);
+      server.imdone.emitter.on(EVENTS.PROJECT_REMOVED, onProjectRemoved);
 
       _.each(server.imdone.projects, function(project) {
         project.on(EVENTS.PROJECT_MODIFIED, onProjectModified);
@@ -358,6 +367,7 @@
       // ARCHIVE:210 Remove listeners on disconnect
       socket.on('disconnect', function () {
         server.imdone.emitter.removeListener(EVENTS.PROJECT_INITIALIZED, onProjectInitialized);
+        server.imdone.emitter.removeListener(EVENTS.PROJECT_REMOVED, onProjectRemoved);
         _.each(server.imdone.projects, function(project) {
           project.removeListener(EVENTS.PROJECT_MODIFIED, onProjectModified);
           project.removeListener(EVENTS.PROJECT_INITIALIZED, onProjectInitialized);

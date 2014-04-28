@@ -26,16 +26,24 @@
             <a class="brand" href="/"><img src="img/logo-inverse-small.png"/></a>
             <ul class="nav">
               <li>
-                <button class="btn btn-inverse hide wiggle" id="open-readme-btn" title="Open Readme"><i class="icomoon-book"></i></button>
+                <button class="btn btn-inverse" id="open-project-btn" title="Open/Create a project">
+                  <i class="icomoon-plus"></i>
+                </button>
               </li>
               <li>
-                <button class="btn btn-inverse" id="open-file-btn" title="Open/Create file">
+                <button class="btn btn-inverse hide wiggle project-nav" id="open-readme-btn" title="Open Readme">
+                  <i class="icomoon-book"></i>
+                </button>
+              </li>
+              <li>
+                <button class="btn btn-inverse project-nav" id="open-file-btn" title="Open/Create file">
                   <i class="icomoon-folder-open"></i>
                 </button>
               </li>
-              <li id="search-dialog">
+              <li id="search-dialog" class="project-nav">
                 <div class="dropdown pull-left">
-                <button class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" id="search-dialog-btn" title="Search for files"><i class="icomoon-search"></i></button>
+                <button class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" id="search-dialog-btn" 
+                        title="Search for files"><i class="icomoon-search"></i></button>
                 <ul class="dropdown-menu column-nav-menu" role="menu">
                   <li>
                     <form class="navbar-form" id="search-form">
@@ -45,7 +53,12 @@
                 </ul>
                 </div>
               </li>
-              <li class="dropdown" id="projects-dropdown">
+              <li>
+                <button class="btn btn-inverse project-nav" id="close-project-btn" title="Close project">
+                  <i class="icomoon-remove"></i>
+                </button>
+              </li>              
+              <li class="dropdown project-nav" id="projects-dropdown">
               </li>
               <li>
                 <button class="btn btn-inverse hide" id="search-results-btn" title="Show search results">
@@ -196,6 +209,27 @@
       </div>
     </div>
     
+    <div id="project-modal" class="modal hide fade">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          <i class="icomoon-remove"></i>
+        </button>
+        <h3 class="mdl-header">Open/Create Project</h3>
+      </div>
+      <div class="modal-body">
+        <div id="dirs">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <!--[Add auto complete to file-field like ubuntu](#TODO:40) -->
+        <div class="pull-left">
+          <strong><span id="dir-field"></span></strong>
+        </div>
+        <a href="#" class="btn modal-close">Cancel</a>
+        <a href="#" id="project-open" class="btn btn-primary">Open</a>
+      </div>
+    </div>
+
     <div id="remove-file-modal" class="modal hide">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -284,6 +318,28 @@
       </ul>
     </script>
 
+    <script id="dirs-template" type="text/x-handlebars-template">
+      {{#if history}}
+      <h5>Recent</h5>
+      <ul class="plain-list">
+        {{#each history}}
+        <li><a href="{{fileHref path}}" class="js-dir" data-path="{{path}}"><i class="icomoon-folder-close"></i>{{path}}</a></li>
+        {{/each}}
+      </ul>
+      <hr>
+      {{/if}}
+      <ul class="plain-list">
+        {{#if name}}
+          <li><a href="#" class="fs-dir" data-path="{{up}}" title="{{up}}"><i class="icomoon-arrow-up"></i></a></li>
+        {{/if}}
+        {{#if dirs}}
+          {{#each dirs}}
+          <li><a href="#" class="fs-dir" data-path="{{path}}"><i class="icomoon-folder-close"></i>{{name}}</a></li>
+          {{/each}}
+        {{/if}}
+      </ul>
+    </script>
+
     <!-- [User should be able to add a list to a project](#DONE:30) -->
     <!-- [User should be able to select from lists recognized by characters typed when creating a task](#PLANNING:20) -->
     <script id="lists-template" type="text/x-handlebars-template">
@@ -315,7 +371,9 @@
       <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="cwd" id="cwd">{{cwd}}</span> <b class="caret"></b></a>
       <ul class="dropdown-menu column-nav-menu" role="menu">
         {{#each projects}}
-        <li class="column-nav-menu-item"><a href="#project/{{this}}" data-project="{{this}}" class="project-item">{{this}}</a></li>
+        <li class="column-nav-menu-item">
+          <a href="#project/{{this}}" data-project="{{this}}" class="project-item">{{this}}</a>
+        </li>
         {{/each}}
       </ul>
       {{else}}
@@ -350,13 +408,6 @@
       No results
       {{/if}}
     </script>
-    <!--
-    <script id="source-template" type="text/x-handlebars-template">
-      <div class="source">
-        <span>{{path}}</span><button type="button" class="close">&times;</button>
-        <iframe scrolling="no" src="{{src}}"></iframe>
-      </div>
-    </script>-->
     <script data-main="js/main" src="lib/requirejs/require.js"></script>
   </body>
 </html>
