@@ -20,6 +20,7 @@
   var Search       = require('imdone-core').Search;
   var tree         = require('./util/tree');
   var server       = module.exports;
+  var debug        = require('debug')('imdone:server');
   var EVENTS       = {
                        PROJECT_MODIFIED: "project.modified",
                        PROJECT_INITIALIZED: "project.initialized",
@@ -42,7 +43,7 @@
       res.send({busy:true});
       return;
     }
-    // console.log("Getting project with name:", req.params[0]);
+    // log("Getting project with name:", req.params[0]);
 
     var project = server.imdone.getProject(req.params[0]);
 
@@ -326,7 +327,7 @@
     app.post("/api/list/:project/:list", addList);
 
     app.get("/js/marked.js", function(req,res) {
-      console.log(require.resolve("marked"));
+      log(require.resolve("marked"));
       res.sendfile(require.resolve("marked").toString());
     });
 
@@ -343,19 +344,19 @@
     io.set('log level', 1);                    // reduce logging
 
     io.sockets.on('connection', function(socket) {
-      console.log("connected to:", socket);
+      log("connected to:", socket);
       var onProjectModified = function(data) {
-        console.log("emitting:", EVENTS.PROJECT_MODIFIED);
+        log("emitting:", EVENTS.PROJECT_MODIFIED);
         socket.emit(EVENTS.PROJECT_MODIFIED, data);
       };
 
       var onProjectInitialized = function(data) {
-        console.log("emitting:", EVENTS.PROJECT_INITIALIZED);
+        log("emitting:", EVENTS.PROJECT_INITIALIZED);
         socket.emit(EVENTS.PROJECT_INITIALIZED, data);
       };
 
       var onProjectRemoved = function(data) {
-        console.log("emitting:", EVENTS.PROJECT_REMOVED);
+        log("emitting:", EVENTS.PROJECT_REMOVED);
         socket.emit(EVENTS.PROJECT_REMOVED, data);
       };
 
@@ -365,7 +366,7 @@
 
       // ARCHIVE:210 Remove listeners on disconnect
       socket.on('disconnect', function () {
-        console.log('disconnected');
+        log('disconnected');
         server.imdone.emitter.removeListener(EVENTS.PROJECT_INITIALIZED, onProjectInitialized);
         server.imdone.emitter.removeListener(EVENTS.PROJECT_REMOVED, onProjectRemoved);
         server.imdone.emitter.removeListener(EVENTS.PROJECT_MODIFIED, onProjectModified);

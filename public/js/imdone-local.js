@@ -563,6 +563,9 @@ define([
     if (!data.busy && !imdone.editMode) {
       imdone.board.empty();
       imdone.contentNav.hide();
+      imdone.projectNav.show();
+      imdone.searchResults.hide();
+
       imdone.listsMenu.empty();
       var template = Handlebars.compile($("#list-template").html());
       imdone.board.html(template(data));
@@ -670,8 +673,6 @@ define([
       } else {
         imdone.openReadmeBtn.hide();
       }
-
-      imdone.projectNav.show();
 
       if (imdone.scrollToTask) {
         var task = imdone.scrollToTask, list = imdone.scrollToList;
@@ -833,7 +834,6 @@ define([
         
         //ARCHIVE:660 Update file-path on edit button
         imdone.filename.empty().html(imdone.source.path);
-        imdone.contentNav.show();
         imdone.editMode = true;
         
         if (imdone.isMD()) {
@@ -987,6 +987,7 @@ define([
       imdone.editBtn.removeClass("active");
       imdone.editor.blur();
       imdone.hideAllContent();
+      imdone.contentNav.show();
       imdone.editorEl.hide();
       imdone.preview.empty();
       imdone.preview.html(imdone.md());
@@ -1694,8 +1695,6 @@ define([
       defaultRoute: function(action) {
         if (imdone.projects.length > 0) {
           imdone.currentProjectId(imdone.projects[0]);
-          imdone.projectNav.show();
-          imdone.searchResults.hide();
           imdone.navigateToCurrentProject();
         } else {
           imdone.projectNav.hide();
