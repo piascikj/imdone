@@ -343,35 +343,32 @@
     io.set('log level', 1);                    // reduce logging
 
     io.sockets.on('connection', function(socket) {
-
+      console.log("connected to:", socket);
       var onProjectModified = function(data) {
+        console.log("emitting:", EVENTS.PROJECT_MODIFIED);
         socket.emit(EVENTS.PROJECT_MODIFIED, data);
       };
 
       var onProjectInitialized = function(data) {
+        console.log("emitting:", EVENTS.PROJECT_INITIALIZED);
         socket.emit(EVENTS.PROJECT_INITIALIZED, data);
       };
 
       var onProjectRemoved = function(data) {
+        console.log("emitting:", EVENTS.PROJECT_REMOVED);
         socket.emit(EVENTS.PROJECT_REMOVED, data);
       };
 
       server.imdone.emitter.on(EVENTS.PROJECT_INITIALIZED, onProjectInitialized);
       server.imdone.emitter.on(EVENTS.PROJECT_REMOVED, onProjectRemoved);
-
-      _.each(server.imdone.projects, function(project) {
-        project.on(EVENTS.PROJECT_MODIFIED, onProjectModified);
-        project.on(EVENTS.PROJECT_INITIALIZED, onProjectInitialized);
-      });
+      server.imdone.emitter.on(EVENTS.PROJECT_MODIFIED, onProjectModified);
 
       // ARCHIVE:210 Remove listeners on disconnect
       socket.on('disconnect', function () {
+        console.log('disconnected');
         server.imdone.emitter.removeListener(EVENTS.PROJECT_INITIALIZED, onProjectInitialized);
         server.imdone.emitter.removeListener(EVENTS.PROJECT_REMOVED, onProjectRemoved);
-        _.each(server.imdone.projects, function(project) {
-          project.removeListener(EVENTS.PROJECT_MODIFIED, onProjectModified);
-          project.removeListener(EVENTS.PROJECT_INITIALIZED, onProjectInitialized);
-        });
+        server.imdone.emitter.removeListener(EVENTS.PROJECT_MODIFIED, onProjectModified);
       });
     });    
 

@@ -726,6 +726,7 @@ define([
       var boardHidden = !imdone.board.is(':visible');
       // only react if project exists and is current.
       if (projectId == currentProjectId) {
+        console.log("boardHidden:", boardHidden);
         imdone.getKanban({
           project:projectId, 
           noPaint:boardHidden, 

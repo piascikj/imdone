@@ -242,6 +242,9 @@ imdone.addProject = function(dir, cb) {
   project.on('project.initialized', function(data) {
     imdone.emitter.emit('project.initialized', data);
   });
+  project.on('project.modified', function(data) {
+    imdone.emitter.emit('project.modified', data);
+  })
   project.init(function(err) {
     cb(err,project);
   });
