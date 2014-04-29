@@ -606,7 +606,8 @@ define([
           imdone.tasksSelected();
        });
 
-      $('.task').mouseup(function() {
+      $('.task').mouseup(function(e) {
+        if (!$(e.target).hasClass("task")) return;
         var $el = $(this);
         if (!imdone.sortingTasks) {
           if ($el.hasClass("selected")) {
@@ -750,7 +751,7 @@ define([
       imdone.currentProjectId(projectId);
       imdone.navigateToCurrentProject();
     });
-    // DOING:30 Test project removed event
+    // DONE:0 Test project removed event
     socket.on('project.removed', function(data) {
       var projectId = data.project;
       console.log("Project removed: ", projectId);
@@ -1030,7 +1031,7 @@ define([
         'headings': 'h1,h2'
       });
 
-      // DONE:20 Fix scrollSpy
+      // DONE:40 Fix scrollSpy
       imdone.fileContainer.scrollspy('refresh');
 
       // Add borders to tables
@@ -1041,7 +1042,7 @@ define([
     }
   };
 
-  // DONE:10 Fix toc click
+  // DONE:30 Fix toc click
   $(document).on('click', '#toc a', function(e) {
     var id = $(this).attr('href');
     imdone.fileContainer.scrollTo($(id), 500);

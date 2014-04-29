@@ -96,7 +96,7 @@ Roadmap
 - [User should get a guided tour](#ARCHIVE:0)
 - [Enable vfs <https://github.com/c9/vfs-socket> as method of interacting with other storage providers.](#ARCHIVE:430)
 - [User should be able to remove all tasks in the archive](#PLANNING:10)
-- [User should be able to add and remove projects in the UI](#DOING:0)
+- [User should be able to add and remove projects in the UI](#DONE:10)
 
 Future Design CRC
 ----

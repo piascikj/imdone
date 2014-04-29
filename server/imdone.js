@@ -244,7 +244,10 @@ imdone.addProject = function(dir, cb) {
   });
   project.on('project.modified', function(data) {
     imdone.emitter.emit('project.modified', data);
-  })
+  });
+  project.on('file.processed', function(data) {
+    imdone.emitter.emit('file.processed', data);
+  });
   project.init(function(err) {
     cb(err,project);
   });
