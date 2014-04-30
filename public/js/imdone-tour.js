@@ -4,36 +4,101 @@ define([
   'introjs',
   'store'
 ], function(_, $, introJs, store) {
+  function defaultTour(name, steps, done, opts) {
+    var self = this;
+    var intro   = introJs(),
+        project = this.project;
+    opts = opts ? opts : {};
+    opts = _.extend({
+      steps: steps,
+      showStepNumbers: false,
+      showBullets: false,
+      overlayOpacity: .5,
+      tooltipClass: 'span5'
+    }, opts);
 
-  function opacityFix() {
-    setTimeout(function() {
-      $('.introjs-overlay').css('opacity', .5);
-    },10);
+    intro.setOptions(opts);
+
+    intro.onexit(done);
+    intro.oncomplete(done);
+    intro.start();
   }
 
   var _tours = {
+    moveAndHideLists: function(name, done) {
+      var steps = [
+        { element: '.icomoon-eye-close, .icomoon-eye-open',
+          intro: "Click here to hide/show a list..."
+        },
+        {
+          element: '.icomoon-reorder',
+          intro: "or change it's position by dragging this up or down."
+        }
+      ];
+
+      defaultTour.call(this, name, steps, done, { tooltipClass: 'span3'});
+    },
+
+    archiveAndFilter: function(name, done) {
+      var steps = [
+        { element: '#archive-btn',
+          intro: "You can put tasks in a hidden archive list by clicking here..."
+        },
+        {
+          element: '#filter-btn',
+          intro: "or filter by the selected task's filenames by clicking here."
+        }
+      ];
+
+      defaultTour.call(this, name, steps, done);
+    },
+
+    moveTasks: function(name, done) {
+      var steps = [
+        { element: '.task',
+          intro: "Move tasks by dragging and dropping them into a new position in the same list or another list..."
+        },
+        {
+          element: '.task-select-all',
+          intro: "or select all tasks and deselect some by clicking on them and then drag them all"
+        },
+        { element: '.list-name',
+          intro: "You can also rename a list by clicking on it's name."
+        }
+      ];      
+      
+      defaultTour.call(this, name, steps, done);
+    },
+
+    newInstall: function(name, done) {
+      var steps = [
+        {
+          intro: "<h3>Welcome to iMDone!</h3>Let's get you started by adding a project."
+        },
+        {
+          element: '#open-project-btn',
+          intro: "Open a project by clicking here and selecting a directory.<br>Be careful!  I can't open more than 10,000 files"
+        }
+      ];      
+
+      defaultTour.call(this, name, steps, done);
+    },
+
     newFile: function(name, done) {
-      var self = this;
-      var intro   = introJs(),
-          project = this.project,
-          steps = [
-            {
-              intro: 'Create a task by typing something like<br><br><pre>[Learn more about iMDone](#doing:0)</pre>'
-            }
-          ];
-      intro.setOptions({
-        steps: steps,
-        showStepNumbers: false,
-        showBullets: false,
-        overlayOpacity: .5,
-        tooltipClass: 'span5'
+      var steps = [
+        {
+          intro: 'Create a task by typing something like<br><br><pre>[Learn more about iMDone](#doing:0)</pre>'
+        },
+        { 
+          intro: 'then save the file by pressing the &lt;Esc&gt; key.'
+        }
+      ];
+
+      defaultTour.call(this, name, steps, done, {
+        onbeforechange:function(el) {
+          $('.introjs-tooltip').css('min-width','420px');
+        }
       });
-      intro.onbeforechange(function(el) {
-        $('.introjs-tooltip').css('min-width','420px');
-      });
-      intro.onexit(done);
-      intro.oncomplete(done);
-      intro.start();
     },
 
     newProject: function(name, done) {
@@ -66,10 +131,9 @@ define([
       });
 
       var $lastBtn;
-      function cleanup() {
+      function cleanup(completed) {
         $lastBtn.ClassyWiggle("stop");
-        $lastBtn.addClass('btn-inverse');
-        done();
+        done(completed);
       }
 
       intro.onbeforechange(function(el) {
@@ -78,16 +142,12 @@ define([
         if ($lastBtn) cleanup();
         $lastBtn = $btn; 
         $btn.ClassyWiggle("start",{
-          randomStart:false,
-          onWiggleStart: function(el) {
-            $(el).removeClass("btn-inverse");
-          },
-          onWiggleStop: function(el) {
-            $(el).addClass("btn-inverse");
-          }
+          randomStart:false
         });
       });
-      intro.onexit(cleanup);
+      intro.onexit(function() {
+        cleanup(false);
+      });
       intro.oncomplete(cleanup);
       intro.start();
     }
@@ -107,6 +167,11 @@ define([
     });
   }
 
+  Tour.prototype.setProject = function(project) {
+    this.project = project;
+    return this;
+  };
+
   Tour.prototype.getTours = function() {
     return _.pluck(this.tours, "name");
   };
@@ -116,10 +181,11 @@ define([
     var self = this;
     if (tour) {
       if (!force && this.isCompleted(name)) return;
-      tour.start.call(this, name, function() {
-        self.setCompleted(name);
+      tour.start.call(this, name, function(dontComplete) {
+        if (!dontComplete) self.setCompleted(name);
       });
     }
+    return this;
   };
 
   Tour.prototype.setCompleted = function(name, completed) {

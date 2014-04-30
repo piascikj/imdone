@@ -405,7 +405,7 @@ define([
     if (project) {
       $.get("/api/kanban/" + project, function(data){
         imdone.setProjectData(project,data);
-        imdone.tour = new Tour(data);
+        imdone.tour.setProject(data);
         if ((params && !params.noPaint) || params === undefined) imdone.paintKanban(data);
 
         if (params && params.callback && _.isFunction(params.callback)) params.callback(data);
@@ -544,8 +544,14 @@ define([
   imdone.tasksSelected = function() {
     imdone.selectedTasks = $(".task.selected");
     if (imdone.selectedTasks.length > 0) {
-      imdone.archiveBtn.show().ClassyWiggle("start",imdone.wiggleOpts);
-      imdone.filterBtn.show().ClassyWiggle("start",imdone.wiggleOpts);
+      imdone.archiveBtn.show();
+      imdone.filterBtn.show();
+
+      if (imdone.tour.isCompleted("archiveAndFilter")) {
+        imdone.archiveBtn.ClassyWiggle("start",imdone.wiggleOpts);
+        imdone.filterBtn.ClassyWiggle("start",imdone.wiggleOpts);
+      } 
+      imdone.tour.start("archiveAndFilter");
     }
     else {
       imdone.archiveBtn.hide();
@@ -1266,6 +1272,20 @@ define([
       show: false
     });
 
+    imdone.tour = new Tour();
+
+    // Start the list tour
+    $('#lists-dropdown').on('shown.bs.dropdown', function() { 
+      if ($('.list-item').length > 1) {
+        imdone.tour.start('moveAndHideLists');
+      }
+    });
+
+    // Keep dropdown from closing if tour is not complete
+    $(document).on('click', '.introjs-nextbutton', function(e){
+      if (!imdone.tour.isCompleted('moveAndHideLists')) e.stopPropagation(); // This replace if conditional.
+    });
+
     function listNameFilter(saveFunc) {
       return function (e) {
         var keyCode = (e.keyCode ? e.keyCode : e.which);
@@ -1685,7 +1705,9 @@ define([
                         imdone.paintKanban(project);
                         if (project && project.lists && project.lists.length < 1) {
                           imdone.tour.start('newProject');
-                        } 
+                        } else if (project.lists.length > 0) {
+                          imdone.tour.start('moveTasks');
+                        }
                       } 
           });
         }
@@ -1745,6 +1767,7 @@ define([
         } else {
           imdone.projectNav.hide();
           imdone.hideBoard();
+          imdone.tour.start("newInstall");
         }
       },
   });

@@ -108,13 +108,14 @@ Must do
 - [Create tutorials for different flows](#DOING:10)
   - In the tutorials, show how to create lists without first creating a task
   - Also mention the markdown link plugin for chrome
+  - add project
   - Save file
+  - create list
   - Move tasks
   - archive tasks
+  - filter by tasks
   - rename list
   - move list
-  - hide/chow list
-  - filter
-  - search
-  - add project
+  - hide/show list
+  - search (I'm here)
   - remove project
