@@ -94,17 +94,11 @@ define([
     copyButton: '<button class="btn btn-inverse pull-right copy-btn" title="Copy text"><i class="icomoon-copy"></i></button>',
     wiggleOpts: {
       randomStart:false,
-      limit:10,
-      onWiggleStart: function(el) {
-        $(el).removeClass("btn-inverse");
-      },
-      onWiggleStop: function(el) {
-        $(el).addClass("btn-inverse");
-      }
+      limit:10
     },
     pathSep: (navigator.appVersion.indexOf("Win")!=-1) ? "\\" : "/"
   };
-  // PLANNING:50 Use [spin.js](http://fgnass.github.io/spin.js/#?lines=15&length=24&width=9&radius=60&corners=0.1&rotate=0&trail=60&speed=0.5&direction=1&hwaccel=on) for loading gif
+  // PLANNING:70 Use [spin.js](http://fgnass.github.io/spin.js/#?lines=15&length=24&width=9&radius=60&corners=0.1&rotate=0&trail=60&speed=0.5&direction=1&hwaccel=on) for loading gif
   //pnotify options
   $.extend($.pnotify.defaults,{
       styling: 'bootstrap',
@@ -324,7 +318,7 @@ define([
     return false;
   };
 
-  // PLANNING:40 add notify and undo for move
+  // PLANNING:60 add notify and undo for move
   imdone.moveTasks = function(opts) {
     var tasks = [];
     var toListId = (opts.to) ? opts.to : opts.item.closest(".list").attr("id");
@@ -767,7 +761,7 @@ define([
       imdone.navigateToCurrentProject();
     });
 
-    // DONE:0 Test project removed event
+    // DONE:20 Test project removed event
     socket.on('project.removed', function(data) {
       var projectId = data.project;
       console.log("Project removed: ", projectId);
@@ -1047,7 +1041,7 @@ define([
         'headings': 'h1,h2'
       });
 
-      // DONE:40 Fix scrollSpy
+      // DONE:60 Fix scrollSpy
       imdone.fileContainer.scrollspy('refresh');
 
       // Add borders to tables
@@ -1058,7 +1052,7 @@ define([
     }
   };
 
-  // DONE:30 Fix toc click
+  // DONE:50 Fix toc click
   $(document).on('click', '#toc a', function(e) {
     var id = $(this).attr('href');
     imdone.fileContainer.scrollTo($(id), 500);
@@ -1165,7 +1159,7 @@ define([
           imdone.navigateToCurrentProject();
         },
         error: function(data) {
-          // PLANNING:0 Make this pnotify default for all errors!
+          // PLANNING:10 Make this pnotify default for all errors!
           imdone.fileNotify = $.pnotify({
             title: "Unable to delete file!",
             nonblock: true,
@@ -1186,6 +1180,11 @@ define([
     imdone.removeSource();
     return false;
   });
+
+  imdone.removeFileModal.on('shown.bs.modal', function() {
+    $('#remove-file-cancel-btn').focus();
+  });
+
 
   imdone.navigateToCurrentProject = function() {
     imdone.app.navigate("#project/" + imdone.currentProjectId(), {trigger:true});
@@ -1247,6 +1246,16 @@ define([
             console.log(data);
           }
         }
+    });
+  };
+
+  imdone.openHelp = function(e) {
+    $.get('/help.md', function(data) {
+      var help = imdone.md(data);
+      $('#help-modal').modal({
+        keyboard: true,
+
+      }).find('.modal-body').html(help);
     });
   };
 
@@ -1430,7 +1439,9 @@ define([
     // open file
     .bind('keydown', 'Ctrl+I', imdone.openFileDialog)
     // Add a project
-    .bind('keydown', 'Ctrl+Shift+1', imdone.openProjectDialog);
+    .bind('keydown', 'Ctrl+Shift+1', imdone.openProjectDialog)
+    // Open help
+    .bind('keydown', 'Shift+/', imdone.openHelp);
 
     //Get the file source for a task
     $(document).on('click','.source-link', function(e) {
@@ -1449,6 +1460,11 @@ define([
         icon: 'icomoon-tasks',
         type: 'info'
       });
+    });
+
+    $('#key-help-link').click(function(e) {
+      e.preventDefault();
+      imdone.openHelp();
     });
 
     //close the source
@@ -1497,7 +1513,7 @@ define([
     });
 
     
-    // PLANNING:70 Use [egdelwonk/SlidePanel](https://github.com/egdelwonk/slidepanel) for opening files and removing clutter
+    // PLANNING:90 Use [egdelwonk/SlidePanel](https://github.com/egdelwonk/slidepanel) for opening files and removing clutter
     function openFile() {
       // ARCHIVE:70 Create a new file based on path and project with call to PUT /api/source.  If get fails call saveSource first to create the file
       var path = imdone.fileField.val();
@@ -1590,7 +1606,7 @@ define([
     });
 
     // Listen for hide
-    // PLANNING:80 Show prompt if list is large before showing
+    // PLANNING:100 Show prompt if list is large before showing
     $(document).on('click', '.list-hide, .list-show', function(e) {
       var list = $(this).attr("data-list");
       var el = $("#" + list);

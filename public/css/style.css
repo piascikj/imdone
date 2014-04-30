@@ -298,7 +298,7 @@ blockquote p {
 }
 
 .task.selected {
-  background-color: #5bb75b;
+  background-color: #388D38;
   box-shadow: none;
   color: white;
   -webkit-box-shadow: none;
@@ -319,6 +319,17 @@ blockquote p {
 
 .board-bar {
   display: none;
+}
+
+.full-screen .modal-body {
+  max-height: 800px;
+}
+
+.clean-btn {
+  border: none;
+  box-shadow: none;
+  background: none;
+  outline: none;
 }
 
 .column-nav-menu {

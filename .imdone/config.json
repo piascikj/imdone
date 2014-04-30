@@ -10,7 +10,7 @@
     },
     {
       "name": "PLANNING",
-      "hidden": true
+      "hidden": false
     },
     {
       "name": "DOING",
