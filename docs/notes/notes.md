@@ -52,7 +52,7 @@ Markdown | Less | Pretty
 - [Implement find and replace <https://github.com/ajaxorg/ace/issues/56>](#TODO:130)
 - [Spell check in Ace <http://www.chrisfinke.com/2011/03/31/announcing-typo-js-client-side-javascript-spellchecking/> <http://jasonaclark.com/2011/05/04/ode-to-my-spell-checker/> <https://npmjs.org/package/spellcheck>](#TODO:70)
 - [If links to files exist in tasks, open the file on click](#ARCHIVE:670)
-- [User should be able to select the color of lists by bootstrap badge class](#TODO:100)
+- [User should be able to select the color of lists by [tkrotoff/jquery-simplecolorpicker](https://github.com/tkrotoff/jquery-simplecolorpicker)](#DOING:0)
 - [Leave manage lists open when hiding/showing list](#ARCHIVE:820)
 - [Add links to imdone website, pledgie and [twitter](https://twitter.com/about/resources/buttons#tweet), also use flattr](#ARCHIVE:560)
 - [Add search for files and tasks <https://github.com/visionmedia/search> or <https://github.com/visionmedia/reds>](#ARCHIVE:630)

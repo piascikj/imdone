@@ -364,7 +364,7 @@
       var onFileProcessed = function(data) {
         log("emitting:", EVENTS.FILE_PROCESSED);
         socket.emit(EVENTS.FILE_PROCESSED, data);
-      }
+      };
 
       server.imdone.emitter.on(EVENTS.PROJECT_INITIALIZED, onProjectInitialized);
       server.imdone.emitter.on(EVENTS.PROJECT_REMOVED, onProjectRemoved);

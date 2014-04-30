@@ -35,11 +35,6 @@
                   <i class="icomoon-folder-open"></i>
                 </button>
               </li>
-              <li>
-                <button class="btn btn-inverse hide wiggle project-nav" id="open-readme-btn" title="Open Readme">
-                  <i class="icomoon-book"></i>
-                </button>
-              </li>
               <li id="search-dialog" class="project-nav">
                 <div class="dropdown pull-left">
                 <button class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" id="search-dialog-btn" 
@@ -54,6 +49,11 @@
                 </div>
               </li>
               <li>
+                <button class="btn btn-inverse hide wiggle project-nav" id="open-readme-btn" title="Open Readme">
+                  <i class="icomoon-book"></i>
+                </button>
+              </li>
+              <li>
                 <button class="btn btn-inverse project-nav" id="close-project-btn" title="Close project">
                   <i class="icomoon-remove"></i>
                 </button>
@@ -66,13 +66,6 @@
                 </button>
               </li>
             <!--[Move close file button here and hide on paintKanban](#ARCHIVE:240)-->
-            </ul>
-            <ul class="nav content-nav hide" id="content-nav" style="display:none">
-              <li>
-                <button class="btn btn-inverse" id="close-file-btn" title="Close file (Esc)">
-                  <span id="filename"></span>&nbsp;<i class="icomoon-remove"></i>
-                </button>
-              </li>
             </ul>
             <ul class="nav pull-right help-nav">
               <li class="dropdown">
@@ -125,6 +118,14 @@
                 </div>
               </li>                
             </ul>
+            <ul class="nav content-nav hide pull-right" id="content-nav" style="display:none">
+              <li>
+                <button class="btn btn-inverse" id="close-file-btn" title="Close file (Esc)">
+                  <span id="filename"></span>&nbsp;<i class="icomoon-remove"></i>
+                </button>
+              </li>
+            </ul>
+
           </div>
         </div>
       </div>
@@ -209,7 +210,7 @@
       </div>
     </div>
     
-    <div id="project-modal" class="modal hide fade">
+    <div id="project-modal" class="modal hide">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
           <i class="icomoon-remove"></i>
@@ -262,6 +263,21 @@
         <a href="#" id="close-file-ok-btn" class="btn btn-primary">Yes</a>
       </div>
     </div>
+
+    <div class="modal imdone-progress hide">
+     <div class="modal-dialog">
+       <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="mdl-header">Loading...</h3>
+        </div>
+         <div class="modal-body">
+           <div class="progress progress-success progress-striped active">
+            <div class="bar" style="width: 0%;"></div>
+           </div>
+         </div>
+       </div>
+     </div>
+    </div>    
     
     <!-- Mustache templates -->
     <script id="list-template" type="text/x-handlebars-template">

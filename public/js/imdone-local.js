@@ -411,7 +411,7 @@ define([
     if (project) {
       $.get("/api/kanban/" + project, function(data){
         imdone.setProjectData(project,data);
-        imdone.tour = new Tour(project);
+        imdone.tour = new Tour(data);
         if ((params && !params.noPaint) || params === undefined) imdone.paintKanban(data);
 
         if (params && params.callback && _.isFunction(params.callback)) params.callback(data);
@@ -607,7 +607,7 @@ define([
        });
 
       $('.task').mouseup(function(e) {
-        if (!$(e.target).hasClass("task")) return;
+        if ($(e.target).hasClass("source-link") || $(e.target).attr('target') == '_blank') return;
         var $el = $(this);
         if (!imdone.sortingTasks) {
           if ($el.hasClass("selected")) {
@@ -663,14 +663,14 @@ define([
       if (data.readme) {
         // ARCHIVE:50 Fix readme href
         var href = imdone.getFileHref(data.readme.path,true);
-        imdone.openReadmeBtn.attr("title", "Open " + data.readme.path)
+        imdone.openReadmeBtn.attr("title", "Open " + data.readme.path + " file.")
         .show()
         .unbind()
         .click(function() {
           imdone.app.navigate(href, true);
         });
 
-        if (data.lists && data.lists.length > 0) imdone.openReadmeBtn.ClassyWiggle("start",imdone.wiggleOpts);
+        if (imdone.tour && imdone.tour.isCompleted('newProject')) imdone.openReadmeBtn.ClassyWiggle("start",imdone.wiggleOpts);
       } else {
         imdone.openReadmeBtn.hide();
       }
@@ -738,11 +738,22 @@ define([
         });
       }
     });
+    socket.on('file.processed', function(data) {
+      var pcntNum = Math.round((data.processed/data.total)*100);
+      if (pcntNum > imdone.lastPcntNum) {
+        imdone.lastPcntNum = pcntNum;
+      }
+    });
 
     socket.on('project.initialized', function(data) {
       // add the project and get kanban
       var projectId = data.project;
       console.log("Project initialized: ", projectId);
+      clearInterval(imdone.progressInterval);
+      setTimeout(function() {
+        imdone.progress.modal('hide');
+      }, 1000);
+
       if (_.indexOf(imdone.projects, projectId) < 0) {
         imdone.projects.push(projectId);
         imdone.paintProjectsMenu();
@@ -1236,368 +1247,387 @@ define([
 
   // ARCHIVE:730 Clean up init before implementing backbone views
   imdone.init = function() {
-      function listNameFilter(saveFunc) {
-        return function (e) {
-          var keyCode = (e.keyCode ? e.keyCode : e.which);
-          if (keyCode === 13) return saveFunc();
-          if (!/\w|-/i.test(String.fromCharCode(keyCode))) {
-            e.preventDefault();
-            e.stopPropagation();
-          }
-        };
-      }
-      //Put the focus on the name field when changing list names
-      imdone.nameModal.modal({show:false});
-      imdone.nameModal.on('show.bs.modal', function() {
-        setTimeout(function() {
-          document.activeElement.blur();
-          imdone.nameFld.focus();
-        }, 500);
-      });
+    imdone.progress = $('.imdone-progress').modal({
+      backdrop: 'static',
+      show: false
+    });
 
-      //listen for list name click
-      $(document).on('click','.list-name', function(e) {
-        var name = $(this).attr("data-list");
-        imdone.nameModal.modal('show');
-        imdone.nameFld.val(name);
-        imdone.nameFld.attr('placeholder', name);
-        e.preventDefault();
-        e.stopPropagation();        
-      });
-      
-      imdone.nameFld.keypress(listNameFilter(saveListName));
-
-      function saveListName() {
-        var req = {
-          name: imdone.nameFld.attr('placeholder'),
-          newName:  imdone.nameFld.val(),
-          project: imdone.currentProjectId()
-        };
-        if (req.newName !== "") {
-          $.post("/api/renameList", req);
+    function listNameFilter(saveFunc) {
+      return function (e) {
+        var keyCode = (e.keyCode ? e.keyCode : e.which);
+        if (keyCode === 13) return saveFunc();
+        if (!/\w|-/i.test(String.fromCharCode(keyCode))) {
+          e.preventDefault();
+          e.stopPropagation();
         }
+      };
+    }
+    //Put the focus on the name field when changing list names
+    imdone.nameModal.modal({show:false});
+    imdone.nameModal.on('show.bs.modal', function() {
+      setTimeout(function() {
+        document.activeElement.blur();
+        imdone.nameFld.focus();
+      }, 500);
+    });
 
-        imdone.nameModal.modal('hide');
+    //listen for list name click
+    $(document).on('click','.list-name', function(e) {
+      var name = $(this).attr("data-list");
+      imdone.nameModal.modal('show');
+      imdone.nameFld.val(name);
+      imdone.nameFld.attr('placeholder', name);
+      e.preventDefault();
+      e.stopPropagation();        
+    });
+    
+    imdone.nameFld.keypress(listNameFilter(saveListName));
+
+    function saveListName() {
+      var req = {
+        name: imdone.nameFld.attr('placeholder'),
+        newName:  imdone.nameFld.val(),
+        project: imdone.currentProjectId()
+      };
+      if (req.newName !== "") {
+        $.post("/api/renameList", req);
       }
 
-      //Save a list name
-      $("#list-name-save").click(saveListName);
+      imdone.nameModal.modal('hide');
+    }
 
-      imdone.newListModal.modal({show:false});
-      imdone.newListModal.on('show.bs.modal', function() {
-        setTimeout(function() {
-          document.activeElement.blur();
-          imdone.newListField.focus();
-        }, 500);
-      });
+    //Save a list name
+    $("#list-name-save").click(saveListName);
 
-      imdone.newListField.keypress(listNameFilter(saveNewList));
+    imdone.newListModal.modal({show:false});
+    imdone.newListModal.on('show.bs.modal', function() {
+      setTimeout(function() {
+        document.activeElement.blur();
+        imdone.newListField.focus();
+      }, 500);
+    });
 
-      function saveNewList() {
-        var self = this;
-        var name = imdone.newListField.val();
-        if (name !== "") {
-          $.post("/api/list/{0}/{1}".format([imdone.currentProjectId(), name]), function() {
-            imdone.newListModal.modal('hide');
-            imdone.newListField.val("");
-          });
-        }
+    imdone.newListField.keypress(listNameFilter(saveNewList));
+
+    function saveNewList() {
+      var self = this;
+      var name = imdone.newListField.val();
+      if (name !== "") {
+        $.post("/api/list/{0}/{1}".format([imdone.currentProjectId(), name]), function() {
+          imdone.newListModal.modal('hide');
+          imdone.newListField.val("");
+        });
       }
+    }
 
-      imdone.newListSave.click(saveNewList);
+    imdone.newListSave.click(saveNewList);
 
-      function newList(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        imdone.newListField.val("");
-        imdone.newListField.attr('placeholder', "New list name");
-        imdone.newListModal.modal('show');
-      }
+    function newList(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      imdone.newListField.val("");
+      imdone.newListField.attr('placeholder', "New list name");
+      imdone.newListModal.modal('show');
+    }
 
-      $(document).on('click', '.new-list', newList);    
+    $(document).on('click', '.new-list', newList);    
 
-      //Remove a list
-      $(document).on('click','.remove-list', function() {
-        var req = {
-          list: $(this).attr("data-list"),
-          project: imdone.currentProjectId()
-        };
+    //Remove a list
+    $(document).on('click','.remove-list', function() {
+      var req = {
+        list: $(this).attr("data-list"),
+        project: imdone.currentProjectId()
+      };
 
-        $.post("/api/removeList", req);
-      });
+      $.post("/api/removeList", req);
+    });
 
-      //Editor config
-      imdone.editor.setOptions({
-        enableBasicAutocompletion: true,
-        enableSnippets: true
-      });
-      imdone.editor.setTheme("ace/theme/merbivore_soft");
-      imdone.editor.setHighlightActiveLine(true);
-      imdone.editor.setPrintMarginColumn(120);
-      //ARCHIVE:710 Use Vim keyboard bindings
-      //imdone.editor.setKeyboardHandler(require("ace/keybinding-vim").Vim);
-      
-      //Ace keyboard handlers
-      imdone.editor.commands.addCommand({
-        name: 'saveFile',
-        bindKey: {win: 'Ctrl-Shift-S',  mac: 'Command-Shift-S'},
-        exec: function(editor) {
-            imdone.saveFile();
-            return false;
-        },
-        readOnly: false // false if this command should not apply in readOnly mode
-      });
-
-      imdone.editor.commands.addCommand({
-        name: 'removeSource',
-        bindKey: {win: 'Ctrl-Shift-X',  mac: 'Command-Shift-X'},
-        exec: function(editor) {
-            imdone.removeSourceConfirm();
-            return false;
-        },
-        readOnly: false // false if this command should not apply in readOnly mode
-      });
-
-      imdone.editor.commands.addCommand({
-        name: 'closeFile',
-        bindKey: {win: 'Esc',  mac: 'Esc'},
-        exec: function(editor) {
-          imdone.closeFileConfirm(function() {
-            if (imdone.isMD()) {
-              imdone.showPreview();
-            } else {
-              imdone.navigateToCurrentProject();
-            }
-          });
+    //Editor config
+    imdone.editor.setOptions({
+      enableBasicAutocompletion: true,
+      enableSnippets: true
+    });
+    imdone.editor.setTheme("ace/theme/merbivore_soft");
+    imdone.editor.setHighlightActiveLine(true);
+    imdone.editor.setPrintMarginColumn(120);
+    //ARCHIVE:710 Use Vim keyboard bindings
+    //imdone.editor.setKeyboardHandler(require("ace/keybinding-vim").Vim);
+    
+    //Ace keyboard handlers
+    imdone.editor.commands.addCommand({
+      name: 'saveFile',
+      bindKey: {win: 'Ctrl-Shift-S',  mac: 'Command-Shift-S'},
+      exec: function(editor) {
+          imdone.saveFile();
           return false;
-        },
-        readOnly: false // false if this command should not apply in readOnly mode
-      });
-      
-      // keyboard handlers --------------------------------------------------------------------------------------------
-      // edit
-      $(window).bind('keydown', 'I', function(e){
-        if (imdone.previewMode && imdone.editMode) imdone.showEditor();
+      },
+      readOnly: false // false if this command should not apply in readOnly mode
+    });
 
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-        
-      })
-      .bind('keydown', 'esc', function(e){
-        if (!imdone.previewMode && !imdone.editMode) imdone.clearFilter();
-        imdone.navigateToCurrentProject();
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-      })
-      // delete file
-      .bind('keydown', 'Ctrl+Shift+X', function(e) {
-        if (imdone.editMode) {
-          imdone.removeSource();
-        }
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-      })
-      // search
-      .bind('keydown', 'Ctrl+Shift+F', function(e) {
-        imdone.searchBtn.dropdown('toggle');
-      })
-      // new list
-      .bind('keydown', 'Ctrl+Shift+L', newList);
+    imdone.editor.commands.addCommand({
+      name: 'removeSource',
+      bindKey: {win: 'Ctrl-Shift-X',  mac: 'Command-Shift-X'},
+      exec: function(editor) {
+          imdone.removeSourceConfirm();
+          return false;
+      },
+      readOnly: false // false if this command should not apply in readOnly mode
+    });
 
-      //Get the file source for a task
-      $(document).on('click','.source-link', function(e) {
-        var list = $(this).attr("data-list");
-        var order = $(this).closest('.task').attr("data-order");
-        var content =  $(this).closest(".task").find('.task-text').html();
-        var template = '<a href="#{0}:{1}" class="task-link" data-list="{0}"><span class="task-content">{2}</span></a>';
-
-        //ARCHIVE:290 Show the current task as notification with <http://pinesframework.org/pnotify/>
-        $.pnotify({
-          title: list,
-          text: template.format([list,order,content]),
-          nonblock: false,
-          hide: false,
-          sticker: false,
-          icon: 'icomoon-tasks',
-          type: 'info'
-        });
-      });
-
-      //close the source
-      imdone.closeFileBtn.on('click', function(e) {
+    imdone.editor.commands.addCommand({
+      name: 'closeFile',
+      bindKey: {win: 'Esc',  mac: 'Esc'},
+      exec: function(editor) {
         imdone.closeFileConfirm(function() {
-          imdone.navigateToCurrentProject();
-        });
-        e.preventDefault();
-        return false;
-      });
-
-      //Open or create a file
-      $(document).on('click','#open-file-btn',imdone.openFileDialog);
-
-      //Find a path in files API response node
-      function findDir(path, node) {
-        var dir,
-            node = node || imdone.currentProject().ls;
-        _.each(node.dirs, function(dirNode) {
-          if (dir) return;
-          if (path == dirNode.path) {
-            dirNode.parent = node;
-            dir = dirNode;
-          } else if (!dir) {
-            dir = findDir(path, dirNode);
+          if (imdone.isMD()) {
+            imdone.showPreview();
+          } else {
+            imdone.navigateToCurrentProject();
           }
         });
-
-        return dir;
-
-      }
-
-      //respond to directory click
-      $(document).on('click','.js-dir', function() {
-        var node = findDir($(this).attr('data-path'));
-        node = node || imdone.currentProject().ls;
-        imdone.currentProject().cwd = node;
-        $('#ls').html(imdone.lsTemplate(node));
-        imdone.fileField.focus();
         return false;
-      });
+      },
+      readOnly: false // false if this command should not apply in readOnly mode
+    });
+    
+    // keyboard handlers --------------------------------------------------------------------------------------------
+    // edit
+    $(window).bind('keydown', 'I', function(e){
+      if (imdone.previewMode && imdone.editMode) imdone.showEditor();
+
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
       
-      //open a file
-      $(document).on('click','.js-file', function() {
-        $(this).closest(".modal").modal('hide');
-      });
-
-      
-      // PLANNING:70 Use [egdelwonk/SlidePanel](https://github.com/egdelwonk/slidepanel) for opening files and removing clutter
-      function openFile() {
-        // ARCHIVE:70 Create a new file based on path and project with call to PUT /api/source.  If get fails call saveSource first to create the file
-        var path = imdone.fileField.val();
-        if (path !== "") {
-          if (/^(\/|\\)/.test(path)) {
-            path = path.substring(1);
-          } else {
-            path = (imdone.currentProject().cwd.path || "") + imdone.pathSep + path;
-            path = path.replace(/^(\/|\\)+/,"");
-          } 
-
-          imdone.app.navigate(imdone.getFileHref(path), {trigger:true});
-          $(this).closest(".modal").modal('hide');
-        }
-        return false;
+    })
+    .bind('keydown', 'esc', function(e){
+      if (!imdone.previewMode && !imdone.editMode) imdone.clearFilter();
+      imdone.navigateToCurrentProject();
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    })
+    // delete file
+    .bind('keydown', 'Ctrl+Shift+X', function(e) {
+      if (imdone.editMode) {
+        imdone.removeSource();
       }
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    })
+    // search
+    .bind('keydown', 'Ctrl+Shift+F', function(e) {
+      imdone.searchBtn.dropdown('toggle');
+    })
+    // new list
+    .bind('keydown', 'Ctrl+Shift+L', newList);
 
-      //Open a file from file-modal
-      imdone.fileOpenBtn.on('click',openFile);
-      imdone.fileField.bind('keydown','return', openFile);
+    //Get the file source for a task
+    $(document).on('click','.source-link', function(e) {
+      var list = $(this).attr("data-list");
+      var order = $(this).closest('.task').attr("data-order");
+      var content =  $(this).closest(".task").find('.task-text').html();
+      var template = '<a href="#{0}:{1}" class="task-link" data-list="{0}"><span class="task-content">{2}</span></a>';
 
-      //close modal
-      $(document).on('click','.modal-close', function() {
-        $(this).closest(".modal").modal('hide');
-        return false;        
+      //ARCHIVE:290 Show the current task as notification with <http://pinesframework.org/pnotify/>
+      $.pnotify({
+        title: list,
+        text: template.format([list,order,content]),
+        nonblock: false,
+        hide: false,
+        sticker: false,
+        icon: 'icomoon-tasks',
+        type: 'info'
       });
+    });
 
-      // Open project dialog
-      imdone.addProjectBtn.click(imdone.openProjectDialog);
-
-      // respond to project dir click
-      $(document).on('click','.fs-dir', function(e) {
-        var dir = $(this).attr('data-path');
-        imdone.paintProjectDialog(dir);
-        e.stopPropagation();
-        e.preventDefault();
-      });
-
-      // Open a project
-      imdone.openProjectBtn.click(function(e) {
-        var $self = $(this);
-        $.post('/api/project/' + $('#dir-field').text())
-          .done(function() {
-            $self.closest(".modal").modal('hide');
-          });
-      });
-
-      // listen for search input
-      imdone.searchForm.submit(function(event) {
-        event.preventDefault();
-        imdone.searchBtn.dropdown('toggle');
-        var dest = imdone.getSearchHref(imdone.currentProjectId(),imdone.searchField.val(),0);
-        imdone.app.navigate(dest, {trigger:true});
-        return false;
-      });
-
-      //listen for search button click
-      imdone.searchResultsBtn.click(function() {
-        if (imdone.isSearchResultsVisible()) {
-          imdone.hideSearchResults(true);
-        } else {
-          imdone.showSearchResults();
-        }
-      });
-
-      imdone.searchDialog.on("show.bs.dropdown", function() {
-        imdone.searchField.val('');
-        setTimeout(function() {
-          imdone.searchField.focus();
-        }, 500);
-      });
-
-      imdone.searchField.click(function(e) {
-        e.stopPropagation();
-        return false;
-      });
-
-      //listen for filter input
-      //ARCHIVE:300 Apply filter when kanban is reloaded
-      imdone.filterField.keyup(function() {
-        imdone.filter();
-      });
-
-      $("#clear").click(function() {
-        imdone.clearFilter();
+    //close the source
+    imdone.closeFileBtn.on('click', function(e) {
+      imdone.closeFileConfirm(function() {
         imdone.navigateToCurrentProject();
-        return false;
       });
+      e.preventDefault();
+      return false;
+    });
 
-      // Listen for hide
-      // PLANNING:80 Show prompt if list is large before showing
-      $(document).on('click', '.list-hide, .list-show', function(e) {
-        var list = $(this).attr("data-list");
-        var el = $("#" + list);
-        if (el.length > 0) {
-          imdone.hideList(list);
-        } else {
-          imdone.showList(list);
+    //Open or create a file
+    $(document).on('click','#open-file-btn',imdone.openFileDialog);
+
+    //Find a path in files API response node
+    function findDir(path, node) {
+      var dir,
+          node = node || imdone.currentProject().ls;
+      _.each(node.dirs, function(dirNode) {
+        if (dir) return;
+        if (path == dirNode.path) {
+          dirNode.parent = node;
+          dir = dirNode;
+        } else if (!dir) {
+          dir = findDir(path, dirNode);
         }
-        e.stopPropagation();
-        return false;
       });
 
-      // Listen for project close
-      imdone.closeProjectBtn.click(function(e) {
-        imdone.closeFileConfirm(function() {
-          imdone.closeFile();
-          imdone.removeProject(imdone.currentProjectId());
-          imdone.searchResultsBtn.hide();
-        });
-      });
+      return dir;
 
-      // Get projects and start listening for updates
-      imdone.initUpdate();
+    }
 
-      imdone.getProjects(function(projects) {
-        imdone.app = new AppRouter();
-        imdone.calls = 0;
-        Backbone.history.on('route', function () {
-          imdone.calls++;
-        });
-        Backbone.history.start();
-        //if (projects.length > 0) imdone.getKanban({project:projects[0]});
-        imdone.initialized = true;
+    //respond to directory click
+    $(document).on('click','.js-dir', function() {
+      var node = findDir($(this).attr('data-path'));
+      node = node || imdone.currentProject().ls;
+      imdone.currentProject().cwd = node;
+      $('#ls').html(imdone.lsTemplate(node));
+      imdone.fileField.focus();
+      return false;
+    });
+    
+    //open a file
+    $(document).on('click','.js-file', function() {
+      $(this).closest(".modal").modal('hide');
+    });
+
+    
+    // PLANNING:70 Use [egdelwonk/SlidePanel](https://github.com/egdelwonk/slidepanel) for opening files and removing clutter
+    function openFile() {
+      // ARCHIVE:70 Create a new file based on path and project with call to PUT /api/source.  If get fails call saveSource first to create the file
+      var path = imdone.fileField.val();
+      if (path !== "") {
+        if (/^(\/|\\)/.test(path)) {
+          path = path.substring(1);
+        } else {
+          path = (imdone.currentProject().cwd.path || "") + imdone.pathSep + path;
+          path = path.replace(/^(\/|\\)+/,"");
+        } 
+
+        imdone.app.navigate(imdone.getFileHref(path), {trigger:true});
+        $(this).closest(".modal").modal('hide');
+      }
+      return false;
+    }
+
+    //Open a file from file-modal
+    imdone.fileOpenBtn.on('click',openFile);
+    imdone.fileField.bind('keydown','return', openFile);
+
+    //close modal
+    $(document).on('click','.modal-close', function() {
+      $(this).closest(".modal").modal('hide');
+      return false;        
+    });
+
+    // Open project dialog
+    imdone.addProjectBtn.click(imdone.openProjectDialog);
+
+    // respond to project dir click
+    $(document).on('click','.fs-dir', function(e) {
+      var dir = $(this).attr('data-path');
+      imdone.paintProjectDialog(dir);
+      e.stopPropagation();
+      e.preventDefault();
+    });
+
+    // Open a project
+    imdone.openProjectBtn.click(function(e) {
+      var dir = $('#dir-field').text();
+      $('#project-modal').modal('hide');
+      imdone.progress.find('.mdl-header').html("Loading project...");
+      imdone.lastPcntNum = 5;
+      var $bar = imdone.progress.find('.bar');
+      // $bar.text('5%');
+      $bar.css('width', '5%');
+
+      imdone.progress.modal('show');
+      imdone.progressInterval = setInterval(function() {
+        var pcnt = imdone.lastPcntNum.toString() + '%';
+        var $bar = imdone.progress.find('.bar');
+        console.log(pcnt);
+        $bar.css('width', pcnt);
+        //$bar.text(pcnt);
+      }, 800);
+
+      $.post('/api/project/' + dir);
+    });
+
+    // listen for search input
+    imdone.searchForm.submit(function(event) {
+      event.preventDefault();
+      imdone.searchBtn.dropdown('toggle');
+      var dest = imdone.getSearchHref(imdone.currentProjectId(),imdone.searchField.val(),0);
+      imdone.app.navigate(dest, {trigger:true});
+      return false;
+    });
+
+    //listen for search button click
+    imdone.searchResultsBtn.click(function() {
+      if (imdone.isSearchResultsVisible()) {
+        imdone.hideSearchResults(true);
+      } else {
+        imdone.showSearchResults();
+      }
+    });
+
+    imdone.searchDialog.on("show.bs.dropdown", function() {
+      imdone.searchField.val('');
+      setTimeout(function() {
+        imdone.searchField.focus();
+      }, 500);
+    });
+
+    imdone.searchField.click(function(e) {
+      e.stopPropagation();
+      return false;
+    });
+
+    //listen for filter input
+    //ARCHIVE:300 Apply filter when kanban is reloaded
+    imdone.filterField.keyup(function() {
+      imdone.filter();
+    });
+
+    $("#clear").click(function() {
+      imdone.clearFilter();
+      imdone.navigateToCurrentProject();
+      return false;
+    });
+
+    // Listen for hide
+    // PLANNING:80 Show prompt if list is large before showing
+    $(document).on('click', '.list-hide, .list-show', function(e) {
+      var list = $(this).attr("data-list");
+      var el = $("#" + list);
+      if (el.length > 0) {
+        imdone.hideList(list);
+      } else {
+        imdone.showList(list);
+      }
+      e.stopPropagation();
+      return false;
+    });
+
+    // Listen for project close
+    imdone.closeProjectBtn.click(function(e) {
+      imdone.closeFileConfirm(function() {
+        imdone.closeFile();
+        imdone.closeProjectBtn.blur();
+        imdone.removeProject(imdone.currentProjectId());
+        imdone.searchResultsBtn.hide();
       });
+    });
+
+    // Get projects and start listening for updates
+    imdone.initUpdate();
+
+    imdone.getProjects(function(projects) {
+      imdone.app = new AppRouter();
+      imdone.calls = 0;
+      Backbone.history.on('route', function () {
+        imdone.calls++;
+      });
+      Backbone.history.start();
+      //if (projects.length > 0) imdone.getKanban({project:projects[0]});
+      imdone.initialized = true;
+    });
   };
 
   var AppRouter = Backbone.Router.extend({
@@ -1636,6 +1666,7 @@ define([
             project:project, 
             noPaint:true, 
             callback: function(project) {
+                        imdone.searchResultsBtn.hide();
                         imdone.paintProjectsMenu();
                         imdone.paintKanban(project);
                         if (project && project.lists && project.lists.length < 1) {
