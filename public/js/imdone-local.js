@@ -738,18 +738,21 @@ define([
         });
       }
     });
-    socket.on('file.processed', function(data) {
+    
+    socket.on('files.processed', function(data) {
       var pcntNum = Math.round((data.processed/data.total)*100);
-      if (pcntNum > imdone.lastPcntNum) {
-        imdone.lastPcntNum = pcntNum;
-      }
+      var pcnt = pcntNum.toString() + '%';
+      var $bar = imdone.progress.find('.bar');
+      console.log(pcnt);
+      $bar.css('width', pcnt);
+      //$bar.text(pcnt);
     });
 
     socket.on('project.initialized', function(data) {
       // add the project and get kanban
       var projectId = data.project;
       console.log("Project initialized: ", projectId);
-      clearInterval(imdone.progressInterval);
+      
       setTimeout(function() {
         imdone.progress.modal('hide');
       }, 1000);
@@ -762,6 +765,7 @@ define([
       imdone.currentProjectId(projectId);
       imdone.navigateToCurrentProject();
     });
+
     // DONE:0 Test project removed event
     socket.on('project.removed', function(data) {
       var projectId = data.project;
@@ -1531,20 +1535,9 @@ define([
     imdone.openProjectBtn.click(function(e) {
       var dir = $('#dir-field').text();
       $('#project-modal').modal('hide');
-      imdone.progress.find('.mdl-header').html("Loading project...");
-      imdone.lastPcntNum = 5;
-      var $bar = imdone.progress.find('.bar');
-      // $bar.text('5%');
-      $bar.css('width', '5%');
 
+      imdone.progress.find('.mdl-header').html("Loading project...");
       imdone.progress.modal('show');
-      imdone.progressInterval = setInterval(function() {
-        var pcnt = imdone.lastPcntNum.toString() + '%';
-        var $bar = imdone.progress.find('.bar');
-        console.log(pcnt);
-        $bar.css('width', pcnt);
-        //$bar.text(pcnt);
-      }, 800);
 
       $.post('/api/project/' + dir);
     });

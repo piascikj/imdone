@@ -25,7 +25,7 @@
                        PROJECT_MODIFIED: "project.modified",
                        PROJECT_INITIALIZED: "project.initialized",
                        PROJECT_REMOVED: "project.removed",
-                       FILE_PROCESSED: "file.processed"
+                       FILES_PROCESSED: "files.processed"
                      };
 
   function isBusy(req,res) {
@@ -361,15 +361,15 @@
         socket.emit(EVENTS.PROJECT_REMOVED, data);
       };
 
-      var onFileProcessed = function(data) {
-        log("emitting:", EVENTS.FILE_PROCESSED);
-        socket.emit(EVENTS.FILE_PROCESSED, data);
+      var onFilesProcessed = function(data) {
+        log("emitting:", EVENTS.FILES_PROCESSED);
+        socket.emit(EVENTS.FILES_PROCESSED, data);
       };
 
       server.imdone.emitter.on(EVENTS.PROJECT_INITIALIZED, onProjectInitialized);
       server.imdone.emitter.on(EVENTS.PROJECT_REMOVED, onProjectRemoved);
       server.imdone.emitter.on(EVENTS.PROJECT_MODIFIED, onProjectModified);
-      server.imdone.emitter.on(EVENTS.FILE_PROCESSED, onFileProcessed);
+      server.imdone.emitter.on(EVENTS.FILES_PROCESSED, onFilesProcessed);
 
       // ARCHIVE:210 Remove listeners on disconnect
       socket.on('disconnect', function () {
@@ -377,7 +377,7 @@
         server.imdone.emitter.removeListener(EVENTS.PROJECT_INITIALIZED, onProjectInitialized);
         server.imdone.emitter.removeListener(EVENTS.PROJECT_REMOVED, onProjectRemoved);
         server.imdone.emitter.removeListener(EVENTS.PROJECT_MODIFIED, onProjectModified);
-        server.imdone.emitter.removeListener(EVENTS.FILE_PROCESSED, onFileProcessed);
+        server.imdone.emitter.removeListener(EVENTS.FILES_PROCESSED, onFilesProcessed);
       });
     });    
 
