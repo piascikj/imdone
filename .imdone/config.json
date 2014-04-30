@@ -6,11 +6,11 @@
   "lists": [
     {
       "name": "TODO",
-      "hidden": false
+      "hidden": true
     },
     {
       "name": "PLANNING",
-      "hidden": false
+      "hidden": true
     },
     {
       "name": "DOING",

@@ -1,8 +1,10 @@
 Change Log
 ----
 ### 1.2.0
-- Now using the imdone-core library
-- Create lists without having to create tasks in that list
+- Now using the [imdone-core](https://www.npmjs.org/package/imdone-core) library
+- Create lists without having to create a task
+- Add and remove projects in the UI
+- I had to do away with events to make the configuration JSON, but will consider bringing them back if there is enough demand.
 
 ### 1.1.3
 - Add delay to sortable elements

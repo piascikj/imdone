@@ -755,6 +755,7 @@ define([
       
       setTimeout(function() {
         imdone.progress.modal('hide');
+        imdone.progress.find('.bar').css('width', '0%');
       }, 1000);
 
       if (_.indexOf(imdone.projects, projectId) < 0) {
@@ -1414,7 +1415,7 @@ define([
     // delete file
     .bind('keydown', 'Ctrl+Shift+X', function(e) {
       if (imdone.editMode) {
-        imdone.removeSource();
+        imdone.removeSourceConfirm();
       }
       e.preventDefault();
       e.stopPropagation();
@@ -1425,7 +1426,11 @@ define([
       imdone.searchBtn.dropdown('toggle');
     })
     // new list
-    .bind('keydown', 'Ctrl+Shift+L', newList);
+    .bind('keydown', 'Ctrl+Shift+L', newList)
+    // open file
+    .bind('keydown', 'Ctrl+I', imdone.openFileDialog)
+    // Add a project
+    .bind('keydown', 'Ctrl+Shift+1', imdone.openProjectDialog);
 
     //Get the file source for a task
     $(document).on('click','.source-link', function(e) {

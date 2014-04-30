@@ -52,7 +52,7 @@ Markdown | Less | Pretty
 - [Implement find and replace <https://github.com/ajaxorg/ace/issues/56>](#TODO:130)
 - [Spell check in Ace <http://www.chrisfinke.com/2011/03/31/announcing-typo-js-client-side-javascript-spellchecking/> <http://jasonaclark.com/2011/05/04/ode-to-my-spell-checker/> <https://npmjs.org/package/spellcheck>](#TODO:70)
 - [If links to files exist in tasks, open the file on click](#ARCHIVE:670)
-- [User should be able to select the color of lists by [tkrotoff/jquery-simplecolorpicker](https://github.com/tkrotoff/jquery-simplecolorpicker)](#DOING:0)
+- [User should be able to select the color of lists by [tkrotoff/jquery-simplecolorpicker](https://github.com/tkrotoff/jquery-simplecolorpicker)](#DOING:40)
 - [Leave manage lists open when hiding/showing list](#ARCHIVE:820)
 - [Add links to imdone website, pledgie and [twitter](https://twitter.com/about/resources/buttons#tweet), also use flattr](#ARCHIVE:560)
 - [Add search for files and tasks <https://github.com/visionmedia/search> or <https://github.com/visionmedia/reds>](#ARCHIVE:630)
@@ -92,64 +92,26 @@ Roadmap
 - [respect marked configuration in client javascript](#TODO:160)
 - [User should be able to remove task syntax with hotkey when in task text](#PLANNING:100)
 - [User should be able to use TOC in preview mode for md files](#ARCHIVE:590)
-- [User should be able to get quick help with keyboard shortcuts](#DOING:10)
+- [User should be able to get quick help with keyboard shortcuts](#DOING:0)
 - [User should get a guided tour](#ARCHIVE:0)
 - [Enable vfs <https://github.com/c9/vfs-socket> as method of interacting with other storage providers.](#ARCHIVE:430)
 - [User should be able to remove all tasks in the archive](#PLANNING:10)
 - [User should be able to add and remove projects in the UI](#DONE:10)
 
-Future Design CRC
+Must do
 ----
+- [Add recent projects history](#DOING:20)
 
-###Repository
-
-####Responsibilities
-- Save and load source files
-- Handle authentication for accessing files
-- Handle text search
-
-####Collaborators
-- Project
-
-###RepositoryFactory
-
-####Responsibilities
-- Return a repository object capable of storing and retrieving files
-
-####Collaborators
-- Repository
-
-###Project
-
-####Responsibilities
-- Container for information
-    - User(s)
-    - Role(s)
-    - Repositories
-
-###User
-
-####Responsibilities
-- Container for information
-    - Projects
-
-###SearchFacade
-
-####Responsibilities
-- Run a text search in a given repository
-- Ask the RepositoryFactory for a Repository
-- If there are multiple Repositories for a project delegate to each for searhing
-
-####Collaborators
-- RepositoryFactory
-- Repository
-- Project
-
-
-
-
-
-
-
-
-
+- [Create tutorials for different flows](#DOING:10)
+  - In the tutorials, show how to create lists without first creating a task
+  - Also mention the markdown link plugin for chrome
+  - Save file
+  - Move tasks
+  - archive tasks
+  - rename list
+  - move list
+  - hide/chow list
+  - filter
+  - search
+  - add project
+  - remove project
