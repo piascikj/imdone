@@ -3,6 +3,13 @@
 
 ### A task board and wiki in one!
 
+[![Build Status](https://travis-ci.org/piascikj/imdone.png?branch=master)](https://travis-ci.org/piascikj/imdone)
+[![Dependency Status](https://gemnasium.com/piascikj/imdone.png)](https://gemnasium.com/piascikj/imdone)
+[![Gittip donate button](http://img.shields.io/gittip/piascikj.png)](https://www.gittip.com/piascikj/ "Donate weekly to this project using Gittip")
+[![Flattr donate button](http://img.shields.io/flattr/donate.png?color=yellow)](http://flattr.com/thing/1286067/iMDone "Donate monthly to this project using Flattr")
+
+[![NPM](https://nodei.co/npm/imdone.png)](https://nodei.co/npm/imdone/)
+
 ----
 ### New in version 1.2.0
 - Now using the [imdone-core](https://www.npmjs.org/package/imdone-core) library
@@ -29,13 +36,6 @@ Introduction
 ----
 When working on a software project in code or writing project in markdown, there are always tasks you need to record.
 Most people use a separate tool to record tasks and keep track of their progress.  iMDone let's you do it right in your work.
-
-[![Build Status](https://travis-ci.org/piascikj/imdone.png?branch=master)](https://travis-ci.org/piascikj/imdone)
-[![Dependency Status](https://gemnasium.com/piascikj/imdone.png)](https://gemnasium.com/piascikj/imdone)
-[![Gittip donate button](http://img.shields.io/gittip/piascikj.png)](https://www.gittip.com/piascikj/ "Donate weekly to this project using Gittip")
-[![Flattr donate button](http://img.shields.io/flattr/donate.png?color=yellow)](http://flattr.com/thing/1286067/iMDone "Donate monthly to this project using Flattr")
-
-[![NPM](https://nodei.co/npm/imdone.png)](https://nodei.co/npm/imdone/)
 
 Features
 ----
