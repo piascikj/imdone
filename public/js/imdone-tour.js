@@ -4,6 +4,11 @@ define([
   'introjs',
   'store'
 ], function(_, $, introJs, store) {
+
+  $(document).on('click', '.introjs-nextbutton, .introjs-prevbutton, .introjs-skipbutton', function(e){
+    e.stopPropagation(); // This replace if conditional.
+  });
+
   function defaultTour(name, steps, done, opts) {
     var self = this;
     var intro   = introJs(),
@@ -177,11 +182,13 @@ define([
   };
 
   Tour.prototype.start = function(name, force) {
+    var $active = $("*:focus");
     var tour = _.findWhere(this.tours, {name:name});
     var self = this;
     if (tour) {
       if (!force && this.isCompleted(name)) return;
       tour.start.call(this, name, function(dontComplete) {
+        $active.focus();
         if (!dontComplete) self.setCompleted(name);
       });
     }

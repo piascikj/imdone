@@ -317,6 +317,10 @@ blockquote p {
   display: none;
 }
 
+#help-nav {
+  margin-left: 60px;
+}
+
 .board-bar {
   display: none;
 }

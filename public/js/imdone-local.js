@@ -956,7 +956,7 @@ define([
     session.setMode("ace/mode/" + mode);
     session.setUseWrapMode(true);
     session.setWrapLimitRange(120, 160);
-
+    session.setOption('tabSize',2);
     //Editor change events
     session.on('change', function(e) {
       if (imdone.source.src != imdone.editor.getValue()) {
@@ -1295,11 +1295,6 @@ define([
       }
     });
 
-    // Keep dropdown from closing if tour is not complete
-    $(document).on('click', '.introjs-nextbutton', function(e){
-      if (!imdone.tour.isCompleted('moveAndHideLists')) e.stopPropagation(); // This replace if conditional.
-    });
-
     function listNameFilter(saveFunc) {
       return function (e) {
         var keyCode = (e.keyCode ? e.keyCode : e.which);
@@ -1395,6 +1390,18 @@ define([
       enableBasicAutocompletion: true,
       enableSnippets: true
     });
+
+    var langTools = ace.require("ace/ext/language_tools");
+    var listsCompleter = {
+      getCompletions: function(editor, session, pos, prefix, callback) {
+        callback(null, imdone.currentProject().lists.map(function(list, i) {
+          return {name: list.name, value:list.name + ":0", score: 10000+(i*10), meta: "list"};
+        }));
+      }
+    };
+
+    langTools.addCompleter(listsCompleter);
+
     imdone.editor.setTheme("ace/theme/merbivore_soft");
     imdone.editor.setHighlightActiveLine(true);
     imdone.editor.setPrintMarginColumn(120);
@@ -1447,8 +1454,6 @@ define([
         var session = editor.getSession();
         var line = session.getLine(row);
         var taskLine = line.replace(/(^[\s\W]*)(\w*.*$)/i, '$1[$2](#)');
-        console.log(line);
-        console.log(taskLine);
         editor.find(line, {
           start: {row:row, column:0}
         });
@@ -1772,6 +1777,7 @@ define([
       changeFile: function(params) {
         if (!imdone.currentProject()) {
           imdone.getKanban({project:params.project, noPaint:true, callback:function() {
+            imdone.projectNav.show();
             imdone.getSource(params);
           }});
         } else {

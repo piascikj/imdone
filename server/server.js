@@ -51,7 +51,7 @@
     if (project) {
       res.send({
         lists:project.getTasks(null, true),
-        readme:project.getRepos()[0].getDefaultFile()
+        readme:server.imdone.getRepo(project).getDefaultFile()
       });
     } else {
       res.send(404);
@@ -155,7 +155,7 @@
     var path = req.query.path;
     var line = req.query.line;
     var project = server.imdone.getProject(req.params[0]);
-    var repoId = project.getRepos()[0].getId();
+    var repoId = server.imdone.getRepo(project).getId();
     var file = project.getFileWithContent(repoId, path);
     if (file) {
       return res.send({
@@ -213,7 +213,7 @@
         project = server.imdone.getProject(req.params[0]);
 
     if (project) {
-       var repoId = project.getRepos()[0].getId();
+       var repoId = server.imdone.getRepo(project).getId();
        project.deleteFile(repoId, path, function(err, file) {
         res.send(200, {file:file, deleted:true});
        });
@@ -227,7 +227,7 @@
   function getFiles(req,res) {
     var project = server.imdone.getProject(req.params[0]);
     if (project) {
-      var files = project.getFileTree(project.getRepos()[0].getId());
+      var files = project.getFileTree(server.imdone.getRepo(project).getId());
       if (files) {
         res.send(files);
       } else {

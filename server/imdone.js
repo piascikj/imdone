@@ -97,6 +97,9 @@ imdone.start = function(dirs, _open, woCLI, cb) {
   }
   cb = _.isFunction(cb) ? cb : _.noop;
   
+  // Merge dirs with dirs in config
+  dirs = _.union(imdone.getConfig().projects, dirs);
+
   function init() {
     server.start(imdone);
     var funcs = [];
@@ -249,18 +252,58 @@ imdone.addProject = function(dir, cb) {
     imdone.emitter.emit('files.processed', data);
   });
   project.init(function(err) {
+    if (!err) imdone.addProjectToConfig(dir);
     cb(err,project);
   });
 };
 
+imdone.getConfigFile = function() {
+  var dir = path.join(tools.userHome(), '.imdone');
+  if (!fs.existsSync(dir)) wrench.mkdirSyncRecursive(dir);
+
+  var file = path.join(dir, 'config.json');
+  if (!fs.existsSync(file)) fs.writeFileSync(file, JSON.stringify({projects:[]}, null, 2));
+
+  return file;
+};
+
+imdone.getConfig = function() {
+  var json = fs.readFileSync(this.getConfigFile());
+  return JSON.parse(json);;
+};
+
+imdone.addProjectToConfig = function(dir) {
+  var config = this.getConfig();
+  config.projects = _.without(config.projects, dir);
+  config.projects.push(dir);
+  fs.writeFileSync(this.getConfigFile(), JSON.stringify(config, null, 2));
+};
+
+imdone.removeProjectFromConfig = function(dir) {
+  var config = this.getConfig();
+  config.projects = _.without(config.projects, dir);
+  fs.writeFileSync(this.getConfigFile(), JSON.stringify(config, null, 2));
+};
+
 imdone.removeProject = function(name) {
   console.log("Removing project with name:" + name);
-  if (imdone.projects[name]) delete imdone.projects[name];
+  var project = imdone.getProject(name);
+  if (project) {
+    var repo = imdone.getRepo(name);
+    this.removeProjectFromConfig(repo.getPath());
+    delete imdone.projects[name];
+  }
+
   imdone.emitter.emit("project.removed", {project:name});
 };
 
 imdone.getProject = function(name) {
   return imdone.projects[name] || undefined;
+};
+
+imdone.getRepo = function(name) {
+  if (name instanceof Project) return name.getRepos()[0];
+  return imdone.getProject(name).getRepos()[0];
 };
 
 imdone.getProjects = function() {
