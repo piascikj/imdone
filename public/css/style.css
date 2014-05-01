@@ -7,6 +7,10 @@ h1, h2, h3, h4, h5, h6 {
   color: #bbb;
 }
 
+a {
+  color: #61BDEB;
+}
+
 code, pre {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -281,7 +285,7 @@ blockquote p {
 
 .task-label {
   margin-right: 10px;
-  padding: 2px 4px 0 4px;
+  padding: 2px 4px 2px 4px;
 }
 
 .task:hover {
@@ -294,7 +298,7 @@ blockquote p {
 }
 
 .task.selected {
-  background-color: #5bb75b;
+  background-color: #388D38;
   box-shadow: none;
   color: white;
   -webkit-box-shadow: none;
@@ -307,6 +311,38 @@ blockquote p {
 
 .task-select-all i.icomoon-check-empty {
   margin-right: 4px;
+}
+
+.project-nav {
+  display: none;
+}
+
+#help-nav {
+  margin-left: 60px;
+}
+
+.board-bar {
+  display: none;
+}
+
+.full-screen .modal-body {
+  max-height: 800px;
+}
+
+.file-modal .modal-body {
+  max-height: 400px;
+  min-height: 400px;
+}
+
+.clean-btn {
+  border: none;
+  box-shadow: none;
+  background: none;
+  outline: none;
+}
+
+.btn:focus {
+  outline: none;
 }
 
 .column-nav-menu {
@@ -342,6 +378,11 @@ blockquote p {
   cursor: ns-resize;
 }
 
+.column-nav-menu .new-list span:first-child {
+  margin-left: 5px;
+  margin-top: 1px;
+}
+
 .column-nav-menu .column-nav-menu-item .column-nav-menu-link {
   padding: 5px 3px;
   min-height: 20px;
@@ -371,6 +412,19 @@ blockquote p {
 
 .alert-info a:visited {
   color: #204B61;
+}
+
+.introjs-helperLayer {
+  background-color: rgba(255,255,255,.4);
+}
+
+.introjs-tooltip {
+  color: #666;
+  font-weight: bold;  
+}
+
+.introjs-button {
+  font-weight: bold;
 }
 
 ::-webkit-scrollbar {

@@ -4,14 +4,15 @@
     <title>iMDone</title>
     <link rel="shortcut icon" href="/favicon.ico" /> 
     <!-- Bootstrap -->
-    <!-- [Use bootswatch](#TODO:30)-->
-    <!--<link href="lib/bootswatch/css/bootstrap.min.css" rel="stylesheet" media="screen"/>-->
-    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+    <!-- [Use bootswatch](#PLANNING:30)-->
+    <!-- <link href="lib/bootswatch/css/bootstrap.min.css" rel="stylesheet" media="screen"/>-->
+    <link href="css/bootstrap.css" rel="stylesheet" media="screen"/>
     <link href='css/darkstrap-v0.9.0.css' rel='stylesheet' media="screen"/>
     <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" media="screen"/>
     <link href="css/icomoon.css" rel="stylesheet" media="screen"/>
     <link href="css/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" media="screen"/>
     <link href="css/jquery.pnotify.default.css" rel="stylesheet" media="screen"/>
+    <link href="lib/intro.js/css/introjs.css" type="text/css" rel="stylesheet" media="screen">
     <link href="css/style.css" type="text/css" rel="stylesheet" media="screen"/>
     <link href="css/prism.css" type="text/css" rel="stylesheet" media="screen"/>
     <link href="css/print.css" type="text/css" rel="stylesheet" media="print"/>
@@ -20,19 +21,24 @@
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
-          <!-- [implement dropdown for switching between projects](#ARCHIVE:80)-->
+          <!-- [implement dropdown for switching between projects](#ARCHIVE:280)-->
           <div class="nav-collapse collapse">
-            <a class="brand" href="/"><img src="img/logo-inverse-small.png"/></a>
+            <span class="brand"><img src="img/logo-inverse-small.png"/></span>
             <ul class="nav">
               <li>
-                <button class="btn btn-inverse hide wiggle" id="open-readme-btn" title="Open Readme"><i class="icomoon-book"></i></button>
+                <button class="btn btn-inverse clean-btn" id="open-project-btn" title="Open a project">
+                  <i class="icomoon-plus"></i>
+                </button>
               </li>
               <li>
-                <button class="btn btn-inverse" id="open-file-btn" title="Open/Create file"><i class="icomoon-folder-open"></i></button>
+                <button class="btn btn-inverse clean-btn project-nav" id="open-file-btn" title="Open/Create file">
+                  <i class="icomoon-folder-open"></i>
+                </button>
               </li>
-              <li id="search-dialog">
+              <li id="search-dialog" class="project-nav">
                 <div class="dropdown pull-left">
-                <button class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" id="search-dialog-btn" title="Search for files"><i class="icomoon-search"></i></button>
+                <button class="btn btn-inverse clean-btn dropdown-toggle" data-toggle="dropdown" id="search-dialog-btn" 
+                        title="Search for files"><i class="icomoon-search"></i></button>
                 <ul class="dropdown-menu column-nav-menu" role="menu">
                   <li>
                     <form class="navbar-form" id="search-form">
@@ -42,26 +48,30 @@
                 </ul>
                 </div>
               </li>
-              <li class="dropdown" id="projects-dropdown">
+              <li>
+                <button class="btn btn-inverse clean-btn hide wiggle project-nav" id="open-readme-btn" title="Open Readme">
+                  <i class="icomoon-book"></i>
+                </button>
+              </li>
+              <li>
+                <button class="btn btn-inverse clean-btn project-nav" id="close-project-btn" title="Close project">
+                  <i class="icomoon-remove"></i>
+                </button>
+              </li>              
+              <li class="dropdown project-nav" id="projects-dropdown">
               </li>
               <li>
                 <button class="btn btn-inverse hide" id="search-results-btn" title="Show search results">
                   Search Results&nbsp;<i class="icomoon-search"></i>
                 </button>
               </li>
-            <!--[Move close file button here and hide on paintKanban](#ARCHIVE:30)-->
+            <!--[Move close file button here and hide on paintKanban](#ARCHIVE:240)-->
             </ul>
-            <ul class="nav content-nav hide" id="content-nav" style="display:none">
-              <li>
-                <button class="btn btn-inverse" id="close-file-btn" title="Close file (Esc)">
-                  <span id="filename"></span>&nbsp;<i class="icomoon-remove"></i>
-                </button>
-              </li>
-            </ul>
-            <ul class="nav pull-right help-nav">
+            <ul id="help-nav" class="nav pull-right help-nav">
               <li class="dropdown">
-                <button class="btn btn-inverse dropdown-toggle" data-toggle="dropdown">Help & Feedback</button>
+                <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" title="Help and Feedback"><i class="icomoon-question"></i></button>
                 <ul class="dropdown-menu column-nav-menu" role="menu">
+                  <li class="column-nav-item"><a href="#" id="key-help-link"><i class="icomoon-keyboard"></i> Keyboard Help</a></li>
                   <li class="column-nav-item"><a href="http://signup.imdoneapp.com" target="_blank"><i class="icomoon-info"></i> News letter</a></li>
                   <li class="column-nav-item"><a href="mailto:imdone@innobuilt.com?subject=imdone support"><i class="icomoon-envelope-alt"></i> Email the author</a></li>
                   <li class="column-nav-item"><a href="http://piascikj.github.io/imdone/" target="_blank"><i class="icomoon-home"></i> iMDone site</a></li>
@@ -71,43 +81,52 @@
                 </ul>
               </li>
             </ul>
-            <!-- [Add path filters to board - 0.1.6](#ARCHIVE:50) -->
+            <!-- [Add path filters to board - 0.1.6](#ARCHIVE:260) -->
             <ul class="board-bar nav pull-right hide">
                 <li>
-                  <div class="pull-left dropdown">
-                    <button class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" id="lists-btn" title="Manage Lists"><i class="icomoon-tasks"></i></button>
+                  <div class="pull-left dropdown" id="lists-dropdown">
+                    <button class="btn btn-inverse clean-btn dropdown-toggle" data-toggle="dropdown" id="lists-btn" 
+                            title="Manage Lists"><i class="icomoon-tasks"></i></button>
                     <ul class="dropdown-menu column-nav-menu" id="lists-menu">
                     </ul>
                   </div>
                 </li>
                 <li>
-                  <button class="btn btn-inverse wiggle hide" id="archive-btn" title="Archive selected tasks"><i class="icomoon-archive"></i></button>
+                  <button class="btn btn-inverse clean-btn wiggle hide" id="archive-btn" title="Archive selected tasks"><i class="icomoon-archive"></i></button>
                 </li>
                 <li>
-                  <button class="btn btn-inverse wiggle hide" id="filter-btn" title="Filter by selected tasks,  Esc to clear filter"><i class="icomoon-filter"></i></button>
+                  <button class="btn btn-inverse clean-btn wiggle hide" id="filter-btn" title="Filter by selected tasks,  Esc to clear filter"><i class="icomoon-filter"></i></button>
                 </li>
                 <li>
                   <div class="pull-left">
                   <form class="navbar-form">
                     <input class="span3" type="text" id="filter-field" placeholder="Filter by file name">
-                    <button id="clear" class="btn btn-primary">clear</button>
+                    <button id="clear" class="btn btn-inverse clean-btn" title="Clear task filter"><i class="icomoon-eraser"></i></button>
                   </form>
                   </div>
                 </li>
             </ul>
             <ul class="edit-bar nav pull-right" style="display:none;">
               <li>
-                <div class="btn-group" id="preview-toggle" data-toggle="buttons-radio">
+                <div class="btn-group" id="preview-toggle">
                   <button class="btn btn-inverse" id="edit-btn" title="Edit File"><i class="icomoon-edit"></i></button>
                   <button class="btn btn-inverse" id="preview-btn" title="Preview File"><i class="icomoon-desktop"></i></button>
                 </div>
                 <div class="btn-group">
-                  <button class="btn btn-inverse" id="save-file-btn" title="Save file (Shift+Ctrl+s)"><i class="icomoon-save"></i></button>
-                  <button class="btn btn-inverse" id="remove-file-btn" title="Delete file (Shift+Ctrl+x)"><i class="icomoon-trash"></i></button>
-                  <button class="btn btn-inverse" id="print-btn" title="Print"><i class="icomoon-print"></i></button>
+                  <button class="btn btn-inverse clean-btn" id="save-file-btn" title="Save file (Shift+Ctrl+s)"><i class="icomoon-save"></i></button>
+                  <button class="btn btn-inverse clean-btn" id="remove-file-btn" title="Delete file (Shift+Ctrl+x)"><i class="icomoon-trash"></i></button>
+                  <button class="btn btn-inverse clean-btn" id="print-btn" title="Print"><i class="icomoon-print"></i></button>
                 </div>
               </li>                
             </ul>
+            <ul class="nav content-nav hide pull-right" id="content-nav" style="display:none">
+              <li>
+                <button class="btn btn-inverse" id="close-file-btn" title="Close file (Esc)">
+                  <span id="filename"></span>&nbsp;<i class="icomoon-remove"></i>
+                </button>
+              </li>
+            </ul>
+
           </div>
         </div>
       </div>
@@ -125,12 +144,12 @@
           </div>
           <div class="preview span12" id="preview"></div>
         </div>
-        <!--[Show file info above edit-bar using <http://pinesframework.org/pnotify/>](#ARCHIVE:20) -->
+        <!--[Show file info above edit-bar using <http://pinesframework.org/pnotify/>](#ARCHIVE:230) -->
       </div>
       <div class="search-results" id="search-results" style="display:none;"></div>
       <div class="board" id="board">
       </div>
-      <!-- [Use sticky footer <http://twitter.github.com/bootstrap/examples/sticky-footer.html>](#ARCHIVE:40) -->
+      <!-- [Use sticky footer <http://twitter.github.com/bootstrap/examples/sticky-footer.html>](#ARCHIVE:250) -->
       <!--
       <div class="navbar">
       <p>&copy; iMDone 2013</p>
@@ -138,22 +157,39 @@
       -->
     </div> 
     <!-- /container -->
-    <div id="list-name-modal" class="modal hide fade">
+    <div id="list-name-modal" class="modal hide fade" tabindex='-1'>
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
           <i class="icomoon-remove"></i>
         </button>
-        <h3 class="mdl-header">Edit Name</h3>
+        <h3 class="mdl-header">Edit List Name</h3>
       </div>
       <div class="modal-body">
-          <input type="text" id="list-name-field" placeholder="List Name">
+          <input type="text" id="list-name-field" placeholder="List Name" autofocus>
       </div>
       <div class="modal-footer">
         <button class="btn modal-close">Cancel</button>
         <button id="list-name-save" class="btn btn-primary">Save changes</button>
       </div>
     </div>
-    <div id="file-modal" class="modal hide fade">
+    
+    <div id="new-list-modal" class="modal hide fade" tabindex='-1'>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          <i class="icomoon-remove"></i>
+        </button>
+        <h3 class="mdl-header">New List</h3>
+      </div>
+      <div class="modal-body">
+          <input type="text" id="new-list-field" placeholder="List Name" autofocus>
+      </div>
+      <div class="modal-footer">
+        <button class="btn modal-close">Cancel</button>
+        <button id="new-list-save" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+
+    <div id="file-modal" class="modal hide fade file-modal" tabindex='-1'>
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
           <i class="icomoon-remove"></i>
@@ -166,11 +202,36 @@
       </div>
       <div class="modal-footer">
         <!--[Add auto complete to file-field like ubuntu](#TODO:40) -->
-        <div class="pull-left"><input class="span4" type="text" id="file-field" placeholder="file path" title="enter a file path"></input></div>
+        <div class="pull-left">
+          <input class="span4" type="text" id="file-field" placeholder='file name... ex. (readme.md)' 
+                 title="enter a file path"></input>
+        </div>
         <a href="#" class="btn modal-close">Cancel</a>
         <a href="#" id="file-open" class="btn btn-primary">Open</a>
       </div>
     </div>
+    
+    <div id="project-modal" class="modal hide file-modal" tabindex='-1'>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          <i class="icomoon-remove"></i>
+        </button>
+        <h3 class="mdl-header">Open Project</h3>
+      </div>
+      <div class="modal-body">
+        <div id="dirs">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <!--[Add auto complete to file-field like ubuntu](#TODO:40) -->
+        <div class="pull-left">
+          <strong><span id="dir-field"></span></strong>
+        </div>
+        <a href="#" class="btn modal-close">Cancel</a>
+        <a href="#" id="project-open" class="btn btn-primary">Open</a>
+      </div>
+    </div>
+
     <div id="remove-file-modal" class="modal hide">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -183,10 +244,11 @@
         <p>Are you sure you want to delete this file?</p>
       </div>
       <div class="modal-footer">
-        <a href="#" class="btn modal-close">Cancel</a>
-        <a href="#" id="remove-file-ok-btn" class="btn btn-primary">Yes</a>
+        <a href="#" id="remove-file-cancel-btn" class="btn modal-close btn-primary">Cancel</a>
+        <a href="#" id="remove-file-ok-btn" class="btn">Yes</a>
       </div>
     </div>
+    
     <div id="close-file-modal" class="modal hide">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -202,6 +264,37 @@
         <a href="#" id="close-file-ok-btn" class="btn btn-primary">Yes</a>
       </div>
     </div>
+
+    <div class="modal imdone-progress hide">
+     <div class="modal-dialog">
+       <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="mdl-header">Loading...</h3>
+        </div>
+         <div class="modal-body">
+           <div class="progress progress-success">
+            <div class="bar" style="width: 0%;"></div>
+           </div>
+         </div>
+       </div>
+     </div>
+    </div>    
+    
+    <div id="help-modal" class="modal hide fade full-screen" tabindex='-1'>
+     <div class="modal-dialog">
+       <div class="modal-content">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          <i class="icomoon-remove"></i>
+        </button>
+        <h3 class="mdl-header">Keyboard Help</h3>
+        </div>
+         <div class="modal-body">
+         </div>
+       </div>
+     </div>
+    </div>  
+
     <!-- Mustache templates -->
     <script id="list-template" type="text/x-handlebars-template">
       {{#each lists}}
@@ -214,10 +307,11 @@
         </div>
         {{#if tasks}}
         {{#each tasks}}
-        <div class="wrap well task" id="{{list}}-{{pathId}}" data-id="{{pathId}}" data-list="{{list}}" data-order="{{order}}" data-path="{{path}}">
+        <div class="wrap well task" id="{{source.path}}-{{id}}" data-id="{{id}}" data-list="{{list}}" data-order="{{order}}" data-path="{{source.path}}">
           <span class="row-fluid task-text">{{{markDown text}}}</span>
           <span class="row-fluid task-info">
-            <a href="{{fileHref project path line}}" title="Open {{path}}" class="source-link" data-url="{{url}}" data-target="#src-panel" data-list="{{list}}">{{path}}</a>
+            <a href="{{fileHref source.path line}}" title="Open {{sourc.path}}" 
+               class="source-link" data-url="{{url}}" data-target="#src-panel" data-list="{{list}}">{{source.path}}</a>
           </span>
         </div>
         {{/each}}
@@ -234,7 +328,7 @@
       <h5>Recent</h5>
       <ul class="plain-list">
         {{#each history}}
-        <li><a href="{{fileHref project path line preview}}" class="js-file" data-path="{{path}}"><i class="icomoon-file-alt"></i>{{path}}</a></li>
+        <li><a href="{{fileHref path line preview}}" class="js-file" data-path="{{path}}"><i class="icomoon-file-alt"></i>{{path}}</a></li>
         {{/each}}
       </ul>
       <hr>
@@ -250,24 +344,54 @@
         {{/if}}
         {{#if files}}
           {{#each files}}
-          <li><a href="{{fileHref project path true}}" class="js-file" data-path="{{path}}"><i class="icomoon-file-alt"></i>{{name}}</a></li>
+          <li><a href="{{fileHref path true}}" class="js-file" data-path="{{path}}"><i class="icomoon-file-alt"></i>{{name}}</a></li>
           {{/each}}
         {{/if}}
       </ul>
     </script>
 
+    <script id="dirs-template" type="text/x-handlebars-template">
+      {{#if history}}
+      <h5>Recent</h5>
+      <ul class="plain-list">
+        {{#each history}}
+        <li><a href="#" class="project-hist-link" data-path="{{this}}"><i class="icomoon-folder-close"></i>{{this}}</a></li>
+        {{/each}}
+      </ul>
+      <hr>
+      {{/if}}
+      <ul class="plain-list">
+        {{#if name}}
+          <li><a href="#" class="fs-dir" data-path="{{up}}" title="{{up}}"><i class="icomoon-arrow-up"></i></a></li>
+        {{/if}}
+        {{#if dirs}}
+          {{#each dirs}}
+          <li><a href="#" class="fs-dir" data-path="{{path}}" data-hidden="{{hidden}}"><i class="icomoon-folder-close"></i>{{name}}</a></li>
+          {{/each}}
+        {{/if}}
+      </ul>
+    </script>
+
+    <!-- [User should be able to add a list to a project](#DONE:90) -->
+    <!-- [User should be able to select from lists recognized by characters typed when creating a task](#PLANNING:40) -->
     <script id="lists-template" type="text/x-handlebars-template">
+      <li class="column-nav-menu-item">
+        <a href="#" class="column-nav-menu-link new-list">
+          <span class="obj-left"><i class="icomoon-magic"></i></span>
+          <span class="pull-left">Create New List</span>
+        </a>
+      </li>
       {{#each lists}}
-      <li class="column-nav-menu-item" data-list="{{name}}">
+      <li class="column-nav-menu-item list-item" data-list="{{name}}">
         <a href="#" class="list-show column-nav-menu-link" data-list="{{name}}">
           <span class="js-drag-handle drag-handle obj-left" data-list="{{name}}">
             <i class="icomoon-reorder"></i>
           </span>
           <span class="pull-left">{{concat name 10}}</span>
           {{#if hidden}}
-          <span class="list-show obj-right" data-list="{{name}}" title="Show {{name}}"><i class="icomoon-eye-close"></i> </span>
+          <span class="list-show obj-right" data-list="{{name}}" title="Show {{name}}"><i data-position="left" class="icomoon-eye-close"></i> </span>
           {{else}}
-          <span class="list-hide obj-right" data-list="{{name}}" title="Hide {{name}}"><i class="icomoon-eye-open"></i> </span>
+          <span class="list-hide obj-right" data-list="{{name}}" title="Hide {{name}}"><i data-position="left" class="icomoon-eye-open"></i> </span>
           {{/if}}
         </a>
       </li>
@@ -279,7 +403,9 @@
       <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="cwd" id="cwd">{{cwd}}</span> <b class="caret"></b></a>
       <ul class="dropdown-menu column-nav-menu" role="menu">
         {{#each projects}}
-        <li class="column-nav-menu-item"><a href="#project{{this}}" data-project="{{this}}" class="project-item">{{this}}</a></li>
+        <li class="column-nav-menu-item">
+          <a href="#project/{{this}}" data-project="{{this}}" class="project-item">{{this}}</a>
+        </li>
         {{/each}}
       </ul>
       {{else}}
@@ -303,9 +429,9 @@
       {{#if results.result}}
         <h3>Showing results {{results.opts.offset}}-{{last}}</h3>
         {{#each results.result}}
-          <h4><a href="{{fileHref ../project path}}">{{path}}</a></h4>
+          <h4><a href="{{fileHref file.path}}">{{file.path}}</a></h4>
           {{#each lines}}
-          <a href="{{fileHref ../../project ../path line}}">
+          <a href="{{fileHref ../file.path line}}">
             <pre><code class="line-number">{{line}}:</code>{{highlightCode text ../../results.opts.query}}</pre>
           </a>
           {{/each}}        
@@ -314,13 +440,6 @@
       No results
       {{/if}}
     </script>
-    <!--
-    <script id="source-template" type="text/x-handlebars-template">
-      <div class="source">
-        <span>{{path}}</span><button type="button" class="close">&times;</button>
-        <iframe scrolling="no" src="{{src}}"></iframe>
-      </div>
-    </script>-->
     <script data-main="js/main" src="lib/requirejs/require.js"></script>
   </body>
 </html>

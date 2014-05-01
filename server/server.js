@@ -5,196 +5,259 @@
  * Copyright (c) 2012 Jesse Piascik
  * Licensed under the MIT license.
  */
-  // PLANNING:60 Upgrade express - [ExpressJS 4.0: New Features and Upgrading from 3.0 ♥ Scotch](http://scotch.io/bar-talk/expressjs-4-0-new-features-and-upgrading-from-3-0)
-  var express = require('express');
-  var http = require('http');
-  var fs = require('fs');
-  var nsh = require('node-syntaxhighlighter');
-  var nshPath = require.resolve('node-syntaxhighlighter').split("/").slice(0, -1).join("/");
-  var _ = require('underscore');
-  var Handlebars = require('handlebars');
-  var util = require('util');
-  var io = require('socket.io');
-  var mkdirp = require('mkdirp');
-  var search = require('./search');
-  var server = module.exports;
-  var EVENTS = {
-    PROJECT_MODIFIED: "project.modified",
-    PROJECT_INITIALIZED: "project.initialized"
-  };
+  // ARCHIVE:40 Upgrade express - [ExpressJS 4.0: New Features and Upgrading from 3.0 ♥ Scotch](http://scotch.io/bar-talk/expressjs-4-0-new-features-and-upgrading-from-3-0)
+  var express      = require('express');
+  var bodyParser   = require('body-parser');
+  var cookieParser = require('cookie-parser');
+  var http         = require('http');
+  var fs           = require('fs');
+  var _            = require('lodash');
+  var Handlebars   = require('handlebars');
+  var util         = require('util');
+  var io           = require('socket.io');
+  var mkdirp       = require('mkdirp');
+  var path         = require('path');
+  var Search       = require('imdone-core').Search;
+  var tree         = require('./util/tree');
+  var server       = module.exports;
+  var log        = require('debug')('imdone:server');
+  var EVENTS       = {
+                       PROJECT_MODIFIED: "project.modified",
+                       PROJECT_INITIALIZED: "project.initialized",
+                       PROJECT_REMOVED: "project.removed",
+                       FILES_PROCESSED: "files.processed"
+                     };
 
-  function isProcessing(req,res) {
-    var project = req.body.project || req.query.project;
-    return server.imdone.getProject(project).processing;
+  function isBusy(req,res) {
+    var projectName = req.body.project || req.query.project || req.params[0];
+    var project = server.imdone.getProject(projectName);
+    return (project) ? project.isBusy() : undefined;
   }
 
   function getProjects(req, res) {
       res.send(server.imdone.getProjects());
   }
 
+  // ARCHIVE:100 use imdone-core
   function getKanban(req, res){
-    if (isProcessing(req,res)) {
-      res.send({processing:true});
+    if (isBusy(req,res)) {
+      res.send({busy:true});
       return;
     }
-    project = server.imdone.getProject(req.params[0]);
-    //console.log(project);
+    // log("Getting project with name:", req.params[0]);
 
-    res.send({
-      lists:project.getSortedLists(),
-      lastUpdate:project.lastUpdate,
-      readme:project.getReadme()
-    });
-  }
+    var project = server.imdone.getProject(req.params[0]);
 
-  function moveTask(req, res) {
-    if (isProcessing(req,res)) {
-      res.send({processing:true});
-      return;
+    if (project) {
+      res.send({
+        lists:project.getTasks(null, true),
+        readme:server.imdone.getRepo(project).getDefaultFile()
+      });
+    } else {
+      res.send(404);
     }
-    var project = server.imdone.getProject(req.body.project);
-    project.moveTask(req.body, function() {
-      res.send(200);
-    });
   }
 
+  // ARCHIVE:110 use imdone-core
   function moveTasks(req, res) {
-    if (isProcessing(req,res)) {
-      res.send({processing:true});
+    if (isBusy(req,res)) {
+      res.send({busy:true});
       return;
     }
     var project = server.imdone.getProject(req.body.project);
-    project.moveTasks(req.body.tasks, function() {
+    var tasks = req.body.tasks;
+    var newList = req.body.newList;
+    var newPos = req.body.newPos;
+    project.moveTasks(tasks, newList, newPos, function() {
       res.send(200);
     });
   }
 
+  // ARCHIVE:120 use imdone-core
   function moveList(req, res) {
-    if (isProcessing(req,res)) {
-      res.send({processing:true});
+    if (isBusy(req,res)) {
+      res.send({busy:true});
       return;
     }
-
-    res.send({lists:server.imdone.getProject(req.body.project).moveList(req.body)});
+    var pos = parseInt(req.body.pos, 0);
+    var project = server.imdone.getProject(req.body.project);
+    project.moveList(req.body.name, pos, function(err) {
+      if (err) {
+        console.log(err);
+        res.send(500);
+      } else res.send(200);
+    });
   }
 
+  // ARCHIVE:130 use imdone-core
   function removeList(req, res) {
-    if (isProcessing(req,res)) {
-      res.send({processing:true});
+    if (isBusy(req,res)) {
+      res.send({busy:true});
       return;
     }
 
-    res.send({lists:server.imdone.getProject(req.body.project).removeList(req.body)});
+    server.imdone.getProject(req.body.project).removeList(req.body.list, function(err) {
+      if (err) res.send(500);
+      else res.send(200);
+    });
 
   }
 
+  // ARCHIVE:140 use imdone-core
   function renameList(req, res) {
-    if (isProcessing(req,res)) {
-      res.send({processing:true});
+    if (isBusy(req,res)) {
+      res.send({busy:true});
       return;
     }
-
-    res.send({lists:server.imdone.getProject(req.body.project).renameList(req.body)});
+    var project = server.imdone.getProject(req.body.project);
+    var name = req.body.name;
+    var newName = req.body.newName;
+    project.renameList(name, newName, function(err) {
+      if (err) return res.send(500);
+      res.send(200);
+    });
   }
 
+  // ARCHIVE:150 use imdone-core
   function hideList(req, res) {
-    if (isProcessing(req,res)) {
-      res.send({processing:true});
+    if (isBusy(req,res)) {
+      res.send({busy:true});
       return;
     }
-
-    res.send({lists:server.imdone.getProject(req.body.project).hideList(req.body)});
+    server.imdone.getProject(req.body.project).hideList(req.body.list, function(err) {
+      if (err) res.send(500);
+      else res.send(200);
+    });
   }
 
+  // ARCHIVE:160 use imdone-core
   function showList(req, res) {
-    if (isProcessing(req,res)) {
-      res.send({processing:true});
+    if (isBusy(req,res)) {
+      res.send({busy:true});
       return;
     }
 
-    res.send({lists:server.imdone.getProject(req.body.project).showList(req.body)});
+    server.imdone.getProject(req.body.project).showList(req.body.list, function(err) {
+      if (err) res.send(500);
+      else res.send(200);
+    });
   }
 
-  //ARCHIVE:700 Have this use splat for project name like getFiles
-  //ARCHIVE:390 Move getSource to imdone.js
+  // ARCHIVE:830 Have this use splat for project name like getFiles
+  // ARCHIVE:530 Move getSource to imdone.js
+  // ARCHIVE:170 use imdone-core
   function getSource(req, res) {
-    if (isProcessing(req,res)) {
-      res.send({processing:true});
+    if (isBusy(req,res)) {
+      res.send({busy:true});
       return;
     }
 
     var path = req.query.path;
     var line = req.query.line;
     var project = server.imdone.getProject(req.params[0]);
-    project.getSource(path, line, function(resp) {
-      res.send(resp);
-    });
+    var repoId = server.imdone.getRepo(project).getId();
+    var file = project.getFileWithContent(repoId, path);
+    if (file) {
+      return res.send({
+          repoId: file.getRepoId(),
+          src:file.getContent(), 
+          line:line,
+          lang:file.getLang().name,
+          ext:file.getExt(),
+          project:project.path,
+          path:file.getPath()
+      });
+    } else {
+      project.saveFile(repoId, path, "", function(err, file) {
+        if (err) return res.send(500, err);
+        res.send({
+          repoId: file.getRepoId(),
+          src:"", 
+          line:line,
+          lang:file.getLang().name,
+          ext:file.getExt(),
+          project:project.path,
+          path:file.getPath()
+        });
+      });
+    }
   }
 
-  // ARCHIVE:720 Have this use splat for project name like getFiles
+  // ARCHIVE:850 Have this use splat for project name like getFiles
+  // ARCHIVE:180 use imdone-core
   function saveSource(req, res) {
-    if (isProcessing(req,res)) {
-      res.send({processing:true});
+    if (isBusy(req,res)) {
+      res.send({busy:true});
       return;
     }
 
     var path = req.body.path,
         src = req.body.src,
+        repoId = req.body.repoId,
         project = server.imdone.getProject(req.params[0]);
 
-    project.saveSource(path, src, function(resp) {
-      res.send(resp);
+    project.saveFile(repoId, path, src, function(err, file) {
+      res.send(file);
     });
   }
 
-  // ARCHIVE:650 Move removeSource to imdone.js and add hook    
+  // ARCHIVE:780 Move removeSource to imdone.js and add hook    
+  // ARCHIVE:60 use imdone-core for removeSource
   function removeSource(req, res) {
-    if (isProcessing(req,res)) {
-      res.send({processing:true});
+    if (isBusy(req,res)) {
+      res.send({busy:true});
       return;
     }
 
     var path = req.query.path,
-      project = server.imdone.getProject(req.params[0]),
-      filePath = project.path + "/" + path;
+        project = server.imdone.getProject(req.params[0]);
 
-    console.log("Removing file:" + filePath);
-    if (project.path && !/^\.\./.test(path)) {
-      fs.unlink(filePath, function(err, data) {
-        if (err) {
-          res.send(409,"Unable to remove source");
-          return;
-        }      
-
-        res.send({path:path, ok:1});
-      });
+    if (project) {
+       var repoId = server.imdone.getRepo(project).getId();
+       project.deleteFile(repoId, path, function(err, file) {
+        res.send(200, {file:file, deleted:true});
+       });
     } else {
       res.send(409,"Unable to remove source");
       return;
     }
   }
 
+  // ARCHIVE:190 use imdone-core
   function getFiles(req,res) {
     var project = server.imdone.getProject(req.params[0]);
-    if (project.path) {
-      res.send(project.getFiles());
+    var files;
+    if (project) {
+      files = project.getFileTree(server.imdone.getRepo(project).getId());
+      if (files) {
+        res.send(files);
+      } else {
+        res.send(404, "Project not found");
+      }
     } else {
-      res.send(404, "Project not found");
+      files = tree.getFiles(req.params[0]);
+      if (files) {
+        res.send(files);
+      } else {
+        res.send(404, "Directory not found");
+      }
     }
   }
 
+  // PLANNING:150 Use imdone-core for md, local and remote
   function md(req,res) {
     var project = server.imdone.getProject(req.params[0]);
     var path = req.query.path;
     if (project.path) {
       project.md(path, function(html) {
         res.send(html);
-      })
+      });
     } else {
       res.send(404, "Unable to get html for file");
     }
   }
 
+  // ARCHIVE:200 use imdone-core for search
   function doSearch(req,res) {
     var opts = {project:server.imdone.getProject(req.params[0])};
     var query = req.query.query;
@@ -203,9 +266,8 @@
     if (query) opts.query = query;
     if (limit) opts.limit = limit;
     if (offset) opts.offset = offset;
-    var s = search.newSearch(opts);
+    var s = new Search(opts);
     s.execute();
-    s.opts.project = undefined;
     res.send(s);
   }
 
@@ -215,20 +277,29 @@
   }
 
   function removeProject(req, res) {
-    var dir = req.params[0];
-    server.imdone.removeProject(dir)
+    var name = req.params[0];
+    server.imdone.removeProject(name);
     res.send(200);
+  }
+
+  function addList(req, res) {
+    var project = server.imdone.getProject(req.params.project);
+    var list = req.params.list;
+    project.addList(list, function(err) {
+      if (err) return res.send(500);
+      return res.send(200);
+    });
   }
 
   server.start = function(imdone, callback) {
     server.imdone = imdone;
 
-    //ARCHIVE:580 migrate to express 3.x <https://github.com/visionmedia/express/wiki/Migrating-from-2.x-to-3.x>
+    //ARCHIVE:720 migrate to express 3.x <https://github.com/visionmedia/express/wiki/Migrating-from-2.x-to-3.x>
     var app = server.app = express();
     var  xserver = http.createServer(app);
 
-    app.use(express.cookieParser());
-    app.use(express.bodyParser());
+    app.use(cookieParser());
+    app.use(bodyParser());
 
     //Start the api and static content server
     /*
@@ -238,8 +309,7 @@
       /api/source
       /api/files
     */
-    // ARCHIVE:740 Make sure we're restful
-    app.post("/api/moveTask", moveTask);
+    // ARCHIVE:870 Make sure we're restful
     app.post("/api/moveTasks", moveTasks);
     app.post("/api/moveList", moveList);
     app.post("/api/removeList", removeList);
@@ -256,9 +326,10 @@
     app.get("/api/files/*", getFiles);
     app.get("/api/search/*", doSearch);
     app.get("/api/md/*", md);
+    app.post("/api/list/:project/:list", addList);
 
     app.get("/js/marked.js", function(req,res) {
-      console.log(require.resolve("marked"));
+      log(require.resolve("marked"));
       res.sendfile(require.resolve("marked").toString());
     });
 
@@ -274,40 +345,46 @@
     io.enable('browser client gzip');          // gzip the file
     io.set('log level', 1);                    // reduce logging
 
-    // enable all transports (optional if you want flashsocket support, please note that some hosting
-    // providers do not allow you to create servers that listen on a port different than 80 or their
-    // default port)
-    io.set('transports', [
-      'websocket',
-      'flashsocket',
-      'htmlfile',
-      'xhr-polling',
-      'jsonp-polling'
-    ]);    
-
     io.sockets.on('connection', function(socket) {
-
+      log("connected to:", socket);
       var onProjectModified = function(data) {
+        log("emitting:", EVENTS.PROJECT_MODIFIED);
         socket.emit(EVENTS.PROJECT_MODIFIED, data);
-      }
+      };
 
       var onProjectInitialized = function(data) {
+        log("emitting:", EVENTS.PROJECT_INITIALIZED);
         socket.emit(EVENTS.PROJECT_INITIALIZED, data);
-      }
+      };
 
-      server.imdone.emitter.on(EVENTS.PROJECT_MODIFIED, onProjectModified);
+      var onProjectRemoved = function(data) {
+        log("emitting:", EVENTS.PROJECT_REMOVED);
+        socket.emit(EVENTS.PROJECT_REMOVED, data);
+      };
+
+      var onFilesProcessed = function(data) {
+        log("emitting:", EVENTS.FILES_PROCESSED);
+        socket.emit(EVENTS.FILES_PROCESSED, data);
+      };
+
       server.imdone.emitter.on(EVENTS.PROJECT_INITIALIZED, onProjectInitialized);
+      server.imdone.emitter.on(EVENTS.PROJECT_REMOVED, onProjectRemoved);
+      server.imdone.emitter.on(EVENTS.PROJECT_MODIFIED, onProjectModified);
+      server.imdone.emitter.on(EVENTS.FILES_PROCESSED, onFilesProcessed);
 
-      // DONE:0 Remove listeners on disconnect
+      // ARCHIVE:210 Remove listeners on disconnect
       socket.on('disconnect', function () {
-        server.imdone.emitter.removeListener(EVENTS.PROJECT_MODIFIED, onProjectModified);
+        log('disconnected');
         server.imdone.emitter.removeListener(EVENTS.PROJECT_INITIALIZED, onProjectInitialized);
+        server.imdone.emitter.removeListener(EVENTS.PROJECT_REMOVED, onProjectRemoved);
+        server.imdone.emitter.removeListener(EVENTS.PROJECT_MODIFIED, onProjectModified);
+        server.imdone.emitter.removeListener(EVENTS.FILES_PROCESSED, onFilesProcessed);
       });
     });    
 
     if (callback) app.on('listening', callback);
     xserver.listen(imdone.config.port);
 
-    //ARCHIVE:130 Move open board to command line option **open**
+    //ARCHIVE:320 Move open board to command line option **open**
   };
   

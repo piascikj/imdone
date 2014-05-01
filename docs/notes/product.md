@@ -1,4 +1,0 @@
-- [Read the [Android Development - Tutorial](http://www.vogella.com/tutorials/Android/article.html)](#DOING:40)
-- [Add Pomodoro timer for a task, using a tomato icon](#DOING:50)
-- [Make lists scroll independently and keep list name at top](#DOING:30)
-- [Make client events meaningful so we can react accordingly!](#DOING:10)

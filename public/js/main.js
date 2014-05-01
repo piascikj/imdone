@@ -3,26 +3,30 @@ requirejs.config({
 
   //[Put paths in lib](#doing:-1)
   paths: {
-    underscore:"underscore/underscore-min",
+    underscore:"underscore/underscore",
     json2:'json2/json2',
-    backbone:'backbone/backbone-min',
+    backbone:'backbone/backbone',
     bootstrap: 'bootstrap/js/bootstrap.min',
     jquery:"jquery/jquery.min",
-  	jqueryui: '/js/jquery-ui-1.9.2.custom.min',
-  	handlebars: 'handlebars/handlebars',
-  	socketio:'/socket.io/socket.io',
+    jqueryui: '/js/jquery-ui-1.9.2.custom.min',
+    handlebars: 'handlebars/handlebars',
+    socketio:'/socket.io/socket.io',
     hotkeys:'/js/jquery.hotkeys',
     marked:'marked/marked',
-    printElement:'/js/jquery.printElement.min',
-    ace:'/lib/ace-builds/ace',
+    ace:'ace-builds/ace',
+    'ace-language-tools':'ace-builds/ext-language_tools',
+    'ace-spellcheck':'ace-builds/ext-spellcheck',
     pnotify:'/js/jquery.pnotify.min',
     store:'/js/store.min',
     prism:'prismjs/js/prism',
     toc:'jquery.toc/jquery.toc',
-  	app:'/js/imdone-local',
+    app:'/js/imdone-local',
+    tour:'/js/imdone-tour',
     scrollTo: "jquery.scrollTo/jquery.scrollTo",
     zeroclipboard: 'zeroclipboard/js/ZeroClipboard',
-    wiggle: '/js/jquery.classywiggle.min'
+    wiggle: '/js/jquery.classywiggle.min',
+    printThis: 'printThis/printThis',
+    introjs: 'intro.js/js/intro'
   },
 
   shim: {
@@ -36,21 +40,21 @@ requirejs.config({
     'jqueryui': {
       deps: ['jquery']
     },
-  	'bootstrap': {
-  		deps: ['jquery']
-  	},
-  	'handlebars': {
-  		deps: ['jquery'],
+    'bootstrap': {
+      deps: ['jquery']
+    },
+    'handlebars': {
+      deps: ['jquery'],
       exports: 'Handlebars'
-  	},
-  	'json2': {
-  		exports: 'JSON'
-  	},
+    },
+    'json2': {
+      exports: 'JSON'
+    },
     'marked': {
       deps: ['jquery'],
       exports: 'marked'
     },
-    'printElement': {
+    'printThis': {
       deps: ['jquery']
     },
     'pnotify': {
@@ -73,10 +77,19 @@ requirejs.config({
     },
     'wiggle': {
       deps: ['jquery']
+    },
+    'ace': {
+      exports: 'ace'
+    },
+    'ace-language-tools': {
+      deps: ['ace']
+    },
+    'ace-spellcheck': {
+      deps: ['ace']
     }
   }
 });
 
-require(['app'],function(App) {
+require(['app', 'ace'],function(App, ace) {
   App.init();
 });
