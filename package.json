@@ -1,7 +1,7 @@
 {
   "name": "imdone",
   "preferGlobal": "true",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "A task board and wiki in one!",
   "keywords": [
     "scrum",
@@ -50,7 +50,7 @@
     "imdone-core": "0.0.5",
     "commander": "2.x",
     "pkginfo": "0.3.0",
-    "async": "~0.7.0",
+    "async": "~0.8.0",
     "express": "4.x",
     "underscore": "~1.6.0",
     "marked": "~0.3.1",
