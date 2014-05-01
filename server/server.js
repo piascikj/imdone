@@ -226,15 +226,16 @@
   // ARCHIVE:190 use imdone-core
   function getFiles(req,res) {
     var project = server.imdone.getProject(req.params[0]);
+    var files;
     if (project) {
-      var files = project.getFileTree(server.imdone.getRepo(project).getId());
+      files = project.getFileTree(server.imdone.getRepo(project).getId());
       if (files) {
         res.send(files);
       } else {
         res.send(404, "Project not found");
       }
     } else {
-      var files = tree.getFiles(req.params[0]);
+      files = tree.getFiles(req.params[0]);
       if (files) {
         res.send(files);
       } else {

@@ -30,7 +30,7 @@ function getFiles(_path) {
     }
   });
   return out;
-};
+}
 
 module.exports = {
   getFiles: getFiles

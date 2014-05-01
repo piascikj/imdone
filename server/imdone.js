@@ -93,7 +93,7 @@ imdone.startFromCLI = function(dir) {
 imdone.start = function(dirs, _open, woCLI, cb) {
   if (_.isFunction(woCLI)) {
     cb = woCLI;
-    woCLI = null
+    woCLI = null;
   }
   cb = _.isFunction(cb) ? cb : _.noop;
   
@@ -269,7 +269,7 @@ imdone.getConfigFile = function() {
 
 imdone.getConfig = function() {
   var json = fs.readFileSync(this.getConfigFile());
-  return JSON.parse(json);;
+  return JSON.parse(json);
 };
 
 imdone.addProjectToConfig = function(dir) {
