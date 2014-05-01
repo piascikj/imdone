@@ -767,7 +767,7 @@ define([
       imdone.navigateToCurrentProject();
     });
 
-    // DONE:20 Test project removed event
+    // DONE:40 Test project removed event
     socket.on('project.removed', function(data) {
       var projectId = data.project;
       console.log("Project removed: ", projectId);
@@ -786,7 +786,7 @@ define([
     });
   };
 
-  imdone.getHistory = function() {
+  imdone.getFileHistory = function() {
     var projectHist;
     var hist = store.get('history');
     if (hist && hist[imdone.currentProjectId()]) {
@@ -797,7 +797,7 @@ define([
     return projectHist;
   };
 
-  imdone.addHistory = function() {
+  imdone.addFileToHistory = function() {
     var projectHist;
     var hist = store.get('history');
     if (!hist) hist = {};
@@ -814,6 +814,19 @@ define([
     projectHist.reverse();
 
     return projectHist;
+  };
+
+  imdone.addProjectToHistory = function(path) {
+    var hist = store.get('project-history');
+    if (!hist) hist = [];
+    hist = _.without(hist, path);
+    hist.unshift(path);
+    if (hist.length > 10) hist.pop();
+    store.set('project-history', hist);
+  };
+
+  imdone.getProjectHistory = function() {
+    return store.get('project-history');
   };
 
   imdone.removeCurrentFileFromHistory = function() {
@@ -844,7 +857,7 @@ define([
         imdone.source = data;
         imdone.currentProjectId(data.project);
         //store the path in history
-        imdone.addHistory();
+        imdone.addFileToHistory();
 
         //Make sure we have the right project displayed
         imdone.paintProjectsMenu();
@@ -1047,7 +1060,7 @@ define([
         'headings': 'h1,h2'
       });
 
-      // DONE:60 Fix scrollSpy
+      // DONE:80 Fix scrollSpy
       imdone.fileContainer.scrollspy('refresh');
 
       // Add borders to tables
@@ -1058,7 +1071,7 @@ define([
     }
   };
 
-  // DONE:50 Fix toc click
+  // DONE:70 Fix toc click
   $(document).on('click', '#toc a', function(e) {
     var id = $(this).attr('href');
     imdone.fileContainer.scrollTo($(id), 500);
@@ -1131,7 +1144,7 @@ define([
             hide: true,
             sticker: false,
             type: 'success',
-            icon: 'icomoon-exclamation-sign'
+            icon: 'icomoon-save'
           });
           if (_.isFunction(evt)) evt();
         }
@@ -1204,7 +1217,7 @@ define([
     $.get("/api/files/" + imdone.currentProjectId(), function(data) {
       imdone.currentProject().ls = data;
       imdone.currentProject().cwd = data;
-      data.history = imdone.getHistory();
+      data.history = imdone.getFileHistory();
       data.history = _.map(data.history, function(path) {
         return {path:path, project:imdone.currentProjectId(), line:null, preview:imdone.isMD(path)};
       });
@@ -1229,6 +1242,7 @@ define([
   imdone.paintProjectDialog = function(_path, cb) {
     cb = (cb !== undefined) ? cb : function(){};
     imdone.getDirs(_path,function(data) {
+      data.history = imdone.getProjectHistory();
       $('#dirs').html(imdone.dirsTemplate(data));
       $('#dir-field').html(data.path);
       if (!imdone.showHidden) $('.fs-dir[data-hidden=true]').hide();
@@ -1423,6 +1437,26 @@ define([
       },
       readOnly: false // false if this command should not apply in readOnly mode
     });
+
+    imdone.editor.commands.addCommand({
+      name: 'makeTask',
+      bindKey: {win: 'Alt-T', mac: 'Option-T'},
+      exec: function(editor) {
+        var row = editor.getCursorPosition().row; //returns { row:n, column:n }
+        var session = editor.getSession();
+        var line = session.getLine(row);
+        var taskLine = line.replace(/(^[\s\W]*)(\w*.*$)/i, '$1[$2](#)');
+        console.log(line);
+        console.log(taskLine);
+        editor.find(line, {
+          start: {row:row, column:0}
+        });
+        editor.replace(taskLine);
+        var col = editor.getCursorPosition().column;
+        editor.moveCursorTo(row, col-1);
+      },
+      readOnly: false
+    })
     
     // keyboard handlers --------------------------------------------------------------------------------------------
     // edit
@@ -1572,15 +1606,27 @@ define([
       e.preventDefault();
     });
 
+
     // Open a project
-    imdone.openProjectBtn.click(function(e) {
-      var dir = $('#dir-field').text();
+    function openProject(dir) {
       $('#project-modal').modal('hide');
 
       imdone.progress.find('.mdl-header').html("Loading project...");
       imdone.progress.modal('show');
 
       $.post('/api/project/' + dir);
+    };
+
+    imdone.openProjectBtn.click(function(e) {
+      var dir = $('#dir-field').text();
+      imdone.addProjectToHistory(dir);
+      openProject(dir);
+    });
+
+    $(document).on('click', '.project-hist-link', function(e) {
+      e.preventDefault();
+      var dir = $(this).attr('data-path');
+      openProject(dir);
     });
 
     // listen for search input

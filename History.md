@@ -4,6 +4,8 @@ Change Log
 - Now using the [imdone-core](https://www.npmjs.org/package/imdone-core) library
 - Create lists without having to create a task
 - Add and remove projects in the UI
+- Keyboard help with `?` or on Help menu
+- Create a new task from the current line with `Alt+t`
 - I had to do away with events to make the configuration JSON, but will consider bringing them back if there is enough demand.
 
 ### 1.1.3

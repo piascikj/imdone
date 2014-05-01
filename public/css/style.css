@@ -325,6 +325,11 @@ blockquote p {
   max-height: 800px;
 }
 
+.file-modal .modal-body {
+  max-height: 400px;
+  min-height: 400px;
+}
+
 .clean-btn {
   border: none;
   box-shadow: none;

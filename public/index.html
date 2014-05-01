@@ -23,7 +23,7 @@
         <div class="container-fluid">
           <!-- [implement dropdown for switching between projects](#ARCHIVE:280)-->
           <div class="nav-collapse collapse">
-            <a class="brand" href="/"><img src="img/logo-inverse-small.png"/></a>
+            <span class="brand"><img src="img/logo-inverse-small.png"/></span>
             <ul class="nav">
               <li>
                 <button class="btn btn-inverse clean-btn" id="open-project-btn" title="Open a project">
@@ -101,7 +101,7 @@
                   <div class="pull-left">
                   <form class="navbar-form">
                     <input class="span3" type="text" id="filter-field" placeholder="Filter by file name">
-                    <button id="clear" class="btn btn-primary"><i class="icomoon-broom"></i> clear</button>
+                    <button id="clear" class="btn btn-primary">clear</button>
                   </form>
                   </div>
                 </li>
@@ -189,7 +189,7 @@
       </div>
     </div>
 
-    <div id="file-modal" class="modal hide fade" tabindex='-1'>
+    <div id="file-modal" class="modal hide fade file-modal" tabindex='-1'>
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
           <i class="icomoon-remove"></i>
@@ -211,7 +211,7 @@
       </div>
     </div>
     
-    <div id="project-modal" class="modal hide" tabindex='-1'>
+    <div id="project-modal" class="modal hide file-modal" tabindex='-1'>
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
           <i class="icomoon-remove"></i>
@@ -272,7 +272,7 @@
           <h3 class="mdl-header">Loading...</h3>
         </div>
          <div class="modal-body">
-           <div class="progress progress-success progress-striped active">
+           <div class="progress progress-success">
             <div class="bar" style="width: 0%;"></div>
            </div>
          </div>
@@ -355,7 +355,7 @@
       <h5>Recent</h5>
       <ul class="plain-list">
         {{#each history}}
-        <li><a href="{{fileHref path}}" class="fs-dir" data-path="{{path}}"><i class="icomoon-folder-close"></i>{{path}}</a></li>
+        <li><a href="#" class="project-hist-link" data-path="{{this}}"><i class="icomoon-folder-close"></i>{{this}}</a></li>
         {{/each}}
       </ul>
       <hr>
@@ -372,7 +372,7 @@
       </ul>
     </script>
 
-    <!-- [User should be able to add a list to a project](#DONE:70) -->
+    <!-- [User should be able to add a list to a project](#DONE:90) -->
     <!-- [User should be able to select from lists recognized by characters typed when creating a task](#PLANNING:40) -->
     <script id="lists-template" type="text/x-handlebars-template">
       <li class="column-nav-menu-item">
