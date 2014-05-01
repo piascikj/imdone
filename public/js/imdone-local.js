@@ -1454,6 +1454,7 @@ define([
         editor.replace(taskLine);
         var col = editor.getCursorPosition().column;
         editor.moveCursorTo(row, col-1);
+        editor.clearSelection();
       },
       readOnly: false
     })
