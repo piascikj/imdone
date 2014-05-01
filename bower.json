@@ -31,7 +31,7 @@
     "handlebars": "~1.1.2",
     "jquery.hotkeys": "*",
     "store": "~2.1.3",
-    "ace-builds": "~1.1.1",
+    "ace-builds": "~1.1.3",
     "zeroclipboard": "~1.3.0-beta.1",
     "printThis": "imdone/printThis#master",
     "jquery.toc": "~0.3.5",
