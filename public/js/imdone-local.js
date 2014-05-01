@@ -1438,6 +1438,7 @@ define([
       readOnly: false // false if this command should not apply in readOnly mode
     });
 
+    // DOING:0 This should ask for a list and order
     imdone.editor.commands.addCommand({
       name: 'makeTask',
       bindKey: {win: 'Alt-T', mac: 'Option-T'},
