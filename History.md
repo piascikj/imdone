@@ -2,6 +2,7 @@ Change Log
 ----
 ### 1.2.3
 - New task is now `<Ctrl>+n`. A little easier for the fingers:)
+- Only select tasks that are visible on select all
 
 ### 1.2.0
 - Now using the [imdone-core](https://www.npmjs.org/package/imdone-core) library
