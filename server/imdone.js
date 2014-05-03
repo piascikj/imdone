@@ -5,7 +5,7 @@
  * Copyright (c) 2012 Jesse Piascik
  * Licensed under the MIT license.
  */
-//ARCHIVE:360 Implement hide functionality to hide a list from board
+//ARCHIVE:450 Implement hide functionality to hide a list from board
 // Nodejs libs.
 var fs               = require('fs');
 var path             = require('path');

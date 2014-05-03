@@ -21,7 +21,7 @@
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
-          <!-- [implement dropdown for switching between projects](#ARCHIVE:280)-->
+          <!-- [implement dropdown for switching between projects](#ARCHIVE:370)-->
           <div class="nav-collapse collapse">
             <span class="brand"><img src="img/logo-inverse-small.png"/></span>
             <ul class="nav">
@@ -65,23 +65,39 @@
                   Search Results&nbsp;<i class="icomoon-search"></i>
                 </button>
               </li>
-            <!--[Move close file button here and hide on paintKanban](#ARCHIVE:240)-->
+            <!--[Move close file button here and hide on paintKanban](#ARCHIVE:330)-->
             </ul>
             <ul id="help-nav" class="nav pull-right help-nav">
               <li class="dropdown">
                 <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" title="Help and Feedback"><i class="icomoon-question"></i></button>
                 <ul class="dropdown-menu column-nav-menu" role="menu">
-                  <li class="column-nav-item"><a href="#" id="key-help-link"><i class="icomoon-keyboard"></i> Keyboard Help</a></li>
-                  <li class="column-nav-item"><a href="http://signup.imdoneapp.com" target="_blank"><i class="icomoon-info"></i> News letter</a></li>
-                  <li class="column-nav-item"><a href="mailto:imdone@innobuilt.com?subject=imdone support"><i class="icomoon-envelope-alt"></i> Email the author</a></li>
-                  <li class="column-nav-item"><a href="http://piascikj.github.io/imdone/" target="_blank"><i class="icomoon-home"></i> iMDone site</a></li>
-                  <li class="column-nav-item"><a href="http://guides.github.com/overviews/mastering-markdown/" target="_blank"><i class="icomoon-markdown-mark"></i> Mastering Markdown</a></li>
-                  <li class="column-nav-item"><a href="https://github.com/piascikj/imdone" target="_blank"><i class="icomoon-github-alt"></i> Fork me on Github</a></li>
-                  <li class="column-nav-item"><a href="https://github.com/piascikj/imdone/issues" target="_blank"><i class="icomoon-bug"></i> Issues</a></li>
+                  <li class="column-nav-item">
+                    <a href="#" id="key-help-link"><i class="icomoon-keyboard"></i> Keyboard Help</a>
+                  </li>
+                  <li class="column-nav-item">
+                    <a href="http://signup.imdoneapp.com" target="_blank"><i class="icomoon-info"></i> News letter</a>
+                  </li>
+                  <li class="column-nav-item" id="support-menu-item">
+                    <a href="mailto:imdone@innobuilt.com?subject=imdone support">
+                      <i class="icomoon-envelope-alt"></i> <span>Email the author</span>
+                    </a>
+                  </li>
+                  <li class="column-nav-item" id="site-menu-item">
+                    <a href="http://piascikj.github.io/imdone/" target="_blank"><i class="icomoon-home"></i> iMDone site</a>
+                  </li>
+                  <li class="column-nav-item">
+                    <a href="http://guides.github.com/overviews/mastering-markdown/" target="_blank"><i class="icomoon-markdown-mark"></i> Mastering Markdown</a>
+                  </li>
+                  <li class="column-nav-item" id="github-menu-item">
+                    <a href="https://github.com/piascikj/imdone" target="_blank"><i class="icomoon-github-alt"></i> Fork me on Github</a>
+                  </li>
+                  <li class="column-nav-item" id="issues-menu-item">
+                    <a href="https://github.com/piascikj/imdone/issues" target="_blank"><i class="icomoon-bug"></i> Issues</a>
+                  </li>
                 </ul>
               </li>
             </ul>
-            <!-- [Add path filters to board - 0.1.6](#ARCHIVE:260) -->
+            <!-- [Add path filters to board - 0.1.6](#ARCHIVE:350) -->
             <ul class="board-bar nav pull-right hide">
                 <li>
                   <div class="pull-left dropdown" id="lists-dropdown">
@@ -144,12 +160,12 @@
           </div>
           <div class="preview span12" id="preview"></div>
         </div>
-        <!--[Show file info above edit-bar using <http://pinesframework.org/pnotify/>](#ARCHIVE:230) -->
+        <!--[Show file info above edit-bar using <http://pinesframework.org/pnotify/>](#ARCHIVE:320) -->
       </div>
       <div class="search-results" id="search-results" style="display:none;"></div>
       <div class="board" id="board">
       </div>
-      <!-- [Use sticky footer <http://twitter.github.com/bootstrap/examples/sticky-footer.html>](#ARCHIVE:250) -->
+      <!-- [Use sticky footer <http://twitter.github.com/bootstrap/examples/sticky-footer.html>](#ARCHIVE:340) -->
       <!--
       <div class="navbar">
       <p>&copy; iMDone 2013</p>
@@ -372,7 +388,7 @@
       </ul>
     </script>
 
-    <!-- [User should be able to add a list to a project](#DONE:90) -->
+    <!-- [User should be able to add a list to a project](#ARCHIVE:110) -->
     <!-- [User should be able to select from lists recognized by characters typed when creating a task](#PLANNING:40) -->
     <script id="lists-template" type="text/x-handlebars-template">
       <li class="column-nav-menu-item">

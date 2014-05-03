@@ -187,8 +187,8 @@ define([
     // Replace any script elements
     html = html.replace(/<script.*?>([\s\S]*?)<\/.*?script>/ig,"$1").replace(/(href=["|'].*)javascript:.*(["|'].?>)/ig,"$1#$2");
     // Make all links with http open in new tab
-    // ARCHIVE:740 For markdown files, find tasks links and give them a badge
-    // ARCHIVE:270 For internal inks, take them to the page
+    // ARCHIVE:830 For markdown files, find tasks links and give them a badge
+    // ARCHIVE:360 For internal inks, take them to the page
     var replaceLinks = function(anchor, head, href, tail, content, end) {
       // For links within links
       if (new RegExp(links).test(content)) content = content.replace(links, replaceLinks);
@@ -514,7 +514,7 @@ define([
     if (filter) {
       imdone.getProjectStore().filter = filter;
       imdone.saveProjectStore();
-      // ARCHIVE:680 Use a regex for filter and create button to filter by files of selected tasks
+      // ARCHIVE:770 Use a regex for filter and create button to filter by files of selected tasks
       // $('.task:not([data-path*="{0}"])'.format([filter])).hide();
       $('.task').hide();
       $('.task:regex(data-path,{0})'.format([filter])).show();
@@ -600,7 +600,7 @@ define([
           } else {
             $(this).addClass("selected").find("i").removeClass("icomoon-check-empty").addClass("icomoon-check");
             tasks.each(function() {
-              $(this).addClass("selected");
+              if ($(this).is(':visible')) $(this).addClass("selected");
             });
           }
           imdone.tasksSelected();
@@ -612,7 +612,7 @@ define([
         if (!imdone.sortingTasks) {
           if ($el.hasClass("selected")) {
             $el.removeClass("selected");
-          } else {
+          } else if ($el.is(':visible')) {
             $el.addClass("selected");
           }
           imdone.tasksSelected();
@@ -661,7 +661,7 @@ define([
       //$('.list-name-container, .list-hide, .list-show, [title]').tooltip({placement:"bottom"});
 
       if (data.readme) {
-        // ARCHIVE:50 Fix readme href
+        // ARCHIVE:160 Fix readme href
         var href = imdone.getFileHref(data.readme.path,true);
         imdone.openReadmeBtn.attr("title", "Open " + data.readme.path + " file.")
         .show()
@@ -719,7 +719,7 @@ define([
   imdone.initUpdate = function() {
     var socket = io.connect('http://' + window.document.location.host);
     
-    // ARCHIVE:80 Fix project.modified so it doesn't fire on all file modifications
+    // ARCHIVE:190 Fix project.modified so it doesn't fire on all file modifications
     socket.on('project.modified', function(data) {
       var projectId = data.project;
       console.log("Project modified: ", projectId);
@@ -743,9 +743,7 @@ define([
       var pcntNum = Math.round((data.processed/data.total)*100);
       var pcnt = pcntNum.toString() + '%';
       var $bar = imdone.progress.find('.bar');
-      console.log(pcnt);
       $bar.css('width', pcnt);
-      //$bar.text(pcnt);
     });
 
     socket.on('project.initialized', function(data) {
@@ -767,7 +765,7 @@ define([
       imdone.navigateToCurrentProject();
     });
 
-    // DONE:40 Test project removed event
+    // ARCHIVE:60 Test project removed event
     socket.on('project.removed', function(data) {
       var projectId = data.project;
       console.log("Project removed: ", projectId);
@@ -808,7 +806,7 @@ define([
     hist[imdone.currentProjectId()] = _.without(hist[imdone.currentProjectId()], imdone.source.path);
     projectHist = hist[imdone.currentProjectId()];
     projectHist.push(imdone.source.path);
-    //ARCHIVE:810 Don't pop, shift
+    //ARCHIVE:900 Don't pop, shift
     if (projectHist.length > 10) projectHist.shift();
     store.set('history', hist);
     projectHist.reverse();
@@ -843,7 +841,7 @@ define([
 
   imdone.getSource = function(params) {
     params.project = params.project || imdone.currentProjectId();
-    //ARCHIVE:790 We have to convert the source api url URL first
+    //ARCHIVE:880 We have to convert the source api url URL first
     if (params && params.path) params.path = params.path.replace(/^\/*/,'');
     
     var url = "/api/source/" + params.project + "?path=" + params.path;
@@ -862,7 +860,7 @@ define([
         //Make sure we have the right project displayed
         imdone.paintProjectsMenu();
         
-        //ARCHIVE:660 Update file-path on edit button
+        //ARCHIVE:750 Update file-path on edit button
         imdone.filename.empty().html(imdone.source.path);
         imdone.editMode = true;
         
@@ -936,7 +934,7 @@ define([
   };
   imdone.printBtn.on("click", imdone.print);
 
-  // ARCHIVE:20 Fix markdown language mode for editor
+  // ARCHIVE:130 Fix markdown language mode for editor
   //Show the editor
   imdone.showEditor = function(e) {
     if (e) {
@@ -951,7 +949,7 @@ define([
 
     var line = data.line || 1;
     
-    // ARCHIVE:700 User should be able to set global ace confiuration and have it saved to config.js
+    // ARCHIVE:790 User should be able to set global ace confiuration and have it saved to config.js
     var session = imdone.aceSession = ace.createEditSession(data.src);
     session.setMode("ace/mode/" + mode);
     session.setUseWrapMode(true);
@@ -1060,7 +1058,7 @@ define([
         'headings': 'h1,h2'
       });
 
-      // DONE:80 Fix scrollSpy
+      // ARCHIVE:100 Fix scrollSpy
       imdone.fileContainer.scrollspy('refresh');
 
       // Add borders to tables
@@ -1071,7 +1069,7 @@ define([
     }
   };
 
-  // DONE:70 Fix toc click
+  // ARCHIVE:90 Fix toc click
   $(document).on('click', '#toc a', function(e) {
     var id = $(this).attr('href');
     imdone.fileContainer.scrollTo($(id), 500);
@@ -1085,7 +1083,7 @@ define([
   });
   imdone.fileContainer.scrollspy({ target: '#sidebar'});
 
-  //ARCHIVE:860 User should be notified when a file has been modified
+  //ARCHIVE:950 User should be notified when a file has been modified
   imdone.closeFile = function() {
       imdone.editMode = false;
       imdone.fileModified = false;
@@ -1189,7 +1187,7 @@ define([
         },
     });
   };
-  //ARCHIVE:800 Implement delete file functionality
+  //ARCHIVE:890 Implement delete file functionality
   imdone.removeFileBtn.on('click', function() {
     imdone.removeSourceConfirm();
   });
@@ -1279,7 +1277,7 @@ define([
     });
   };
 
-  // ARCHIVE:730 Clean up init before implementing backbone views
+  // ARCHIVE:820 Clean up init before implementing backbone views
   imdone.init = function() {
     imdone.progress = $('.imdone-progress').modal({
       backdrop: 'static',
@@ -1405,7 +1403,7 @@ define([
     imdone.editor.setTheme("ace/theme/merbivore_soft");
     imdone.editor.setHighlightActiveLine(true);
     imdone.editor.setPrintMarginColumn(120);
-    //ARCHIVE:710 Use Vim keyboard bindings
+    //ARCHIVE:800 Use Vim keyboard bindings
     //imdone.editor.setKeyboardHandler(require("ace/keybinding-vim").Vim);
     
     //Ace keyboard handlers
@@ -1445,10 +1443,10 @@ define([
       readOnly: false // false if this command should not apply in readOnly mode
     });
 
-    // DOING:0 This should ask for a list and order
+    // ARCHIVE:20 This should ask for a list and order
     imdone.editor.commands.addCommand({
       name: 'makeTask',
-      bindKey: {win: 'Alt-T', mac: 'Option-T'},
+      bindKey: {win: 'Ctrl-N', mac: 'Command-N'},
       exec: function(editor) {
         var row = editor.getCursorPosition().row; //returns { row:n, column:n }
         var session = editor.getSession();
@@ -1511,7 +1509,7 @@ define([
       var content =  $(this).closest(".task").find('.task-text').html();
       var template = '<a href="#{0}:{1}" class="task-link" data-list="{0}"><span class="task-content">{2}</span></a>';
 
-      //ARCHIVE:290 Show the current task as notification with <http://pinesframework.org/pnotify/>
+      //ARCHIVE:380 Show the current task as notification with <http://pinesframework.org/pnotify/>
       $.pnotify({
         title: list,
         text: template.format([list,order,content]),
@@ -1576,7 +1574,7 @@ define([
     
     // PLANNING:90 Use [egdelwonk/SlidePanel](https://github.com/egdelwonk/slidepanel) for opening files and removing clutter
     function openFile() {
-      // ARCHIVE:70 Create a new file based on path and project with call to PUT /api/source.  If get fails call saveSource first to create the file
+      // ARCHIVE:180 Create a new file based on path and project with call to PUT /api/source.  If get fails call saveSource first to create the file
       var path = imdone.fileField.val();
       if (path !== "") {
         if (/^(\/|\\)/.test(path)) {
@@ -1667,7 +1665,7 @@ define([
     });
 
     //listen for filter input
-    //ARCHIVE:300 Apply filter when kanban is reloaded
+    //ARCHIVE:390 Apply filter when kanban is reloaded
     imdone.filterField.keyup(function() {
       imdone.filter();
     });
@@ -1727,7 +1725,7 @@ define([
         },
 
       initialize: function() {
-        //ARCHIVE:310 Construct views and models in here!
+        //ARCHIVE:400 Construct views and models in here!
         imdone.data.projects = new Projects();
       },
       

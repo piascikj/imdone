@@ -14,12 +14,13 @@
 
 &nbsp;             | **&nbsp;File Editor**
 -----------------: | :--------------------------------------
-`<Alt>+t`          | **: Turn the current line into a task**
+`<Ctrl>+n`          | **: Turn the current line into a task**
 `<Ctrl>+<Shift>+s` | **: Save file**
 `<Ctrl>+<Shift>+x` | **: Delete file**
 `<Ctrl>+<Space>`   | **: Code completion**
 `<Ctrl>+f`         | **: Find in file**
 `<Ctrl>+h`         | **: Replace in file**
+`<Ctrl>+l`         | **: Goto line**
 `<Ctrl>+z`         | **: Undo**
 `<Ctrl>+<Shift>+z` | **: Redo**
 `<Esc>`            | **: If Markdown show preview, if not show board**

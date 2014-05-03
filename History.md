@@ -1,5 +1,8 @@
 Change Log
 ----
+### 1.2.3
+- New task is now `<Ctrl>+n`. A little easier for the fingers:)
+
 ### 1.2.0
 - Now using the [imdone-core](https://www.npmjs.org/package/imdone-core) library
 - Tours to get you started
