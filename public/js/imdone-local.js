@@ -711,7 +711,7 @@ define([
     var template = Handlebars.compile($("#projects-template").html());
     var context = {
       cwd: imdone.currentProjectId(),
-      projects:_.without(imdone.projects, imdone.currentProjectId())
+      projects:_.without(imdone.projects, imdone.currentProjectId()).sort()
     };
     imdone.projectsMenu.html(template(context)).show();
   };
