@@ -9,6 +9,7 @@ define([
   'prism',
   'store',
   '/js/models/search.js',
+  '/js/imdone-client.js',
   'zeroclipboard',
   'ace',
   'tour',
@@ -22,7 +23,7 @@ define([
   'toc',
   'scrollTo',
   'wiggle'
-], function(_, $, Backbone, Handlebars, JSON, io, marked, Prism, store, Search, ZeroClipboard, ace, Tour) {
+], function(_, $, Backbone, Handlebars, JSON, io, marked, Prism, store, Search, client, ZeroClipboard, ace, Tour) {
 
   var imdone = window.imdone = {
     data:{},
@@ -278,12 +279,6 @@ define([
   });
 
   //TODO:20 Take a look at this <https://speakerdeck.com/ammeep/unsuck-your-backbone>, <http://amy.palamounta.in/2013/04/12/unsuck-your-backbone/>
-  //--------------------------------------Backbone Models---------------------------------------
-  var Project = Backbone.Model.extend();
-  var Projects = Backbone.Collection.extend({
-    model:Project,
-    url:"/api/projects"
-  });
   
   imdone.setProjectData = function(project, data) {
     imdone.data[project] = data;
@@ -343,12 +338,7 @@ define([
     };
 
     //Now call the service and call getKanban
-    $.ajax({
-      url:"/api/moveTasks",
-      type:"POST",
-      data:JSON.stringify(reqObj),
-      contentType:"application/json; charset=utf-8"
-    });
+    client.moveTasks(reqObj);
   };
 
   imdone.moveTask = function(item) {
@@ -369,12 +359,7 @@ define([
     };
 
     //Now call the service and call getKanban
-    $.ajax({
-      url:"/api/moveTasks",
-      type:"POST",
-      data:JSON.stringify(reqObj),
-      contentType:"application/json; charset=utf-8"
-    });
+    client.moveTasks(reqObj);
   };
 
   imdone.moveList = function(e,ui) {
@@ -382,20 +367,15 @@ define([
     var pos = ui.item.index()-1;
     var reqObj = { name: name, pos: pos, project: imdone.currentProjectId() };
     //Now call the service and call getKanban
-   $.ajax({
-      url:"/api/moveList",
-      type:"POST",
-      data:JSON.stringify(reqObj),
-      contentType:"application/json; charset=utf-8"
-    });
+    client.moveList(reqObj);
   };
 
   imdone.hideList = function(list) {
-    $.post("/api/hideList", { list: list, project: imdone.currentProjectId() });
+    client.hideList(list, project);
   };
 
   imdone.showList = function(list, cb) {
-    $.post("/api/showList", {list:list, project:imdone.currentProjectId()});
+    client.showList(list, project);
   };
 
   imdone.getKanban = function(params) {
@@ -403,13 +383,13 @@ define([
     //Load the most recent data
     var project = params && params.project || imdone.currentProjectId();
     if (project) {
-      $.get("/api/kanban/" + project, function(data){
+      client.getKanban(project, function(data) {
         imdone.setProjectData(project,data);
         imdone.tour.setProject(data);
         if ((params && !params.noPaint) || params === undefined) imdone.paintKanban(data);
 
         if (params && params.callback && _.isFunction(params.callback)) params.callback(data);
-      }, "json").fail(function() {
+      }, function() {
         imdone.app.navigate('/', {trigger:true});
       });
     }
@@ -698,11 +678,11 @@ define([
   };
 
   imdone.getProjects = function(callback) {
-    $.get("/api/projects", function(data){
+    client.getProjects(function(data){
       imdone.projects = data;
       if (data.length > 0) imdone.paintProjectsMenu();
       if (_.isFunction(callback)) callback(data);
-    }, "json");
+    });
   };
 
   imdone.paintProjectsMenu = function() {
@@ -844,14 +824,9 @@ define([
     //ARCHIVE:880 We have to convert the source api url URL first
     if (params && params.path) params.path = params.path.replace(/^\/*/,'');
     
-    var url = "/api/source/" + params.project + "?path=" + params.path;
-    if (params.line) url += "&line=" + params.line;
     imdone.previewMode = params.preview;
     
-    //Get the source and show the editor
-    $.ajax({
-      url: url,
-      success: function(data){
+    client.getFile(params.project, params.path, params.line, function(data){
         imdone.source = data;
         imdone.currentProjectId(data.project);
         //store the path in history
@@ -879,15 +854,9 @@ define([
           imdone.showEditor();
         }
 
-      },
-      error: function(jqXHR, status, error) {
-        if (jqXHR.status === 404) console.log("Got 404");
-        console.log(jqXHR);
-        console.log(status);
+      }, function(error) {
         console.log(error);
-      },
-      dataType: "json"
-    });
+      });
   };
 
   imdone.showFileView = function() {
@@ -1125,13 +1094,8 @@ define([
   //Save source from editor
   imdone.saveFile = function(evt) {
     imdone.source.src = imdone.editor.getValue();
-    $.ajax({
-        url: "/api/source/" + imdone.currentProjectId(),
-        type: 'PUT',
-        contentType: 'application/json',
-        data: JSON.stringify(imdone.source),
-        dataType: 'json',
-        success: function(data) {
+    client.saveFile(imdone.currentProjectId(), imdone.source, 
+      function(data) {
           if (imdone.fileModified) {
             imdone.fileModified = false;
             imdone.fileModifiedNotify.pnotify_remove();
@@ -1145,8 +1109,7 @@ define([
             icon: 'icomoon-save'
           });
           if (_.isFunction(evt)) evt();
-        }
-    });
+        });
 
     return true;
   };
@@ -1158,34 +1121,29 @@ define([
   };
   
   imdone.removeSource = function() {
-    $.ajax({
-        url: "/api/source/" + imdone.currentProjectId() + "?path=" + imdone.source.path,
-        type: 'DELETE',
-        contentType: 'application/json',
-        dataType: 'json',
-        success: function(data) {
-          imdone.removeCurrentFileFromHistory();
-          imdone.closeFile();
-          imdone.fileNotify = $.pnotify({
-            title: "File deleted!",
-            nonblock: true,
-            hide: true,
-            sticker: false,
-            type: 'success'
-          });
-          imdone.navigateToCurrentProject();
-        },
-        error: function(data) {
-          // PLANNING:10 Make this pnotify default for all errors!
-          imdone.fileNotify = $.pnotify({
-            title: "Unable to delete file!",
-            nonblock: true,
-            hide: true,
-            sticker: false,
-            type: 'error'
-          });
-        },
-    });
+    client.removeFile(imdone.currentProjectId(), imdone.source.path,
+      function(data) {
+        imdone.removeCurrentFileFromHistory();
+        imdone.closeFile();
+        imdone.fileNotify = $.pnotify({
+          title: "File deleted!",
+          nonblock: true,
+          hide: true,
+          sticker: false,
+          type: 'success'
+        });
+        imdone.navigateToCurrentProject();
+      },
+      function(data) {
+        // PLANNING:10 Make this pnotify default for all errors!
+        imdone.fileNotify = $.pnotify({
+          title: "Unable to delete file!",
+          nonblock: true,
+          hide: true,
+          sticker: false,
+          type: 'error'
+        });
+      });
   };
   //ARCHIVE:890 Implement delete file functionality
   imdone.removeFileBtn.on('click', function() {
@@ -1212,7 +1170,7 @@ define([
   };
 
   imdone.openFileDialog = function(e) {
-    $.get("/api/files/" + imdone.currentProjectId(), function(data) {
+    client.getFiles(imdone.currentProjectId(), function(data) {
       imdone.currentProject().ls = data;
       imdone.currentProject().cwd = data;
       data.history = imdone.getFileHistory();
@@ -1234,7 +1192,7 @@ define([
 
   imdone.getDirs = function(_path, cb) {
     _path = (_path === undefined) ? "" : _path;
-    $.get('/api/files/' + _path).done(cb);
+    client.getDirs(_path, cb);
   };
 
   imdone.paintProjectDialog = function(_path, cb) {
@@ -1255,15 +1213,11 @@ define([
   };
 
   imdone.removeProject = function(projectId) {
-    $.ajax({
-        url: "/api/project/" + projectId,
-        type: 'DELETE',
-        complete: function(data) {
-          if (data.status !== 200) {
-            console.log('Error removing project');
-            console.log(data);
-          }
-        }
+    client.removeProject(projectId, function(err, data) {
+      if (err) {
+        console.log(err);
+        console.log(data);
+      }
     });
   };
 
@@ -1277,15 +1231,15 @@ define([
     });
   };
 
-  // ARCHIVE:820 Clean up init before implementing backbone views
-  imdone.init = function() {
-    imdone.progress = $('.imdone-progress').modal({
-      backdrop: 'static',
-      show: false
-    });
+  imdone.newList = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    imdone.newListField.val("");
+    imdone.newListField.attr('placeholder', "New list name");
+    imdone.newListModal.modal('show');
+  };
 
-    imdone.tour = new Tour();
-
+  imdone.initListNameView = function() {
     // Start the list tour
     $('#lists-dropdown').on('shown.bs.dropdown', function() { 
       if ($('.list-item').length > 1) {
@@ -1325,13 +1279,11 @@ define([
     imdone.nameFld.keypress(listNameFilter(saveListName));
 
     function saveListName() {
-      var req = {
-        name: imdone.nameFld.attr('placeholder'),
-        newName:  imdone.nameFld.val(),
-        project: imdone.currentProjectId()
-      };
-      if (req.newName !== "") {
-        $.post("/api/renameList", req);
+      var name = imdone.nameFld.attr('placeholder'),
+          newName =  imdone.nameFld.val(),
+          project = imdone.currentProjectId();
+      if (newName !== "") {
+        client.renameList(project, name, newName);
       }
 
       imdone.nameModal.modal('hide');
@@ -1354,7 +1306,7 @@ define([
       var self = this;
       var name = imdone.newListField.val();
       if (name !== "") {
-        $.post("/api/list/{0}/{1}".format([imdone.currentProjectId(), name]), function() {
+        client.addList(imdone.currentProjectId(), name, function() {
           imdone.newListModal.modal('hide');
           imdone.newListField.val("");
         });
@@ -1363,25 +1315,15 @@ define([
 
     imdone.newListSave.click(saveNewList);
 
-    function newList(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      imdone.newListField.val("");
-      imdone.newListField.attr('placeholder', "New list name");
-      imdone.newListModal.modal('show');
-    }
-
-    $(document).on('click', '.new-list', newList);    
+    $(document).on('click', '.new-list', imdone.newList);    
 
     //Remove a list
     $(document).on('click','.remove-list', function() {
-      var req = {
-        list: $(this).attr("data-list"),
-        project: imdone.currentProjectId()
-      };
-
-      $.post("/api/removeList", req);
+      client.removeList(imdone.currentProjectId(), $(this).attr("data-list"));
     });
+  };
+
+  imdone.initEditor = function() {
 
     //Editor config
     imdone.editor.setOptions({
@@ -1461,8 +1403,10 @@ define([
         editor.clearSelection();
       },
       readOnly: false
-    })
-    
+    });
+  };
+
+  imdone.initKeyHandlers = function() {
     // keyboard handlers --------------------------------------------------------------------------------------------
     // edit
     $(window).bind('keydown', 'I', function(e){
@@ -1494,13 +1438,27 @@ define([
       imdone.searchBtn.dropdown('toggle');
     })
     // new list
-    .bind('keydown', 'Ctrl+Shift+L', newList)
+    .bind('keydown', 'Ctrl+Shift+L', imdone.newList)
     // open file
     .bind('keydown', 'Ctrl+I', imdone.openFileDialog)
     // Add a project
     .bind('keydown', 'Ctrl+Shift+1', imdone.openProjectDialog)
     // Open help
     .bind('keydown', 'Shift+/', imdone.openHelp);
+  };
+
+  // ARCHIVE:820 Clean up init before implementing backbone views
+  imdone.init = function() {
+    imdone.progress = $('.imdone-progress').modal({
+      backdrop: 'static',
+      show: false
+    });
+
+    imdone.tour = new Tour();
+
+    imdone.initListNameView();
+    imdone.initEditor();
+    imdone.initKeyHandlers();
 
     //Get the file source for a task
     $(document).on('click','.source-link', function(e) {
@@ -1619,7 +1577,7 @@ define([
       imdone.progress.find('.mdl-header').html("Loading project...");
       imdone.progress.modal('show');
 
-      $.post('/api/project/' + dir);
+      client.addProject(dir);
     };
 
     imdone.openProjectBtn.click(function(e) {
@@ -1726,7 +1684,7 @@ define([
 
       initialize: function() {
         //ARCHIVE:400 Construct views and models in here!
-        imdone.data.projects = new Projects();
+        // imdone.data.projects = new Projects();
       },
       
       filterRoute: function(filter) {
