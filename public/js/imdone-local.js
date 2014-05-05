@@ -911,8 +911,9 @@ define([
     var data = imdone.source,
         mode = imdone.modes[data.ext] || "text";
 
-    var line = (typeof data.line === "number" && data.line > -1) ? data.line : 1;
-
+    var line = parseInt(data.line, 10);
+    line = isNaN(line) ? 0 : line;
+    
     // ARCHIVE:790 User should be able to set global ace confiuration and have it saved to config.js
     var session = imdone.aceSession = ace.createEditSession(data.src);
     session.setMode("ace/mode/" + mode);

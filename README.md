@@ -17,7 +17,7 @@
 - Create lists without having to create a task
 - Add and remove projects in the UI
 - Keyboard help with `?` or on Help menu
-- Create a new task from the current line with `<Alt>+t`
+- Create a new task from the current line with `<Ctrl>+k`
 - List names are in code completion list with `<Ctrl>+<Space>`
 - Reopen projects that were open on last close.  This is merged with --dirs or directory imdone was started in.  Can also be editied in `~/.imdone/config.json`
 - I had to do away with events to make the configuration JSON, but will consider bringing them back if there is enough demand.
