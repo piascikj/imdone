@@ -119,6 +119,14 @@ define([
 
     addProject: function(dir) {
       $.post('/api/project/' + dir);
+    },
+
+    initUpdate: function(listeners) {
+      var socket = io.connect('http://' + window.document.location.host);
+      
+      _.each(listeners, function(fn, evt) {
+        socket.on(evt, fn);
+      });
     }
   }
 

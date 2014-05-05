@@ -14,7 +14,7 @@
 
 &nbsp;             | **&nbsp;File Editor**
 -----------------: | :--------------------------------------
-`<Ctrl>+n`          | **: Turn the current line into a task**
+`<Ctrl>+k`          | **: Turn the current line into a task**
 `<Ctrl>+<Shift>+s` | **: Save file**
 `<Ctrl>+<Shift>+x` | **: Delete file**
 `<Ctrl>+<Space>`   | **: Code completion**

@@ -39,6 +39,7 @@
   }
 
   // ARCHIVE:200 use imdone-core
+  // DOING:0 All methods should return objects from imdone without modification, which means imdone needs to be modified
   function getKanban(req, res){
     if (isBusy(req,res)) {
       res.send({busy:true});

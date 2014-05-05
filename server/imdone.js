@@ -101,6 +101,7 @@ imdone.start = function(dirs, _open, woCLI, cb) {
   dirs = _.union(imdone.getConfig().projects, dirs);
 
   function init() {
+    // DOING Should be able to start without server
     server.start(imdone);
     var funcs = [];
     _.each(dirs, function(d) {

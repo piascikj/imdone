@@ -697,70 +697,65 @@ define([
   };
 
   imdone.initUpdate = function() {
-    var socket = io.connect('http://' + window.document.location.host);
-    
-    // ARCHIVE:190 Fix project.modified so it doesn't fire on all file modifications
-    socket.on('project.modified', function(data) {
-      var projectId = data.project;
-      console.log("Project modified: ", projectId);
-      var currentProjectId = imdone.currentProjectId();
-      if (_.indexOf(imdone.projects, projectId) < 0) return;
-      var boardHidden = !imdone.board.is(':visible');
-      // only react if project exists and is current.
-      if (projectId == currentProjectId) {
-        console.log("boardHidden:", boardHidden);
-        imdone.getKanban({
-          project:projectId, 
-          noPaint:boardHidden, 
-          callback:function() {
-            console.log("refresh of " + projectId + " complete!");
-          }
-        });
-      }
-    });
-    
-    socket.on('files.processed', function(data) {
-      var pcntNum = Math.round((data.processed/data.total)*100);
-      var pcnt = pcntNum.toString() + '%';
-      var $bar = imdone.progress.find('.bar');
-      $bar.css('width', pcnt);
-    });
+    client.initUpdate({
+      'project.modified': function(data) {
+        var projectId = data.project;
+        console.log("Project modified: ", projectId);
+        var currentProjectId = imdone.currentProjectId();
+        if (_.indexOf(imdone.projects, projectId) < 0) return;
+        var boardHidden = !imdone.board.is(':visible');
+        // only react if project exists and is current.
+        if (projectId == currentProjectId) {
+          console.log("boardHidden:", boardHidden);
+          imdone.getKanban({
+            project:projectId, 
+            noPaint:boardHidden, 
+            callback:function() {
+              console.log("refresh of " + projectId + " complete!");
+            }
+          });
+        }
+      },
+      'files.processed': function(data) {
+        var pcntNum = Math.round((data.processed/data.total)*100);
+        var pcnt = pcntNum.toString() + '%';
+        var $bar = imdone.progress.find('.bar');
+        $bar.css('width', pcnt);
+      },
+      'project.initialized': function(data) {
+        // add the project and get kanban
+        var projectId = data.project;
+        console.log("Project initialized: ", projectId);
+        
+        setTimeout(function() {
+          imdone.progress.modal('hide');
+          imdone.progress.find('.bar').css('width', '0%');
+        }, 1000);
 
-    socket.on('project.initialized', function(data) {
-      // add the project and get kanban
-      var projectId = data.project;
-      console.log("Project initialized: ", projectId);
-      
-      setTimeout(function() {
-        imdone.progress.modal('hide');
-        imdone.progress.find('.bar').css('width', '0%');
-      }, 1000);
+        if (_.indexOf(imdone.projects, projectId) < 0) {
+          imdone.projects.push(projectId);
+          imdone.paintProjectsMenu();
+        }
 
-      if (_.indexOf(imdone.projects, projectId) < 0) {
-        imdone.projects.push(projectId);
-        imdone.paintProjectsMenu();
-      }
-
-      imdone.currentProjectId(projectId);
-      imdone.navigateToCurrentProject();
-    });
-
-    // ARCHIVE:60 Test project removed event
-    socket.on('project.removed', function(data) {
-      var projectId = data.project;
-      console.log("Project removed: ", projectId);
-      // remove the project
-      imdone.projects = _.without(imdone.projects, projectId);
-      delete imdone.data[projectId];
-      // repaint the projects menu
-      imdone.paintProjectsMenu();
-
-      if (imdone.projects.length === 0) {
-        imdone.app.navigate('/', {trigger:true});
-      } else {
-        imdone.currentProjectId(imdone.projects[0]);
+        imdone.currentProjectId(projectId);
         imdone.navigateToCurrentProject();
-      } 
+      },
+      'project.removed': function(data) {
+        var projectId = data.project;
+        console.log("Project removed: ", projectId);
+        // remove the project
+        imdone.projects = _.without(imdone.projects, projectId);
+        delete imdone.data[projectId];
+        // repaint the projects menu
+        imdone.paintProjectsMenu();
+
+        if (imdone.projects.length === 0) {
+          imdone.app.navigate('/', {trigger:true});
+        } else {
+          imdone.currentProjectId(imdone.projects[0]);
+          imdone.navigateToCurrentProject();
+        } 
+      }
     });
   };
 
@@ -916,8 +911,8 @@ define([
     var data = imdone.source,
         mode = imdone.modes[data.ext] || "text";
 
-    var line = data.line || 1;
-    
+    var line = (typeof data.line === "number" && data.line > -1) ? data.line : 1;
+
     // ARCHIVE:790 User should be able to set global ace confiuration and have it saved to config.js
     var session = imdone.aceSession = ace.createEditSession(data.src);
     session.setMode("ace/mode/" + mode);
@@ -1183,7 +1178,7 @@ define([
       fileModal.on('show.bs.modal', function() {
         setTimeout(function() {
           document.activeElement.blur();
-          imdone.fileField.focus();
+          imdone.editor.focus();
         }, 500);
       });
       fileModal.modal("show");
@@ -1388,7 +1383,7 @@ define([
     // ARCHIVE:20 This should ask for a list and order
     imdone.editor.commands.addCommand({
       name: 'makeTask',
-      bindKey: {win: 'Ctrl-N', mac: 'Command-N'},
+      bindKey: {win: 'Ctrl-K', mac: 'Command-K'},
       exec: function(editor) {
         var row = editor.getCursorPosition().row; //returns { row:n, column:n }
         var session = editor.getSession();
