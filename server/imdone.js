@@ -428,12 +428,11 @@ imdone.removeFile = function(name, _path, cb) {
 };
 
 imdone.getFiles = function(name) {
-  cb = _.isFunction(cb) ? cb : _.noop;
   var project = imdone.getProject(name);
   var files;
   if (project) {
     return project.getFileTree(server.imdone.getRepo(project).getId());
-  } else throw new Error(PROJECT_NOT_FOUND)
+  } else throw new Error(PROJECT_NOT_FOUND);
 };
 
 imdone.getDirs = function(_path) {

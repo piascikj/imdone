@@ -27,14 +27,14 @@
                      };
   var BUSY_MSG     = "Project Busy";
 
+  function projectNameFromRequest(req) {
+    return req.body.project || req.query.project || req.params[0] || req.params.project;
+  }
+
   function isBusy(req,res) {
     var projectName = projectNameFromRequest(req);
     var project = server.imdone.getProject(projectName);
     return (project) ? project.isBusy() : undefined;
-  }
-
-  function projectNameFromRequest(req) {
-    return req.body.project || req.query.project || req.params[0] || req.params.project;
   }
 
   function getProjects(req, res) {
