@@ -1389,7 +1389,7 @@ define([
         var row = editor.getCursorPosition().row; //returns { row:n, column:n }
         var session = editor.getSession();
         var line = session.getLine(row);
-        var taskLine = line.replace(/(^[\s\W]*)(\w*.*$)/i, '$1[$2](#)');
+        var taskLine = line.replace(/(^[\s\W\d\.]*)(\w*.*$)/i, '$1[$2](#)');
         editor.find(line, {
           start: {row:row, column:0}
         });

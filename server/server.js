@@ -12,10 +12,8 @@
   var http         = require('http');
   var fs           = require('fs');
   var _            = require('lodash');
-  var Handlebars   = require('handlebars');
   var util         = require('util');
   var io           = require('socket.io');
-  var mkdirp       = require('mkdirp');
   var path         = require('path');
   var server       = module.exports;
   var log          = require('debug')('imdone:server');

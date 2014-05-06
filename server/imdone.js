@@ -20,7 +20,6 @@ var express          = require('express');
 var bodyParser       = require('body-parser');
 var cookieParser     = require('cookie-parser');
 var http             = require('http');
-var mkdirp           = require('mkdirp');
 var server           = require("./server");
 var Search           = require('imdone-core').Search;
 var async            = require("async");
@@ -94,10 +93,10 @@ imdone.startFromCLI = function(dir) {
   }
 };
 
-imdone.start = function(dirs, _open, woCLI, cb) {
-  if (_.isFunction(woCLI)) {
-    cb = woCLI;
-    woCLI = null;
+imdone.start = function(dirs, _open, noServer, cb) {
+  if (_.isFunction(noServer)) {
+    cb = noServer;
+    noServer = null;
   }
   cb = _.isFunction(cb) ? cb : _.noop;
   
@@ -105,8 +104,8 @@ imdone.start = function(dirs, _open, woCLI, cb) {
   dirs = _.union(imdone.getConfig().projects, dirs);
 
   function init() {
-    // DOING:110 Should be able to start without server
-    server.start(imdone);
+    // DONE:0 Should be able to start without server
+    if (!noServer) server.start(imdone);
     var funcs = [];
     _.each(dirs, function(d) {
       funcs.push(function(cb) { imdone.addProject(d, cb); }); 
@@ -118,7 +117,7 @@ imdone.start = function(dirs, _open, woCLI, cb) {
     });
   }
 
-  if (woCLI) init();
+  if (noServer) init();
   else {
     log('Begin initializing projects');
     imdone.checkCLIService(function() {
@@ -289,6 +288,8 @@ imdone.removeProjectFromConfig = function(dir) {
   config.projects = _.without(config.projects, dir);
   fs.writeFileSync(this.getConfigFile(), JSON.stringify(config, null, 2));
 };
+
+// PLANNING:20 Set a default project in config to be opened when iMDone starts
 
 imdone.removeProject = function(name) {
   console.log("Removing project with name:" + name);
