@@ -48,7 +48,7 @@
     "start": "bin/imdone.js"
   },
   "dependencies": {
-    "imdone-core": "0.0.5",
+    "imdone-core": "0.0.6",
     "commander": "2.x",
     "pkginfo": "0.3.0",
     "async": "~0.8.0",

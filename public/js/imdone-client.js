@@ -83,7 +83,7 @@ define([
     },
 
     getDirs: function(_path, cb) {
-      $.get('/api/files/' + _path).done(cb);
+      $.get('/api/dirs/' + _path).done(cb);
     },
 
     removeProject: function(project, cb) {

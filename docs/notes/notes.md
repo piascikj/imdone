@@ -30,13 +30,13 @@ Markdown | Less | Pretty
 - [Fix show list on task-link](#ARCHIVE:630) 
 - [User should be able to execute a javscript callback when a files are modified in the editor or by moving a task](#ARCHIVE:570)
 - [User should be able to jump back to the task in the board if the task is clicked in the file view task notification](#ARCHIVE:610)
-- [User should be able to rename a file including it's path](#PLANNING:110)
+- [User should be able to rename a file including it's path](#PLANNING:120)
 - [User should be able archive tasks](#ARCHIVE:420)
 - [Use json for configuration, not module](#ARCHIVE:140)
 - [User should be able to batch move tasks to another list](#ARCHIVE:430)
 - [Switch from flattr to gittip](#ARCHIVE:560)
 - [User should get a modal confirmation if closing a file that has been edited #feature](#ARCHIVE:670)
-- [User should be able to add #hashtags to a #task and filter by them #feature](#PLANNING:80)
+- [User should be able to add #hashtags to a #task and filter by them #feature](#PLANNING:90)
     - They could be after the list name like #doing#feature and apear as a pill or badge on the front end
 - [User should be able to jump to task by clicking it in preview and if list is hidden it should show and task should be highlighted](#ARCHIVE:660)
 - [Use prism for syntax highlighting [Prism](http://prismjs.com/)](#ARCHIVE:700)
@@ -66,8 +66,8 @@ Markdown | Less | Pretty
 - [Add link to Asciiflow <http://www.asciiflow.com/#Draw>](#TODO:60)
 - [Make html and xml files printable](#ARCHIVE:740)
 - [Upgrade to [font-awesome 3.1.1 ](http://fortawesome.github.io/Font-Awesome/icons/)](#ARCHIVE:500)
-- [accept more data about a task with `#key:value`](#PLANNING:130)
-- [Use icon-asterisk for menu of more options when editing](#PLANNING:140)
+- [accept more data about a task with `#key:value`](#PLANNING:140)
+- [Use icon-asterisk for menu of more options when editing](#PLANNING:150)
 - [Set up user page and point leannotes.com to it](#ARCHIVE:530)
     - [Setting up a custom domain with Pages · GitHub Help](https://help.github.com/articles/setting-up-a-custom-domain-with-pages)
     - [User, Organization and Project Pages · GitHub Help](https://help.github.com/articles/user-organization-and-project-pages)
@@ -90,17 +90,17 @@ Roadmap
 - [Enable svn and git commit after file changes](#ARCHIVE:490)
 - [Convert front end to use backbone.js](#TODO:90)
 - [respect marked configuration in client javascript](#TODO:160)
-- [User should be able to remove task syntax with hotkey when in task text](#PLANNING:120)
+- [User should be able to remove task syntax with hotkey when in task text](#PLANNING:130)
 - [User should be able to use TOC in preview mode for md files](#ARCHIVE:680)
 - [User should get a guided tour](#ARCHIVE:120)
 - [Enable vfs <https://github.com/c9/vfs-socket> as method of interacting with other storage providers.](#ARCHIVE:520)
-- [User should be able to remove all tasks in the archive](#PLANNING:20)
+- [User should be able to remove all tasks in the archive](#PLANNING:30)
 - [User should be able to add and remove projects in the UI](#ARCHIVE:70)
 
 Must do
 ----
-- [User should be able to select the color of lists by [tkrotoff/jquery-simplecolorpicker](https://github.com/tkrotoff/jquery-simplecolorpicker)](#DOING:0)
-- [email tasks using mailto](#DOING:0)
+- [User should be able to select the color of lists by [tkrotoff/jquery-simplecolorpicker](https://github.com/tkrotoff/jquery-simplecolorpicker)](#PLANNING:0)
+- [email tasks using mailto](#PLANNING:10)
 - [javascript - Automically open default email client and pre-populate content - Stack Overflow](http://stackoverflow.com/questions/13231125/automically-open-default-email-client-and-pre-populate-content)
   - each task should be in the proper order under it's list
 

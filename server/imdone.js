@@ -22,7 +22,9 @@ var cookieParser     = require('cookie-parser');
 var http             = require('http');
 var mkdirp           = require('mkdirp');
 var server           = require("./server");
+var Search           = require('imdone-core').Search;
 var async            = require("async");
+var tree             = require('./util/tree');
 var log              = require('debug')('imdone:imdone');
 var core             = require("imdone-core");
 var Repo             = core.Repository;
@@ -32,6 +34,8 @@ var sanitize;
 
 var imdone = module.exports = {pause:{}};
 var pkginfo = require('pkginfo')(module);
+var PROJECT_NOT_FOUND = imdone.PROJECT_NOT_FOUND = "Project not found";
+var DIR_NOT_FOUND = imdone.DIR_NOT_FOUND = "Directory not found";
 
 _.templateSettings = {
   interpolate: /\{\{(.+?)\}\}/g
@@ -101,7 +105,7 @@ imdone.start = function(dirs, _open, woCLI, cb) {
   dirs = _.union(imdone.getConfig().projects, dirs);
 
   function init() {
-    // DOING Should be able to start without server
+    // DOING:110 Should be able to start without server
     server.start(imdone);
     var funcs = [];
     _.each(dirs, function(d) {
@@ -133,7 +137,7 @@ imdone.start = function(dirs, _open, woCLI, cb) {
   }
 };
 
-// PLANNING:50 Use axon-rpc for cli service and move to it's own module
+// PLANNING:60 Use axon-rpc for cli service and move to it's own module
 imdone.startCLIService = function(callback) {
   //Start a service on 8899 for cli to interact with
   //Access imdone data through getters and setters that require project path
@@ -290,6 +294,7 @@ imdone.removeProject = function(name) {
   console.log("Removing project with name:" + name);
   var project = imdone.getProject(name);
   if (project) {
+    if (project.isBusy()) throw new Error("Project Busy");
     var repo = imdone.getRepo(name);
     this.removeProjectFromConfig(repo.getPath());
     delete imdone.projects[name];
@@ -300,6 +305,158 @@ imdone.removeProject = function(name) {
 
 imdone.getProject = function(name) {
   return imdone.projects[name] || undefined;
+};
+
+imdone.getKanban = function(name) {
+  var project = imdone.getProject(name);
+  if (project) {
+    if (project.isBusy()) throw new Error("Project Busy");
+    return {
+      lists: project.getTasks(null, true),
+      readme: imdone.getRepo(project).getDefaultFile()
+    };
+  }
+};
+
+imdone.moveTasks = function(name, tasks, newList, newPos, cb) {
+  cb = _.isFunction(cb) ? cb : _.noop;
+  var project = imdone.getProject(name);
+  if (project) {
+    if (project.isBusy()) throw new Error("Project Busy");
+    project.moveTasks(tasks, newList, newPos, cb);  
+  }
+};
+
+imdone.moveList = function(name, list, pos, cb) {
+  cb = _.isFunction(cb) ? cb : _.noop;
+  var project = imdone.getProject(name);
+  if (project) {
+    if (project.isBusy()) throw new Error("Project Busy");
+    project.moveList(list, pos, cb);
+  }
+};
+
+imdone.removeList = function(name, list, cb) {
+  cb = _.isFunction(cb) ? cb : _.noop;
+  var project = imdone.getProject(name);
+  if (project) {
+    if (project.isBusy()) throw new Error("Project Busy");
+    project.removeList(list, cb);
+  }
+};
+
+imdone.renameList = function(name, list, newList, cb) {
+  cb = _.isFunction(cb) ? cb : _.noop;
+  var project = imdone.getProject(name);
+  if (project) {
+    if (project.isBusy()) throw new Error("Project Busy");
+    project.renameList(list, newList, cb);
+  } else cb(new Error(PROJECT_NOT_FOUND));
+};
+
+imdone.hideList = function(name, list, cb) {
+  cb = _.isFunction(cb) ? cb : _.noop;
+  var project = imdone.getProject(name);
+  if (project) {
+    if (project.isBusy()) throw new Error("Project Busy");
+    project.hideList(list, cb);
+  } else cb(new Error(PROJECT_NOT_FOUND));
+};
+
+imdone.showList = function(name, list, cb) {
+  cb = _.isFunction(cb) ? cb : _.noop;
+  var project = imdone.getProject(name);
+  if (project) {
+    if (project.isBusy()) throw new Error("Project Busy");
+    project.showList(list, cb);
+  } else cb(new Error(PROJECT_NOT_FOUND));
+};
+
+imdone.getFile = function(name, _path, line, cb) {
+  cb = _.isFunction(cb) ? cb : _.noop;
+  var project = imdone.getProject(name);
+  if (project) {
+    if (project.isBusy()) throw new Error("Project Busy");
+    var repoId = server.imdone.getRepo(project).getId();
+    var file = project.getFileWithContent(repoId, _path);
+    if (file) {
+      cb(null, {
+          repoId: file.getRepoId(),
+          src:file.getContent(), 
+          line:line,
+          lang:file.getLang().name,
+          ext:file.getExt(),
+          project:project.path,
+          path:file.getPath()
+      });
+    } else {
+      project.saveFile(repoId, _path, "", function(err, file) {
+        if (err) return cb(err);
+        cb(null,{
+          repoId: file.getRepoId(),
+          src:"", 
+          line:line,
+          lang:file.getLang().name,
+          ext:file.getExt(),
+          project:project.path,
+          path:file.getPath()
+        });
+      });
+    }
+  } else cb(new Error(PROJECT_NOT_FOUND));
+};
+
+imdone.saveFile = function(name, repoId, _path, src, cb) {
+  cb = _.isFunction(cb) ? cb : _.noop;
+  var project = imdone.getProject(name);
+  if (project) {
+    if (project.isBusy()) throw new Error("Project Busy");
+    project.saveFile(repoId, _path, src, cb);
+  } else cb(new Error(PROJECT_NOT_FOUND));
+};
+
+imdone.removeFile = function(name, _path, cb) {
+  cb = _.isFunction(cb) ? cb : _.noop;
+  var project = imdone.getProject(name);
+  if (project) {
+    if (project.isBusy()) throw new Error("Project Busy");
+    var repoId = imdone.getRepo(project).getId();
+    project.deleteFile(repoId, _path, function(err, file) {
+      cb(err, {file:file, deleted:true});
+    });
+  } else cb(new Error(PROJECT_NOT_FOUND));
+};
+
+imdone.getFiles = function(name) {
+  cb = _.isFunction(cb) ? cb : _.noop;
+  var project = imdone.getProject(name);
+  var files;
+  if (project) {
+    return project.getFileTree(server.imdone.getRepo(project).getId());
+  } else throw new Error(PROJECT_NOT_FOUND)
+};
+
+imdone.getDirs = function(_path) {
+  var files = tree.getFiles(_path);
+  if (files) {
+    return files;
+  } else throw new Error(DIR_NOT_FOUND);
+};
+
+imdone.doSearch = function(name, query, offset, limit) {
+  var opts = {project:server.imdone.getProject(name)};
+  if (query) opts.query = query;
+  if (limit) opts.limit = limit;
+  if (offset) opts.offset = offset;
+  var s = new Search(opts);
+  s.execute();
+  return s;
+};
+
+imdone.addList = function(name, list, cb) {
+  cb = _.isFunction(cb) ? cb : _.noop;
+  var project = imdone.getProject(name);
+  project.addList(list, cb);
 };
 
 imdone.getRepo = function(name) {

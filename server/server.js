@@ -17,21 +17,24 @@
   var io           = require('socket.io');
   var mkdirp       = require('mkdirp');
   var path         = require('path');
-  var Search       = require('imdone-core').Search;
-  var tree         = require('./util/tree');
   var server       = module.exports;
-  var log        = require('debug')('imdone:server');
+  var log          = require('debug')('imdone:server');
   var EVENTS       = {
                        PROJECT_MODIFIED: "project.modified",
                        PROJECT_INITIALIZED: "project.initialized",
                        PROJECT_REMOVED: "project.removed",
                        FILES_PROCESSED: "files.processed"
                      };
+  var BUSY_MSG     = "Project Busy";
 
   function isBusy(req,res) {
-    var projectName = req.body.project || req.query.project || req.params[0];
+    var projectName = projectNameFromRequest(req);
     var project = server.imdone.getProject(projectName);
     return (project) ? project.isBusy() : undefined;
+  }
+
+  function projectNameFromRequest(req) {
+    return req.body.project || req.query.project || req.params[0] || req.params.project;
   }
 
   function getProjects(req, res) {
@@ -39,213 +42,187 @@
   }
 
   // ARCHIVE:200 use imdone-core
-  // DOING:0 All methods should return objects from imdone without modification, which means imdone needs to be modified
   function getKanban(req, res){
-    if (isBusy(req,res)) {
-      res.send({busy:true});
-      return;
-    }
-    // log("Getting project with name:", req.params[0]);
-
-    var project = server.imdone.getProject(req.params[0]);
-
-    if (project) {
-      res.send({
-        lists:project.getTasks(null, true),
-        readme:server.imdone.getRepo(project).getDefaultFile()
-      });
-    } else {
-      res.send(404);
+    var project = projectNameFromRequest(req);
+    try {
+      var kanban = server.imdone.getKanban(project);
+      if (kanban) return res.send(kanban);
+      return res.send(404);
+    } catch (e) {
+      if (e.message === BUSY_MSG) return res.send({busy:true});
+      res.send(500);
     }
   }
 
   // ARCHIVE:210 use imdone-core
   function moveTasks(req, res) {
-    if (isBusy(req,res)) {
-      res.send({busy:true});
-      return;
+    try {
+      var project = projectNameFromRequest(req);    
+      var tasks = req.body.tasks;
+      var newList = req.body.newList;
+      var newPos = req.body.newPos;
+      server.imdone.moveTasks(project, tasks, newList, newPos, function() {
+        res.send(200);
+      });
+    } catch (e) {
+      if (e.message === BUSY_MSG) return res.send({busy:true});
+      res.send(500);
     }
-    var project = server.imdone.getProject(req.body.project);
-    var tasks = req.body.tasks;
-    var newList = req.body.newList;
-    var newPos = req.body.newPos;
-    project.moveTasks(tasks, newList, newPos, function() {
-      res.send(200);
-    });
   }
 
   // ARCHIVE:220 use imdone-core
   function moveList(req, res) {
-    if (isBusy(req,res)) {
-      res.send({busy:true});
-      return;
+    try {
+      var project = projectNameFromRequest(req);    
+      var pos = parseInt(req.body.pos, 0);
+      var list = req.body.name;
+      server.imdone.moveList(project, list, pos, function(err) {
+        if (err) return res.send(500, err);
+        res.send(200);
+      });
+    } catch (e) {
+      if (e.message === BUSY_MSG) return res.send({busy:true});
+      res.send(500);
     }
-    var pos = parseInt(req.body.pos, 0);
-    var project = server.imdone.getProject(req.body.project);
-    project.moveList(req.body.name, pos, function(err) {
-      if (err) {
-        console.log(err);
-        res.send(500);
-      } else res.send(200);
-    });
   }
 
   // ARCHIVE:230 use imdone-core
   function removeList(req, res) {
-    if (isBusy(req,res)) {
-      res.send({busy:true});
-      return;
+    try {
+      var project = projectNameFromRequest(req);    
+      var list = req.body.list;
+      server.imdone.removeList(project, list, function(err) {
+        if (err) return res.send(500, err);
+        res.send(200);
+      });
+    } catch (e) {
+      if (e.message === BUSY_MSG) return res.send({busy:true});
+      res.send(500);
     }
-
-    server.imdone.getProject(req.body.project).removeList(req.body.list, function(err) {
-      if (err) res.send(500);
-      else res.send(200);
-    });
-
   }
 
   // ARCHIVE:240 use imdone-core
   function renameList(req, res) {
-    if (isBusy(req,res)) {
-      res.send({busy:true});
-      return;
+    try {
+      var project = projectNameFromRequest(req);    
+      var name = req.body.name;
+      var newName = req.body.newName;
+      server.imdone.renameList(project, name, newName, function(err) {
+        if (err) return res.send(500, err);
+        res.send(200);
+      });
+    } catch (e) {
+      if (e.message === BUSY_MSG) return res.send({busy:true});
+      res.send(500);
     }
-    var project = server.imdone.getProject(req.body.project);
-    var name = req.body.name;
-    var newName = req.body.newName;
-    project.renameList(name, newName, function(err) {
-      if (err) return res.send(500);
-      res.send(200);
-    });
   }
 
   // ARCHIVE:250 use imdone-core
   function hideList(req, res) {
-    if (isBusy(req,res)) {
-      res.send({busy:true});
-      return;
+    try {
+      var project = projectNameFromRequest(req);    
+      var list = req.body.list;
+      server.imdone.hideList(project, list, function(err) {
+        if (err) return res.send(500, err);
+        res.send(200);
+      });
+    } catch (e) {
+      if (e.message === BUSY_MSG) return res.send({busy:true});
+      res.send(500);
     }
-    server.imdone.getProject(req.body.project).hideList(req.body.list, function(err) {
-      if (err) res.send(500);
-      else res.send(200);
-    });
   }
 
   // ARCHIVE:260 use imdone-core
   function showList(req, res) {
-    if (isBusy(req,res)) {
-      res.send({busy:true});
-      return;
+    try {
+      var project = projectNameFromRequest(req);    
+      var list = req.body.list;
+      server.imdone.showList(project, list, function(err) {
+        if (err) return res.send(500, err);
+        res.send(200);
+      });
+    } catch (e) {
+      if (e.message === BUSY_MSG) return res.send({busy:true});
+      res.send(500);
     }
-
-    server.imdone.getProject(req.body.project).showList(req.body.list, function(err) {
-      if (err) res.send(500);
-      else res.send(200);
-    });
   }
 
   // ARCHIVE:920 Have this use splat for project name like getFiles
   // ARCHIVE:620 Move getSource to imdone.js
   // ARCHIVE:270 use imdone-core
   function getSource(req, res) {
-    if (isBusy(req,res)) {
-      res.send({busy:true});
-      return;
-    }
-
-    var path = req.query.path;
-    var line = req.query.line;
-    var project = server.imdone.getProject(req.params[0]);
-    var repoId = server.imdone.getRepo(project).getId();
-    var file = project.getFileWithContent(repoId, path);
-    if (file) {
-      return res.send({
-          repoId: file.getRepoId(),
-          src:file.getContent(), 
-          line:line,
-          lang:file.getLang().name,
-          ext:file.getExt(),
-          project:project.path,
-          path:file.getPath()
-      });
-    } else {
-      project.saveFile(repoId, path, "", function(err, file) {
+    try {
+      var project = projectNameFromRequest(req);    
+      var path = req.query.path;
+      var line = req.query.line;
+      server.imdone.getFile(project, path, line, function(err, data) {
         if (err) return res.send(500, err);
-        res.send({
-          repoId: file.getRepoId(),
-          src:"", 
-          line:line,
-          lang:file.getLang().name,
-          ext:file.getExt(),
-          project:project.path,
-          path:file.getPath()
-        });
+        res.send(data);
       });
+    } catch (e) {
+      if (e.message === BUSY_MSG) return res.send({busy:true});
+      res.send(500);
     }
   }
 
   // ARCHIVE:940 Have this use splat for project name like getFiles
   // ARCHIVE:280 use imdone-core
   function saveSource(req, res) {
-    if (isBusy(req,res)) {
-      res.send({busy:true});
-      return;
+    try {
+      var project = projectNameFromRequest(req);    
+      var path = req.body.path;
+      var src = req.body.src;
+      var repoId = req.body.repoId;
+      server.imdone.saveFile(project, repoId, path, src, function(err, file) {
+        if (err) return res.send(500, err);
+        res.send(file);
+      });
+    } catch (e) {
+      if (e.message === BUSY_MSG) return res.send({busy:true});
+      res.send(500);
     }
-
-    var path = req.body.path,
-        src = req.body.src,
-        repoId = req.body.repoId,
-        project = server.imdone.getProject(req.params[0]);
-
-    project.saveFile(repoId, path, src, function(err, file) {
-      res.send(file);
-    });
   }
 
   // ARCHIVE:870 Move removeSource to imdone.js and add hook    
   // ARCHIVE:170 use imdone-core for removeSource
   function removeSource(req, res) {
-    if (isBusy(req,res)) {
-      res.send({busy:true});
-      return;
-    }
-
-    var path = req.query.path,
-        project = server.imdone.getProject(req.params[0]);
-
-    if (project) {
-       var repoId = server.imdone.getRepo(project).getId();
-       project.deleteFile(repoId, path, function(err, file) {
-        res.send(200, {file:file, deleted:true});
-       });
-    } else {
-      res.send(409,"Unable to remove source");
-      return;
+    try {
+      var project = projectNameFromRequest(req);    
+      var path = req.query.path;
+      server.imdone.removeFile(project, path, function(err, file) {
+        if (err) return res.send(500, err);
+        res.send(file);
+      });
+    } catch (e) {
+      if (e.message === BUSY_MSG) return res.send({busy:true});
+      res.send(500);
     }
   }
 
   // ARCHIVE:290 use imdone-core
   function getFiles(req,res) {
-    var project = server.imdone.getProject(req.params[0]);
-    var files;
-    if (project) {
-      files = project.getFileTree(server.imdone.getRepo(project).getId());
-      if (files) {
-        res.send(files);
-      } else {
-        res.send(404, "Project not found");
-      }
-    } else {
-      files = tree.getFiles(req.params[0]);
-      if (files) {
-        res.send(files);
-      } else {
-        res.send(404, "Directory not found");
-      }
+    try {
+      var project = projectNameFromRequest(req);    
+      var files;
+      res.send(server.imdone.getFiles(project));
+    } catch (e) {
+      if (e.message === BUSY_MSG) return res.send({busy:true});
+      if (e.message === server.imdone.PROJECT_NOT_FOUND) return res.send(404, server.imdone.PROJECT_NOT_FOUND);
+      res.send(500);
     }
   }
 
-  // PLANNING:150 Use imdone-core for md, local and remote
+  function getDirs(req,res) {
+    try {
+      res.send(server.imdone.getDirs(req.params[0]));
+    } catch (e) {
+      if (e.message === BUSY_MSG) return res.send({busy:true});
+      if (e.message === server.imdone.DIR_NOT_FOUND) return res.send(404, server.imdone.DIR_NOT_FOUND);
+      res.send(500);
+    }
+  }
+
+  // PLANNING:160 Use imdone-core for md, local and remote
   function md(req,res) {
     var project = server.imdone.getProject(req.params[0]);
     var path = req.query.path;
@@ -260,16 +237,11 @@
 
   // ARCHIVE:300 use imdone-core for search
   function doSearch(req,res) {
-    var opts = {project:server.imdone.getProject(req.params[0])};
+    var project = projectNameFromRequest(req);
     var query = req.query.query;
     var limit = req.query.limit;
     var offset = req.query.offset;
-    if (query) opts.query = query;
-    if (limit) opts.limit = limit;
-    if (offset) opts.offset = offset;
-    var s = new Search(opts);
-    s.execute();
-    res.send(s);
+    res.send(server.imdone.doSearch(project, query, offset, limit));
   }
 
   function addProject(req, res) {
@@ -278,17 +250,17 @@
   }
 
   function removeProject(req, res) {
-    var name = req.params[0];
-    server.imdone.removeProject(name);
+    var project = projectNameFromRequest(req);
+    server.imdone.removeProject(project);
     res.send(200);
   }
 
   function addList(req, res) {
-    var project = server.imdone.getProject(req.params.project);
+    var project = projectNameFromRequest(req);
     var list = req.params.list;
-    project.addList(list, function(err) {
-      if (err) return res.send(500);
-      return res.send(200);
+    server.imdone.addList(project, list, function(err) {
+      if (err) return res.send(500, err);
+      res.send(200);
     });
   }
 
@@ -325,6 +297,7 @@
     app.put("/api/source/*", saveSource);
     app.del("/api/source/*", removeSource);
     app.get("/api/files/*", getFiles);
+    app.get("/api/dirs/*", getDirs);
     app.get("/api/search/*", doSearch);
     app.get("/api/md/*", md);
     app.post("/api/list/:project/:list", addList);
