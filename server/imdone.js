@@ -95,7 +95,7 @@ imdone.startFromCLI = function(dir) {
 
 imdone.isInitialized = function() {
   return imdone.inititalized;
-}
+};
 
 imdone.start = function(dirs, _open, noServer, cb) {
   if (_.isFunction(noServer)) {
