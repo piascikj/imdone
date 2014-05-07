@@ -251,6 +251,7 @@ imdone.addProject = function(dir, cb) {
   var name = dir.replace(/^([A-Za-z]:(\\)?|\/?)/, "").split(path.sep).join("-");
   console.log("Adding project at:" + dir);
   if (imdone.projects[name]) delete imdone.projects[name];
+  if (!fs.existsSync(dir)) wrench.mkdirSyncRecursive(dir);
   var repo = new Repo(dir);
   var project = imdone.projects[name] = new Project(tools.user(), name, [repo]);
   project.on('project.initialized', function(data) {

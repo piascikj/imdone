@@ -1196,7 +1196,7 @@ define([
     imdone.getDirs(_path,function(data) {
       data.history = imdone.getProjectHistory();
       $('#dirs').html(imdone.dirsTemplate(data));
-      $('#dir-field').html(data.path);
+      $('#dir-field').val(data.path);
       if (!imdone.showHidden) $('.fs-dir[data-hidden=true]').hide();
       cb();
     });
@@ -1577,7 +1577,7 @@ define([
     };
 
     imdone.openProjectBtn.click(function(e) {
-      var dir = $('#dir-field').text();
+      var dir = $('#dir-field').val();
       imdone.addProjectToHistory(dir);
       openProject(dir);
     });
