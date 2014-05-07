@@ -93,12 +93,18 @@ imdone.startFromCLI = function(dir) {
   }
 };
 
+imdone.isInitialized = function() {
+  return imdone.inititalized;
+}
+
 imdone.start = function(dirs, _open, noServer, cb) {
   if (_.isFunction(noServer)) {
     cb = noServer;
     noServer = null;
   }
   cb = _.isFunction(cb) ? cb : _.noop;
+
+  if (imdone.isInitialized()) return cb();
   
   // Merge dirs with dirs in config
   dirs = _.union(imdone.getConfig().projects, dirs);
@@ -113,6 +119,7 @@ imdone.start = function(dirs, _open, noServer, cb) {
     async.parallel(funcs, function(err, result) {
       log('All projects initialized');
       if (_open) open('http://localhost:' + imdone.config.port);
+      imdone.initialized = true;
       cb(err, result);
     });
   }
@@ -378,7 +385,7 @@ imdone.getFile = function(name, _path, line, cb) {
   var project = imdone.getProject(name);
   if (project) {
     if (project.isBusy()) throw new Error("Project Busy");
-    var repoId = server.imdone.getRepo(project).getId();
+    var repoId = imdone.getRepo(project).getId();
     var file = project.getFileWithContent(repoId, _path);
     if (file) {
       cb(null, {
@@ -432,7 +439,7 @@ imdone.getFiles = function(name) {
   var project = imdone.getProject(name);
   var files;
   if (project) {
-    return project.getFileTree(server.imdone.getRepo(project).getId());
+    return project.getFileTree(imdone.getRepo(project).getId());
   } else throw new Error(PROJECT_NOT_FOUND);
 };
 
@@ -444,7 +451,7 @@ imdone.getDirs = function(_path) {
 };
 
 imdone.doSearch = function(name, query, offset, limit) {
-  var opts = {project:server.imdone.getProject(name)};
+  var opts = {project:imdone.getProject(name)};
   if (query) opts.query = query;
   if (limit) opts.limit = limit;
   if (offset) opts.offset = offset;

@@ -22,6 +22,8 @@ requirejs.config({
     toc:'jquery.toc/jquery.toc',
     app:'/js/imdone-local',
     tour:'/js/imdone-tour',
+    search:'/js/models/search',
+    client:'/js/imdone-client',
     scrollTo: "jquery.scrollTo/jquery.scrollTo",
     zeroclipboard: 'zeroclipboard/js/ZeroClipboard',
     wiggle: '/js/jquery.classywiggle.min',
