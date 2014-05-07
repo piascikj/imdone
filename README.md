@@ -11,6 +11,9 @@
 [![NPM](https://nodei.co/npm/imdone.png)](https://nodei.co/npm/imdone/)
 
 ----
+### iMDone has pluggins!
+CHeck out [imdone-echo-plugin](https://www.npmjs.org/package/imdone-echo-plugin)
+
 ### New in version 1.2.0
 - Now using the [imdone-core](https://www.npmjs.org/package/imdone-core) library
 - Tours to get you started
