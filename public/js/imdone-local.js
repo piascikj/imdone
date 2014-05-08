@@ -1576,11 +1576,14 @@ define([
       client.addProject(dir);
     };
 
-    imdone.openProjectBtn.click(function(e) {
+    function openProjectListener(e) {
       var dir = $('#dir-field').val();
       imdone.addProjectToHistory(dir);
       openProject(dir);
-    });
+    }
+
+    imdone.openProjectBtn.click(openProjectListener);
+    $('#dir-field').bind('keydown', 'return', openProjectListener);
 
     $(document).on('click', '.project-hist-link', function(e) {
       e.preventDefault();
