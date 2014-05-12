@@ -99,7 +99,7 @@ define([
     },
     pathSep: (navigator.appVersion.indexOf("Win")!=-1) ? "\\" : "/"
   };
-  // PLANNING:80 Use [spin.js](http://fgnass.github.io/spin.js/#?lines=15&length=24&width=9&radius=60&corners=0.1&rotate=0&trail=60&speed=0.5&direction=1&hwaccel=on) for loading gif
+  // DONE:0 Use [spin.js](http://fgnass.github.io/spin.js/#?lines=15&length=24&width=9&radius=60&corners=0.1&rotate=0&trail=60&speed=0.5&direction=1&hwaccel=on) for loading gif
   //pnotify options
   $.extend($.pnotify.defaults,{
       styling: 'bootstrap',
@@ -177,7 +177,13 @@ define([
   // Convert markdown to html **This could be sourced from the server to DRY it up**
   imdone.md = function(md) {
     md = md || imdone.source.src;
+    // Replace hash style tasks
+    md = md.replace(/#([\w\-]+?):(\d+?\.?\d*?)\s+(.*)/g, function(md, list, order, text, pos) {
+      order = (order === undefined) ? "0" : order;
+      return "[{0}](#{1}:{2})".format([text, list, order]);
+    });
     var html = marked(md);
+    // DOING:0 everything above this should be in imdone-core Repository or File
     var links = /(<a.*?href=")(.*?)(".*?)>(.*)(<\/a>)/ig,
         externalLinks = /^http/,
         mailtoLinks = /^mailto/,
@@ -313,7 +319,7 @@ define([
     return false;
   };
 
-  // PLANNING:70 add notify and undo for move
+  // PLANNING:90 add notify and undo for move
   imdone.moveTasks = function(opts) {
     var tasks = [];
     var toListId = (opts.to) ? opts.to : opts.item.closest(".list").attr("id");
@@ -1526,7 +1532,7 @@ define([
     });
 
     
-    // PLANNING:100 Use [egdelwonk/SlidePanel](https://github.com/egdelwonk/slidepanel) for opening files and removing clutter
+    // PLANNING:110 Use [egdelwonk/SlidePanel](https://github.com/egdelwonk/slidepanel) for opening files and removing clutter
     function openFile() {
       // ARCHIVE:180 Create a new file based on path and project with call to PUT /api/source.  If get fails call saveSource first to create the file
       var path = imdone.fileField.val();
@@ -1634,7 +1640,7 @@ define([
     });
 
     // Listen for hide
-    // PLANNING:110 Show prompt if list is large before showing
+    // PLANNING:120 Show prompt if list is large before showing
     $(document).on('click', '.list-hide, .list-show', function(e) {
       var list = $(this).attr("data-list");
       var el = $("#" + list);

@@ -94,8 +94,8 @@
       "": "printThis.js"
     },
     "intro.js": {
-      "js":"intro.js",
-      "css":"introjs.css"
+      "js": "intro.js",
+      "css": "introjs.css"
     }
   }
 }

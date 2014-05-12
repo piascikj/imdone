@@ -121,6 +121,10 @@ define([
       $.post('/api/project/' + dir);
     },
 
+    md: function(project, _path, cb) {
+      $.get('api/md/' + project + "?path=" + _path, cb);
+    },
+
     initUpdate: function(listeners) {
       var socket = io.connect('http://' + window.document.location.host);
       

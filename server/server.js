@@ -220,17 +220,14 @@
     }
   }
 
-  // PLANNING:160 Use imdone-core for md, local and remote
+  // PLANNING:170 Use imdone-core for md, local and remote
   function md(req,res) {
-    var project = server.imdone.getProject(req.params[0]);
-    var path = req.query.path;
-    if (project.path) {
-      project.md(path, function(html) {
-        res.send(html);
-      });
-    } else {
-      res.send(404, "Unable to get html for file");
-    }
+    var project = projectNameFromRequest(req);
+    var _path = req.query.path;
+    server.imdone.md(project, _path, function(err, html) {
+      if (err) res.send(500);
+      else (res.send(html));
+    });
   }
 
   // ARCHIVE:300 use imdone-core for search

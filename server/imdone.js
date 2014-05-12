@@ -110,7 +110,7 @@ imdone.start = function(dirs, _open, noServer, cb) {
   dirs = _.union(imdone.getConfig().projects, dirs);
 
   function init() {
-    // DONE:0 Should be able to start without server
+    // DONE:10 Should be able to start without server
     if (!noServer) server.start(imdone);
     var funcs = [];
     _.each(dirs, function(d) {
@@ -143,7 +143,7 @@ imdone.start = function(dirs, _open, noServer, cb) {
   }
 };
 
-// PLANNING:60 Use axon-rpc for cli service and move to it's own module
+// PLANNING:80 Use axon-rpc for cli service and move to it's own module
 imdone.startCLIService = function(callback) {
   //Start a service on 8899 for cli to interact with
   //Access imdone data through getters and setters that require project path
@@ -297,7 +297,7 @@ imdone.removeProjectFromConfig = function(dir) {
   fs.writeFileSync(this.getConfigFile(), JSON.stringify(config, null, 2));
 };
 
-// PLANNING:20 Set a default project in config to be opened when iMDone starts
+// PLANNING:30 Set a default project in config to be opened when iMDone starts
 
 imdone.removeProject = function(name) {
   console.log("Removing project with name:" + name);
@@ -379,6 +379,16 @@ imdone.showList = function(name, list, cb) {
     if (project.isBusy()) throw new Error("Project Busy");
     project.showList(list, cb);
   } else cb(new Error(PROJECT_NOT_FOUND));
+};
+
+
+imdone.md = function(name, _path, cb) {
+  cb = _.isFunction(cb) ? cb : _.noop;
+  var project = imdone.getProject(name);
+  if (project) {
+    var repo = imdone.getRepo(project);
+    repo.md(repo.getFile(_path), cb);
+  } else return cb("Project is undefined");
 };
 
 imdone.getFile = function(name, _path, line, cb) {
