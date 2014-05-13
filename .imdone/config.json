@@ -23,6 +23,10 @@
     {
       "name": "ARCHIVE",
       "hidden": true
+    },
+    {
+      "name": "list",
+      "hidden": false
     }
   ],
   "marked": {
