@@ -3,7 +3,7 @@ Change Log
 ### 1.2.9
 - Fix new list found
 - `<Ctrl>+k` for new task
-- Allow #list:0 task syntax
+- Allow `#list:0` task syntax
 
 ### 1.2.3
 - New task is now `<Ctrl>+n`. A little easier for the fingers:)
