@@ -14,6 +14,8 @@
 ### iMDone has pluggins!
 Check out [imdone-echo-plugin](https://www.npmjs.org/package/imdone-echo-plugin)
 
+### Version 1.3.x works on windows!
+
 ### New in version 1.2.0
 - Now using the [imdone-core](https://www.npmjs.org/package/imdone-core) library
 - Tours to get you started
@@ -77,6 +79,10 @@ imdone -h
 - Open a file by clicking on the folder icon and create a task like this
 ```
 [Use imdone to manage tasks in my project](#doing:0)
+```
+- Or like this
+```
+When your in the middle of a scentence #todo:0 write a task like this.
 ```
 - Or create tasks like this in code files (javascript example)
 ```
