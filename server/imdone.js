@@ -110,7 +110,7 @@ imdone.start = function(dirs, _open, noServer, cb) {
   dirs = _.union(imdone.getConfig().projects, dirs);
 
   function init() {
-    // DONE:10 Should be able to start without server
+    // DONE:20 Should be able to start without server
     if (!noServer) server.start(imdone);
     var funcs = [];
     _.each(dirs, function(d) {
@@ -297,7 +297,7 @@ imdone.removeProjectFromConfig = function(dir) {
   fs.writeFileSync(this.getConfigFile(), JSON.stringify(config, null, 2));
 };
 
-// PLANNING:30 Set a default project in config to be opened when iMDone starts
+// PLANNING:40 Set a default project in config to be opened when iMDone starts
 
 imdone.removeProject = function(name) {
   console.log("Removing project with name:" + name);

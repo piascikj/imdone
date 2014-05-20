@@ -78,7 +78,7 @@ imdone -h
 ```
 - Open a file by clicking on the folder icon and create a task like this
 ```
-[Use imdone to manage tasks in my project](#doing:0)
+[Use imdone to manage tasks in my project](#done:0)
 ```
 - Or like this
 ```

@@ -1,7 +1,7 @@
 requirejs.config({
   baseUrl: 'lib',
 
-  //[Put paths in lib](#done:1)
+  // #DONE:0 Put paths in lib
   paths: {
     underscore:"underscore/underscore",
     json2:'json2/json2',

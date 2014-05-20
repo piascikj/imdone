@@ -99,7 +99,7 @@ define([
     },
     pathSep: (navigator.appVersion.indexOf("Win")!=-1) ? "\\" : "/"
   };
-  // DONE:0 Use [spin.js](http://fgnass.github.io/spin.js/#?lines=15&length=24&width=9&radius=60&corners=0.1&rotate=0&trail=60&speed=0.5&direction=1&hwaccel=on) for loading gif
+  // DONE:10 Use [spin.js](http://fgnass.github.io/spin.js/#?lines=15&length=24&width=9&radius=60&corners=0.1&rotate=0&trail=60&speed=0.5&direction=1&hwaccel=on) for loading gif
   //pnotify options
   $.extend($.pnotify.defaults,{
       styling: 'bootstrap',
@@ -183,7 +183,7 @@ define([
       return "[{0}](#{1}:{2})".format([text, list, order]);
     });
     var html = marked(md);
-    // DOING:0 everything above this should be in imdone-core Repository or File
+    // DOING:10 everything above this should be in imdone-core Repository or File
     var links = /(<a.*?href=")(.*?)(".*?)>(.*)(<\/a>)/ig,
         externalLinks = /^http/,
         mailtoLinks = /^mailto/,
@@ -411,7 +411,7 @@ define([
         limit:(params.limit)?parseInt(params.limit, 10):undefined
       });
       search.fetch({success: function(model, response)  {
-          // TODO:30 Put search in a view.  [What is a view? - Backbone.js Tutorials](http://backbonetutorials.com/what-is-a-view/)
+          // #TODO:40 Put search in a view.  [What is a view? - Backbone.js Tutorials](http://backbonetutorials.com/what-is-a-view/)
           var template = Handlebars.compile($("#search-results-template").html());
           var results = model.toJSON();
           var last = results.total+results.offset;
@@ -1137,7 +1137,7 @@ define([
         imdone.navigateToCurrentProject();
       },
       function(data) {
-        // PLANNING:20 Make this pnotify default for all errors!
+        // PLANNING:30 Make this pnotify default for all errors!
         imdone.fileNotify = $.pnotify({
           title: "Unable to delete file!",
           nonblock: true,
