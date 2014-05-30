@@ -15,7 +15,7 @@ iMDone stand alone
 ----
 iMDone is now available as a stand alone app at [imdone.io](http://imdone.io).
 If you're willing to give me good feedback and spread the word I'll issue you a free download code.  
-Just [tweet](http://twitter.com/home?status=Give me imdone for free @imdone_io) to let me know. 
+Just [tweet](http://twitter.com/home?status=Give%20me%20imdone%20for%20free%20@imdone_io) to let me know. 
 
 Introduction
 ----
