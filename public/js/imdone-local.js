@@ -177,11 +177,24 @@ define([
   // Convert markdown to html **This could be sourced from the server to DRY it up**
   imdone.md = function(md) {
     md = md || imdone.source.src;
+    // DOING:0 Find all code blocks and inline code in md files and save the start and end so we can ignore  
+    var ignore = [];
+    var re = /`[\s\S]*?`/g, result;
+    while ((result = re.exec(md)) !== null) {
+      ignore.push([result.index, re.lastIndex]);
+    }
+    re = /`{3}[\s\S]*?`{3}/gm, result = null;
+    while ((result = re.exec(md)) !== null) {
+      ignore.push([result.index, re.lastIndex]);
+    }
+
     // Replace hash style tasks
     md = md.replace(/#([\w\-]+?):(\d+?\.?\d*?)\s+(.*)/g, function(md, list, order, text, pos) {
+      if ( _.some(ignore, function(pair) { return ((pair[0] < pos) && (pos < pair[1])); }) ) return md;
       order = (order === undefined) ? "0" : order;
       return "[{0}](#{1}:{2})".format([text, list, order]);
     });
+    
     var html = marked(md);
     // DOING:10 everything above this should be in imdone-core Repository or File
     var links = /(<a.*?href=")(.*?)(".*?)>(.*)(<\/a>)/ig,
@@ -1011,7 +1024,7 @@ define([
       clip.on( "load", function(client) {
         client.on( "complete", function(client, args) {
           $.pnotify({
-              title: "Text coppied!",
+              title: "Text copied!",
               nonblock: true,
               hide: true,
               sticker: false,

@@ -11,31 +11,11 @@
 [![NPM](https://nodei.co/npm/imdone.png)](https://nodei.co/npm/imdone/)
 
 ----
-### iMDone has pluggins!
-Check out [imdone-echo-plugin](https://www.npmjs.org/package/imdone-echo-plugin)
-
-### Version 1.3.x works on windows!
-
-### New in version 1.2.0
-- Now using the [imdone-core](https://www.npmjs.org/package/imdone-core) library
-- Tours to get you started
-- Create lists without having to create a task
-- Add and remove projects in the UI
-- Keyboard help with `?` or on Help menu
-- Create a new task from the current line with `<Ctrl>+k`
-- List names are in code completion list with `<Ctrl>+<Space>`
-- Reopen projects that were open on last close.  This is merged with --dirs or directory imdone was started in.  Can also be editied in `~/.imdone/config.json`
-- I had to do away with events to make the configuration JSON, but will consider bringing them back if there is enough demand.
-
-### Important
-If you're migrating from an older version of iMDone the configuration is in a new place.  It's still in the .imdone 
-folder, but it's now in JSON format and lists are also stored there.
-Because it's in JSON format, you'll have to escape the '\' character in your excludes.
-
-Connect directly to github!
+iMDone stand alone
 ----
-![iMDone UI](https://raw.githubusercontent.com/piascikj/imdone/master/docs/images/imdone-ui.png)  
-I'll be releasing an iMDone service that connects directly to your github project.  Sign up for the newsletter [here](http://signup.imdoneapp.com).
+iMDone is now available as a stand alone app at [imdone.io](http://imdone.io).
+If you're willing to give me good feedback and spread the word I'll issue you a free download code.  
+Just [tweet](http://twitter.com/home?status=Give me imdone for free @imdone_io) to let me know. 
 
 Introduction
 ----
@@ -47,7 +27,8 @@ Features
 - Supports code style comments like this in code files
   - `// FIXME: this is really broken`
 - Create tasks in any text file using markdown link syntax like
-  - `[Finish the latest blog post](doing:0)`
+  - `[Finish the latest blog post](#doing:0)`
+  - or with a hashtag `#doing:0 Finish the latest blog post`
 - Sort tasks and move them between lists with drag and drop
 - Select and move multiple tasks at once
 - Reorder lists
@@ -115,6 +96,11 @@ After running imdone for the first time, modify .imdone/imdone.json in your proj
 }
 ```
 
+Plugins
+----
+More to come on this, but here's a sample.
+Check out [imdone-echo-plugin](https://www.npmjs.org/package/imdone-echo-plugin)
+
 How you can help
 ----
 If you like iMDone and want to help me make it better, you can make a contribution at Gittip.  Every donation is very much appreciated.  
@@ -172,6 +158,12 @@ Common Errors
 See it in action!
 ----
 Fork this repository and run imdone in your local copy.  I use imdone for keeping track of imdone development.
+
+Migrating from older versions
+----
+If you're migrating from an older version of iMDone the configuration is in a new place.  It's still in the .imdone 
+folder, but it's now in JSON format and lists are also stored there.
+Because it's in JSON format, you'll have to escape the '\' character in your excludes.
 
 Testing
 ----
