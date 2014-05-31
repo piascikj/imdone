@@ -1,15 +1,19 @@
 {
   "exclude": [
-    "^(node_modules|bower_components|public\\/lib|\\.imdone|target|build)\\/?|\\.(git|svn)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
+    "^(public\\/lib|node_modules|bower_components|\\.imdone|target|build)[\\/\\\\]?|\\.(git|svn)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
   ],
   "watcher": true,
   "lists": [
     {
-      "name": "TODO",
+      "name": "ARCHIVE",
       "hidden": false
     },
     {
       "name": "PLANNING",
+      "hidden": false
+    },
+    {
+      "name": "TODO",
       "hidden": false
     },
     {
@@ -19,10 +23,6 @@
     {
       "name": "DONE",
       "hidden": false
-    },
-    {
-      "name": "ARCHIVE",
-      "hidden": true
     }
   ],
   "marked": {

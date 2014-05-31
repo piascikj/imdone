@@ -177,7 +177,8 @@ define([
   // Convert markdown to html **This could be sourced from the server to DRY it up**
   imdone.md = function(md) {
     md = md || imdone.source.src;
-    // DOING:0 Find all code blocks and inline code in md files and save the start and end so we can ignore  
+
+    // Find all code blocks and inline code in md files and save the start and end so we can ignore  
     var ignore = [];
     var re = /`[\s\S]*?`/g, result;
     while ((result = re.exec(md)) !== null) {
@@ -188,7 +189,7 @@ define([
       ignore.push([result.index, re.lastIndex]);
     }
 
-    // Replace hash style tasks
+    // Replace hash style tasks but ignore code
     md = md.replace(/#([\w\-]+?):(\d+?\.?\d*?)\s+(.*)/g, function(md, list, order, text, pos) {
       if ( _.some(ignore, function(pair) { return ((pair[0] < pos) && (pos < pair[1])); }) ) return md;
       order = (order === undefined) ? "0" : order;
