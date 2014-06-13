@@ -197,7 +197,7 @@ define([
     });
     
     var html = marked(md);
-    // DOING:10 everything above this should be in imdone-core Repository or File
+    // DOING:20 everything above this should be in imdone-core Repository or File
     var links = /(<a.*?href=")(.*?)(".*?)>(.*)(<\/a>)/ig,
         externalLinks = /^http/,
         mailtoLinks = /^mailto/,

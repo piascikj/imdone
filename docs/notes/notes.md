@@ -99,7 +99,8 @@ Roadmap
 
 Must do
 ----
-- #DOING:0 Release new version
+- #DOING:0 Upgrade [Socket.IO — Migrating from 0.9](http://socket.io/docs/migrating-from-0-9/)
+- #DOING:10 Release new version
 - [User should be able to select the color of lists by [tkrotoff/jquery-simplecolorpicker](https://github.com/tkrotoff/jquery-simplecolorpicker)](#PLANNING:10)
 - [email tasks using mailto](#PLANNING:20)
 - [javascript - Automically open default email client and pre-populate content - Stack Overflow](http://stackoverflow.com/questions/13231125/automically-open-default-email-client-and-pre-populate-content)
