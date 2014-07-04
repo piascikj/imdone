@@ -56,7 +56,7 @@ Markdown | Less | Pretty
 - [Leave manage lists open when hiding/showing list](#ARCHIVE:910)
 - [Add links to imdone website, pledgie and [twitter](https://twitter.com/about/resources/buttons#tweet), also use flattr](#ARCHIVE:650)
 - [Add search for files and tasks <https://github.com/visionmedia/search> or <https://github.com/visionmedia/reds>](#ARCHIVE:720)
-- [Block entry and ask the user to load changes if a file changes while editing](#TODO:90)
+- [Block entry and ask the user to load changes if a file changes while editing](#DOING:90)
 - [When a user clicks task link in MD, current task should change](#ARCHIVE:640)
 - [On opening of file, set the project at the global level](#ARCHIVE:440)
 - [User should be able to print board as lists of tasks](#ARCHIVE:730)

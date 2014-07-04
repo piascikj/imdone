@@ -1,5 +1,8 @@
 Change Log
 ----
+### 1.3.8
+- Notify user of file change on disk
+
 ### 1.2.9
 - Fix new list found
 - `<Ctrl>+k` for new task

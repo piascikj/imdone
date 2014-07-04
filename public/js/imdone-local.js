@@ -60,6 +60,9 @@ define([
     closeFileModal:  $('#close-file-modal').modal({show:false, keyboard:false}),
     closeFileOkBtn:  $('#close-file-ok-btn'),
     closeFileCancelBtn: $('#close-file-cancel-btn'),
+    reloadFileModal:  $('#reload-file-modal').modal({show:false, keyboard:false}),
+    reloadFileOkBtn:  $('#reload-file-ok-btn'),
+    reloadFileCancelBtn: $('#reload-file-cancel-btn'),
     nameFld:            $('#list-name-field'),
     nameModal:          $('#list-name-modal'),
     newListField:       $('#new-list-field'),
@@ -716,6 +719,27 @@ define([
     imdone.projectsMenu.html(template(context)).show();
   };
 
+  imdone.currentFileChanged = function(data) {
+    // Check if the current file is being modified
+    if (data.mods.length > 0) {
+      var fileUpdate = _.find(data.mods, function(mod) { return mod.mod === 'file.update' });
+      if (fileUpdate && fileUpdate.file === imdone.source.path) {
+        client.getFile(imdone.currentProjectId(), imdone.source.path, function(data) {
+          if (data.src !== imdone.source.src) {
+            imdone.reloadFileConfirm(function(reload) {
+              if (reload) imdone.getSource({
+                path: imdone.source.path, 
+                preview: imdone.previewMode,
+                line: imdone.editor.getCursorPosition().row+1
+              });
+            });
+          }
+          // DOING: How do we check for deleted???
+        });
+      }
+    }
+  };
+
   imdone.initUpdate = function() {
     client.initUpdate({
       'project.modified': function(data) {
@@ -727,6 +751,7 @@ define([
         // only react if project exists and is current.
         if (projectId == currentProjectId) {
           console.log("boardHidden:", boardHidden);
+          imdone.currentFileChanged(data);
           imdone.getKanban({
             project:projectId, 
             noPaint:boardHidden, 
@@ -736,6 +761,7 @@ define([
           });
         }
       },
+      
       'files.processed': function(data) {
         var pcntNum = Math.round((data.processed/data.total)*100);
         var pcnt = pcntNum.toString() + '%';
@@ -1077,6 +1103,7 @@ define([
       imdone.fileContainer.hide();
       imdone.editBar.hide();
       imdone.hideAllContent();
+      delete imdone.source;
   };
 
   imdone.closeFileConfirm = function(cb) {
@@ -1107,6 +1134,29 @@ define([
     imdone.closeFileOkBtn.focus();
   });
   
+  imdone.reloadFileConfirm = function(cb) {
+    imdone.reloadFileOkBtn.unbind('click');
+    imdone.reloadFileCancelBtn.unbind('click');
+
+
+    imdone.reloadFileCancelBtn.click(function(e) {
+      imdone.reloadFileModal.modal("hide");
+      cb(false);
+      return false;
+    });
+    imdone.reloadFileOkBtn.click(function(e) {
+      imdone.reloadFileModal.modal("hide");
+      cb(true);
+      return false;
+    });
+
+    imdone.reloadFileModal.modal("show");
+  };
+
+  imdone.reloadFileModal.on('shown.bs.modal', function() {
+    imdone.reloadFileOkBtn.focus();
+  });
+
   //Save source from editor
   imdone.saveFile = function(evt) {
     imdone.source.src = imdone.editor.getValue();
