@@ -97,5 +97,8 @@
       "js": "intro.js",
       "css": "introjs.css"
     }
+  },
+  "resolutions": {
+    "bootstrap": "~3.1.1"
   }
 }
