@@ -110,7 +110,7 @@ imdone.start = function(dirs, _open, noServer, cb) {
   dirs = _.union(imdone.getConfig().projects, dirs);
 
   function init() {
-    // DONE:20 Should be able to start without server
+    // DONE:40 Should be able to start without server
     if (!noServer) server.start(imdone);
     var funcs = [];
     _.each(dirs, function(d) {

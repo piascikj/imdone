@@ -102,7 +102,7 @@ define([
     },
     pathSep: (navigator.appVersion.indexOf("Win")!=-1) ? "\\" : "/"
   };
-  // DONE:10 Use [spin.js](http://fgnass.github.io/spin.js/#?lines=15&length=24&width=9&radius=60&corners=0.1&rotate=0&trail=60&speed=0.5&direction=1&hwaccel=on) for loading gif
+  // DONE:30 Use [spin.js](http://fgnass.github.io/spin.js/#?lines=15&length=24&width=9&radius=60&corners=0.1&rotate=0&trail=60&speed=0.5&direction=1&hwaccel=on) for loading gif
   //pnotify options
   $.extend($.pnotify.defaults,{
       styling: 'bootstrap',
@@ -153,7 +153,7 @@ define([
   imdone.lsTemplate = Handlebars.compile($("#files-template").html());
   imdone.dirsTemplate = Handlebars.compile($("#dirs-template").html());
 
-  // TODO:10 Replace format with _.template 
+  // TODO:30 Replace format with _.template 
   String.prototype.format = function (col) {
     col = typeof col === 'object' ? col : Array.prototype.slice.call(arguments, 1);
 
@@ -200,7 +200,7 @@ define([
     });
     
     var html = marked(md);
-    // DOING:20 everything above this should be in imdone-core Repository or File
+    // TODO:10 everything above this should be in imdone-core Repository or File
     var links = /(<a.*?href=")(.*?)(".*?)>(.*)(<\/a>)/ig,
         externalLinks = /^http/,
         mailtoLinks = /^mailto/,
@@ -301,7 +301,7 @@ define([
     return new Handlebars.SafeString(result);
   });
 
-  //TODO:20 Take a look at this <https://speakerdeck.com/ammeep/unsuck-your-backbone>, <http://amy.palamounta.in/2013/04/12/unsuck-your-backbone/>
+  //TODO:40 Take a look at this <https://speakerdeck.com/ammeep/unsuck-your-backbone>, <http://amy.palamounta.in/2013/04/12/unsuck-your-backbone/>
   
   imdone.setProjectData = function(project, data) {
     imdone.data[project] = data;
@@ -428,7 +428,7 @@ define([
         limit:(params.limit)?parseInt(params.limit, 10):undefined
       });
       search.fetch({success: function(model, response)  {
-          // #TODO:40 Put search in a view.  [What is a view? - Backbone.js Tutorials](http://backbonetutorials.com/what-is-a-view/)
+          // #TODO:60 Put search in a view.  [What is a view? - Backbone.js Tutorials](http://backbonetutorials.com/what-is-a-view/)
           var template = Handlebars.compile($("#search-results-template").html());
           var results = model.toJSON();
           var last = results.total+results.offset;
@@ -734,7 +734,7 @@ define([
               });
             });
           }
-          // DOING: How do we check for deleted???
+          // TODO:0 How do we check for deleted???
         });
       }
     }

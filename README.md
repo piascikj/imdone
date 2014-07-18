@@ -1,7 +1,8 @@
 ![iMDone](https://raw.githubusercontent.com/piascikj/imdone/master/docs/logo.png)  
 ----
 
-### A task board and wiki in one!
+A task board and wiki in one!
+----
 
 [![Build Status](https://travis-ci.org/piascikj/imdone.png?branch=master)](https://travis-ci.org/piascikj/imdone)
 [![Dependency Status](https://gemnasium.com/piascikj/imdone.png)](https://gemnasium.com/piascikj/imdone)
@@ -11,10 +12,16 @@
 [![NPM](https://nodei.co/npm/imdone.png)](https://nodei.co/npm/imdone/)
 
 ----
+
+Stay in the loop
+----
+[![Follow imdone_io on Twitter](http://i.imgur.com/tXSoThF.png)Follow @imdone_io](https://twitter.com/intent/user?screen_name=imdone_io)  
+[![iMDone Blog](http://i.imgur.com/YckIOms.png)Read the iMDone Blog](http://blog.imdone.io)  
+
 iMDone stand alone
 ----
 iMDone is now available as a stand alone app at [imdone.io](http://imdone.io).
-If you're willing to give me good feedback and spread the word I'll issue you a free download code.  
+If you're willing to give me honest feedback I'll issue you a free download code.  
 Just [tweet](http://twitter.com/home?status=Give%20me%20imdone%20for%20free%20@imdone_io) to let me know. 
 
 Introduction
