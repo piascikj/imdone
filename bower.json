@@ -33,9 +33,9 @@
     "store": "~2.1.3",
     "ace-builds": "~1.1.3",
     "zeroclipboard": "~1.3.0-beta.1",
-    "printThis": "imdone/printThis#master",
+    "printThis": "git://github.com/imdone/printThis#master",
     "jquery.toc": "~0.3.5",
-    "intro.js": "piascikj/intro.js#master"
+    "intro.js": "git://github.com/piascikj/intro.js#master"
   },
   "exportsOverride": {
     "requirejs": {
