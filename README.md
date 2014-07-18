@@ -15,8 +15,8 @@ A task board and wiki in one!
 
 Stay in the loop
 ----
-[![Follow imdone_io on Twitter](http://i.imgur.com/tXSoThF.png)Follow @imdone_io](https://twitter.com/intent/user?screen_name=imdone_io)  
-[![iMDone Blog](http://i.imgur.com/YckIOms.png)Read the iMDone Blog](http://blog.imdone.io)  
+[![Follow imdone_io on Twitter](http://i.imgur.com/wWzX9uB.png) Follow @imdone_io](https://twitter.com/intent/user?screen_name=imdone_io)  
+[![iMDone Blog](http://i.imgur.com/jDRp47c.png)Read the iMDone Blog](http://blog.imdone.io)  
 
 iMDone stand alone
 ----
