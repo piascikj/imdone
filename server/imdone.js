@@ -306,6 +306,7 @@ imdone.removeProject = function(name) {
     if (project.isBusy()) throw new Error("Project Busy");
     var repo = imdone.getRepo(name);
     this.removeProjectFromConfig(repo.getPath());
+    project.destroy();
     delete imdone.projects[name];
   }
 
