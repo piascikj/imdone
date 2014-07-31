@@ -23,6 +23,10 @@
     {
       "name": "DONE",
       "hidden": false
+    },
+    {
+      "name": "HTML",
+      "hidden": false
     }
   ],
   "marked": {
