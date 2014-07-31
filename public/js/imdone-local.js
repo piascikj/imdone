@@ -723,7 +723,7 @@ define([
     // Check if the current file is being modified
     if (data.mods.length > 0) {
       var fileUpdate = _.find(data.mods, function(mod) { return mod.mod === 'file.update' });
-      if (fileUpdate && fileUpdate.file === imdone.source.path) {
+      if (fileUpdate && imdone.source && fileUpdate.file === imdone.source.path) {
         client.getFile(imdone.currentProjectId(), imdone.source.path, function(data) {
           if (data.src !== imdone.source.src) {
             imdone.reloadFileConfirm(function(reload) {
