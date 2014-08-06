@@ -1,5 +1,8 @@
 Change Log
 ----
+### 1.4.4
+- Fix code block replace in md files
+
 ### 1.4.3
 - Added config.code.include_lists array for code tasks
 
