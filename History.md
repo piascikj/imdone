@@ -1,5 +1,8 @@
 Change Log
 ----
+### 1.4.5
+- Better task detection in code
+
 ### 1.4.4
 - Fix code block replace in md files
 
