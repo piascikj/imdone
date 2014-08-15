@@ -227,8 +227,8 @@ define([
           list = taskList;
           out = href;
         });
-        var template = '<span class="label label-info task-label">{0}</span>' +
-        '{1}{2}{3} class="task-link" data-list="{0}"> <span class="task-content">{4}</span>{5}';
+        var template = '{1}{2}{3} class="task-link" data-list="{0}"> <span class="task-content">{4}</span>' +
+                       '<span class="label label-info task-label">{0}</span>{5}';
         
         out = (template).format([list,head,href,tail,content,end]);
       // Check for filter links
