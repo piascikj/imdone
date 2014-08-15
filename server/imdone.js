@@ -26,8 +26,8 @@ var async            = require("async");
 var tree             = require('./util/tree');
 var log              = require('debug')('imdone:imdone');
 var core             = require("imdone-core");
-var Repo             = core.Repository;
-var Project          = core.Project;
+var Repo             = require('imdone-core/lib/watched-repository');
+var Project          = require('imdone-core/lib/fs-project');
 var tools            = core.Tools;
 var sanitize;
 

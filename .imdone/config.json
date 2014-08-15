@@ -16,7 +16,7 @@
   "lists": [
     {
       "name": "PLANNING",
-      "hidden": false
+      "hidden": true
     },
     {
       "name": "TODO",
