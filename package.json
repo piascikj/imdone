@@ -1,7 +1,7 @@
 {
   "name": "imdone",
   "preferGlobal": "true",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "description": "A task board and wiki in one!",
   "keywords": [
     "todo",
