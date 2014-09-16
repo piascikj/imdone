@@ -1,13 +1,13 @@
 ![iMDone](https://raw.githubusercontent.com/piascikj/imdone/master/docs/logo.png)  
 ----
 
-A task board and wiki in one!
+Put TODOs in their place!
 ----
-
-[![Build Status](https://travis-ci.org/piascikj/imdone.png?branch=master)](https://travis-ci.org/piascikj/imdone)
-[![Dependency Status](https://gemnasium.com/piascikj/imdone.png)](https://gemnasium.com/piascikj/imdone)
-[![Gittip donate button](http://img.shields.io/gittip/piascikj.png)](https://www.gittip.com/piascikj/ "Donate weekly to this project using Gittip")
-[![Flattr donate button](http://img.shields.io/flattr/donate.png?color=yellow)](http://flattr.com/thing/1286067/iMDone "Donate monthly to this project using Flattr")
+[![Downloads](http://img.shields.io/npm/dm/imdone.svg?style=flat)](https://nodei.co/npm/imdone/)
+[![Build Status](http://img.shields.io/travis/piascikj/imdone.svg?style=flat)](https://travis-ci.org/piascikj/imdone)
+[![Dependency Status](http://img.shields.io/david/piascikj/imdone.svg?style=flat)](https://david-dm.org/piascikj/imdone)
+[![Gratipay donate button](http://img.shields.io/gratipay/piascikj.svg?style=flat)](https://www.gratipay.com/piascikj/ "Donate weekly to this project using Gratipay")
+[![Flattr donate button](http://img.shields.io/badge/flattr-donate-yellow.svg?style=flat)](http://flattr.com/thing/1286067/iMDone "Donate monthly to this project using Flattr")
 
 [![NPM](https://nodei.co/npm/imdone.png)](https://nodei.co/npm/imdone/)
 
@@ -15,8 +15,8 @@ A task board and wiki in one!
 
 Stay in the loop
 ----
-[![Follow imdone_io on Twitter](http://i.imgur.com/wWzX9uB.png) Follow @imdone_io](https://twitter.com/intent/user?screen_name=imdone_io)  
-[![iMDone Blog](http://i.imgur.com/jDRp47c.png)Read the iMDone Blog](http://blog.imdone.io)  
+[![Follow imdone_io on Twitter](http://img.shields.io/badge/twitter-imdone__io-blue.svg?style=flat)](https://twitter.com/intent/user?screen_name=imdone_io)
+[![iMDone Blog](http://img.shields.io/badge/blog-read-blue.svg?style=flat)](http://blog.imdone.io)  
 
 iMDone stand alone
 ----
