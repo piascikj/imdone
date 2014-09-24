@@ -83,7 +83,7 @@ imdone
 
 Configuration
 ----
-After running imdone for the first time, modify .imdone/imdone.json in your project directory.  The default config looks like this.  Your imdone.json will extend this.
+After running imdone for the first time, modify `.imdone/config.json` in your project directory.  The default config looks like this.  Your `.imdone/config.json` will extend this:
 ```javascript
 {
   "exclude": [
