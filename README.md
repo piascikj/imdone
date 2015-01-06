@@ -18,11 +18,12 @@ Stay in the loop
 [![Follow imdone_io on Twitter](http://img.shields.io/badge/twitter-imdone__io-blue.svg?style=flat)](https://twitter.com/intent/user?screen_name=imdone_io)
 [![iMDone Blog](http://img.shields.io/badge/blog-read-blue.svg?style=flat)](http://blog.imdone.io)  
 
-iMDone stand alone
+iMDone for Chrome
 ----
-iMDone is now available as a stand alone app at [imdone.io](http://imdone.io).
-If you're willing to give me honest feedback I'll issue you a free download code.  
-Just [tweet](http://twitter.com/home?status=Give%20me%20imdone%20for%20free%20@imdone_io) to let me know. 
+iMDone is now available as a chrome app at [iMDone - Chrome Web Store](https://chrome.google.com/webstore/detail/imdone/kchfkmdhgpibgidhdllkbgfnpmefdldl) with a 2 week free trial.
+
+This project is going on hold so I can foucs more of my time on the chrome app.  I'll be adding all of the npm project features to the new chrome app over time, so stay tunned.  If you like iMDone give the chrome app a try!
+
 
 Introduction
 ----

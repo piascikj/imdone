@@ -20,7 +20,7 @@
     },
     {
       "name": "TODO",
-      "hidden": false
+      "hidden": true
     },
     {
       "name": "DOING",
@@ -36,6 +36,22 @@
     },
     {
       "name": "HTML",
+      "hidden": true
+    },
+    {
+      "name": "doing",
+      "hidden": true
+    },
+    {
+      "name": "todo",
+      "hidden": true
+    },
+    {
+      "name": "done",
+      "hidden": true
+    },
+    {
+      "name": "filters",
       "hidden": true
     }
   ],
