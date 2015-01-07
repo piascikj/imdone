@@ -1292,8 +1292,7 @@ define([
     $.get('/help.md', function(data) {
       var help = imdone.md(data);
       $('#help-modal').modal({
-        keyboard: true,
-
+        keyboard: true
       }).find('.modal-body').html(help);
     });
   };
@@ -1753,6 +1752,10 @@ define([
         },
 
       initialize: function() {
+        console.log("Router initialized...");
+        $('#chrome-app-modal').modal({
+          keyboard: true
+        });
         //ARCHIVE:400 Construct views and models in here!
         // imdone.data.projects = new Projects();
       },

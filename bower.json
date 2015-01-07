@@ -35,7 +35,8 @@
     "zeroclipboard": "~1.3.0-beta.1",
     "printThis": "git://github.com/imdone/printThis#master",
     "jquery.toc": "~0.3.5",
-    "intro.js": "git://github.com/piascikj/intro.js#master"
+    "intro.js": "git://github.com/piascikj/intro.js#master",
+    "bootbox": "~4.3.0"
   },
   "exportsOverride": {
     "requirejs": {
