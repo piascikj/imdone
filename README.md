@@ -20,9 +20,11 @@ Stay in the loop
 
 iMDone for Chrome
 ----
-iMDone is now available as a chrome app at [iMDone - Chrome Web Store](https://chrome.google.com/webstore/detail/imdone/kchfkmdhgpibgidhdllkbgfnpmefdldl) with a 2 week free trial.
+iMDone is now available as a chrome app at [iMDone - Chrome Web Store](https://chrome.google.com/webstore/detail/imdone/kchfkmdhgpibgidhdllkbgfnpmefdldl).
 
 This project is going on hold so I can foucs more of my time on the chrome app.  I'll be adding all of the npm project features to the new chrome app over time, so stay tunned.  If you like iMDone give the chrome app a try!
+
+You can read more about it at the [iMDone Blog](http://blog.imdone.io).
 
 
 Introduction

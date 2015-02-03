@@ -20,7 +20,7 @@
     },
     {
       "name": "TODO",
-      "hidden": true
+      "hidden": false
     },
     {
       "name": "DOING",
@@ -28,14 +28,10 @@
     },
     {
       "name": "DONE",
-      "hidden": false
-    },
-    {
-      "name": "ARCHIVE",
       "hidden": true
     },
     {
-      "name": "HTML",
+      "name": "ARCHIVE",
       "hidden": true
     },
     {
