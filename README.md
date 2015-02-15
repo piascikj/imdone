@@ -1,5 +1,4 @@
-![iMDone](https://raw.githubusercontent.com/piascikj/imdone/master/docs/logo.png)  
-----
+<center>[![iMDone](http://imdone.io/images/icon-256.png)](http://imdone.io "imdone.io")</center>
 
 Put TODOs in their place!
 ----
@@ -17,6 +16,7 @@ Stay in the loop
 ----
 [![Follow imdone_io on Twitter](http://img.shields.io/badge/twitter-imdone__io-blue.svg?style=flat)](https://twitter.com/intent/user?screen_name=imdone_io)
 [![iMDone Blog](http://img.shields.io/badge/blog-read-blue.svg?style=flat)](http://blog.imdone.io)  
+
 
 iMDone for Chrome
 ----
