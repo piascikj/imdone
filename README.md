@@ -22,7 +22,9 @@ iMDone for Chrome
 ----
 iMDone is now available as a chrome app at [iMDone - Chrome Web Store](https://chrome.google.com/webstore/detail/imdone/kchfkmdhgpibgidhdllkbgfnpmefdldl).
 
-This project is going on hold so I can foucs more of my time on the chrome app.  I'll be adding all of the npm project features to the new chrome app over time, so stay tunned.  If you like iMDone give the chrome app a try!
+This project is on hold so I can foucs more of my time on the chrome app.
+
+iMDone for chrome is now more feature rich than iMDone and is available for your friends who don't know npm or node!
 
 You can read more about it at the [iMDone Blog](http://blog.imdone.io).
 
