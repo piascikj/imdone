@@ -18,7 +18,7 @@ requirejs.config({
     'ace-spellcheck':'ace-builds/ext-spellcheck',
     pnotify:'/js/jquery.pnotify.min',
     store:'/js/store.min',
-    prism:'prismjs/js/prism',
+    prism:'prism/js/prism',
     toc:'jquery.toc/jquery.toc',
     app:'/js/imdone-local',
     tour:'/js/imdone-tour',

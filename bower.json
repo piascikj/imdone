@@ -22,7 +22,7 @@
     "backbone": "*",
     "bootstrap": "~3.1.1",
     "marked": "~0.3.1",
-    "prismjs": "*",
+    "prism": "prism#gh-pages",
     "underscore": "*",
     "requirejs": "*",
     "jquery.scrollTo": "~1.4.6",
@@ -70,8 +70,8 @@
       "css": "css/*.css",
       "font": "font/*"
     },
-    "prismjs": {
-      "css": "*.css",
+    "prism": {
+      "css": "themes/*.css",
       "js": "*.js"
     },
     "handlebars": {
