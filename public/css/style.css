@@ -48,6 +48,10 @@ blockquote p {
   margin-bottom: -10px;
 }
 
+.form-group {
+  margin-left: 1em;
+}
+
 .dropdown-menu a [class^="icomoon-"], .dropdown-menu a [class*=" icomoon-"] {
   width: 16px;
   font-size: 14px;

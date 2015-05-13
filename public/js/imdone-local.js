@@ -13,6 +13,7 @@ define([
   'zeroclipboard',
   'ace',
   'tour',
+  'keen',
   'ace-language-tools',
   'ace-spellcheck',
   'jqueryui',
@@ -23,7 +24,7 @@ define([
   'toc',
   'scrollTo',
   'wiggle'
-], function(_, $, Backbone, Handlebars, JSON, io, marked, Prism, store, Search, client, ZeroClipboard, ace, Tour) {
+], function(_, $, Backbone, Handlebars, JSON, io, marked, Prism, store, Search, client, ZeroClipboard, ace, Tour, Keen) {
 
   var imdone = window.imdone = {
     data:{},
@@ -102,7 +103,7 @@ define([
     },
     pathSep: (navigator.appVersion.indexOf("Win")!=-1) ? "\\" : "/"
   };
-  // DOING:0 Show a modal on startup that advertises chrome app
+  // DOING:0 Show a modal on startup that advertises chrome app and gives a poll
   // DONE:30 Use [spin.js](http://fgnass.github.io/spin.js/#?lines=15&length=24&width=9&radius=60&corners=0.1&rotate=0&trail=60&speed=0.5&direction=1&hwaccel=on) for loading gif
   //pnotify options
   $.extend($.pnotify.defaults,{
@@ -1752,14 +1753,88 @@ define([
         },
 
       initialize: function() {
-        console.log("Router initialized...");
-        $('#chrome-app-modal').modal({
-          keyboard: true
-        });
+        this.doPoll();
         //ARCHIVE:400 Construct views and models in here!
         // imdone.data.projects = new Projects();
       },
       
+      doPoll: function() {
+        if ((window.localStorage && localStorage.getItem('poll')) || !window.navigator.onLine) return;
+        var keen = new Keen({
+          projectId: "5550efecd2eaaa7efde1f138",
+          writeKey: "57032d04b2b29b693ef0e06aa3c7f295ead6daf33f51696b99dffdc1ad3e52898a22578b58a2f2138d370e626c497a93ecbb6629ec4dc6f7d4b34a64158121afeec493adef9a069b4385ead8861e852acd66489a049084e75dbb72e1cea5dfc0f584eac15dd91ca7a58c357656cb36eb"
+        });
+        console.log("Router initialized...");
+
+        var $pollModal = $('#poll-modal').modal({
+          keyboard: true,
+          backdrop: true
+        });
+
+        var $pollForm = $pollModal.find('form#poll');
+        var $pollWhy = $pollForm.find('input[type=radio][name=why]');
+        var $pollHow = $pollForm.find('input[type=radio][name=how]');
+
+        var trackPoll = function() {
+          if (window.localStorage && window.navigator.onLine) {
+            var pollData = {};
+            pollData.why = $($pollWhy.selector + ':checked').val();
+            pollData.how = $($pollHow.selector + ':checked').val();
+            var email = $pollForm.find('#email').val();
+            if ("" !== email) pollData.email = email;
+            pollData.origin = window.location.origin;
+            pollData.platform = {
+              vendor: navigator.vendor,
+              language: navigator.language,
+              appVersion: navigator.appVersion,
+            };
+
+            if (pollData.why === "other") {
+              pollData.whyDesc = $pollForm.find('#why-description').val();
+            }
+
+            var addEvent = function() {
+              if (!window.navigator.onLine) return;
+              keen.addEvent("poll-1", pollData, function(err, res){
+                if (!err) {
+                  localStorage.setItem('poll', 'done');
+                }
+              });
+            };
+
+            var options = {
+              enableHighAccuracy: true,
+              timeout: 5000,
+              maximumAge: 0
+            };
+
+            navigator.geolocation.getCurrentPosition(function(pos) {
+              pollData.coords = {
+                latitude: pos.coords.latitude,
+                longitude: pos.coords.longitude,
+                accuracy: pos.coords.accuracy,
+              };
+              addEvent();
+            }, function(err) {
+              addEvent();
+            }, options);
+          }
+          return false;
+        };
+
+        $pollWhy.change(function() {
+          if ($(this).attr('id') === "why-other") $pollModal.find('#why-desc-wrapper').slideDown();
+          else $pollModal.find('#why-desc-wrapper').slideUp();
+        });
+
+        $pollForm.submit(function(evt) {
+          evt.preventDefault();
+          $pollModal.modal('hide');
+          trackPoll();
+          return false;
+        });
+      },
+
       filterRoute: function(filter) {
         this.lastRoute = "filter";
         imdone.filter(filter);

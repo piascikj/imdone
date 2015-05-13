@@ -28,7 +28,8 @@ requirejs.config({
     zeroclipboard: 'zeroclipboard/js/ZeroClipboard',
     wiggle: '/js/jquery.classywiggle.min',
     printThis: 'printThis/printThis',
-    introjs: 'intro.js/js/intro'
+    introjs: 'intro.js/js/intro',
+    keen: 'keen-js/keen.min'
   },
 
   shim: {

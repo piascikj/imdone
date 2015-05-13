@@ -36,7 +36,8 @@
     "printThis": "git://github.com/imdone/printThis#master",
     "jquery.toc": "~0.3.5",
     "intro.js": "git://github.com/piascikj/intro.js#master",
-    "bootbox": "~4.3.0"
+    "bootbox": "~4.3.0",
+    "keen-js": "~3.2.4"
   },
   "exportsOverride": {
     "requirejs": {

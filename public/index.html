@@ -330,22 +330,81 @@
        </div>
      </div>
     </div>
-    <div id="chrome-app-modal" class="modal hide fade full-screen" tabindex='-1'>
-     <div class="modal-dialog">
-       <div class="modal-content">
-        <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-          <i class="icomoon-remove"></i>
-        </button>
-        <h3 class="mdl-header">iMDone - Chrome App</h3>
+    <div id="poll-modal" class="modal hide fade full-screen" tabindex='-1'>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              <i class="icomoon-remove"></i>
+            </button>
+            <h3 class="mdl-header">iMDone - Poll</h3>
+            <p>
+              We value your feedback.  Help us make iMDone even better by responding to this short poll.
+            </p>
+          </div>
+          <form name="poll" id="poll">
+            <div class="modal-body">
+              <h4>Why do you use iMDone?</h4>
+              <div class="form-group">
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="why" id="why-debt" value="technical debt">
+                    To identify and eliminate technical debt
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="why" id="why-tasks" value="manage tasks">
+                    To manage tasks in my code
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="why" id="why-docs" value="manage docs">
+                    To manage project documentation
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="why" id="why-other" value="other">
+                    Other
+                  </label>
+                </div>
+                <div id="why-desc-wrapper" class="hide form-control">
+                  <textarea aria-label="describe why you use iMDone" id="why-description" class="form-control span6" 
+                            rows="3" placeholder="Describe why you use iMDone"></textarea>                
+                </div>
+              </div>
+              <h4>How do you use iMDone?</h4>
+              <div class="form-group">
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="how" id="how1" value="local install">
+                    Installed locally
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="how" id="how2" value="server install">
+                    Installed on a server for remote access
+                  </label>
+                </div>
+              </div>
+              <h4>Help us keep in touch</h4>
+              <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" class="form-control" id="email" placeholder="email (optional)">
+              </div>
+              <p class="note">
+                <strong>iMDone</strong> is now available as a Chrome App! <a href="https://chrome.google.com/webstore/detail/imdone/kchfkmdhgpibgidhdllkbgfnpmefdldl">Get it here !</a>
+              </p>
+            </div>
+            <div class="modal-footer">
+              <input type="submit" id="submit-poll-btn" role="button" class="btn btn-inverse" />
+            </div>
+          </form>
         </div>
-         <div class="modal-body">
-          <p> 
-            <strong>iMDone</strong> is now available as a Chrome App! <a href="https://chrome.google.com/webstore/detail/imdone/kchfkmdhgpibgidhdllkbgfnpmefdldl">Get it here !</a>
-          </p>
-         </div>
-       </div>
-     </div>
+      </div>
     </div> 
 
     <!-- Mustache templates -->
