@@ -1751,20 +1751,52 @@ define([
           "filter/*filter" : "filterRoute",
           "*action": "defaultRoute" // Backbone will try match the route above first
         },
-
+      
+      keen: new Keen({
+        projectId: "5550efecd2eaaa7efde1f138",
+        writeKey: "57032d04b2b29b693ef0e06aa3c7f295ead6daf33f51696b99dffdc1ad3e52898a22578b58a2f2138d370e626c497a93ecbb6629ec4dc6f7d4b34a64158121afeec493adef9a069b4385ead8861e852acd66489a049084e75dbb72e1cea5dfc0f584eac15dd91ca7a58c357656cb36eb"
+      }),
+    
       initialize: function() {
+        var msg = {};
+        this.addDemographics(msg, function() {
+          this.keen.addEvent("start", msg, function(err, res){
+            console.log(err);
+            console.log(res);
+          });
+        }.bind(this));
         this.doPoll();
+        console.log("Router initialized...");
         //ARCHIVE:400 Construct views and models in here!
         // imdone.data.projects = new Projects();
       },
       
+      addDemographics: function(obj, cb) {
+          obj.origin = window.location.origin;
+          obj.platform = {
+            vendor: navigator.vendor,
+            language: navigator.language,
+            appVersion: navigator.appVersion,
+          };
+          navigator.geolocation.getCurrentPosition(function(pos) {
+            obj.coords = {
+              latitude: pos.coords.latitude,
+              longitude: pos.coords.longitude,
+              accuracy: pos.coords.accuracy,
+            };
+            cb();
+          }, function(err) {
+            cb();
+          }, {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+          });
+      },
+
       doPoll: function() {
         if ((window.localStorage && localStorage.getItem('poll')) || !window.navigator.onLine) return;
-        var keen = new Keen({
-          projectId: "5550efecd2eaaa7efde1f138",
-          writeKey: "57032d04b2b29b693ef0e06aa3c7f295ead6daf33f51696b99dffdc1ad3e52898a22578b58a2f2138d370e626c497a93ecbb6629ec4dc6f7d4b34a64158121afeec493adef9a069b4385ead8861e852acd66489a049084e75dbb72e1cea5dfc0f584eac15dd91ca7a58c357656cb36eb"
-        });
-        console.log("Router initialized...");
+        var self = this;
 
         var $pollModal = $('#poll-modal').modal({
           keyboard: true,
@@ -1782,44 +1814,19 @@ define([
             pollData.how = $($pollHow.selector + ':checked').val();
             var email = $pollForm.find('#email').val();
             if ("" !== email) pollData.email = email;
-            pollData.origin = window.location.origin;
-            pollData.platform = {
-              vendor: navigator.vendor,
-              language: navigator.language,
-              appVersion: navigator.appVersion,
-            };
-
             if (pollData.why === "other") {
               pollData.whyDesc = $pollForm.find('#why-description').val();
             }
 
-            var addEvent = function() {
+            self.addDemographics(pollData, function() {
               if (!window.navigator.onLine) return;
-              keen.addEvent("poll-1", pollData, function(err, res){
+              self.keen.addEvent("poll-1", pollData, function(err, res){
                 if (!err) {
                   localStorage.setItem('poll', 'done');
                 }
               });
-            };
-
-            var options = {
-              enableHighAccuracy: true,
-              timeout: 5000,
-              maximumAge: 0
-            };
-
-            navigator.geolocation.getCurrentPosition(function(pos) {
-              pollData.coords = {
-                latitude: pos.coords.latitude,
-                longitude: pos.coords.longitude,
-                accuracy: pos.coords.accuracy,
-              };
-              addEvent();
-            }, function(err) {
-              addEvent();
-            }, options);
+            });
           }
-          return false;
         };
 
         $pollWhy.change(function() {
