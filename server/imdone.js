@@ -22,7 +22,8 @@ var cookieParser     = require('cookie-parser');
 var http             = require('http');
 var server           = require("./server");
 var Search           = require('imdone-core').Search;
-var async            = require("async");
+var async            = require('async');
+var Keen             = require('keen.io');
 var tree             = require('./util/tree');
 var log              = require('debug')('imdone:imdone');
 var core             = require("imdone-core");
@@ -35,6 +36,10 @@ var imdone = module.exports = {pause:{}};
 var pkginfo = require('pkginfo')(module);
 var PROJECT_NOT_FOUND = imdone.PROJECT_NOT_FOUND = "Project not found";
 var DIR_NOT_FOUND = imdone.DIR_NOT_FOUND = "Directory not found";
+var keen = Keen.configure({
+              projectId: "5550efecd2eaaa7efde1f138",
+              writeKey: "57032d04b2b29b693ef0e06aa3c7f295ead6daf33f51696b99dffdc1ad3e52898a22578b58a2f2138d370e626c497a93ecbb6629ec4dc6f7d4b34a64158121afeec493adef9a069b4385ead8861e852acd66489a049084e75dbb72e1cea5dfc0f584eac15dd91ca7a58c357656cb36eb"
+            });
 
 _.templateSettings = {
   interpolate: /\{\{(.+?)\}\}/g
@@ -98,6 +103,12 @@ imdone.isInitialized = function() {
 };
 
 imdone.start = function(dirs, _open, noServer, cb) {
+  keen.addEvent("imdone started", {
+    openCLI: _open ? true :false
+  }, function(err, result) {
+
+  });
+
   if (_.isFunction(noServer)) {
     cb = noServer;
     noServer = null;
