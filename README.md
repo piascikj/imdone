@@ -1,4 +1,3 @@
-<center>[![iMDone](https://imdone.io/images/logos/imdone-logo-lg.png)](https://imdone.io "imdone.io")</center>
 
 <center>WARNING: This package is deprecated</center>
 ====
