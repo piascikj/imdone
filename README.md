@@ -1,4 +1,12 @@
-<center>[![iMDone](http://imdone.io/images/icon-256.png)](http://imdone.io "imdone.io")</center>
+<center>[![iMDone](https://imdone.io/images/logos/imdone-logo-lg.png)](https://imdone.io "imdone.io")</center>
+
+<center>WARNING: This package is deprecated</center>
+====
+**To get the latest and greatest from the [imdone](https://imdone.io) team, try the [imdone-atom](https://atom.io/packages/imdone-atom), atom editor package.**  
+
+Active development has ceased on [piascikj/imdone](https://github.com/piascikj/imdone).  A stand alone app that like [imdone-atom](https://atom.io/packages/imdone-atom), will also sync your TODO comments with [imdone.io](https://imdone.io) and subsequently issues in a variety of products including github, waffle, trello, jira and twitter is being developed at [imdone/imdone](https://github.com/imdone/imdone).
+
+----
 
 Put TODOs in their place!
 ----
@@ -45,12 +53,12 @@ Features
 - Select and move multiple tasks at once
 - Reorder lists
 - Hide and show lists
-- Task filters (Regular Expression syntax) 
+- Task filters (Regular Expression syntax)
 - Search (Regular Expression syntax)
 - Create, delete and edit files
 - Code completion with ctrl+space in editor
 - Markdown preview with table of contents
-- Syntax highlighting in markdown code blocks 
+- Syntax highlighting in markdown code blocks
 - [Use gollum link syntax](https://github.com/gollum/gollum/wiki#page-links)
   - Great for managing github wikis
 - Execute an event listener for modified files
@@ -173,7 +181,7 @@ Fork this repository and run imdone in your local copy.  I use imdone for keepin
 
 Migrating from older versions
 ----
-If you're migrating from an older version of iMDone the configuration is in a new place.  It's still in the .imdone 
+If you're migrating from an older version of iMDone the configuration is in a new place.  It's still in the .imdone
 folder, but it's now in JSON format and lists are also stored there.
 Because it's in JSON format, you'll have to escape the '\' character in your excludes.
 
