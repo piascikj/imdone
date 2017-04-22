@@ -1,4 +1,4 @@
-<center>WARNING: This package is deprecated</center>
+WARNING: This package is deprecated
 ====
 
 **To get the latest and greatest from the [imdone](https://imdone.io) team, try the [imdone-atom](https://atom.io/packages/imdone-atom), atom editor package.**  
