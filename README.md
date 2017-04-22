@@ -1,6 +1,6 @@
-
 <center>WARNING: This package is deprecated</center>
 ====
+
 **To get the latest and greatest from the [imdone](https://imdone.io) team, try the [imdone-atom](https://atom.io/packages/imdone-atom), atom editor package.**  
 
 Active development has ceased on [piascikj/imdone](https://github.com/piascikj/imdone).  A stand alone app that like [imdone-atom](https://atom.io/packages/imdone-atom), will also sync your TODO comments with [imdone.io](https://imdone.io) and subsequently issues in a variety of products including github, waffle, trello, jira and twitter is being developed at [imdone/imdone](https://github.com/imdone/imdone).
