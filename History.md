@@ -11,7 +11,7 @@ Change Log
 
 ### 1.4.2
 - Recognize code style tasks in block comments.  
-- #DOING: Needs more community input on languages.js
+- #DOING:0 Needs more community input on languages.js id:3158
 
 ### 1.3.8
 - Notify user of file change on disk
