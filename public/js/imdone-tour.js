@@ -142,7 +142,7 @@ define([
       }
 
       intro.onbeforechange(function(el) {
-        // ARCHIVE:80 fix error in intro.js on line 557 when showStepNumbers is false and introduce overlay option
+        // ARCHIVE:80 fix error in intro.js on line 557 when showStepNumbers is false and introduce overlay option id:3818
         var $btn = $(el);
         if ($lastBtn) cleanup();
         $lastBtn = $btn; 
