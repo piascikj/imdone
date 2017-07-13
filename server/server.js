@@ -5,7 +5,7 @@
  * Copyright (c) 2012 Jesse Piascik
  * Licensed under the MIT license.
  */
-  // ARCHIVE:150 Upgrade express - [ExpressJS 4.0: New Features and Upgrading from 3.0 ♥ Scotch](http://scotch.io/bar-talk/expressjs-4-0-new-features-and-upgrading-from-3-0)
+  // ARCHIVE:150 Upgrade express - [ExpressJS 4.0: New Features and Upgrading from 3.0 ♥ Scotch](http://scotch.io/bar-talk/expressjs-4-0-new-features-and-upgrading-from-3-0) id:3293
   var express      = require('express');
   var bodyParser   = require('body-parser');
   var cookieParser = require('cookie-parser');
@@ -39,7 +39,7 @@
       res.send(server.imdone.getProjects());
   }
 
-  // ARCHIVE:200 use imdone-core
+  // ARCHIVE:200 use imdone-core id:3264
   function getKanban(req, res){
     var project = projectNameFromRequest(req);
     try {
@@ -52,7 +52,7 @@
     }
   }
 
-  // ARCHIVE:210 use imdone-core
+  // ARCHIVE:210 use imdone-core id:3292
   function moveTasks(req, res) {
     try {
       var project = projectNameFromRequest(req);    
@@ -68,7 +68,7 @@
     }
   }
 
-  // ARCHIVE:220 use imdone-core
+  // ARCHIVE:220 use imdone-core id:3265
   function moveList(req, res) {
     try {
       var project = projectNameFromRequest(req);    
@@ -84,7 +84,7 @@
     }
   }
 
-  // ARCHIVE:230 use imdone-core
+  // ARCHIVE:230 use imdone-core id:3271
   function removeList(req, res) {
     try {
       var project = projectNameFromRequest(req);    
@@ -99,7 +99,7 @@
     }
   }
 
-  // ARCHIVE:240 use imdone-core
+  // ARCHIVE:240 use imdone-core id:3295
   function renameList(req, res) {
     try {
       var project = projectNameFromRequest(req);    
@@ -115,7 +115,7 @@
     }
   }
 
-  // ARCHIVE:250 use imdone-core
+  // ARCHIVE:250 use imdone-core id:3268
   function hideList(req, res) {
     try {
       var project = projectNameFromRequest(req);    
@@ -130,7 +130,7 @@
     }
   }
 
-  // ARCHIVE:260 use imdone-core
+  // ARCHIVE:260 use imdone-core id:3294
   function showList(req, res) {
     try {
       var project = projectNameFromRequest(req);    
@@ -145,9 +145,9 @@
     }
   }
 
-  // ARCHIVE:920 Have this use splat for project name like getFiles
-  // ARCHIVE:620 Move getSource to imdone.js
-  // ARCHIVE:270 use imdone-core
+  // ARCHIVE:920 Have this use splat for project name like getFiles id:3270
+  // ARCHIVE:620 Move getSource to imdone.js id:3273
+  // ARCHIVE:270 use imdone-core id:3297
   function getSource(req, res) {
     try {
       var project = projectNameFromRequest(req);    
@@ -163,8 +163,8 @@
     }
   }
 
-  // ARCHIVE:940 Have this use splat for project name like getFiles
-  // ARCHIVE:280 use imdone-core
+  // ARCHIVE:940 Have this use splat for project name like getFiles id:3272
+  // ARCHIVE:280 use imdone-core id:3296
   function saveSource(req, res) {
     try {
       var project = projectNameFromRequest(req);    
@@ -181,8 +181,8 @@
     }
   }
 
-  // ARCHIVE:870 Move removeSource to imdone.js and add hook    
-  // ARCHIVE:170 use imdone-core for removeSource
+  // ARCHIVE:870 Move removeSource to imdone.js and add hook     id:3274
+  // ARCHIVE:170 use imdone-core for removeSource id:3276
   function removeSource(req, res) {
     try {
       var project = projectNameFromRequest(req);    
@@ -197,7 +197,7 @@
     }
   }
 
-  // ARCHIVE:290 use imdone-core
+  // ARCHIVE:290 use imdone-core id:3299
   function getFiles(req,res) {
     try {
       var project = projectNameFromRequest(req);    
@@ -220,7 +220,7 @@
     }
   }
 
-  // PLANNING:170 Use imdone-core for md, local and remote
+  // PLANNING:170 Use imdone-core for md, local and remote id:3275
   function md(req,res) {
     var project = projectNameFromRequest(req);
     var _path = req.query.path;
@@ -230,7 +230,7 @@
     });
   }
 
-  // ARCHIVE:300 use imdone-core for search
+  // ARCHIVE:300 use imdone-core for search id:3298
   function doSearch(req,res) {
     var project = projectNameFromRequest(req);
     var query = req.query.query;
@@ -262,7 +262,7 @@
   server.start = function(imdone, callback) {
     server.imdone = imdone;
 
-    //ARCHIVE:810 migrate to express 3.x <https://github.com/visionmedia/express/wiki/Migrating-from-2.x-to-3.x>
+    //ARCHIVE:810 migrate to express 3.x <https://github.com/visionmedia/express/wiki/Migrating-from-2.x-to-3.x> id:3277
     var app = server.app = express();
     var  xserver = http.createServer(app);
 
@@ -277,7 +277,7 @@
       /api/source
       /api/files
     */
-    // ARCHIVE:960 Make sure we're restful
+    // ARCHIVE:960 Make sure we're restful id:3278
     app.post("/api/moveTasks", moveTasks);
     app.post("/api/moveList", moveList);
     app.post("/api/removeList", removeList);
@@ -340,7 +340,7 @@
       server.imdone.emitter.on(EVENTS.PROJECT_MODIFIED, onProjectModified);
       server.imdone.emitter.on(EVENTS.FILES_PROCESSED, onFilesProcessed);
 
-      // ARCHIVE:310 Remove listeners on disconnect
+      // ARCHIVE:310 Remove listeners on disconnect id:3300
       socket.on('disconnect', function () {
         log('disconnected');
         server.imdone.emitter.removeListener(EVENTS.PROJECT_INITIALIZED, onProjectInitialized);
@@ -353,6 +353,6 @@
     if (callback) app.on('listening', callback);
     xserver.listen(imdone.config.port);
 
-    //ARCHIVE:410 Move open board to command line option **open**
+    //ARCHIVE:410 Move open board to command line option **open** id:3279
   };
   
