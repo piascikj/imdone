@@ -5,7 +5,7 @@
  * Copyright (c) 2012 Jesse Piascik
  * Licensed under the MIT license.
  */
-//ARCHIVE:450 Implement hide functionality to hide a list from board
+//ARCHIVE:450 Implement hide functionality to hide a list from board id:3400
 // Nodejs libs.
 var fs               = require('fs');
 var path             = require('path');
@@ -121,7 +121,7 @@ imdone.start = function(dirs, _open, noServer, cb) {
   dirs = _.union(imdone.getConfig().projects, dirs);
 
   function init() {
-    // DONE:40 Should be able to start without server
+    // DONE:40 Should be able to start without server id:3402
     if (!noServer) server.start(imdone);
     var funcs = [];
     _.each(dirs, function(d) {
@@ -154,7 +154,7 @@ imdone.start = function(dirs, _open, noServer, cb) {
   }
 };
 
-// PLANNING:80 Use axon-rpc for cli service and move to it's own module
+// PLANNING:80 Use axon-rpc for cli service and move to it's own module id:3399
 imdone.startCLIService = function(callback) {
   //Start a service on 8899 for cli to interact with
   //Access imdone data through getters and setters that require project path
@@ -308,7 +308,7 @@ imdone.removeProjectFromConfig = function(dir) {
   fs.writeFileSync(this.getConfigFile(), JSON.stringify(config, null, 2));
 };
 
-// PLANNING:40 Set a default project in config to be opened when iMDone starts
+// PLANNING:40 Set a default project in config to be opened when iMDone starts id:3439
 
 imdone.removeProject = function(name) {
   console.log("Removing project with name:" + name);
