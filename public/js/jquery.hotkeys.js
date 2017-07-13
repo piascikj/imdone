@@ -63,7 +63,7 @@
 				modif += "ctrl+";
 			}
 			
-			// #TODO:50 Need to make sure this works consistently across platforms
+			// #TODO:50 Need to make sure this works consistently across platforms id:4978
 			if ( event.metaKey && !event.ctrlKey && special !== "meta" ) {
 				modif += "meta+";
 			}
