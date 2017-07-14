@@ -1,5 +1,5 @@
 WARNING: This package is deprecated
-====
+====   
 
 **To get the latest and greatest from the [imdone](https://imdone.io) team, try the [imdone-atom](https://atom.io/packages/imdone-atom), atom editor package.**  
 
@@ -46,8 +46,8 @@ Features
 - Supports code style comments like this in code files
   - `// FIXME: this is really broken`
 - Create tasks in any text file using markdown link syntax like
-  - `[Finish the latest blog post](#doing:0)`
-  - or with a hashtag `#doing:0 Finish the latest blog post`
+  - `[Finish the latest blog post id:5019](#doing:0)`
+  - or with a hashtag `#doing:0 Finish the latest blog post` id:5020
 - Sort tasks and move them between lists with drag and drop
 - Select and move multiple tasks at once
 - Reorder lists
@@ -78,11 +78,11 @@ imdone -h
 ```
 - Open a file by clicking on the folder icon and create a task like this
 ```
-[Use imdone to manage tasks in my project](#done:0)
+[Use imdone to manage tasks in my project id:5021](#done:0)
 ```
 - Or like this
 ```
-When your in the middle of a scentence #todo:0 write a task like this.
+When your in the middle of a scentence #todo:0 write a task like this. id:5018
 ```
 - Or create tasks like this in code files (javascript example)
 ```
@@ -141,12 +141,12 @@ Tips
 ### Tasks are sorted by the number after the colon
 ### Keep tasks in code  
 ```javascript
-//[this is a todo task in javascript code](#todo:0)
+//[this is a todo task in javascript code id:5022](#todo:0)
 ```
 
 ###Embed a filter link in a task
 ```
-[Filter by [src/main/java](#filter/src/main/java)](#filters:0)
+[Filter by [src/main/java](#filter/src/main/java) id:5023](#filters:0)
 ```  
 This would create a filters list containing this task and a link that will populate the filter box with *src/main/java*
 
