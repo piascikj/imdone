@@ -1538,7 +1538,7 @@ var DocCommentHighlightRules = function() {
     this.$rules = {
         "start" : [ {
             token : "comment.doc.tag",
-            regex : "@[\\w\\d_]+" // TODO: fix email addresses
+            regex : "@[\\w\\d_]+" // TODO:0 fix email addresses id:37 gh:undefined
         }, {
             token : "comment.doc.tag",
             regex : "\\bTODO\\b"
@@ -2458,7 +2458,7 @@ var RubyHighlightRules = function() {
         "constant.language": buildinConstants,
         "variable.language": builtinVariables,
         "support.function": builtinFunctions,
-        "invalid.deprecated": "debugger" // TODO is this a remnant from js mode?
+        "invalid.deprecated": "debugger" // TODO:0 is this a remnant from js mode? id:82 gh:undefined
     }, "identifier");
 
     this.$rules = {

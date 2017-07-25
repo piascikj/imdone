@@ -114,7 +114,7 @@
   }
 
   function getKeyLength(obj) {
-    // @TODO defer to Object.keys(x).length if available?
+    // @TODO:0 defer to Object.keys(x).length if available? id:97 gh:undefined
     var k, t = 0;
     for (k in obj) {
       t ++;
@@ -355,13 +355,13 @@
 
     // we have to create our form first otherwise
     // its value is undefined when gearing up our options
-    // @TODO this could be solved by allowing message to
+    // @TODO:0 this could be solved by allowing message to id:77 gh:undefined
     // be a function instead...
     form = $(templates.form);
 
     // prompt defaults are more complex than others in that
     // users can override more defaults
-    // @TODO I don't like that prompt has to do a lot of heavy
+    // @TODO:0 I don't like that prompt has to do a lot of heavy id:76 gh:undefined
     // lifting which mergeDialogOptions can *almost* support already
     // just because of 'value' and 'inputType' - can we refactor?
     defaults = {
@@ -540,7 +540,7 @@
       e.preventDefault();
       // Fix for SammyJS (or similar JS routing library) hijacking the form post.
       e.stopPropagation();
-      // @TODO can we actually click *the* button object instead?
+      // @TODO:0 can we actually click *the* button object instead? id:94 gh:undefined
       // e.g. buttons.confirm.click() or similar
       dialog.find(".btn-primary").click();
     });
@@ -576,7 +576,7 @@
 
     each(buttons, function(key, button) {
 
-      // @TODO I don't like this string appending to itself; bit dirty. Needs reworking
+      // @TODO:0 I don't like this string appending to itself; bit dirty. Needs reworking id:46 gh:undefined
       // can we just build up button elements instead? slower but neater. Then button
       // can just become a template too
       buttonStr += "<button data-bb-handler='" + key + "' type='button' class='btn " + button.className + "'>" + button.label + "</button>";
@@ -709,7 +709,7 @@
       dialog.modal("show");
     }
 
-    // @TODO should we return the raw element here or should
+    // @TODO:0 should we return the raw element here or should id:98 gh:undefined
     // we wrap it in an object on which we can expose some neater
     // methods, e.g. var d = bootbox.alert(); d.hide(); instead
     // of d.modal("hide");

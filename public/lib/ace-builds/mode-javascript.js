@@ -436,7 +436,7 @@ var DocCommentHighlightRules = function() {
     this.$rules = {
         "start" : [ {
             token : "comment.doc.tag",
-            regex : "@[\\w\\d_]+" // TODO: fix email addresses
+            regex : "@[\\w\\d_]+" // TODO:0 fix email addresses id:61 gh:undefined
         }, {
             token : "comment.doc.tag",
             regex : "\\bTODO\\b"

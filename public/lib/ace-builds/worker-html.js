@@ -612,7 +612,7 @@ if (!Array.prototype.forEach) {
             i = -1,
             length = self.length >>> 0;
         if (_toString(fun) != "[object Function]") {
-            throw new TypeError(); // TODO message
+            throw new TypeError(); // TODO:0 message id:36 gh:undefined
         }
 
         while (++i < length) {
@@ -1023,7 +1023,7 @@ if (!Object.isFrozen) {
 if (!Object.isExtensible) {
     Object.isExtensible = function isExtensible(object) {
         if (Object(object) === object) {
-            throw new TypeError(); // TODO message
+            throw new TypeError(); // TODO:0 message id:63 gh:undefined
         }
         var name = '';
         while (owns(object, name)) {
@@ -4304,7 +4304,7 @@ function TreeBuilder() {
 	this.insertionMode = null;
 	this.insertionModeName = "";
 	this.originalInsertionMode = "";
-	this.inQuirksMode = false; // TODO quirks mode
+	this.inQuirksMode = false; // TODO:0 quirks mode id:73 gh:undefined
 	this.compatMode = "no quirks";
 	this.framesetOk = true;
 	this.redirectAttachToFosterParent = false;
@@ -4742,7 +4742,7 @@ function TreeBuilder() {
 		base: 'startTagBaseLinkCommand',
 		basefont: 'startTagBaseLinkCommand',
 		bgsound: 'startTagBaseLinkCommand',
-		command: 'startTagBaseLinkCommand', //FIXME drop command tag?
+		command: 'startTagBaseLinkCommand', //FIXME:0 drop command tag? id:62 gh:undefined
 		link: 'startTagBaseLinkCommand',
 		meta: 'startTagMeta',
 		"-default": 'startTagOther'

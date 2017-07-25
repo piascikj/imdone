@@ -3711,7 +3711,7 @@ var data_user = new Data();
 //	2. Improve the module's maintainability by reducing the storage
 //		paths to a single mechanism.
 //	3. Use the same single mechanism to support "private" and "user" data.
-//	4. _Never_ expose "private" data to user code (TODO: Drop _data, _removeData)
+//	4. _Never_ expose "private" data to user code (TODO:0 Drop _data, _removeData) id:48 gh:undefined
 //	5. Avoid exposing implementation details on user objects (eg. expando properties)
 //	6. Provide a clear path for implementation upgrade to WeakMap in 2014
 
@@ -3760,7 +3760,7 @@ jQuery.extend({
 		data_user.remove( elem, name );
 	},
 
-	// TODO: Now that all calls to _data and _removeData have been replaced
+	// TODO:0 Now that all calls to _data and _removeData have been replaced id:99 gh:undefined
 	// with direct calls to data_priv methods, these can be deprecated.
 	_data: function( elem, name, data ) {
 		return data_priv.access( elem, name, data );
@@ -7711,7 +7711,7 @@ function ajaxHandleResponses( s, jqXHR, responses ) {
 }
 
 /* Chain conversions given the request and the original response
- * Also sets the responseXXX fields on the jqXHR instance
+ * Also sets the responseXXX:0 fields on the jqXHR instance id:81 gh:undefined
  */
 function ajaxConvert( s, response, jqXHR, isSuccess ) {
 	var conv2, current, conv, tmp, prev,
@@ -8206,7 +8206,7 @@ jQuery.extend({
 				response = ajaxHandleResponses( s, jqXHR, responses );
 			}
 
-			// Convert no matter what (that way responseXXX fields are always set)
+			// Convert no matter what (that way responseXXX:0 fields are always set) id:80 gh:undefined
 			response = ajaxConvert( s, response, jqXHR, isSuccess );
 
 			// If successful, handle type chaining

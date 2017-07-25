@@ -1450,7 +1450,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   })
 
 
-  // NOTE: POPOVER EXTENDS tooltip.js
+  // NOTE:0 POPOVER EXTENDS tooltip.js id:79 gh:undefined
   // ================================
 
   Popover.prototype = $.extend({}, $.fn.tooltip.Constructor.prototype)
