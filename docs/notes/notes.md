@@ -41,16 +41,16 @@ Markdown | Less | Pretty
 - [User should be able to jump to task by clicking it in preview and if list is hidden it should show and task should be highlighted](#ARCHIVE:660)
 - [Use prism for syntax highlighting [Prism](http://prismjs.com/)](#ARCHIVE:700)
 - [User should be able to create .md files and have them open in the editor](#ARCHIVE:480)
-- [Modularize code [Organizing your application using Modules (require.js) - Backbone.js Tutorials](http://backbonetutorials.com/organizing-backbone-using-modules/)](#TODO:110)
-- [Use ***context menu api*** > <http://developer.chrome.com/beta/extensions/contextMenus.html#examples> for chrome extension that opens the live kanban board](#TODO:160)
+- [Modularize code [Organizing your application using Modules (require.js) - Backbone.js Tutorials](http://backbonetutorials.com/organizing-backbone-using-modules/) id:2 gh:undefined](#TODO:110)
+- [Use ***context menu api*** > <http://developer.chrome.com/beta/extensions/contextMenus.html#examples> for chrome extension that opens the live kanban board id:3 gh:undefined](#TODO:160)
 	- On links that look like tasks include something in markdown that defines the source of the content
 
 	`[whatever you want](http://link/to/project/root "imdone:source")`
 
 - [Start using travis for CI <https://travis-ci.org/>](#ARCHIVE:550)
     - <http://stackoverflow.com/questions/12336566/travis-ci-with-jasmine-node>
-- [Implement find and replace <https://github.com/ajaxorg/ace/issues/56>](#TODO:150)
-- [Spell check in Ace <http://www.chrisfinke.com/2011/03/31/announcing-typo-js-client-side-javascript-spellchecking/> <http://jasonaclark.com/2011/05/04/ode-to-my-spell-checker/> <https://npmjs.org/package/spellcheck>](#TODO:130)
+- [Implement find and replace <https://github.com/ajaxorg/ace/issues/56> id:4 gh:undefined](#TODO:150)
+- [Spell check in Ace <http://www.chrisfinke.com/2011/03/31/announcing-typo-js-client-side-javascript-spellchecking/> <http://jasonaclark.com/2011/05/04/ode-to-my-spell-checker/> <https://npmjs.org/package/spellcheck> id:24 gh:undefined](#TODO:130)
 - [If links to files exist in tasks, open the file on click](#ARCHIVE:760)
 - [User should be able to create a task with a macro/hotkey that renders `[]()` and finds the first letter in the line to apply it](#ARCHIVE:0)
 - [Leave manage lists open when hiding/showing list](#ARCHIVE:910)
@@ -63,7 +63,7 @@ Markdown | Less | Pretty
 - [If a README.md exists, show notification with link](#ARCHIVE:780)
 - [Create docs site <http://blog.jetstrap.com/2013/03/building-a-docs-site-with-jekyll-github-pages/>](#ARCHIVE:690)
     - [Getting to Know GitHub Pages: Static Project Pages, Fast | Webdesigntuts+](http://webdesign.tutsplus.com/tutorials/applications/getting-to-know-github-pages-static-project-pages-fast/) 
-- [Add link to Asciiflow <http://www.asciiflow.com/#Draw>](#TODO:120)
+- [Add link to Asciiflow <http://www.asciiflow.com/#Draw> id:15 gh:undefined](#TODO:120)
 - [Make html and xml files printable](#ARCHIVE:740)
 - [Upgrade to [font-awesome 3.1.1 ](http://fortawesome.github.io/Font-Awesome/icons/)](#ARCHIVE:500)
 - [accept more data about a task with `#key:value`](#PLANNING:150)
@@ -88,8 +88,8 @@ Markdown | Less | Pretty
 Roadmap
 ----
 - [Enable svn and git commit after file changes](#ARCHIVE:490)
-- [Convert front end to use backbone.js](#TODO:140)
-- [respect marked configuration in client javascript](#TODO:170)
+- [Convert front end to use backbone.js id:28 gh:undefined](#TODO:140)
+- [respect marked configuration in client javascript id:6 gh:undefined](#TODO:170)
 - [User should be able to remove task syntax with hotkey when in task text](#PLANNING:140)
 - [User should be able to use TOC in preview mode for md files](#ARCHIVE:680)
 - [User should get a guided tour](#ARCHIVE:120)
@@ -99,10 +99,10 @@ Roadmap
 
 Must do
 ----
-- #TODO:30 Store last place a user was in a project and bring them back there when they switch to the project
-- #TODO:10 Use [imagemagick - How to convert a SVG to a PNG with Image Magick? - Stack Overflow](http://stackoverflow.com/questions/9853325/how-to-convert-a-svg-to-a-png-with-image-magick) to convert new logo
+- #TODO:30 Store last place a user was in a project and bring them back there when they switch to the project id:0 gh:undefined
+- #TODO:10 Use [imagemagick - How to convert a SVG to a PNG with Image Magick? - Stack Overflow](http://stackoverflow.com/questions/9853325/how-to-convert-a-svg-to-a-png-with-image-magick) to convert new logo id:1 gh:undefined
   - [Using SVG | CSS-Tricks](http://css-tricks.com/using-svg/)
-- #TODO:0 Upgrade [Socket.IO — Migrating from 0.9](http://socket.io/docs/migrating-from-0-9/)
+- #TODO:0 Upgrade [Socket.IO — Migrating from 0.9](http://socket.io/docs/migrating-from-0-9/) id:13 gh:undefined
 - #DONE:10 Release new version
 - [User should be able to select the color of lists by [tkrotoff/jquery-simplecolorpicker](https://github.com/tkrotoff/jquery-simplecolorpicker)](#PLANNING:10)
 - [email tasks using mailto](#PLANNING:20)

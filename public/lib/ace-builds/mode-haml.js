@@ -276,7 +276,7 @@ var RubyHighlightRules = function() {
         "constant.language": buildinConstants,
         "variable.language": builtinVariables,
         "support.function": builtinFunctions,
-        "invalid.deprecated": "debugger" // TODO is this a remnant from js mode?
+        "invalid.deprecated": "debugger" // TODO:0 is this a remnant from js mode? id:83 gh:undefined
     }, "identifier");
 
     this.$rules = {

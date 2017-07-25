@@ -155,7 +155,7 @@ define([
   imdone.lsTemplate = Handlebars.compile($("#files-template").html());
   imdone.dirsTemplate = Handlebars.compile($("#dirs-template").html());
 
-  // #TODO:60 Replace format with _.template 
+  // #TODO:60 Replace format with _.template  id:16 gh:undefined
   String.prototype.format = function (col) {
     col = typeof col === 'object' ? col : Array.prototype.slice.call(arguments, 1);
 
@@ -202,7 +202,7 @@ define([
     });
     
     var html = marked(md);
-    // #TODO:40 everything above this should be in imdone-core Repository or File
+    // #TODO:40 everything above this should be in imdone-core Repository or File id:31 gh:undefined
     var links = /(<a.*?href=")(.*?)(".*?)>(.*)(<\/a>)/ig,
         externalLinks = /^http/,
         mailtoLinks = /^mailto/,
@@ -303,7 +303,7 @@ define([
     return new Handlebars.SafeString(result);
   });
 
-  //#TODO:70 Take a look at this <https://speakerdeck.com/ammeep/unsuck-your-backbone>, <http://amy.palamounta.in/2013/04/12/unsuck-your-backbone/>
+  //#TODO:70 Take a look at this <https://speakerdeck.com/ammeep/unsuck-your-backbone>, <http://amy.palamounta.in/2013/04/12/unsuck-your-backbone/> id:8 gh:undefined
   
   imdone.setProjectData = function(project, data) {
     imdone.data[project] = data;
@@ -430,7 +430,7 @@ define([
         limit:(params.limit)?parseInt(params.limit, 10):undefined
       });
       search.fetch({success: function(model, response)  {
-          // #TODO:90 Put search in a view.  [What is a view? - Backbone.js Tutorials](http://backbonetutorials.com/what-is-a-view/)
+          // #TODO:90 Put search in a view.  [What is a view? - Backbone.js Tutorials](http://backbonetutorials.com/what-is-a-view/) id:7 gh:undefined
           var template = Handlebars.compile($("#search-results-template").html());
           var results = model.toJSON();
           var last = results.total+results.offset;
@@ -736,7 +736,7 @@ define([
               });
             });
           }
-          // #TODO:20 How do we check for deleted???
+          // #TODO:20 How do we check for deleted??? id:25 gh:undefined
         });
       }
     }

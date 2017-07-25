@@ -1,54 +1,37 @@
 {
   "exclude": [
-    "^(public\\/lib|node_modules|bower_components|\\.imdone|target|build)[\\/\\\\]?|\\.(git|svn)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
+    "^(node_modules|bower_components|\\.imdone|target|build|dist|logs)[\\/\\\\]?|\\.(git|svn|hg|npmignore)|\\~$|\\.(jpg|png|gif|swp|ttf|otf)$"
   ],
+  "watcher": true,
+  "keepEmptyPriority": false,
   "code": {
     "include_lists": [
       "TODO",
-      "DOING",
-      "DONE",
-      "PLANNING",
       "FIXME",
-      "ARCHIVE"
+      "HACK",
+      "CHANGED",
+      "XXX",
+      "IDEA",
+      "NOTE",
+      "REVIEW"
     ]
   },
-  "watcher": true,
   "lists": [
-    {
-      "name": "PLANNING",
-      "hidden": true
-    },
     {
       "name": "TODO",
       "hidden": false
     },
     {
-      "name": "DOING",
+      "name": "FIXME",
       "hidden": false
     },
     {
-      "name": "DONE",
-      "hidden": true
+      "name": "XXX",
+      "hidden": false
     },
     {
-      "name": "ARCHIVE",
-      "hidden": true
-    },
-    {
-      "name": "doing",
-      "hidden": true
-    },
-    {
-      "name": "todo",
-      "hidden": true
-    },
-    {
-      "name": "done",
-      "hidden": true
-    },
-    {
-      "name": "filters",
-      "hidden": true
+      "name": "NOTE",
+      "hidden": false
     }
   ],
   "marked": {
@@ -56,7 +39,6 @@
     "tables": true,
     "breaks": false,
     "pedantic": false,
-    "sanitize": true,
     "smartLists": true,
     "langPrefix": "language-"
   }

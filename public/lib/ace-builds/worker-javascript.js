@@ -558,7 +558,7 @@ if (!Array.prototype.forEach) {
             i = -1,
             length = self.length >>> 0;
         if (_toString(fun) != "[object Function]") {
-            throw new TypeError(); // TODO message
+            throw new TypeError(); // TODO:0 message id:91 gh:undefined
         }
 
         while (++i < length) {
@@ -969,7 +969,7 @@ if (!Object.isFrozen) {
 if (!Object.isExtensible) {
     Object.isExtensible = function isExtensible(object) {
         if (Object(object) === object) {
-            throw new TypeError(); // TODO message
+            throw new TypeError(); // TODO:0 message id:38 gh:undefined
         }
         var name = '';
         while (owns(object, name)) {
@@ -2703,7 +2703,7 @@ var errors = {
 	E028: "Illegal comma.",
 	E029: "Unclosed string.",
 	E030: "Expected an identifier and instead saw '{a}'.",
-	E031: "Bad assignment.", // FIXME: Rephrase
+	E031: "Bad assignment.", // FIXME:0 Rephrase id:66 gh:undefined
 	E032: "Expected a small integer or 'false' and instead saw '{a}'.",
 	E033: "Expected an operator and instead saw '{a}'.",
 	E034: "get/set are ES5 features.",
@@ -6272,7 +6272,7 @@ var JSHINT = (function () {
 				} else if (token && token.first && !value) {
 					warning("W080", token.first, token.first.value);
 				} /* else {
-					XXX value is discarded: wouldn't it need a warning ?
+					XXX:0 value is discarded: wouldn't it need a warning ? id:74 gh:undefined
 				} */
 			});
 		}
